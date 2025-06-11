@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Download historical data for EUR/USD trading.
+Download historical data
 
-This script downloads historical EUR/USD data from various sources
+This script downloads historical data from various sources
 and stores it in the appropriate format for the trading system.
 
 Usage:
@@ -72,8 +72,9 @@ async def download_forex_data(bars: int = 365, symbol: str = "EUR/USD", timefram
             logger.warning("No data received")
             return
         
-        # Create data directory with timeframe structure
-        data_dir = Path(f"data/raw/historical/{symbol}/{timeframe}/")
+        # Create data directory with timeframe structure (sanitize symbol for file path)
+        sanitized_symbol = symbol.replace("/", "")  # GBP/USD -> GBPUSD
+        data_dir = Path(f"data/raw/historical/{sanitized_symbol}/{timeframe}/")
         data_dir.mkdir(parents=True, exist_ok=True)
         
         # Save data with simplified filename

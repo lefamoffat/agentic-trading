@@ -1,0 +1,77 @@
+[project]
+name = "agentic-trading"
+version = "0.1.0"
+description = "EUR/USD Reinforcement Learning Trading System using Microsoft Qlib"
+authors = [
+    { name = "Zima Blue", email = "lefa@zimablue.io" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    # Qlib for quantitative trading
+    "pyqlib>=0.9.6",
+    
+    # Core ML/RL Libraries (temporarily commented for macOS compatibility)
+    # "torch>=2.0.0,<2.5.0",
+    # "stable-baselines3>=2.0.0",
+    "gymnasium>=0.29.0",
+    
+    # Data & Finance
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "yfinance>=0.2.18",
+    "alpha-vantage>=2.3.1",
+    
+    # Technical Analysis
+    # "ta-lib>=0.4.0",  # TA-Lib might also need manual installation
+    "pandas-ta>=0.3.14b",
+    
+    # Configuration & Utilities
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "loguru>=0.7.0",
+    
+    # API Clients
+    "requests>=2.31.0",
+    "websocket-client>=1.6.0",
+    
+    # Visualization & Analysis
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "jupyter>=1.0.0",
+]
+database = [
+    "sqlalchemy>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+]
+ml = [
+    # Add ML dependencies separately for easier troubleshooting
+    "torch",
+    "stable-baselines3",
+    "ta-lib",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

@@ -1,0 +1,55 @@
+# RL Agent Configuration for EUR/USD Trading
+
+# PPO Configuration
+ppo:
+    learning_rate: 0.0003
+    n_epochs: 10
+    batch_size: 64
+    n_steps: 2048
+    gae_lambda: 0.95
+    gamma: 0.99
+    clip_range: 0.2
+    ent_coef: 0.01
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    target_kl: 0.01
+    episodes: 1000
+
+# A3C Configuration
+a3c:
+    learning_rate: 0.0001
+    gamma: 0.99
+    gae_lambda: 1.0
+    entropy_coef: 0.01
+    value_loss_coef: 0.5
+    max_grad_norm: 0.5
+    n_workers: 4
+    episodes: 1000
+
+# SAC Configuration
+sac:
+    learning_rate: 0.0003
+    buffer_size: 1000000
+    learning_starts: 100
+    batch_size: 256
+    tau: 0.005
+    gamma: 0.99
+    train_freq: 1
+    gradient_steps: 1
+    ent_coef: "auto"
+    target_update_interval: 1
+    episodes: 1000
+
+# Training Configuration
+training:
+    save_frequency: 100 # Save model every N episodes
+    eval_frequency: 50 # Evaluate model every N episodes
+    patience: 200 # Early stopping patience
+    min_improvement: 0.001 # Minimum improvement for early stopping
+
+# Model Selection
+auto_selection:
+    enabled: true
+    algorithms: ["ppo", "sac", "a3c"]
+    hyperopt_trials: 50
+    cv_folds: 3

@@ -1,0 +1,58 @@
+# Trading Configuration for EUR/USD
+
+# Instrument Settings
+instrument:
+    symbol: "EUR/USD"
+    pip_value: 0.0001 # 1 pip = 0.0001
+    spread: 0.0001 # Typical spread (1 pip)
+    min_trade_size: 1000 # Minimum trade size in base currency
+    max_trade_size: 100000 # Maximum trade size in base currency
+
+# Position Management
+position:
+    size: 10000 # USD amount per trade
+    sizing_method: "fixed" # fixed, percentage, volatility_based
+    max_positions: 1 # Only one position at a time for EUR/USD
+
+# Risk Management
+risk:
+    max_drawdown: 0.10 # 10% maximum drawdown
+    stop_loss: 0.02 # 2% stop loss
+    take_profit: 0.04 # 4% take profit
+    max_daily_loss: 0.05 # 5% maximum daily loss
+    max_risk_per_trade: 0.02 # 2% risk per trade
+
+# Trading Hours (EUR/USD is most active during these hours)
+trading_hours:
+    start: "07:00" # UTC
+    end: "17:00" # UTC
+    timezone: "UTC"
+    exclude_weekends: true
+    exclude_holidays: true
+
+# Actions Configuration
+actions:
+    action_space: 3 # -1: Sell, 0: Hold, 1: Buy
+    actions:
+        sell: -1
+        hold: 0
+        buy: 1
+
+# Broker Settings
+broker:
+    default: "alpaca" # Start with paper trading
+    commission: 0.0 # Forex typically has spreads instead of commissions
+    slippage: 0.5 # 0.5 pips average slippage
+
+# Backtesting Configuration
+backtesting:
+    initial_cash: 100000 # $100,000 starting capital
+    benchmark: "buy_and_hold"
+    transaction_cost: 0.0001 # Spread cost
+
+# Live Trading Safety
+live_trading:
+    paper_trading: true # Start with paper trading
+    max_orders_per_day: 50
+    cooldown_period: 300 # 5 minutes between trades
+    emergency_stop_loss: 0.20 # 20% emergency stop

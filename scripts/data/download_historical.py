@@ -90,7 +90,7 @@ async def download_forex_data(bars: int = 365, symbol: str = "EUR/USD", timefram
 
 def main():
     """Main function."""
-    parser = argparse.ArgumentParser(description="Download historical EUR/USD data")
+    parser = argparse.ArgumentParser(description="Download historical data from various brokers")
     parser.add_argument(
         "--bars", 
         type=int, 
@@ -110,13 +110,29 @@ def main():
         choices=["5m", "15m", "1h", "4h", "1d"],
         help="Timeframe for data (default: 1h)"
     )
+    parser.add_argument(
+        "--broker", 
+        type=str, 
+        default="forex.com", 
+        choices=["forex.com"],
+        help="Broker to download data from (default: forex.com)"
+    )
     
     args = parser.parse_args()
     
     print("🚀 Historical Data Downloader")
     print("=" * 40)
+    print(f"Broker: {args.broker}")
+    print(f"Symbol: {args.symbol}")
+    print(f"Timeframe: {args.timeframe}")
+    print(f"Bars: {args.bars}")
+    print("=" * 40)
     
-    asyncio.run(download_forex_data(args.bars, args.symbol, args.timeframe))
+    if args.broker == "forex.com":
+        asyncio.run(download_forex_data(args.bars, args.symbol, args.timeframe))
+    else:
+        logger = get_logger(__name__)
+        logger.error(f"Broker '{args.broker}' not yet implemented")
 
 
 if __name__ == "__main__":

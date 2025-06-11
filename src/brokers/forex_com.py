@@ -518,8 +518,7 @@ class ForexComBroker(BaseBroker):
                             rows.append(row)
                         
                         df = pd.DataFrame(rows)
-                        if not df.empty:
-                            df.set_index("timestamp", inplace=True)
+                        # Keep timestamp as column for standardization
                         return df
                     else:
                         raise Exception(f"API request failed: {response.status}")

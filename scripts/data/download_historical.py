@@ -16,42 +16,57 @@ from pathlib import Path
 
 from src.utils.logger import get_logger
 from src.utils.settings import Settings
-from src.brokers.forex_com import ForexComBroker
+from src.brokers.factory import broker_factory
+from src.data.processor import DataProcessor
 
 
-async def download_forex_data(bars: int = 365, symbol: str = "EUR/USD", timeframe: str = "1h") -> None:
+async def download_historical_data(
+    bars: int = 365, 
+    symbol: str = "EUR/USD", 
+    timeframe: str = "1h",
+    broker: str = "forex.com"
+) -> None:
     """
-    Download historical forex data.
+    Download historical data from specified broker.
     
     Args:
         bars: Number of bars to download
-        timeframe: Timeframe for data (5m, 15m, 1h, 4h, 1d)
         symbol: Symbol to download data for (default: EUR/USD)
+        timeframe: Timeframe for data (5m, 15m, 1h, 4h, 1d)
+        broker: Broker to download from (default: forex.com)
     """
     logger = get_logger(__name__)
     settings = Settings()
     
-    # Check if we have forex.com credentials
-    if not settings.forex_com_username or not settings.forex_com_password:
-        logger.error("Missing forex.com credentials. Please set FOREX_COM_USERNAME and FOREX_COM_PASSWORD in .env")
+    # Validate broker-specific credentials
+    if broker == "forex.com":
+        if not settings.forex_com_username or not settings.forex_com_password:
+            logger.error("Missing forex.com credentials. Please set FOREX_COM_USERNAME and FOREX_COM_PASSWORD in .env")
+            return
+        
+        if not settings.forex_com_app_key:
+            logger.error("Missing FOREX_COM_APP_KEY. Please set it in .env")
+            return
+        
+        # Create broker instance using factory
+        broker_instance = broker_factory.create_broker(
+            broker_name=broker,
+            api_key=settings.forex_com_username,
+            api_secret=settings.forex_com_password,
+            sandbox=settings.forex_com_sandbox
+        )
+    else:
+        logger.error(f"Broker '{broker}' credentials validation not implemented yet")
         return
     
-    if not settings.forex_com_app_key:
-        logger.error("Missing FOREX_COM_APP_KEY. Please set it in .env")
-        return
-    
-    # Initialize broker
-    broker = ForexComBroker(
-        api_key=settings.forex_com_username,
-        api_secret=settings.forex_com_password,
-        sandbox=settings.forex_com_sandbox
-    )
+    # Initialize data processor
+    data_processor = DataProcessor(symbol=symbol, asset_class="forex")
     
     try:
         # Authenticate
-        logger.info("Authenticating with forex.com...")
-        if not await broker.authenticate():
-            logger.error("Failed to authenticate with forex.com")
+        logger.info(f"Authenticating with {broker}...")
+        if not await broker_instance.authenticate():
+            logger.error(f"Failed to authenticate with {broker}")
             return
         
         # Calculate date range
@@ -59,18 +74,32 @@ async def download_forex_data(bars: int = 365, symbol: str = "EUR/USD", timefram
         start_date = end_date - timedelta(days=bars)
         
         logger.info(f"Downloading {symbol} data from {start_date.date()} to {end_date.date()}")
-        logger.info(f"Timeframe: {timeframe}")
+        logger.info(f"Timeframe: {timeframe}, Broker: {broker}")
         
         # Download data
-        df = await broker.get_historical_data(
+        raw_df = await broker_instance.get_historical_data(
             symbol=symbol,
             timeframe=timeframe,
             bars=bars
         )
         
-        if df.empty:
+        if raw_df.empty:
             logger.warning("No data received")
             return
+        
+        # Standardize data format
+        logger.info("Standardizing data format...")
+        standardized_df = data_processor.standardize_dataframe(raw_df, broker_name=broker)
+        
+        if standardized_df.empty:
+            logger.warning("No data after standardization")
+            return
+        
+        # Validate data quality
+        quality_report = data_processor.validate_data_quality(standardized_df)
+        logger.info(f"Data quality score: {quality_report['quality_score']:.2f}")
+        if quality_report['issues']:
+            logger.warning(f"Data quality issues: {quality_report['issues']}")
         
         # Create data directory with timeframe structure (sanitize symbol for file path)
         sanitized_symbol = symbol.replace("/", "")  # GBP/USD -> GBPUSD
@@ -81,8 +110,15 @@ async def download_forex_data(bars: int = 365, symbol: str = "EUR/USD", timefram
         filename = f"{start_date.strftime('%Y%m%d')}_{end_date.strftime('%Y%m%d')}.csv"
         filepath = data_dir / filename
         
-        df.to_csv(filepath)
-        logger.info(f"Saved {len(df)} records to {filepath}")
+        # Save using data processor (ensures consistent format)
+        metadata = {
+            "broker": broker,
+            "symbol": symbol,
+            "timeframe": timeframe,
+            "bars_requested": bars,
+            "quality_score": quality_report['quality_score']
+        }
+        data_processor.save_to_csv(standardized_df, filepath, metadata)
         
     except Exception as e:
         logger.error(f"Error downloading data: {e}")
@@ -90,7 +126,7 @@ async def download_forex_data(bars: int = 365, symbol: str = "EUR/USD", timefram
 
 def main():
     """Main function."""
-    parser = argparse.ArgumentParser(description="Download historical data from various brokers")
+    parser = argparse.ArgumentParser(description="Download historical data")
     parser.add_argument(
         "--bars", 
         type=int, 
@@ -129,7 +165,7 @@ def main():
     print("=" * 40)
     
     if args.broker == "forex.com":
-        asyncio.run(download_forex_data(args.bars, args.symbol, args.timeframe))
+        asyncio.run(download_historical_data(args.bars, args.symbol, args.timeframe, args.broker))
     else:
         logger = get_logger(__name__)
         logger.error(f"Broker '{args.broker}' not yet implemented")

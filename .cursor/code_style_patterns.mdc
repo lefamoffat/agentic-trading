@@ -1,0 +1,148 @@
+---
+description: Code Style & Patterns
+globs: 
+alwaysApply: false
+---
+### Import Conventions
+```python
+# Standard library imports first
+import pandas as pd
+import numpy as np
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Union, Any, Type
+
+# Project imports - ALWAYS use absolute imports from src root
+from utils.logger import get_logger
+from types import SymbolType, BrokerType
+from exceptions import ValidationError, DataError
+
+# Never use relative imports like: from ...utils.logger import get_logger
+# Always include fallback for logger imports when needed:
+try:
+    from utils.logger import get_logger
+except ImportError:
+    import logging
+    def get_logger(name):
+        return logging.getLogger(name)
+```
+
+### Type Annotations
+- **REQUIRED** for all public methods and class attributes
+- Use `Optional[T]` instead of `Union[T, None]`
+- Create project-wide types in `src/types.py`
+- Example:
+```python
+def process_data(symbol: str, data: pd.DataFrame, config: Optional[ConfigType] = None) -> pd.DataFrame:
+    """Process trading data with proper type hints."""
+    pass
+```
+
+### Configuration Classes
+- **ALWAYS** use `@dataclass` for configuration objects
+- Include `field(default_factory=...)` for mutable defaults
+- Add validation in `__post_init__`
+- Example:
+```python
+@dataclass
+class IndicatorConfig:
+    name: str
+    parameters: Dict[str, Any] = field(default_factory=dict)
+    min_periods: int = 1
+    
+    def __post_init__(self):
+        if self.min_periods < 1:
+            raise ValidationError("min_periods must be >= 1")
+```
+
+### Base Classes & Inheritance
+- Use ABC (Abstract Base Classes) for interfaces
+- Implement consistent `__init__` patterns
+- Always call `super().__init__()` appropriately
+- Example:
+```python
+class BaseIndicator(ABC):
+    def __init__(self, config: IndicatorConfig):
+        self.config = config
+        self.logger = get_logger(self.__class__.__name__)
+    
+    @abstractmethod
+    def calculate(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Calculate indicator values."""
+        pass
+```
+
+### Error Handling
+- Create custom exceptions in `src/exceptions.py`
+- Always include descriptive error messages
+- Use specific exception types
+- Log errors appropriately
+- Example:
+```python
+try:
+    result = process_data(data)
+except ValidationError as e:
+    self.logger.error(f"Data validation failed: {e}")
+    raise
+except Exception as e:
+    self.logger.error(f"Unexpected error in {self.__class__.__name__}: {e}")
+    raise ProcessingError(f"Failed to process data: {e}") from e
+```
+
+### Documentation (Google Style)
+```python
+def calculate_features(self, data: pd.DataFrame, symbol: Optional[str] = None) -> pd.DataFrame:
+    """
+    Calculate technical indicators and features from price data.
+    
+    Args:
+        data: OHLCV price data with required columns
+        symbol: Trading symbol for context (optional)
+        
+    Returns:
+        DataFrame with calculated features and indicators
+        
+    Raises:
+        ValidationError: If data format is invalid
+        CalculationError: If indicator calculation fails
+        
+    Example:
+        >>> calculator = FeatureCalculator(config)
+        >>> features = calculator.calculate_features(price_data, "EURUSD")
+    """
+```
+
+### Logging Patterns
+```python
+class MyClass:
+    def __init__(self):
+        self.logger = get_logger(self.__class__.__name__)
+    
+    def process(self, data):
+        self.logger.info(f"Processing {len(data)} records")
+        try:
+            # processing logic
+            self.logger.debug("Processing completed successfully")
+        except Exception as e:
+            self.logger.error(f"Processing failed: {e}")
+            raise
+```
+
+### Factory Patterns
+- Use enum-based type registration
+- Implement parameter validation
+- Support parameter overrides
+- Example:
+```python
+class ComponentFactory:
+    def __init__(self):
+        self.registry: Dict[ComponentType, Type] = {}
+        self.logger = get_logger(self.__class__.__name__)
+    
+    def create(self, component_type: ComponentType, **kwargs) -> BaseComponent:
+        if component_type not in self.registry:
+            raise ValidationError(f"Unknown component type: {component_type}")
+        
+        component_class = self.registry[component_type]
+        return component_class(**kwargs)
+```

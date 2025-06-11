@@ -1,22 +1,28 @@
 # Agentic Trading - EUR/USD RL Trading System
 
-A sophisticated EUR/USD reinforcement learning trading system built with Microsoft Qlib, PyTorch, and modern ML practices.
+A sophisticated multi-asset reinforcement learning trading system with broker-agnostic architecture, built with Microsoft Qlib, PyTorch, and modern ML practices.
 
 ## 🎯 Project Overview
 
-This project implements a reinforcement learning-based trading system specifically designed for EUR/USD forex trading. It leverages:
+This project implements a reinforcement learning-based trading system with modular, broker-agnostic architecture supporting multiple asset classes. It leverages:
 
 -   **Microsoft Qlib** for quantitative trading infrastructure
+-   **Broker-Agnostic Design** with factory patterns for easy broker addition
+-   **Standardized Data Pipeline** ensuring consistent format across all sources
+-   **Modular Market Calendars** supporting forex, stocks, crypto trading sessions
 -   **Multiple RL Algorithms** (PPO, A3C, SAC) with automatic selection
 -   **Multi-timeframe Analysis** (5m, 15m, 1h, 4h, daily)
--   **Live Trading Integration** with forex.com and Alpaca
+-   **Live Trading Integration** with forex.com (Alpaca, others planned)
 -   **Comprehensive Backtesting** and performance analysis
 
 ## 🚀 Features
 
--   ✅ **Multi-Algorithm RL Training** - Automatic algorithm selection and hyperparameter optimization
--   ✅ **EUR/USD Focused** - Optimized specifically for major forex pair trading
--   ✅ **Multi-Source Data** - Integrates forex.com, Alpaca, Alpha Vantage, and Yahoo Finance
+-   ✅ **Broker-Agnostic Architecture** - Modular design supporting multiple brokers (forex.com, future: Alpaca, etc.)
+-   ✅ **Standardized Data Pipeline** - Consistent CSV format across all data sources
+-   ✅ **Market Calendar System** - Modular calendar support (forex 24/5, stocks, crypto)
+-   ✅ **Data Quality Assurance** - Automatic validation and quality scoring
+-   ✅ **Multi-Timeframe Support** - 5m, 15m, 1h, 4h, daily analysis
+-   ✅ **Feature Engineering Framework** - Technical indicators and market analysis
 -   ✅ **Risk Management** - Built-in stop loss, take profit, and drawdown controls
 -   ✅ **Live Trading Ready** - Production-ready broker integrations
 -   ✅ **Configurable** - YAML-based configuration for all parameters
@@ -68,8 +74,10 @@ The system uses YAML configuration files in the `config/` directory:
 
 ```bash
 # API Keys
-FOREX_COM_API_KEY=your_key_here
-FOREX_COM_API_SECRET=your_secret_here
+FOREX_COM_USERNAME=your_username_here
+FOREX_COM_PASSWORD=your_password_here
+FOREX_COM_APP_KEY=your_app_key_here
+FOREX_COM_SANDBOX=false
 ALPACA_API_KEY=your_key_here
 ALPACA_API_SECRET=your_secret_here
 ALPHA_VANTAGE_API_KEY=your_key_here
@@ -90,14 +98,22 @@ STOP_LOSS=0.02
 agentic-trading/
 ├── config/                 # YAML configuration files
 ├── src/                    # Main source code
-│   ├── core/              # Core trading logic
-│   ├── data/              # Data handling
+│   ├── brokers/           # Broker integrations (forex.com, future: Alpaca, etc.)
+│   ├── data/              # Data handling & market calendars
+│   │   ├── calendars/     # Market calendar system (forex, stocks, crypto)
+│   │   └── processor.py   # Data standardization pipeline
+│   ├── features/          # Feature engineering framework
+│   ├── strategies/        # Trading strategy framework
+│   ├── analysis/          # Market analysis tools
 │   ├── backtesting/       # Backtesting framework
 │   ├── trading/           # Live trading
 │   ├── training/          # RL training
 │   └── utils/             # Utilities
 ├── scripts/               # Executable scripts
-├── data/                  # Data storage
+│   ├── data/              # Data download & processing
+│   ├── features/          # Feature generation
+│   └── strategies/        # Strategy development
+├── data/                  # Data storage (standardized CSV format)
 ├── logs/                  # Log files
 ├── results/               # Results and reports
 └── tests/                 # Test suite
@@ -108,7 +124,11 @@ agentic-trading/
 ### 1. Download Historical Data
 
 ```bash
-python scripts/data/download_historical.py
+# Download EUR/USD data from forex.com
+python -m scripts.data.download_historical --symbol "EUR/USD" --timeframe 1h --bars 365 --broker forex.com
+
+# Download GBP/USD data
+python -m scripts.data.download_historical --symbol "GBP/USD" --timeframe 4h --bars 100 --broker forex.com
 ```
 
 ### 2. Train an RL Agent
@@ -214,19 +234,32 @@ uv run black src/
 uv run mypy src/
 ```
 
-## 📝 Phase 1 Status
+## 📝 Development Status
 
-**✅ Completed:**
+**✅ Phase 1 Completed:**
 
 -   Project structure and configuration
 -   Core utilities (config loader, logging, settings)
 -   YAML configuration files
--   Environment setup
--   Project initialization
+-   Environment setup and project initialization
 
-**🔄 Next Phases:**
+**✅ Phase 2 Completed:**
 
--   Data providers and processing
+-   Broker abstraction layer with factory pattern
+-   Modular market calendar system (forex, ready for stocks/crypto)
+-   Data standardization pipeline with quality validation
+-   Broker-agnostic data download system
+-   Standardized CSV format: `timestamp,open,high,low,close,volume`
+
+**🔄 Phase 3 In Progress:**
+
+-   Feature engineering framework
+-   Technical indicators library
+-   Strategy framework foundation
+-   Market analysis components
+
+**📋 Upcoming Phases:**
+
 -   RL environment and agents
 -   Backtesting framework
 -   Live trading integration

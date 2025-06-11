@@ -1,0 +1,10 @@
+---
+description: Performance guidelines
+globs: 
+alwaysApply: false
+---
+- Use vectorized pandas operations
+- Avoid loops when possible
+- Cache expensive computations
+- Use `@lru_cache` for pure functions
+- Profile performance-critical code

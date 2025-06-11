@@ -1,0 +1,10 @@
+---
+description: Testing patterns
+globs: 
+alwaysApply: false
+---
+- One test file per module
+- Use descriptive test method names
+- Include both positive and negative test cases
+- Test edge cases and error conditions
+- Example: `test_feature_engineering.py`, `test_broker_integration.py`

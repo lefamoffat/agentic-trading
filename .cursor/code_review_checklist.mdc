@@ -1,0 +1,14 @@
+---
+description: Code review checklist
+globs: 
+alwaysApply: false
+---
+- [ ] Consistent import patterns
+- [ ] Comprehensive type hints
+- [ ] Proper error handling
+- [ ] Google-style docstrings
+- [ ] Following dataclass patterns for configs
+- [ ] Appropriate logging usage
+- [ ] Tests included
+- [ ] No hardcoded values
+- [ ] Follows established naming conventions 

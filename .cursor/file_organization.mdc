@@ -1,0 +1,48 @@
+---
+description: File Organization
+globs: 
+alwaysApply: false
+---
+## Module Structure
+```
+src/module_name/
+├── __init__.py          # Exports all public interfaces
+├── base.py              # Abstract base classes
+├── types.py             # Module-specific types (if needed)
+├── factory.py           # Factory classes
+├── implementation.py    # Concrete implementations
+└── utils.py            # Module-specific utilities
+```
+
+### Import Organization in __init__.py
+```python
+# Base classes first
+from .base import BaseClass, AbstractInterface
+
+# Main implementations
+from .implementation import ConcreteClass1, ConcreteClass2
+
+# Factory and utilities
+from .factory import ComponentFactory
+from .utils import utility_function
+
+# Type definitions
+from .types import CustomType
+
+__all__ = [
+    # Base classes
+    'BaseClass', 'AbstractInterface',
+    
+    # Implementations  
+    'ConcreteClass1', 'ConcreteClass2',
+    
+    # Factory
+    'ComponentFactory',
+    
+    # Utilities
+    'utility_function',
+    
+    # Types
+    'CustomType',
+]
+```

@@ -1,0 +1,12 @@
+---
+description: Adding New Features Checklist
+globs: 
+alwaysApply: false
+---
+1. Follow established patterns in similar modules
+2. Add comprehensive type hints
+3. Include proper error handling
+4. Write docstrings with examples
+5. Add tests covering main functionality
+6. Update relevant __init__.py exports
+7. Consider backward compatibility

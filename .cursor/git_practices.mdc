@@ -1,0 +1,9 @@
+---
+description: Git Practices
+globs: 
+alwaysApply: false
+---
+- Atomic commits with descriptive messages
+- Follow conventional commit format
+- Include tests with feature commits
+- Update documentation with API changes

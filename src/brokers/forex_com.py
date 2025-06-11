@@ -124,17 +124,49 @@ class ForexComBroker(BaseBroker):
             "UserName": self.username
         }
     
-    def _get_market_id(self, symbol: str) -> str:
-        """Get GainCapital market ID for symbol."""
-        market_ids = {
-            "EUR/USD": "402044081",
-            "EURUSD": "402044081"
-        }
+    async def _get_market_id(self, symbol: str) -> str:
+        """Get GainCapital market ID for symbol using search API."""
+        if not self._authenticated:
+            await self.authenticate()
         
-        if symbol not in market_ids:
-            raise ValueError(f"Unsupported symbol: {symbol}")
+        try:
+            import urllib.parse
             
-        return market_ids[symbol]
+            async with aiohttp.ClientSession() as session:
+                headers = self._get_headers()
+                
+                # URL encode the symbol for the query
+                encoded_symbol = urllib.parse.quote(symbol)
+                
+                params = {
+                    "SearchByMarketName": "TRUE",
+                    "Query": encoded_symbol,
+                    "MaxResults": "1"
+                }
+                
+                endpoint = f"{self.api_base_url}/market/search"
+                
+                async with session.get(
+                    endpoint,
+                    headers=headers,
+                    params=params
+                ) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        markets = data.get("Markets", [])
+                        
+                        if markets:
+                            market_id = str(markets[0]["MarketId"])
+                            self.logger.debug(f"Found market ID {market_id} for symbol {symbol}")
+                            return market_id
+                        else:
+                            raise ValueError(f"No market found for symbol: {symbol}")
+                    else:
+                        raise Exception(f"Market search failed: {response.status}")
+                        
+        except Exception as e:
+            self.logger.error(f"Error getting market ID for {symbol}: {e}")
+            raise
     
     async def get_account_info(self) -> Dict:
         """
@@ -427,7 +459,7 @@ class ForexComBroker(BaseBroker):
             
         try:
             # Get market ID for symbol
-            market_id = self._get_market_id(symbol)
+            market_id = await self._get_market_id(symbol)
             
             # Map timeframes to GainCapital intervals
             interval_map = {

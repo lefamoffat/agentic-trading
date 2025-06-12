@@ -33,11 +33,6 @@ ParameterDict: TypeAlias = Dict[str, Union[int, float, str, bool]]
 class BrokerType(Enum):
     """Supported broker types."""
     FOREX_COM = "forex_com"
-    OANDA = "oanda"
-    INTERACTIVE_BROKERS = "interactive_brokers"
-    ALPACA = "alpaca"
-    MT4 = "mt4"
-    MT5 = "mt5"
     GENERIC = "generic"
 
 class AssetClass(Enum):
@@ -142,7 +137,7 @@ class IndicatorType(Enum):
     CMO = "cmo"
     
     # Volatility indicators
-    BBANDS = "bbands"
+    BOLLINGER_BANDS = "bbands"
     ATR = "atr"
     NATR = "natr"
     TRANGE = "trange"
@@ -165,12 +160,20 @@ class IndicatorType(Enum):
     PVI = "pvi"
 
 # Calendar and time types
-class MarketSession(Enum):
+class TradingSession(Enum):
     """Trading session types."""
     LONDON = "london"
     NEW_YORK = "new_york"
     TOKYO = "tokyo"
     SYDNEY = "sydney"
+
+class MarketSession(Enum):
+    """Market trading session types."""
+    CLOSED = "closed"
+    OPEN = "open"
+    PRE_MARKET = "pre_market"
+    POST_MARKET = "post_market"
+    OVERLAP = "overlap"  # For forex session overlaps
 
 class EventImportance(Enum):
     """Economic event importance levels."""

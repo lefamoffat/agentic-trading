@@ -5,14 +5,8 @@ and broker-specific naming conventions.
 """
 
 from typing import Dict, Optional
-from enum import Enum
 
-
-class BrokerType(Enum):
-    """Supported broker types."""
-    FOREX_COM = "forex_com"
-    ALPACA = "alpaca"
-    GENERIC = "generic"
+from ..types import BrokerType
 
 
 class SymbolMapper:
@@ -55,17 +49,6 @@ class SymbolMapper:
     # Reverse mapping for Forex.com
     FOREX_COM_REVERSE_MAPPINGS = {v: k for k, v in FOREX_COM_MAPPINGS.items()}
     
-    # Alpaca mappings (if we add it later)
-    ALPACA_MAPPINGS = {
-        # Common -> Alpaca format (typically similar to common)
-        "EUR/USD": "EURUSD",
-        "GBP/USD": "GBPUSD",
-        "USD/JPY": "USDJPY",
-        # Add more as needed
-    }
-    
-    ALPACA_REVERSE_MAPPINGS = {v: k for k, v in ALPACA_MAPPINGS.items()}
-    
     def __init__(self, broker_type: BrokerType = BrokerType.FOREX_COM):
         """
         Initialize symbol mapper for specific broker.
@@ -78,9 +61,6 @@ class SymbolMapper:
         if broker_type == BrokerType.FOREX_COM:
             self.to_broker_mappings = self.FOREX_COM_MAPPINGS
             self.from_broker_mappings = self.FOREX_COM_REVERSE_MAPPINGS
-        elif broker_type == BrokerType.ALPACA:
-            self.to_broker_mappings = self.ALPACA_MAPPINGS
-            self.from_broker_mappings = self.ALPACA_REVERSE_MAPPINGS
         else:
             # Generic/no mapping
             self.to_broker_mappings = {}
@@ -177,6 +157,3 @@ class SymbolMapper:
         if broker_type == BrokerType.FOREX_COM:
             cls.FOREX_COM_MAPPINGS[common_symbol] = broker_symbol
             cls.FOREX_COM_REVERSE_MAPPINGS[broker_symbol] = common_symbol
-        elif broker_type == BrokerType.ALPACA:
-            cls.ALPACA_MAPPINGS[common_symbol] = broker_symbol
-            cls.ALPACA_REVERSE_MAPPINGS[broker_symbol] = common_symbol 

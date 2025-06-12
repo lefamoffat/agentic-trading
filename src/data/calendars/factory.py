@@ -6,20 +6,11 @@ making it easy to switch between forex, stocks, crypto without changing core log
 """
 
 from typing import Dict, Type
-from enum import Enum
 
 from .base import BaseCalendar
 from .forex import ForexCalendar
 from ...utils.logger import get_logger
-
-
-class AssetClass(Enum):
-    """Supported asset classes."""
-    FOREX = "forex"
-    # Future asset classes can be added here
-    # STOCKS = "stocks"
-    # CRYPTO = "crypto"
-    # COMMODITIES = "commodities"
+from ...types import AssetClass
 
 
 class CalendarFactory:

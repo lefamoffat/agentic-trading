@@ -9,7 +9,8 @@ from datetime import datetime, time, timedelta, timezone
 from typing import List, Tuple
 import pytz
 
-from .base import BaseCalendar, MarketSession
+from .base import BaseCalendar
+from ...types import MarketSession
 
 
 class ForexCalendar(BaseCalendar):

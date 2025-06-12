@@ -23,8 +23,8 @@ from src.utils.validation import (
     validate_data_completeness, validate_data_quality,
     
     # Indicator parameter validation
-    validate_indicator_parameters, create_parameter_schema,
-    validate_against_schema,
+    validate_indicator_parameters, get_indicator_schema,
+    create_parameter_schema, validate_against_schema,
     
     # Type validation
     validate_type, validate_enum_value,
@@ -126,10 +126,10 @@ class TestDataFrameValidation:
             'close': [1.1, 1.2],
             'volume': [1000, 1500]
         })
-        
+
         required_columns = ['open', 'high', 'low', 'close']
         result = validate_dataframe_columns(df, required_columns)
-        assert result == df
+        pd.testing.assert_frame_equal(result, df)
     
     def test_validate_dataframe_columns_missing(self):
         """Test validate_dataframe_columns with missing columns."""
@@ -219,7 +219,7 @@ class TestOHLCVValidation:
             'volume': [1000, 1500]
         })
         
-        with pytest.raises(ValidationError, match="contains negative values"):
+        with pytest.raises(ValidationError, match="contains non-positive values"):
             validate_ohlcv_data(df)
     
     def test_validate_ohlcv_data_negative_volume(self):
@@ -271,7 +271,7 @@ class TestOHLCVValidation:
         """Test validate_data_completeness with complete data."""
         df = self.create_valid_ohlcv()
         result = validate_data_completeness(df)
-        assert result == df
+        pd.testing.assert_frame_equal(result, df)
     
     def test_validate_data_completeness_with_gaps(self):
         """Test validate_data_completeness with gaps."""
@@ -285,7 +285,7 @@ class TestOHLCVValidation:
         """Test validate_data_quality with good quality data."""
         df = self.create_valid_ohlcv()
         result = validate_data_quality(df)
-        assert result == df
+        pd.testing.assert_frame_equal(result, df)
     
     def test_validate_data_quality_poor(self):
         """Test validate_data_quality with poor quality data."""
@@ -346,7 +346,7 @@ class TestIndicatorParameterValidation:
             'period': 20,
             'std_dev': 2.0
         }
-        result = validate_indicator_parameters(IndicatorType.BBANDS, params)
+        result = validate_indicator_parameters(IndicatorType.BOLLINGER_BANDS, params)
         assert result == params
     
     def test_create_parameter_schema_sma(self):
@@ -531,7 +531,7 @@ class TestValidationIntegration:
             (IndicatorType.EMA, {'period': 12}),
             (IndicatorType.RSI, {'period': 14}),
             (IndicatorType.MACD, {'fast_period': 12, 'slow_period': 26, 'signal_period': 9}),
-            (IndicatorType.BBANDS, {'period': 20, 'std_dev': 2.0})
+            (IndicatorType.BOLLINGER_BANDS, {'period': 20, 'std_dev': 2.0})
         ]
         
         for indicator_type, params in indicators_and_params:

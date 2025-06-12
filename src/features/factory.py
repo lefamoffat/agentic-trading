@@ -5,9 +5,9 @@ Provides a centralized factory for creating indicator instances with
 proper configuration and validation.
 """
 
-from enum import Enum
 from typing import Dict, List, Any, Type, Optional
 
+from ..types import IndicatorType
 from .indicators import (
     BaseIndicator,
     # Trend indicators
@@ -25,41 +25,7 @@ from .indicators import (
 )
 
 
-class IndicatorType(Enum):
-    """Enumeration of available indicator types."""
-    
-    # Trend indicators
-    SMA = "simple_moving_average"
-    EMA = "exponential_moving_average"
-    MACD = "macd"
-    ADX = "average_directional_index"
-    PSAR = "parabolic_sar"
-    LINREG = "linear_regression"
-    ICHIMOKU = "ichimoku_cloud"
-    
-    # Momentum indicators
-    RSI = "relative_strength_index"
-    STOCH = "stochastic_oscillator"
-    
-    # Volatility indicators
-    BBANDS = "bollinger_bands"
-    ATR = "average_true_range"
-    KELTNER = "keltner_channels"
-    STDDEV = "standard_deviation"
-    HVOL = "historical_volatility"
-    DONCHIAN = "donchian_channels"
-    VIX = "vix_volatility"
-    
-    # Volume indicators
-    OBV = "on_balance_volume"
-    VWAP = "volume_weighted_average_price"
-    VWMA = "volume_weighted_moving_average"
-    AD = "accumulation_distribution"
-    CMF = "chaikin_money_flow"
-    VOSC = "volume_oscillator"
-    VROC = "volume_rate_of_change"
-    NVI = "negative_volume_index"
-    PVI = "positive_volume_index"
+
 
 
 class FeatureFactory:
@@ -78,8 +44,8 @@ class FeatureFactory:
             IndicatorType.EMA: ExponentialMovingAverage,
             IndicatorType.MACD: MACD,
             IndicatorType.ADX: AverageDirectionalIndex,
-            IndicatorType.PSAR: ParabolicSAR,
-            IndicatorType.LINREG: LinearRegression,
+            IndicatorType.PARABOLIC_SAR: ParabolicSAR,
+            IndicatorType.LINEAR_REGRESSION: LinearRegression,
             IndicatorType.ICHIMOKU: IchimokuCloud,
             
             # Momentum indicators
@@ -87,12 +53,12 @@ class FeatureFactory:
             IndicatorType.STOCH: StochasticOscillator,
             
             # Volatility indicators
-            IndicatorType.BBANDS: BollingerBands,
+            IndicatorType.BOLLINGER_BANDS: BollingerBands,
             IndicatorType.ATR: AverageTrueRange,
-            IndicatorType.KELTNER: KeltnerChannels,
-            IndicatorType.STDDEV: StandardDeviation,
-            IndicatorType.HVOL: HistoricalVolatility,
-            IndicatorType.DONCHIAN: DonchianChannels,
+            IndicatorType.KELTNER_CHANNELS: KeltnerChannels,
+            IndicatorType.STANDARD_DEVIATION: StandardDeviation,
+            IndicatorType.HISTORICAL_VOLATILITY: HistoricalVolatility,
+            IndicatorType.DONCHIAN_CHANNELS: DonchianChannels,
             IndicatorType.VIX: VIX,
             
             # Volume indicators
@@ -101,7 +67,7 @@ class FeatureFactory:
             IndicatorType.VWMA: VolumeWeightedMovingAverage,
             IndicatorType.AD: AccumulationDistributionLine,
             IndicatorType.CMF: ChaikinMoneyFlow,
-            IndicatorType.VOSC: VolumeOscillator,
+            IndicatorType.VOLUME_OSCILLATOR: VolumeOscillator,
             IndicatorType.VROC: VolumeRateOfChange,
             IndicatorType.NVI: NegativeVolumeIndex,
             IndicatorType.PVI: PositiveVolumeIndex
@@ -172,7 +138,7 @@ class FeatureFactory:
             {'type': IndicatorType.EMA, 'period': 26},
             {'type': IndicatorType.MACD},
             {'type': IndicatorType.RSI, 'period': 14},
-            {'type': IndicatorType.BBANDS, 'period': 20, 'std_dev': 2},
+            {'type': IndicatorType.BOLLINGER_BANDS, 'period': 20, 'std_dev': 2},
             {'type': IndicatorType.ATR, 'period': 14}
         ]
         
@@ -203,16 +169,16 @@ class FeatureFactory:
             {'type': IndicatorType.EMA, 'period': 34},  # Fibonacci period
             {'type': IndicatorType.MACD, 'fast_period': 12, 'slow_period': 26, 'signal_period': 9},
             {'type': IndicatorType.ADX, 'period': 14},
-            {'type': IndicatorType.PSAR},
+            {'type': IndicatorType.PARABOLIC_SAR},
             
             # Momentum indicators
             {'type': IndicatorType.RSI, 'period': 14},
             {'type': IndicatorType.STOCH, 'k_period': 14, 'd_period': 3},
             
             # Volatility indicators
-            {'type': IndicatorType.BBANDS, 'period': 20, 'std_dev': 2},
+            {'type': IndicatorType.BOLLINGER_BANDS, 'period': 20, 'std_dev': 2},
             {'type': IndicatorType.ATR, 'period': 14},
-            {'type': IndicatorType.KELTNER, 'period': 20, 'multiplier': 2.0}
+            {'type': IndicatorType.KELTNER_CHANNELS, 'period': 20, 'multiplier': 2.0}
         ]
         
         # Apply parameter overrides
@@ -246,7 +212,7 @@ class FeatureFactory:
             {'type': IndicatorType.STOCH, 'k_period': 5, 'd_period': 3},
             
             # Volatility for entry/exit
-            {'type': IndicatorType.BBANDS, 'period': 10, 'std_dev': 1.5},
+            {'type': IndicatorType.BOLLINGER_BANDS, 'period': 10, 'std_dev': 1.5},
             {'type': IndicatorType.ATR, 'period': 7}
         ]
         

@@ -44,6 +44,7 @@ dependencies = [
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
     "black>=23.0.0",
     "flake8>=6.0.0",
     "jupyter>=1.0.0",
@@ -75,3 +76,8 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+asyncio_mode = "auto"
+markers = [
+    "asyncio: marks tests as async",
+    "integration: marks tests as integration tests",
+]

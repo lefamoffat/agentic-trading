@@ -18,13 +18,14 @@ from src.utils.logger import get_logger
 from src.utils.settings import Settings
 from src.brokers.factory import broker_factory
 from src.data.processor import DataProcessor
+from src.types import BrokerType
 
 
 async def download_historical_data(
     bars: int = 365, 
     symbol: str = "EUR/USD", 
     timeframe: str = "1h",
-    broker: str = "forex.com"
+    broker: str = BrokerType.FOREX_COM.value
 ) -> None:
     """
     Download historical data from specified broker.
@@ -39,7 +40,7 @@ async def download_historical_data(
     settings = Settings()
     
     # Validate broker-specific credentials
-    if broker == "forex.com":
+    if broker == BrokerType.FOREX_COM.value:
         if not settings.forex_com_username or not settings.forex_com_password:
             logger.error("Missing forex.com credentials. Please set FOREX_COM_USERNAME and FOREX_COM_PASSWORD in .env")
             return
@@ -149,8 +150,8 @@ def main():
     parser.add_argument(
         "--broker", 
         type=str, 
-        default="forex.com", 
-        choices=["forex.com"],
+        default=BrokerType.FOREX_COM.value, 
+        choices=[BrokerType.FOREX_COM.value],
         help="Broker to download data from (default: forex.com)"
     )
     
@@ -164,7 +165,7 @@ def main():
     print(f"Bars: {args.bars}")
     print("=" * 40)
     
-    if args.broker == "forex.com":
+    if args.broker == BrokerType.FOREX_COM.value:
         asyncio.run(download_historical_data(args.bars, args.symbol, args.timeframe, args.broker))
     else:
         logger = get_logger(__name__)

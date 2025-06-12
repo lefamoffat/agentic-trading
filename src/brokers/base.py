@@ -5,31 +5,9 @@ Base broker interface for trading system.
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime
-from enum import Enum
 import pandas as pd
 
-
-class OrderType(Enum):
-    """Order types supported by the trading system."""
-    MARKET = "market"
-    LIMIT = "limit"
-    STOP = "stop"
-    STOP_LIMIT = "stop_limit"
-
-
-class OrderSide(Enum):
-    """Order sides."""
-    BUY = "buy"
-    SELL = "sell"
-
-
-class OrderStatus(Enum):
-    """Order status."""
-    PENDING = "pending"
-    FILLED = "filled"
-    CANCELLED = "cancelled"
-    REJECTED = "rejected"
-    PARTIALLY_FILLED = "partially_filled"
+from ..types import OrderType, OrderSide, OrderStatus
 
 
 class Position:

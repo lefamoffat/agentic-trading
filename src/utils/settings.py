@@ -68,17 +68,6 @@ class Settings:
         """Get forex.com sandbox mode"""
         return os.getenv("FOREX_COM_SANDBOX", "true").lower() == "true"
     
-    # Alpaca credentials
-    @property
-    def alpaca_api_key(self) -> Optional[str]:
-        """Get Alpaca API key"""
-        return os.getenv("ALPACA_API_KEY")
-    
-    @property
-    def alpaca_api_secret(self) -> Optional[str]:
-        """Get Alpaca API secret"""
-        return os.getenv("ALPACA_API_SECRET")
-    
     @property
     def alpha_vantage_api_key(self) -> Optional[str]:
         """Get Alpha Vantage API key"""
@@ -162,9 +151,6 @@ class Settings:
             self.forex_com_username,
             self.forex_com_password,
             self.forex_com_app_key,
-            self.forex_com_sandbox,
-            self.alpaca_api_key,
-            self.alpaca_api_secret,
             self.alpha_vantage_api_key
         ]
         

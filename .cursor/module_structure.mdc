@@ -1,9 +1,8 @@
 ---
-description: File Organization
+description: Module structure
 globs: 
 alwaysApply: false
 ---
-## Module Structure
 ```
 src/module_name/
 ├── __init__.py          # Exports all public interfaces

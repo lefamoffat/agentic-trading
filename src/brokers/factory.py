@@ -6,19 +6,11 @@ making it easy to add new brokers without changing existing code.
 """
 
 from typing import Dict, Type, Optional
-from enum import Enum
 
 from .base import BaseBroker
 from .forex_com import ForexComBroker
 from ..utils.logger import get_logger
-
-
-class BrokerType(Enum):
-    """Supported broker types."""
-    FOREX_COM = "forex.com"
-    # Future brokers can be added here
-    # ALPACA = "alpaca"
-    # BINANCE = "binance"
+from ..types import BrokerType
 
 
 class BrokerFactory:

@@ -40,7 +40,7 @@ actions:
 
 # Broker Settings
 broker:
-    default: "alpaca" # Start with paper trading
+    default: "forex_com" # Start with paper trading
     commission: 0.0 # Forex typically has spreads instead of commissions
     slippage: 0.5 # 0.5 pips average slippage
 

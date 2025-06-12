@@ -21,12 +21,9 @@ class TradingSystemError(Exception):
         """
         super().__init__(message)
         self.message = message
-        self.context = context or {}
+        self.context = context
     
     def __str__(self) -> str:
-        if self.context:
-            context_str = ", ".join(f"{k}={v}" for k, v in self.context.items())
-            return f"{self.message} (Context: {context_str})"
         return self.message
 
 
@@ -61,6 +58,11 @@ class DataCorruptionError(DataError):
     pass
 
 
+class DataIntegrityError(DataError):
+    """Raised when data integrity checks fail."""
+    pass
+
+
 # Broker-related exceptions
 class BrokerError(TradingSystemError):
     """Base class for broker-related errors."""
@@ -75,6 +77,9 @@ class BrokerConnectionError(BrokerError):
 class BrokerAuthenticationError(BrokerError):
     """Raised when broker authentication fails."""
     pass
+
+
+# Remove duplicate - use BrokerAuthenticationError directly
 
 
 class BrokerAPIError(BrokerError):
@@ -107,6 +112,17 @@ class InsufficientFundsError(BrokerError):
 class InvalidOrderError(BrokerError):
     """Raised when order parameters are invalid."""
     pass
+
+
+class OrderRejectedError(BrokerError):
+    """Raised when an order is rejected by the broker."""
+    pass
+
+
+# Removed - use BrokerRateLimitError instead for broker-specific rate limiting
+
+
+# Remove duplicate alias - consolidate rate limit error handling
 
 
 # Feature engineering exceptions
@@ -182,6 +198,16 @@ class PositionSizingError(StrategyError):
     pass
 
 
+class BacktestError(StrategyError):
+    """Raised when backtesting fails."""
+    pass
+
+
+class OptimizationError(StrategyError):
+    """Raised when parameter optimization fails."""
+    pass
+
+
 # Trading execution exceptions
 class TradingExecutionError(TradingSystemError):
     """Base class for trading execution errors."""
@@ -193,9 +219,7 @@ class OrderExecutionError(TradingExecutionError):
     pass
 
 
-class OrderRejectionError(TradingExecutionError):
-    """Raised when order is rejected."""
-    pass
+# Removed - use OrderRejectedError instead for consistency
 
 
 class SlippageError(TradingExecutionError):
@@ -205,6 +229,11 @@ class SlippageError(TradingExecutionError):
 
 class LiquidityError(TradingExecutionError):
     """Raised when insufficient liquidity for order."""
+    pass
+
+
+class PositionError(TradingExecutionError):
+    """Raised when position management fails."""
     pass
 
 
@@ -226,6 +255,11 @@ class InvalidTimeframeError(CalendarError):
 
 class TimezoneError(CalendarError):
     """Raised when timezone handling fails."""
+    pass
+
+
+class EventDataError(CalendarError):
+    """Raised when economic event data processing fails."""
     pass
 
 

@@ -127,14 +127,14 @@ class TestSymbolMapper:
         del SymbolMapper.FOREX_COM_MAPPINGS["CUSTOM/PAIR"]
         del SymbolMapper.FOREX_COM_REVERSE_MAPPINGS["CUSTOM_PAIR"]
     
-    def test_alpaca_mappings_exist(self):
-        """Test that Alpaca mappings are defined (for future use)."""
-        mapper = SymbolMapper(BrokerType.ALPACA)
+    def test_generic_with_forex_pair(self):
+        """Test generic mapper with forex pair format."""
+        mapper = SymbolMapper(BrokerType.GENERIC)
         
-        # Should have some basic mappings defined
-        assert len(mapper.to_broker_mappings) > 0
-        assert "EUR/USD" in mapper.to_broker_mappings
-        assert mapper.to_broker_symbol("EUR/USD") == "EURUSD"  # Alpaca format
+        # Generic mapper should pass through symbols unchanged
+        assert mapper.to_broker_symbol("EUR/USD") == "EUR/USD"
+        assert mapper.from_broker_symbol("EURUSD") == "EURUSD"
+        assert mapper.is_supported("EUR/USD") is True
 
 
 if __name__ == "__main__":

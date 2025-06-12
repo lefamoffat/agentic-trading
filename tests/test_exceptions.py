@@ -18,13 +18,13 @@ from src.exceptions import (
     InvalidTimeframeError, DataIntegrityError,
     
     # Broker errors
-    BrokerAPIError, BrokerConnectionError, AuthenticationError,
-    InsufficientFundsError, OrderRejectedError, RateLimitError,
+    BrokerAPIError, BrokerConnectionError, BrokerAuthenticationError,
+    InsufficientFundsError, OrderRejectedError, BrokerRateLimitError,
     MarketClosedError,
     
     # Feature engineering errors
     IndicatorCalculationError, FeaturePipelineError, 
-    InvalidParametersError, InsufficientDataError,
+    InvalidParameterError, InsufficientDataError,
     
     # Configuration errors
     InvalidConfigError, MissingConfigError, ConfigurationError,
@@ -46,7 +46,7 @@ from src.exceptions import (
     FactoryError,
     
     # Utility functions
-    format_error_message, create_error_context
+    format_validation_error, create_context
 )
 
 
@@ -149,8 +149,8 @@ class TestBrokerErrors:
         assert isinstance(error, TradingSystemError)
     
     def test_authentication_error(self):
-        """Test AuthenticationError."""
-        error = AuthenticationError("Invalid credentials")
+        """Test BrokerAuthenticationError."""
+        error = BrokerAuthenticationError("Invalid credentials")
         assert isinstance(error, TradingSystemError)
     
     def test_insufficient_funds_error(self):
@@ -167,9 +167,9 @@ class TestBrokerErrors:
         assert isinstance(error, TradingSystemError)
     
     def test_rate_limit_error(self):
-        """Test RateLimitError."""
+        """Test BrokerRateLimitError."""
         context = {"requests_per_minute": 100, "retry_after": 60}
-        error = RateLimitError("Rate limit exceeded", context=context)
+        error = BrokerRateLimitError("Rate limit exceeded", context=context)
         
         assert error.context["requests_per_minute"] == 100
         assert error.context["retry_after"] == 60
@@ -197,10 +197,10 @@ class TestFeatureEngineeringErrors:
         error = FeaturePipelineError("Pipeline step failed")
         assert isinstance(error, TradingSystemError)
     
-    def test_invalid_parameters_error(self):
-        """Test InvalidParametersError."""
+    def test_invalid_parameter_error(self):
+        """Test InvalidParameterError."""
         context = {"parameter": "period", "value": -5, "constraint": "must be positive"}
-        error = InvalidParametersError("Invalid parameter value", context=context)
+        error = InvalidParameterError("Invalid parameter value", context=context)
         
         assert error.context["parameter"] == "period"
         assert error.context["value"] == -5
@@ -328,37 +328,30 @@ class TestSpecializedErrors:
 class TestUtilityFunctions:
     """Test utility functions for error handling."""
     
-    def test_format_error_message_basic(self):
-        """Test basic error message formatting."""
-        message = format_error_message("Test error", "operation_name")
-        assert "Test error" in message
-        assert "operation_name" in message
+    def test_format_validation_error_basic(self):
+        """Test basic validation error formatting."""
+        message = format_validation_error("period", -5, "positive integer")
+        assert "period" in message
+        assert str(-5) in message
+        assert "positive integer" in message
     
-    def test_format_error_message_with_context(self):
-        """Test error message formatting with context."""
-        context = {"symbol": "EUR/USD", "period": 14}
-        message = format_error_message("Calculation failed", "RSI", context)
+    def test_format_validation_error_detailed(self):
+        """Test detailed validation error formatting."""
+        message = format_validation_error("timeframe", "invalid", "one of: 1m, 5m, 15m")
         
-        assert "Calculation failed" in message
-        assert "RSI" in message
-        assert "EUR/USD" in message
-        assert "14" in message
+        assert "timeframe" in message
+        assert "invalid" in message
+        assert "one of" in message
     
-    def test_format_error_message_empty_context(self):
-        """Test error message formatting with empty context."""
-        message = format_error_message("Test error", "operation", {})
-        assert "Test error" in message
-        assert "operation" in message
+    def test_create_context_basic(self):
+        """Test basic context creation."""
+        context = create_context(operation="test", symbol="EUR/USD")
+        assert context["operation"] == "test"
+        assert context["symbol"] == "EUR/USD"
     
-    def test_format_error_message_none_context(self):
-        """Test error message formatting with None context."""
-        message = format_error_message("Test error", "operation", None)
-        assert "Test error" in message
-        assert "operation" in message
-    
-    def test_create_error_context(self):
-        """Test creating error context dictionary."""
-        context = create_error_context(
+    def test_create_context_detailed(self):
+        """Test creating detailed context dictionary."""
+        context = create_context(
             operation="indicator_calculation",
             symbol="GBP/USD",
             custom_field="custom_value"
@@ -368,21 +361,23 @@ class TestUtilityFunctions:
         assert context["symbol"] == "GBP/USD"
         assert context["custom_field"] == "custom_value"
     
-    def test_create_error_context_empty(self):
-        """Test creating empty error context."""
-        context = create_error_context()
+    def test_create_context_empty(self):
+        """Test creating empty context."""
+        context = create_context()
         assert isinstance(context, dict)
         assert len(context) == 0
     
-    def test_create_error_context_overwrites(self):
-        """Test that create_error_context handles duplicate keys."""
-        context = create_error_context(
-            operation="first_operation",
-            operation="second_operation"  # This should overwrite
+    def test_create_context_overwrites(self):
+        """Test that create_context handles keyword arguments properly."""
+        # Test normal context creation
+        context = create_context(
+            operation="test_operation",
+            symbol="EUR/USD"
         )
         
-        # Should have the last value
-        assert context["operation"] == "second_operation"
+        # Should have both values
+        assert context["operation"] == "test_operation"
+        assert context["symbol"] == "EUR/USD"
 
 
 class TestExceptionInheritance:
@@ -392,7 +387,7 @@ class TestExceptionInheritance:
         """Test that all custom exceptions inherit from TradingSystemError."""
         exception_classes = [
             ValidationError, DataQualityError, MissingDataError,
-            BrokerAPIError, BrokerConnectionError, AuthenticationError,
+            BrokerAPIError, BrokerConnectionError, BrokerAuthenticationError,
             IndicatorCalculationError, FeaturePipelineError,
             InvalidConfigError, SignalGenerationError,
             OrderExecutionError, CalendarError, SymbolError,
@@ -414,7 +409,7 @@ class TestExceptionInheritance:
             assert isinstance(instance, TradingSystemError)
         
         # Broker-related errors
-        broker_errors = [BrokerAPIError, BrokerConnectionError, AuthenticationError]
+        broker_errors = [BrokerAPIError, BrokerConnectionError, BrokerAuthenticationError]
         for exc_class in broker_errors:
             instance = exc_class("Test")
             assert isinstance(instance, TradingSystemError)

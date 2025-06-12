@@ -8,16 +8,8 @@ that can be easily swapped without changing core trading logic.
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone, time
 from typing import List, Tuple, Optional
-from enum import Enum
 
-
-class MarketSession(Enum):
-    """Market trading session types."""
-    CLOSED = "closed"
-    OPEN = "open"
-    PRE_MARKET = "pre_market"
-    POST_MARKET = "post_market"
-    OVERLAP = "overlap"  # For forex session overlaps
+from ...types import MarketSession
 
 
 class BaseCalendar(ABC):

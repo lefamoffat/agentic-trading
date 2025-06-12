@@ -27,21 +27,6 @@ sources:
         base_url: "https://api.forex.com"
         rate_limit: 100 # requests per minute
 
-    # Alpaca API
-    alpaca:
-        enabled: true
-        api_key: ${ALPACA_API_KEY}
-        api_secret: ${ALPACA_API_SECRET}
-        base_url: "https://paper-api.alpaca.markets" # Use paper trading initially
-        rate_limit: 200 # requests per minute
-
-    # Alpha Vantage for historical data
-    alpha_vantage:
-        enabled: true
-        api_key: ${ALPHA_VANTAGE_API_KEY}
-        base_url: "https://www.alphavantage.co"
-        rate_limit: 5 # requests per minute (free tier)
-
     # Yahoo Finance as backup
     yahoo_finance:
         enabled: true

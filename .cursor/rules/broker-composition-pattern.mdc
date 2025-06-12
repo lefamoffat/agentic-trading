@@ -1,0 +1,82 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Broker Composition Pattern
+
+When implementing or refactoring broker modules, follow this composition-based architecture:
+
+## Module Structure
+Each broker should be organized as a module with these components:
+- `broker.py` - Main broker class (orchestrator)
+- `auth.py` - Authentication handler
+- `api.py` - API client for HTTP operations
+- `orders.py` - Order management handler
+- `positions.py` - Position management handler  
+- `data.py` - Data fetching handler
+- `tests/` - Directory with mirrored test file names
+
+## Composition Pattern Rules
+
+### 1. Main Broker Class (`broker.py`)
+- Inherits from `BaseBroker`
+- Uses composition, NOT inheritance for handlers
+- Creates handler instances in `__init__()`
+- Delegates all functionality to appropriate handlers
+- Keep under 200 lines - if larger, extract more handlers
+
+```python
+class BrokerName(BaseBroker):
+    def __init__(self, api_key: str, api_secret: str, sandbox: bool = True):
+        super().__init__(api_key, api_secret, sandbox)
+        
+        # Composition: broker "has-a" handlers
+        self.auth = AuthenticationHandler(api_key, api_secret)
+        self.api = ApiClient(self.auth)
+        self.orders = OrderHandler(self.api)
+        self.positions = PositionHandler(self.api)
+        self.data = DataHandler(self.api)
+    
+    # Delegate to handlers
+    async def authenticate(self) -> bool:
+        return await self.auth.authenticate()
+```
+
+### 2. Handler Classes
+- Each handler is a focused class with single responsibility
+- Accept dependencies via constructor injection
+- No direct inheritance from other handlers
+- Keep handlers under 150 lines each
+- Use clear, descriptive class names ending in "Handler" or "Client"
+
+### 3. Dependency Injection Pattern
+- `ApiClient` depends on `AuthenticationHandler`
+- Business logic handlers depend on `ApiClient`
+- No circular dependencies
+- Dependencies passed via constructor
+
+### 4. Testing Strategy
+- Each handler is testable in isolation
+- Mock dependencies in unit tests
+- Test files mirror implementation file names
+- Integration tests in `test_broker.py`
+
+## File Naming Conventions
+- Handler classes: `AuthenticationHandler`, `OrderHandler`, `DataHandler`
+- Test files: `test_auth.py`, `test_orders.py`, etc.
+- No mixins or multiple inheritance patterns
+
+## What to Avoid
+- ❌ Multiple inheritance (mixins)
+- ❌ Large monolithic broker files (>300 lines)
+- ❌ Handlers directly importing each other
+- ❌ Circular dependencies
+- ❌ Business logic in the main broker class
+
+## Benefits
+- ✅ Clear separation of concerns
+- ✅ Easy to test individual components
+- ✅ Loose coupling between components
+- ✅ Explicit dependency management
+- ✅ Simple to understand and maintain

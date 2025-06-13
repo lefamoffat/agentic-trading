@@ -13,12 +13,54 @@ import asyncio
 import argparse
 from datetime import datetime, timedelta
 from pathlib import Path
+import pandas as pd
 
 from src.utils.logger import get_logger
 from src.utils.settings import Settings
 from src.brokers.factory import broker_factory
 from src.data.processor import DataProcessor
 from src.types import BrokerType
+
+
+def _prepare_for_qlib(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Prepare a DataFrame for Qlib's data format.
+
+    - Renames columns to lowercase ('open', 'high', 'low', 'close', 'volume').
+    - Renames the timestamp column to 'date'.
+    - Adds a 'factor' column with a constant value of 1.0.
+    - Sets 'date' as the index.
+
+    Args:
+        df (pd.DataFrame): The standardized DataFrame to process.
+
+    Returns:
+        pd.DataFrame: A DataFrame formatted for Qlib.
+    """
+    df = df.copy()
+    df.rename(
+        columns={
+            "timestamp": "date",
+            # The following are already lowercase from the data processor
+            # "Open": "open",
+            # "High": "high",
+            # "Low": "low",
+            # "Close": "close",
+            # "Volume": "volume",
+        },
+        inplace=True,
+    )
+
+    # The 'date' column must first be converted to a proper datetime type.
+    df["date"] = pd.to_datetime(df["date"])
+
+    # Now that it's a datetime object, we can safely remove the timezone.
+    # Qlib's data loader script expects timezone-naive timestamps.
+    df["date"] = df["date"].dt.tz_localize(None)
+
+    df["factor"] = 1.0
+    df.set_index("date", inplace=True)
+    return df
 
 
 async def download_historical_data(
@@ -102,24 +144,19 @@ async def download_historical_data(
         if quality_report['issues']:
             logger.warning(f"Data quality issues: {quality_report['issues']}")
         
-        # Create data directory with timeframe structure (sanitize symbol for file path)
-        sanitized_symbol = symbol.replace("/", "")  # GBP/USD -> GBPUSD
-        data_dir = Path(f"data/raw/historical/{sanitized_symbol}/{timeframe}/")
-        data_dir.mkdir(parents=True, exist_ok=True)
+        # --- Qlib Preparation ---
+        logger.info("Preparing data for Qlib...")
+        qlib_df = _prepare_for_qlib(standardized_df)
+
+        # Create data directory for Qlib source files
+        sanitized_symbol = symbol.replace("/", "")
+        qlib_source_dir = Path(f"data/qlib_source/{timeframe}")
+        qlib_source_dir.mkdir(parents=True, exist_ok=True)
         
-        # Save data with simplified filename
-        filename = f"{start_date.strftime('%Y%m%d')}_{end_date.strftime('%Y%m%d')}.csv"
-        filepath = data_dir / filename
-        
-        # Save using data processor (ensures consistent format)
-        metadata = {
-            "broker": broker,
-            "symbol": symbol,
-            "timeframe": timeframe,
-            "bars_requested": bars,
-            "quality_score": quality_report['quality_score']
-        }
-        data_processor.save_to_csv(standardized_df, filepath, metadata)
+        # Save data in Qlib-compatible CSV format
+        filepath = qlib_source_dir / f"{sanitized_symbol}.csv"
+        qlib_df.to_csv(filepath)
+        logger.info(f"Successfully saved Qlib-ready data to {filepath}")
         
     except Exception as e:
         logger.error(f"Error downloading data: {e}")

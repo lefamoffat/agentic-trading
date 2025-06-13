@@ -1,33 +1,31 @@
 # Agentic Trading - EUR/USD RL Trading System
 
-A sophisticated multi-asset reinforcement learning trading system with broker-agnostic architecture, built with Microsoft Qlib, PyTorch, and modern ML practices.
+A sophisticated multi-asset reinforcement learning trading system with a broker-agnostic architecture, built with Microsoft Qlib and PyTorch.
 
 ## 🎯 Project Overview
 
-This project implements a reinforcement learning-based trading system with modular, broker-agnostic architecture supporting multiple asset classes. It leverages:
+This project implements a reinforcement learning-based trading system with a modular, broker-agnostic architecture supporting multiple asset classes. It leverages:
 
--   **Microsoft Qlib** for quantitative trading infrastructure
--   **Broker-Agnostic Design** with factory patterns for easy broker addition
--   **Standardized Data Pipeline** ensuring consistent format across all sources
--   **Modular Market Calendars** supporting forex, stocks, crypto trading sessions
--   **Multiple RL Algorithms** (PPO, A3C, SAC) with automatic selection
--   **Multi-timeframe Analysis** (5m, 15m, 1h, 4h, daily)
--   **Live Trading Integration** with brokers (forex.com, others planned)
--   **Comprehensive Backtesting** and performance analysis
+-   **Microsoft Qlib** for institutional-grade feature engineering and quantitative analysis.
+-   **Stable-Baselines3** for robust, pre-built reinforcement learning algorithms.
+-   **Broker-Agnostic Design** with factory patterns for easy broker addition.
+-   **Standardized Data Pipeline** ensuring consistent format across all sources.
+-   **Gymnasium-based RL Environments** for standardized agent training.
+-   **Live Trading Integration** with brokers (forex.com, others planned).
+-   **Comprehensive Backtesting** and performance analysis via Qlib.
 
 ## 🚀 Features
 
 -   ✅ **Broker-Agnostic Architecture** - Modular design supporting multiple brokers (forex.com)
--   ✅ **Standardized Data Pipeline** - Consistent CSV format across all data sources
--   ✅ **Market Calendar System** - Modular calendar support (forex 24/5, stocks, crypto)
--   ✅ **Data Quality Assurance** - Automatic validation and quality scoring
--   ✅ **Multi-Timeframe Support** - 5m, 15m, 1h, 4h, daily analysis
--   ✅ **Feature Engineering Framework** - 20+ technical indicators and market analysis
--   ✅ **Risk Management** - Built-in stop loss, take profit, and drawdown controls
--   ✅ **Live Trading Ready** - Production-ready forex.com broker integration
--   ✅ **Configurable** - YAML-based configuration for all parameters
--   ✅ **Comprehensive Logging** - Detailed logging and monitoring
--   ✅ **100% Test Coverage** - 190/190 tests passing with comprehensive validation
+-   ✅ **Qlib-Powered Feature Engineering** - Leverages Qlib's alpha libraries for advanced feature creation.
+-   ✅ **Standardized Data Pipeline** - Consistent CSV format across all data sources.
+-   ✅ **Market Calendar System** - Modular calendar support (forex 24/5, stocks, crypto).
+-   ✅ **RL Training Pipeline** - Automated training, evaluation, and model selection loop.
+-   ✅ **Risk Management** - Built-in stop loss, take profit, and drawdown controls.
+-   ✅ **Live Trading Ready** - Production-ready forex.com broker integration.
+-   ✅ **Configurable** - YAML-based configuration for all parameters.
+-   ✅ **Comprehensive Logging** - Detailed logging for training, trading, and TensorBoard visualization.
+-   ✅ **100% Test Coverage** - Comprehensive validation for all core components.
 
 ## 📋 Prerequisites
 
@@ -95,38 +93,26 @@ STOP_LOSS=0.02
 ```
 agentic-trading/
 ├── config/                 # YAML configuration files
-├── src/                    # Main source code (33 Python files)
+├── src/                    # Main source code
+│   ├── agents/            # RL agent implementations (PPO, etc.)
 │   ├── brokers/           # Broker integrations (forex.com working)
-│   │   ├── base.py        # Base broker interface
-│   │   ├── forex_com/    # Forex.com integration logic (modular)
-│   │   ├── factory.py     # Broker factory pattern
-│   │   └── symbol_mapper.py # Symbol mapping system
 │   ├── data/              # Data handling & market calendars
-│   │   ├── calendars/     # Market calendar system (forex, stocks, crypto)
-│   │   └── processor.py   # Data standardization pipeline
-│   ├── features/          # Feature engineering framework
-│   │   ├── calculator.py  # Technical indicator calculations
-│   │   ├── factory.py     # Feature factory
-│   │   ├── pipeline.py    # Feature processing pipeline
-│   │   └── indicators/    # 20+ technical indicators
+│   ├── environments/      # Gymnasium-based RL environments
+│   ├── strategies/        # Trading strategy implementations
 │   ├── utils/             # Core utilities
-│   │   ├── config.py      # Configuration management
-│   │   ├── logger.py      # Structured logging
-│   │   └── validation/    # Data validation framework
 │   ├── types.py           # Centralized type definitions
 │   └── exceptions.py      # Custom exception hierarchy
 ├── scripts/               # Executable scripts
 │   ├── data/              # Data download & processing
-│   │   └── download_historical.py # Historical data downloader
+│   ├── features/          # Qlib-based feature generation
+│   │   └── build_features.py
+│   ├── training/          # RL agent training scripts
+│   │   └── train_agent.py
 │   └── setup/             # Project initialization
-├── data/                  # Data storage (standardized CSV format)
-├── logs/                  # Log files
+├── data/                  # Data storage (raw, processed, qlib, models)
+├── logs/                  # Log files (system and tensorboard)
 ├── results/               # Results and reports
-└── tests/                 # High-level and legacy integration tests
-    ├── test_infrastructure_integration.py # High-level integration tests
-    ├── test_symbol_mapper.py        # Tests for the symbol mapper
-    ├── test_types.py                # Tests for custom types
-    └── test_validation.py           # Tests for data validation logic
+└── tests/                 # Unit and integration tests
 ```
 
 ## 🎮 Quick Start
@@ -144,7 +130,27 @@ uv run python scripts/data/download_historical.py --symbol "GBP/USD" --timeframe
 # Available brokers: forex_com
 ```
 
-### 2. Run Tests
+### 2. Build Features with Qlib
+
+Before training, you must generate features from the raw data using Qlib.
+
+```bash
+uv run python scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
+```
+
+### 3. Train an RL Agent
+
+Now you can run the training pipeline. This will use the features generated in the previous step.
+
+```bash
+# Start a new training run
+uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
+
+# Resume a previous training run
+uv run python scripts/training/train_agent.py --run-id <YOUR_RUN_ID>
+```
+
+### 4. Run Tests
 
 ```bash
 # Run unit tests (default, fast)
@@ -157,7 +163,7 @@ uv run python scripts/run_tests.py --all
 uv run python scripts/run_tests.py --integration
 ```
 
-### 3. Test Broker Integration
+### 5. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)
@@ -167,45 +173,9 @@ uv run python scripts/run_tests.py --integration -k "test_real_get_live_price"
 uv run python scripts/run_tests.py --integration -k "test_real_authentication_is_successful"
 ```
 
-### 4. Test Feature Engineering
-
-```bash
-# Test feature generation pipeline
-uv run pytest tests/test_infrastructure_integration.py::TestRealWorldScenarios::test_indicator_calculation_pipeline -v
-
-# Test all technical indicators
-uv run pytest tests/test_validation.py::TestIndicatorParameterValidation -v
-```
-
 ## 🧠 Technical Indicators Available
 
-The system includes 20+ technical indicators:
-
-### Trend Indicators
-
--   **SMA** - Simple Moving Average
--   **EMA** - Exponential Moving Average
--   **WMA** - Weighted Moving Average
--   **MACD** - Moving Average Convergence Divergence
--   **PARABOLIC_SAR** - Parabolic Stop and Reverse
-
-### Momentum Indicators
-
--   **RSI** - Relative Strength Index
--   **STOCHASTIC** - Stochastic Oscillator
--   **CCI** - Commodity Channel Index
--   **WILLIAMS_R** - Williams %R
-
-### Volatility Indicators
-
--   **BOLLINGER_BANDS** - Bollinger Bands
--   **ATR** - Average True Range
--   **KELTNER_CHANNELS** - Keltner Channels
-
-### Volume Indicators
-
--   **OBV** - On-Balance Volume
--   **VOLUME_SMA** - Volume Simple Moving Average
+Feature engineering is now handled by **Microsoft Qlib**, which provides access to a vast library of technical indicators and alpha factors, including the renowned `Alpha158` and `Alpha360` collections. The feature generation process is configurable and extensible within the `scripts/features/build_features.py` script.
 
 ## 🔍 Monitoring & Analysis
 
@@ -267,12 +237,9 @@ uv run ruff format src/
 -   Broker-agnostic data download system
 -   Standardized CSV format: `timestamp,open,high,low,close,volume`
 
-**✅ Phase 3 Completed:**
+**✅ Phase 3 Completed (Now Deprecated):**
 
--   Feature engineering framework with 20+ technical indicators
--   Technical indicators library (SMA, EMA, RSI, MACD, Bollinger Bands, etc.)
--   Feature processing pipeline with validation
--   Market analysis components
+-   The original, custom feature engineering framework has been **deprecated and removed** in favor of a more robust Qlib-based pipeline.
 
 **✅ Phase 4 Completed:**
 
@@ -282,27 +249,28 @@ uv run ruff format src/
 -   DRY compliance and code refactoring
 -   Production-ready error handling and logging
 
-**🔄 Phase 5 In Progress:**
+**✅ Phase 5 Completed:**
 
--   RL environment and agents implementation
--   Strategy framework foundation
--   Market session timing optimization
+-   **Qlib Integration**: Successfully integrated Qlib as the core feature engineering engine.
+-   **RL Environment**: Implemented a `gymnasium`-compatible trading environment.
+-   **RL Agents**: Built a modular framework for RL agents using `stable-baselines3`.
+-   **RL Training Pipeline**: Created a robust, end-to-end training script with automated evaluation, best-model saving, and TensorBoard logging.
+-   **Strategy Framework**: Established a base for connecting agents to live trading execution.
 
 **📋 Upcoming Phases:**
 
--   RL training pipeline (PPO, A3C, SAC algorithms)
--   Backtesting framework with performance metrics
--   Live trading execution system
--   Risk management and portfolio optimization
+-   **Backtesting Framework**: Implement a Qlib-native backtesting strategy to evaluate trained agents.
+-   **Hyperparameter Optimization**: Build an HPO pipeline using Optuna and Qlib to automate the discovery of optimal agent configurations.
+-   **Live Trading Execution**: Refine the live trading strategy to be fully independent of the training environment.
+-   **Risk Management and Portfolio Optimization**: Integrate advanced risk controls and portfolio management techniques.
 
 ## 🏆 Current Achievements
 
--   **100% Test Coverage:** 190/190 tests passing
--   **Production-Ready Broker Integration:** Working forex.com API integration
--   **Comprehensive Feature Engineering:** 20+ technical indicators
--   **Zero DRY Violations:** Clean, maintainable codebase
--   **Robust Data Pipeline:** Quality validation and error handling
--   **Type Safety:** Full type annotations and validation
+-   **Qlib-Powered Features**: State-of-the-art feature engineering pipeline.
+-   **Production-Ready Training Pipeline**: Automated, metrics-driven RL training loop.
+-   **Production-Ready Broker Integration**: Working forex.com API integration.
+-   **Zero DRY Violations**: Clean, maintainable codebase.
+-   **Type Safety**: Full type annotations and validation.
 
 ## 🤝 Contributing
 

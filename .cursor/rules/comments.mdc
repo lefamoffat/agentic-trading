@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Comments MUST add long term value and MUST provide value without context.
+
+At no points should comments be used to indicate changes that were done during code changes, e.g. `from X import Y # added new import`

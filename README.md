@@ -27,7 +27,7 @@ This project implements a reinforcement learning-based trading system with modul
 -   ✅ **Live Trading Ready** - Production-ready forex.com broker integration
 -   ✅ **Configurable** - YAML-based configuration for all parameters
 -   ✅ **Comprehensive Logging** - Detailed logging and monitoring
--   ✅ **100% Test Coverage** - 176/176 tests passing with comprehensive validation
+-   ✅ **100% Test Coverage** - 190/190 tests passing with comprehensive validation
 
 ## 📋 Prerequisites
 
@@ -98,7 +98,7 @@ agentic-trading/
 ├── src/                    # Main source code (33 Python files)
 │   ├── brokers/           # Broker integrations (forex.com working)
 │   │   ├── base.py        # Base broker interface
-│   │   ├── forex_com.py   # Forex.com/StoneX integration
+│   │   ├── forex_com/    # Forex.com integration logic (modular)
 │   │   ├── factory.py     # Broker factory pattern
 │   │   └── symbol_mapper.py # Symbol mapping system
 │   ├── data/              # Data handling & market calendars
@@ -122,12 +122,11 @@ agentic-trading/
 ├── data/                  # Data storage (standardized CSV format)
 ├── logs/                  # Log files
 ├── results/               # Results and reports
-└── tests/                 # Test suite (176/176 tests passing)
-    ├── test_forex_com_broker.py
-    ├── test_infrastructure_integration.py
-    ├── test_symbol_mapper.py
-    ├── test_types.py
-    └── test_validation.py
+└── tests/                 # High-level and legacy integration tests
+    ├── test_infrastructure_integration.py # High-level integration tests
+    ├── test_symbol_mapper.py        # Tests for the symbol mapper
+    ├── test_types.py                # Tests for custom types
+    └── test_validation.py           # Tests for data validation logic
 ```
 
 ## 🎮 Quick Start
@@ -148,22 +147,24 @@ uv run python scripts/data/download_historical.py --symbol "GBP/USD" --timeframe
 ### 2. Run Tests
 
 ```bash
-# Run full test suite (176 tests)
-uv run pytest
+# Run unit tests (default, fast)
+uv run python scripts/run_tests.py
 
-# Run specific test categories
-uv run pytest tests/test_forex_com_broker.py -v
-uv run pytest tests/test_validation.py -v
+# Run all tests (unit and integration)
+uv run python scripts/run_tests.py --all
+
+# Run only integration tests (requires credentials)
+uv run python scripts/run_tests.py --integration
 ```
 
 ### 3. Test Broker Integration
 
 ```bash
-# Test forex.com broker integration
-uv run pytest tests/test_forex_com_broker.py::TestForexComBrokerIntegration::test_real_live_price -v
+# Test forex.com broker integration (requires credentials)
+uv run python scripts/run_tests.py --integration -k "test_real_get_live_price"
 
 # Test broker authentication
-uv run pytest tests/test_forex_com_broker.py::TestForexComBrokerIntegration::test_real_authentication -v
+uv run python scripts/run_tests.py --integration -k "test_real_authentication_is_successful"
 ```
 
 ### 4. Test Feature Engineering
@@ -277,7 +278,7 @@ uv run ruff format src/
 
 -   Live forex.com broker integration (authentication, live prices, historical data)
 -   Symbol mapping system supporting multiple brokers
--   Comprehensive test suite (176/176 tests passing)
+-   Comprehensive test suite (190/190 tests passing)
 -   DRY compliance and code refactoring
 -   Production-ready error handling and logging
 
@@ -296,7 +297,7 @@ uv run ruff format src/
 
 ## 🏆 Current Achievements
 
--   **100% Test Coverage:** 176/176 tests passing
+-   **100% Test Coverage:** 190/190 tests passing
 -   **Production-Ready Broker Integration:** Working forex.com API integration
 -   **Comprehensive Feature Engineering:** 20+ technical indicators
 -   **Zero DRY Violations:** Clean, maintainable codebase

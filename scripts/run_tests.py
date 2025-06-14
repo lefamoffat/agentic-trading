@@ -41,7 +41,8 @@ def main():
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 
-    pytest_cmd = []
+    # Specify all top-level directories where tests can be found.
+    pytest_cmd = ["tests/", "src/"]
     
     if args.integration:
         print("Running INTEGRATION tests only.")

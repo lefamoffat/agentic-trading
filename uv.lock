@@ -55,11 +55,9 @@ dev = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
-    { name = "ta-lib" },
 ]
 ml = [
     { name = "stable-baselines3" },
-    { name = "ta-lib" },
     { name = "torch" },
 ]
 
@@ -89,8 +87,6 @@ requires-dist = [
     { name = "sqlalchemy", marker = "extra == 'database'", specifier = ">=2.0.0" },
     { name = "stable-baselines3", specifier = ">=2.2.0" },
     { name = "stable-baselines3", marker = "extra == 'ml'" },
-    { name = "ta-lib", marker = "extra == 'dev'" },
-    { name = "ta-lib", marker = "extra == 'ml'" },
     { name = "tensorflow", specifier = "==2.13.0" },
     { name = "torch", specifier = "==2.1.2" },
     { name = "torch", marker = "extra == 'ml'" },
@@ -3896,16 +3892,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/83/d3/803453b36afefb7c2
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a2/09/77d55d46fd61b4a135c444fc97158ef34a095e5681d0a6c10b75bf356191/sympy-1.14.0-py3-none-any.whl", hash = "sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5", size = 6299353, upload-time = "2025-04-27T18:04:59.103Z" },
 ]
-
-[[package]]
-name = "ta-lib"
-version = "0.6.4"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "numpy" },
-    { name = "setuptools" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ba/97/a49816dd468a18ee080cf3a04640772a9f6321790d4049cece2490c4b7ad/ta_lib-0.6.4.tar.gz", hash = "sha256:08f55bc5771a6d1ceb1a2b713aad7b05f04eb0061e980c9113571c532d32e9cb", size = 381774, upload-time = "2025-06-08T15:28:15.452Z" }
 
 [[package]]
 name = "tensorboard"

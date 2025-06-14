@@ -11,7 +11,7 @@ This project uses a hybrid architecture that leverages the strengths of two prim
 **Qlib is the designated framework for all data-centric operations.** Its responsibilities include:
 
 -   **Data Handling**: Managing financial datasets, including storage, format conversion, and calendar alignment.
--   **Feature Engineering**: Serving as the **sole engine** for calculating technical indicators and alpha factors. The project's custom indicator library has been deprecated in favor of Qlib's `Alpha158`, `Alpha360`, and other factor libraries.
+-   **Feature Engineering**: Serving as the **sole engine** for calculating technical indicators and alpha factors.
 -   **Backtesting**: Evaluating the performance of trained models and strategies at the portfolio level.
 
 Do not re-implement data processing or feature calculation logic that can be handled by Qlib.

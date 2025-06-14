@@ -47,6 +47,14 @@ class BaseTradingEnv(gym.Env, ABC):
         if "close" not in self.data.columns:
             raise ValueError("Data must contain 'close' column.")
 
+    @property
+    @abstractmethod
+    def portfolio_value(self) -> float:
+        """
+        Return the current total portfolio value (balance + unrealized PnL).
+        """
+        raise NotImplementedError
+
     @abstractmethod
     def _get_observation(self) -> np.ndarray:
         """
@@ -105,11 +113,11 @@ class BaseTradingEnv(gym.Env, ABC):
         self._take_action(action)
         self.current_step += 1
 
-        terminated = self.balance <= 0 or self.current_step >= len(self.data) - 1
-        truncated = False  # Can be customized in subclasses if needed
-
         reward = self._calculate_reward()
-        self.balance += reward  # In many trading envs, reward is the profit/loss
+        terminated = (
+            self.portfolio_value <= 0 or self.current_step >= len(self.data) - 1
+        )
+        truncated = False
 
         observation = self._get_observation()
         info = self._get_info()

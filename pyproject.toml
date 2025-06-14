@@ -44,7 +44,6 @@ dev = [
     "black>=23.0.0",
     "flake8>=6.0.0",
     "jupyter>=1.0.0",
-    "ta-lib",
 ]
 database = [
     "sqlalchemy>=2.0.0",
@@ -54,7 +53,6 @@ ml = [
     # Add ML dependencies separately for easier troubleshooting
     "torch",
     "stable-baselines3",
-    "ta-lib",
 ]
 
 [build-system]

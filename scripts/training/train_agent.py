@@ -18,6 +18,7 @@ import subprocess
 import numpy as np
 import pandas as pd
 from stable_baselines3.common.callbacks import EvalCallback
+from stable_baselines3.common.monitor import Monitor
 
 from src.agents.factory import agent_factory
 from src.environments.factory import environment_factory
@@ -104,8 +105,8 @@ def train_agent(
 
     # 2. Create Environments
     logger.info("Creating training and evaluation environments...")
-    train_env = environment_factory.create_environment("default", data=train_df)
-    eval_env = environment_factory.create_environment("default", data=eval_df)
+    train_env = Monitor(environment_factory.create_environment("default", data=train_df))
+    eval_env = Monitor(environment_factory.create_environment("default", data=eval_df))
 
     # 3. Create Agent
     logger.info(f"Creating agent: {agent_name}")

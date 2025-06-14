@@ -103,7 +103,6 @@ agentic-trading/
 │   ├── types.py           # Centralized type definitions
 │   └── exceptions.py      # Custom exception hierarchy
 ├── scripts/               # Executable scripts
-│   ├── data/              # Data download & processing
 │   ├── features/          # Qlib-based feature generation
 │   │   └── build_features.py
 │   ├── training/          # RL agent training scripts
@@ -117,20 +116,7 @@ agentic-trading/
 
 ## 🎮 Quick Start
 
-### 1. Download Historical Data
-
-```bash
-# Download EUR/USD data from forex.com
-uv run python scripts/data/download_historical.py --symbol "EUR/USD" --timeframe 1h --bars 365 --broker forex_com
-
-# Download GBP/USD data
-uv run python scripts/data/download_historical.py --symbol "GBP/USD" --timeframe 4h --bars 100 --broker forex_com
-
-# Available timeframes: 5m, 15m, 1h, 4h, 1d
-# Available brokers: forex_com
-```
-
-### 2. Build Features with Qlib
+### 1. Build Features with Qlib
 
 Before training, you must generate features from the raw data using Qlib.
 
@@ -138,7 +124,7 @@ Before training, you must generate features from the raw data using Qlib.
 uv run python scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
 ```
 
-### 3. Train an RL Agent
+### 2. Train an RL Agent
 
 Now you can run the training pipeline. This will use the features generated in the previous step.
 
@@ -150,7 +136,7 @@ uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h 
 uv run python scripts/training/train_agent.py --run-id <YOUR_RUN_ID>
 ```
 
-### 4. Run Tests
+### 3. Run Tests
 
 ```bash
 # Run unit tests (default, fast)
@@ -163,7 +149,7 @@ uv run python scripts/run_tests.py --all
 uv run python scripts/run_tests.py --integration
 ```
 
-### 5. Test Broker Integration
+### 4. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)
@@ -175,7 +161,7 @@ uv run python scripts/run_tests.py --integration -k "test_real_authentication_is
 
 ## 🧠 Technical Indicators Available
 
-Feature engineering is now handled by **Microsoft Qlib**, which provides access to a vast library of technical indicators and alpha factors, including the renowned `Alpha158` and `Alpha360` collections. The feature generation process is configurable and extensible within the `scripts/features/build_features.py` script.
+Feature engineering is handled by **Microsoft Qlib**, which provides access to a vast library of technical indicators and alpha factors, including the renowned `Alpha158` and `Alpha360` collections. The feature generation process is configurable and extensible within the `scripts/features/build_features.py` script.
 
 ## 🔍 Monitoring & Analysis
 
@@ -234,7 +220,6 @@ uv run ruff format src/
 -   Broker abstraction layer with factory pattern
 -   Modular market calendar system (forex, ready for stocks/crypto)
 -   Data standardization pipeline with quality validation
--   Broker-agnostic data download system
 -   Standardized CSV format: `timestamp,open,high,low,close,volume`
 
 **✅ Phase 3 Completed (Now Deprecated):**
@@ -245,7 +230,7 @@ uv run ruff format src/
 
 -   Live forex.com broker integration (authentication, live prices, historical data)
 -   Symbol mapping system supporting multiple brokers
--   Comprehensive test suite (190/190 tests passing)
+-   Comprehensive test suite
 -   DRY compliance and code refactoring
 -   Production-ready error handling and logging
 
@@ -263,14 +248,7 @@ uv run ruff format src/
 -   **Hyperparameter Optimization**: Build an HPO pipeline using Optuna and Qlib to automate the discovery of optimal agent configurations.
 -   **Live Trading Execution**: Refine the live trading strategy to be fully independent of the training environment.
 -   **Risk Management and Portfolio Optimization**: Integrate advanced risk controls and portfolio management techniques.
-
-## 🏆 Current Achievements
-
--   **Qlib-Powered Features**: State-of-the-art feature engineering pipeline.
--   **Production-Ready Training Pipeline**: Automated, metrics-driven RL training loop.
--   **Production-Ready Broker Integration**: Working forex.com API integration.
--   **Zero DRY Violations**: Clean, maintainable codebase.
--   **Type Safety**: Full type annotations and validation.
+-   **Add Test Coverage**: Add integration tests for the training pipeline and unit tests for the RL environment.
 
 ## 🤝 Contributing
 
@@ -286,4 +264,4 @@ This project is licensed under the MIT License.
 
 ## ⚠️ Disclaimer
 
-This software is for educational and research purposes only. Trading forex involves substantial risk and may not be suitable for all investors. Past performance is not indicative of future results.
+This software is for educational and research purposes only. Trading involves substantial risk and may not be suitable for all investors. Past performance is not indicative of future results.

@@ -59,6 +59,22 @@ class TradingEnv(BaseTradingEnv):
         self._last_portfolio_value = self.initial_balance
         self._portfolio_value = self.initial_balance
 
+    @property
+    def portfolio_value(self) -> float:
+        """
+        Calculate the current portfolio value.
+        """
+        current_price = self.data.iloc[self.current_step]["close"]
+        
+        # Calculate unrealized PnL
+        unrealized_pnl = 0.0
+        if self._position == Position.LONG:
+            unrealized_pnl = (current_price - self._position_entry_price) * (self.balance / self._position_entry_price)
+        elif self._position == Position.SHORT:
+            unrealized_pnl = (self._position_entry_price - current_price) * (self.balance / self._position_entry_price)
+            
+        return self.balance + unrealized_pnl
+
     def _get_observation(self) -> np.ndarray:
         """
         Get the observation for the current step.
@@ -117,6 +133,7 @@ class TradingEnv(BaseTradingEnv):
             
             self.balance += profit * (1 - self.trade_fee)
             self._position = Position.FLAT
+            self._position_entry_price = 0.0
 
         # Open new position
         if action != Position.FLAT:
@@ -127,17 +144,7 @@ class TradingEnv(BaseTradingEnv):
         """
         Calculate the reward, defined as the change in portfolio value.
         """
-        current_price = self.data.iloc[self.current_step]["close"]
-        
-        # Calculate current portfolio value
-        if self._position == Position.LONG:
-            unrealized_pnl = (current_price - self._position_entry_price) * (self.balance / self._position_entry_price)
-            self._portfolio_value = self.balance + unrealized_pnl
-        elif self._position == Position.SHORT:
-            unrealized_pnl = (self._position_entry_price - current_price) * (self.balance / self._position_entry_price)
-            self._portfolio_value = self.balance + unrealized_pnl
-        else: # Position.FLAT
-            self._portfolio_value = self.balance
+        self._portfolio_value = self.portfolio_value
         
         reward = self._portfolio_value - self._last_portfolio_value
         self._last_portfolio_value = self._portfolio_value

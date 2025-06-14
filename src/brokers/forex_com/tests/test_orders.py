@@ -9,6 +9,7 @@ from src.brokers.forex_com.orders import OrderHandler
 from src.brokers.forex_com.api import ApiClient
 from src.brokers.symbol_mapper import SymbolMapper, BrokerType
 from src.brokers.base import Order, OrderType, OrderSide, OrderStatus
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 @pytest.fixture
 def mock_api_client():
@@ -29,7 +30,7 @@ def order_handler(mock_api_client, symbol_mapper):
 @pytest.fixture
 def mock_orders_response():
     return {
-        "ActiveOrders": [
+        ForexComApiResponseKeys.ACTIVE_ORDERS: [
             {"OrderId": "1", "Market": {"Name": "EUR_USD"}, "Quantity": 5000.0, "Type": "Limit", "TriggerPrice": 1.1},
             {"OrderId": "2", "Market": {"Name": "USD_JPY"}, "Quantity": -8000.0, "Type": "Stop", "TriggerPrice": 150.0},
         ]

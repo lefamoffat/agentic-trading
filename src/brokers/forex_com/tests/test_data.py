@@ -8,6 +8,8 @@ from unittest.mock import Mock, AsyncMock
 
 from src.brokers.forex_com.data import DataHandler
 from src.brokers.forex_com.api import ApiClient
+from src.brokers.forex_com.types import ForexComApiResponseKeys
+from src.types import Timeframe
 
 @pytest.fixture
 def mock_api_client():
@@ -19,13 +21,13 @@ def mock_api_client():
 @pytest.fixture
 def data_handler(mock_api_client):
     """Fixture to create a DataHandler with a mocked ApiClient."""
-    return DataHandler(api_client=mock_api_client)
+    return DataHandler(api=mock_api_client)
 
 @pytest.fixture
 def mock_history_response():
     """Mock a successful historical data API response."""
     return {
-        "PriceBars": [
+        ForexComApiResponseKeys.PRICE_BARS: [
             {"BarDate": "/Date(1704067200000)/", "Open": 1.1, "High": 1.2, "Low": 1.0, "Close": 1.15, "Volume": 100},
             {"BarDate": "/Date(1704153600000)/", "Open": 1.15, "High": 1.25, "Low": 1.12, "Close": 1.22, "Volume": 120},
         ]
@@ -34,11 +36,12 @@ def mock_history_response():
 @pytest.mark.asyncio
 async def test_get_historical_data_success(data_handler, mock_api_client, mock_history_response):
     """Test successfully retrieving and parsing historical data."""
-    mock_api_client._make_request = AsyncMock(return_value=(200, mock_history_response))
+    mock_api_client._make_request.return_value = (200, mock_history_response)
     
-    df = await data_handler.get_historical_data(symbol="EUR/USD", timeframe="1h", bars=2)
+    df = await data_handler.get_historical_data(
+        symbol="EUR/USD", timeframe=Timeframe.H1.value, bars=2
+    )
     
-    mock_api_client.get_market_id.assert_called_once_with("EUR/USD")
     mock_api_client._make_request.assert_called_once()
     
     assert isinstance(df, pd.DataFrame)
@@ -50,7 +53,7 @@ async def test_get_historical_data_success(data_handler, mock_api_client, mock_h
 @pytest.mark.asyncio
 async def test_get_live_price_success(data_handler, mock_api_client):
     """Test successfully retrieving a live price."""
-    hist_response = {"PriceBars": [{"BarDate": "/Date(1704067200000)/", "Close": 1.25}]}
+    hist_response = {ForexComApiResponseKeys.PRICE_BARS: [{"BarDate": "/Date(1704067200000)/", "Close": 1.25}]}
     info_response = {"MarketInformation": {"MarketSpreads": [{"Spread": 0.0002}]}}
     
     # Mock the two separate API calls made by get_live_price

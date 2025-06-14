@@ -9,6 +9,7 @@ from src.brokers.forex_com.api import ApiClient
 from src.brokers.base import Order, OrderType, OrderSide, OrderStatus
 from src.brokers.symbol_mapper import SymbolMapper
 from src.utils.logger import get_logger
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 
 class OrderHandler:
@@ -44,7 +45,7 @@ class OrderHandler:
 
             if status_code == 200:
                 orders = []
-                active_orders = data.get("ActiveOrders", [])
+                active_orders = data.get(ForexComApiResponseKeys.ACTIVE_ORDERS, [])
                 for order_data in active_orders:
                     gc_symbol = order_data.get("Market", {}).get("Name", "")
                     try:

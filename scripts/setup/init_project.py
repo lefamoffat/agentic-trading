@@ -5,6 +5,7 @@ Project initialization script for agentic-trading
 
 import sys
 from pathlib import Path
+from src.types import Timeframe
 
 # Add src to path
 project_root = Path(__file__).parent.parent.parent
@@ -25,10 +26,10 @@ def init_project():
     logger.info("Creating project directories...")
     settings.create_directories()
     
-    # Create additional data subdirectories
-    timeframes = ["5m", "15m", "1h", "4h", "1d"]
-    for timeframe in timeframes:
-        (settings.data_path / "raw" / "historical" / timeframe).mkdir(parents=True, exist_ok=True)
+    # Create directories for each timeframe in raw/historical
+    for timeframe in Timeframe:
+        historical_dir = settings.data_path / "raw" / "historical" / timeframe.value
+        historical_dir.mkdir(parents=True, exist_ok=True)
     
     logger.info("Project directories created successfully")
     

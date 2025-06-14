@@ -2,6 +2,7 @@
 
 # PPO Configuration
 ppo:
+    policy: "MlpPolicy"
     learning_rate: 0.0003
     n_epochs: 10
     batch_size: 64

@@ -7,6 +7,7 @@ from unittest.mock import Mock, patch, AsyncMock
 
 from src.brokers.forex_com.account import AccountHandler
 from src.brokers.forex_com.api import ApiClient
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 @pytest.fixture
 def mock_api_client():
@@ -22,7 +23,7 @@ def account_handler(mock_api_client):
 def mock_account_response():
     """Mock a successful account info API response."""
     return {
-        "TradingAccounts": [
+        ForexComApiResponseKeys.TRADING_ACCOUNTS: [
             {
                 "TradingAccountId": 12345,
                 "AccountBalance": 50000.0,
@@ -58,7 +59,7 @@ async def test_get_account_info_success(account_handler, mock_api_client, mock_a
 async def test_get_account_info_no_accounts(account_handler, mock_api_client):
     """Test the case where the API returns no trading accounts."""
     # Configure the mock to return an empty list of accounts
-    empty_response = {"TradingAccounts": []}
+    empty_response = {ForexComApiResponseKeys.TRADING_ACCOUNTS: []}
     mock_api_client._make_request = AsyncMock(return_value=(200, empty_response))
     
     account_info = await account_handler.get_account_info()

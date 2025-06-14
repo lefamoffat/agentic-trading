@@ -13,6 +13,10 @@ dependencies = [
     "torch==2.1.2",
     "stable-baselines3>=2.2.0",
     "gymnasium>=0.29.0",
+    # MLOps and HPO
+    "mlflow>=2.21.0",
+    "optuna>=4.2.0",
+    "joblib==1.2.0",
     # Data & Finance
     "pandas>=2.0.0",
     "numpy<2.0",
@@ -34,6 +38,7 @@ dependencies = [
     "plotly>=5.15.0",
     "tensorflow==2.13.0",
     "fire>=0.7.0",
+    "PyYAML>=6.0.1",
 ]
 
 [project.optional-dependencies]
@@ -76,3 +81,48 @@ markers = [
     "asyncio: marks tests as async",
     "integration: marks tests as integration tests",
 ]
+
+[tool.uv.sources]
+"ray" = { url = "https://test.pypi.org/simple/" }
+
+[tool.ruff]
+# ... existing code ...
+# For a full list of supported rules, see:
+# https://docs.astral.sh/ruff/rules/
+# Note: F401 and F841 are for unused imports and variables. Consider removing in production.
+select = ["E", "F", "W", "I", "N", "D", "B", "C4", "A", "RUF"]
+ignore = ["D100", "D104", "D107"]
+
+# Allow unused variables in `__init__.py`.
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.mypy]
+# ... existing code ...
+# For a comprehensive list of mypy options, see:
+# https://mypy.readthedocs.io/en/stable/config_file.html
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "qlib.*",
+    "stable_baselines3.*",
+    "gymnasium.*",
+    "pytest.*",
+    "numpy.*",
+    "pandas.*",
+    "loguru.*",
+    "ruamel.yaml.*",
+    "ray.*",
+    "mlflow.*",
+    "optuna.*"
+]
+ignore_missing_imports = true
+
+[project.scripts]

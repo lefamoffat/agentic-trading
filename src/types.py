@@ -107,58 +107,6 @@ class DataQuality(Enum):
     POOR = "poor"
     INVALID = "invalid"
 
-# Feature engineering types
-class IndicatorType(Enum):
-    """Technical indicator types."""
-    # Trend indicators
-    SMA = "sma"
-    EMA = "ema"
-    WMA = "wma"
-    DEMA = "dema"
-    TEMA = "tema"
-    TRIMA = "trima"
-    KAMA = "kama"
-    MAMA = "mama"
-    T3 = "t3"
-    MACD = "macd"
-    ADX = "adx"
-    PARABOLIC_SAR = "parabolic_sar"
-    LINEAR_REGRESSION = "linear_regression"
-    ICHIMOKU = "ichimoku"
-    
-    # Momentum indicators
-    RSI = "rsi"
-    STOCH = "stoch"
-    STOCH_RSI = "stoch_rsi"
-    WILLIAMS_R = "williams_r"
-    ROC = "roc"
-    MFI = "mfi"
-    CCI = "cci"
-    CMO = "cmo"
-    
-    # Volatility indicators
-    BOLLINGER_BANDS = "bbands"
-    ATR = "atr"
-    NATR = "natr"
-    TRANGE = "trange"
-    KELTNER_CHANNELS = "keltner_channels"
-    STANDARD_DEVIATION = "standard_deviation"
-    HISTORICAL_VOLATILITY = "historical_volatility"
-    DONCHIAN_CHANNELS = "donchian_channels"
-    VIX = "vix"
-    
-    # Volume indicators
-    OBV = "obv"
-    AD = "ad"
-    ADOSC = "adosc"
-    VWAP = "vwap"
-    VWMA = "vwma"
-    CMF = "cmf"
-    VOLUME_OSCILLATOR = "volume_oscillator"
-    VROC = "vroc"
-    NVI = "nvi"
-    PVI = "pvi"
-
 # Calendar and time types
 class TradingSession(Enum):
     """Trading session types."""
@@ -221,7 +169,6 @@ DataValidator: TypeAlias = Callable[[pd.DataFrame], bool]
 DataProcessor: TypeAlias = Callable[[pd.DataFrame], pd.DataFrame]
 FeatureCalculator: TypeAlias = Callable[[pd.DataFrame], pd.DataFrame]
 SignalGenerator: TypeAlias = Callable[[pd.DataFrame], SignalType]
-IndicatorFunction: TypeAlias = Callable[[pd.DataFrame], pd.DataFrame]
 ValidationFunction: TypeAlias = Callable[..., bool]
 StrategyFunction: TypeAlias = Callable[[pd.DataFrame], pd.Series]
 

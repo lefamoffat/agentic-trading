@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import inspect
 from collections import Counter
+import unittest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -24,11 +25,11 @@ from src.types import (
     
     # Enums
     BrokerType, AssetClass, Timeframe, OrderType, OrderSide, OrderStatus,
-    IndicatorType, MarketSession, EventImportance, StrategyType,
+    MarketSession, EventImportance, StrategyType,
     SignalType, RiskLevel,
     
     # Function types
-    IndicatorFunction, ValidationFunction, StrategyFunction,
+    ValidationFunction, StrategyFunction,
     
     # Validation types
     ValidationResult, ErrorContext
@@ -73,8 +74,8 @@ class TestTypesFileStructure:
         
         # Ensure we found the expected classes
         expected_classes = {
-            'BrokerType', 'AssetClass', 'Timeframe', 'OrderType', 'OrderSide', 
-            'OrderStatus', 'DataQuality', 'IndicatorType', 'MarketSession', 'TradingSession',
+            'BrokerType', 'AssetClass', 'Timeframe', 'OrderType', 'OrderSide',
+            'OrderStatus', 'DataQuality', 'MarketSession', 'TradingSession',
             'EventImportance', 'StrategyType', 'SignalType', 'RiskLevel'
         }
         
@@ -85,17 +86,13 @@ class TestTypesFileStructure:
         """Test that all enum classes can be imported and are proper Enums."""
         enum_classes = [
             BrokerType, AssetClass, Timeframe, OrderType, OrderSide, OrderStatus,
-            IndicatorType, MarketSession, TradingSession, EventImportance, StrategyType, SignalType, RiskLevel
+            MarketSession, TradingSession, EventImportance, StrategyType, SignalType, RiskLevel
         ]
         
         for enum_class in enum_classes:
-            # Check it's actually an Enum
             assert issubclass(enum_class, Enum), f"{enum_class.__name__} is not an Enum subclass"
-            
-            # Check it has values
             assert len(enum_class) > 0, f"{enum_class.__name__} has no values"
-            
-            # Check all values are strings
+    
             for member in enum_class:
                 assert isinstance(member.value, str), f"{enum_class.__name__}.{member.name} value is not a string"
     
@@ -270,7 +267,7 @@ class TestTimeframe:
             Timeframe.from_minutes(7)  # Invalid timeframe
 
 
-class TestOrderTypes:
+class TestOrderEnums(unittest.TestCase):
     """Test order-related enums."""
     
     def test_order_type_values(self):
@@ -293,64 +290,6 @@ class TestOrderTypes:
         assert OrderStatus.CANCELLED.value == "cancelled"
         assert OrderStatus.REJECTED.value == "rejected"
         assert OrderStatus.PARTIALLY_FILLED.value == "partially_filled"
-
-
-class TestIndicatorType:
-    """Test IndicatorType enum."""
-    
-    def test_trend_indicators(self):
-        """Test trend indicator types."""
-        trend_indicators = [
-            IndicatorType.SMA, IndicatorType.EMA, IndicatorType.WMA,
-            IndicatorType.DEMA, IndicatorType.TEMA, IndicatorType.TRIMA,
-            IndicatorType.KAMA, IndicatorType.MAMA, IndicatorType.T3
-        ]
-        
-        for indicator in trend_indicators:
-            assert isinstance(indicator, IndicatorType)
-            assert isinstance(indicator.value, str)
-    
-    def test_momentum_indicators(self):
-        """Test momentum indicator types."""
-        momentum_indicators = [
-            IndicatorType.RSI, IndicatorType.STOCH, IndicatorType.STOCH_RSI,
-            IndicatorType.MACD, IndicatorType.ADX, IndicatorType.CCI,
-            IndicatorType.MFI, IndicatorType.WILLIAMS_R, IndicatorType.ROC,
-            IndicatorType.CMO
-        ]
-        
-        for indicator in momentum_indicators:
-            assert isinstance(indicator, IndicatorType)
-            assert indicator.value in [
-                "rsi", "stoch", "stoch_rsi", "macd", "adx", "cci",
-                "mfi", "williams_r", "roc", "cmo"
-            ]
-    
-    def test_volatility_indicators(self):
-        """Test volatility indicator types."""
-        volatility_indicators = [
-            IndicatorType.BOLLINGER_BANDS, IndicatorType.ATR, IndicatorType.NATR,
-            IndicatorType.TRANGE
-        ]
-        
-        for indicator in volatility_indicators:
-            assert isinstance(indicator, IndicatorType)
-    
-    def test_volume_indicators(self):
-        """Test volume indicator types."""
-        volume_indicators = [
-            IndicatorType.AD, IndicatorType.ADOSC, IndicatorType.OBV
-        ]
-        
-        for indicator in volume_indicators:
-            assert isinstance(indicator, IndicatorType)
-    
-    def test_all_indicators_have_values(self):
-        """Test all indicators have proper string values."""
-        for indicator in IndicatorType:
-            assert isinstance(indicator.value, str)
-            assert len(indicator.value) > 0
-            assert indicator.value.islower() or '_' in indicator.value
 
 
 class TestMarketSession:
@@ -426,14 +365,6 @@ class TestStrategyTypes:
 class TestFunctionTypes:
     """Test function type aliases."""
     
-    def test_indicator_function_type(self):
-        """Test IndicatorFunction type alias."""
-        def sample_indicator(data: pd.DataFrame, period: int = 14) -> pd.DataFrame:
-            return data
-        
-        func: IndicatorFunction = sample_indicator
-        assert callable(func)
-    
     def test_validation_function_type(self):
         """Test ValidationFunction type alias."""
         def sample_validator(value, **kwargs) -> bool:
@@ -502,7 +433,7 @@ class TestTypeIntegration:
         """Test that enum values are unique within each enum."""
         enums_to_test = [
             BrokerType, AssetClass, Timeframe, OrderType, OrderSide, 
-            OrderStatus, IndicatorType, MarketSession, TradingSession, EventImportance,
+            OrderStatus, MarketSession, TradingSession, EventImportance,
             StrategyType, SignalType, RiskLevel
         ]
         
@@ -513,8 +444,8 @@ class TestTypeIntegration:
     def test_enum_naming_conventions(self):
         """Test that enum values follow naming conventions."""
         enums_to_test = [
-            BrokerType, AssetClass, OrderType, OrderSide,
-            OrderStatus, IndicatorType, MarketSession, EventImportance,
+            BrokerType, AssetClass, OrderType, OrderSide, 
+            OrderStatus, MarketSession, TradingSession, EventImportance,
             StrategyType, SignalType, RiskLevel
         ]
         
@@ -529,30 +460,6 @@ class TestTypeIntegration:
             # Timeframe values can contain numbers and letters
             assert isinstance(member.value, str) and len(member.value) > 0, \
                 f"Invalid timeframe value: {member.value}"
-    
-    def test_comprehensive_indicator_coverage(self):
-        """Test that we have comprehensive indicator type coverage."""
-        # Should have at least 25+ indicators as mentioned in requirements
-        assert len(IndicatorType) >= 25
-        
-        # Should cover major categories
-        trend_count = len([i for i in IndicatorType if i.value in [
-            'sma', 'ema', 'wma', 'dema', 'tema', 'trima', 'kama', 'mama', 't3'
-        ]])
-        momentum_count = len([i for i in IndicatorType if i.value in [
-            'rsi', 'stoch', 'stoch_rsi', 'macd', 'adx', 'cci', 'mfi', 'williams_r', 'roc', 'cmo'
-        ]])
-        volatility_count = len([i for i in IndicatorType if i.value in [
-            'bbands', 'atr', 'natr', 'trange'
-        ]])
-        volume_count = len([i for i in IndicatorType if i.value in [
-            'ad', 'adosc', 'obv'
-        ]])
-        
-        assert trend_count >= 6, "Should have at least 6 trend indicators"
-        assert momentum_count >= 8, "Should have at least 8 momentum indicators"
-        assert volatility_count >= 3, "Should have at least 3 volatility indicators"
-        assert volume_count >= 3, "Should have at least 3 volume indicators"
 
 
 if __name__ == "__main__":

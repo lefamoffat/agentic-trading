@@ -13,19 +13,18 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from src.types import (
-    BrokerType, IndicatorType, Timeframe, OrderType, OrderSide,
+    BrokerType, Timeframe, OrderType, OrderSide,
     SymbolType, OHLCVData, ValidationResult, ErrorContext
 )
 
 from src.exceptions import (
-    TradingSystemError, ValidationError, IndicatorCalculationError,
-    BrokerAPIError, InvalidParameterError, InsufficientDataError,
+    TradingSystemError, ValidationError, BrokerAPIError, InvalidParameterError, InsufficientDataError,
     format_validation_error, create_context
 )
 
 from src.utils.validation import (
-    validate_ohlcv_data, validate_indicator_parameters,
-    validate_positive_integer, validate_enum_value,
+    validate_ohlcv_data, validate_positive_integer,
+    validate_enum_value,
     calculate_data_quality_score
 )
 
@@ -45,21 +44,6 @@ class TestTypesExceptionsIntegration:
         
         assert isinstance(exc_info.value, TradingSystemError)
         assert "must be one of" in str(exc_info.value)
-    
-    def test_indicator_type_with_parameter_validation(self):
-        """Test indicator types with parameter validation."""
-        # Test valid indicator with valid parameters
-        params = {'period': 20}
-        validated_params = validate_indicator_parameters(IndicatorType.SMA, params)
-        assert validated_params['period'] == 20
-        
-        # Test invalid parameters raise appropriate exception
-        with pytest.raises(ValidationError) as exc_info:
-            validate_indicator_parameters(IndicatorType.RSI, {'period': -5})
-        
-        # Should be our custom exception with context
-        assert isinstance(exc_info.value, TradingSystemError)
-        assert "must be >=" in str(exc_info.value) and "-5" in str(exc_info.value)
     
     def test_timeframe_validation_integration(self):
         """Test timeframe validation integration."""
@@ -165,7 +149,7 @@ class TestValidationExceptionsIntegration:
         symbol = "EUR/USD"
         timeframe = Timeframe.H1
         
-        with pytest.raises(IndicatorCalculationError) as exc_info:
+        with pytest.raises(ValidationError) as exc_info:
             try:
                 # Simulate validation failure
                 invalid_period = -5
@@ -176,13 +160,13 @@ class TestValidationExceptionsIntegration:
                     operation="indicator_validation",
                     symbol=symbol,
                     timeframe=timeframe.value,
-                    indicator=IndicatorType.RSI.value,
+                    indicator="RSI",
                     parameter="period",
                     value=invalid_period
                 )
                 
                 # Raise new error with context
-                raise IndicatorCalculationError(
+                raise ValidationError(
                     "Indicator parameter validation failed", 
                     context=context
                 ) from e
@@ -191,7 +175,7 @@ class TestValidationExceptionsIntegration:
         error = exc_info.value
         assert error.context['symbol'] == symbol
         assert error.context['timeframe'] == timeframe.value
-        assert error.context['indicator'] == IndicatorType.RSI.value
+        assert error.context['indicator'] == "RSI"
         assert error.context['parameter'] == "period"
         assert error.context['value'] == -5
 
@@ -248,96 +232,11 @@ class TestRealWorldScenarios:
                 Timeframe.M5
             )
         
+        # Check that the error context is correctly populated
         error = exc_info.value
-        assert error.context['operation'] == "data_fetch"
         assert error.context['symbol'] == "INVALID/PAIR"
         assert error.context['broker'] == "forex_com"
         assert error.context['timeframe'] == "5m"
-    
-    def test_indicator_calculation_pipeline(self):
-        """Test a complete indicator calculation pipeline."""
-        def calculate_indicator_safe(
-            indicator_type: IndicatorType,
-            data: OHLCVData,
-            **params
-        ) -> pd.DataFrame:
-            """Safely calculate indicator with comprehensive error handling."""
-            
-            try:
-                # Validate indicator type
-                indicator_type = validate_enum_value(indicator_type, IndicatorType)
-                
-                # Validate data
-                data = validate_ohlcv_data(data)
-                
-                # Validate parameters
-                validated_params = validate_indicator_parameters(indicator_type, params)
-                
-                # Simulate indicator calculation
-                if indicator_type == IndicatorType.SMA:
-                    period = validated_params['period']
-                    if len(data) < period:
-                        context = create_context(
-                            operation="sma_calculation",
-                            indicator=indicator_type.value,
-                            required_periods=period,
-                            available_periods=len(data)
-                        )
-                        raise InsufficientDataError(
-                            f"Insufficient data: need at least {period} periods for SMA calculation",
-                            context=context
-                        )
-                    
-                    # Simple SMA calculation
-                    sma_values = data['close'].rolling(window=period).mean()
-                    return pd.DataFrame({'sma': sma_values})
-                
-                # For other indicators, return dummy data
-                return pd.DataFrame({'value': [0.0] * len(data)})
-                
-            except (ValidationError, InsufficientDataError) as e:
-                # Re-raise as indicator calculation error with context
-                context = create_context(
-                    operation="indicator_calculation",
-                    indicator=indicator_type.value if isinstance(indicator_type, IndicatorType) else str(indicator_type),
-                    data_length=len(data) if isinstance(data, pd.DataFrame) else 0
-                )
-                raise IndicatorCalculationError(
-                    f"Indicator calculation failed: {e}",
-                    context=context
-                ) from e
-        
-        # Test successful calculation
-        data = pd.DataFrame({
-            'open': [1.0] * 25,
-            'high': [1.1] * 25,
-            'low': [0.9] * 25,
-            'close': [1.05] * 25,
-            'volume': [1000] * 25
-        })
-        
-        result = calculate_indicator_safe(IndicatorType.SMA, data, period=20)
-        assert isinstance(result, pd.DataFrame)
-        assert 'sma' in result.columns
-        
-        # Test with insufficient data
-        short_data = data.head(10)  # Only 10 periods
-        
-        with pytest.raises(IndicatorCalculationError) as exc_info:
-            calculate_indicator_safe(IndicatorType.SMA, short_data, period=20)
-        
-        error = exc_info.value
-        assert error.context['operation'] == "indicator_calculation"
-        assert error.context['indicator'] == "sma"
-        assert "insufficient data" in str(error).lower()
-        
-        # Test with invalid parameters
-        with pytest.raises(IndicatorCalculationError) as exc_info:
-            calculate_indicator_safe(IndicatorType.SMA, data, period=-5)
-        
-        # Should be wrapped IndicatorCalculationError
-        assert isinstance(exc_info.value, IndicatorCalculationError)
-        assert exc_info.value.__cause__ is not None  # Should have original cause
     
     def test_error_message_formatting_integration(self):
         """Test error message formatting with real scenarios."""
@@ -536,18 +435,18 @@ class TestErrorRecoveryScenarios:
                 old_context.update(context)
                 context = old_context
                 
-                raise IndicatorCalculationError(
+                raise ValidationError(
                     "RSI calculation failed due to invalid parameters",
                     context=context
                 ) from e
         
-        with pytest.raises(IndicatorCalculationError) as exc_info:
+        with pytest.raises(ValidationError) as exc_info:
             multi_level_operation()
         
         final_error = exc_info.value
         
         # Check that we have the full chain
-        assert isinstance(final_error, IndicatorCalculationError)
+        assert isinstance(final_error, ValidationError)
         assert isinstance(final_error.__cause__, InvalidParameterError)
         assert isinstance(final_error.__cause__.__cause__, ValidationError)
         

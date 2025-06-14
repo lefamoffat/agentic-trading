@@ -73,27 +73,27 @@ class BaseAgent(ABC):
     def train(
         self,
         total_timesteps: int,
+        callback: Any = "auto",
         model_params: Optional[Dict[str, Any]] = None,
-        callback: Optional[BaseCallback] = None,
-        tensorboard_log_path: Optional[str] = None,
+        tb_log_name: Optional[str] = "PPO",
     ) -> None:
         """
-        Train the RL agent.
+        Train the agent's model.
+
+        If a model already exists, it continues training. Otherwise, it creates
+        a new model.
 
         Args:
             total_timesteps (int): The total number of samples (env steps) to train on.
+            callback (Any): A callback function for the training process.
             model_params (Optional[Dict[str, Any]]): Hyperparameters for the model.
-            callback (Optional[BaseCallback]): A `stable-baselines3` callback or list of callbacks.
-            tensorboard_log_path (Optional[str]): Path to the directory for TensorBoard logs.
+            tb_log_name (Optional[str]): The name for the TensorBoard log.
         """
-        # Create a new model only if one hasn't been loaded
         if self.model is None:
             self.logger.info("Creating new model for training...")
-            self.model = self._create_model(
-                model_params=model_params, tensorboard_log_path=tensorboard_log_path
-            )
+            self.model = self._create_model(model_params=model_params)
         else:
-            self.logger.info("Continuing training with loaded model...")
+            self.logger.info("Continuing training with existing model...")
 
         self.logger.info(f"Starting training for {total_timesteps} timesteps...")
         self.model.learn(

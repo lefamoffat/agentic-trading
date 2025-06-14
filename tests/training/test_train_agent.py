@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from scripts.training.train_agent import train_agent
+from scripts.training.train_agent import train_agent_session
 from src.agents.factory import agent_factory
 from src.environments.factory import environment_factory
 from src.utils.config_loader import ConfigLoader
@@ -87,12 +87,13 @@ def test_train_agent_integration(training_env_setup, monkeypatch):
     monkeypatch.setattr(ConfigLoader, "load_config", mock_load_config)
 
     # 3. Run the training process
-    train_agent(
+    train_agent_session(
         agent_name="PPO",
         symbol=symbol,
         timeframe="1h",
-        total_timesteps=16,  # Must be a multiple of n_steps
+        timesteps=16,  # Must be a multiple of n_steps
         run_id=run_id,
+        initial_balance=10000 # Add the required balance argument
     )
 
     # 4. Verify that model and log files were created

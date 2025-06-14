@@ -206,50 +206,6 @@ uv run ruff check src/
 uv run ruff format src/
 ```
 
-## 📝 Development Status
-
-**✅ Phase 1 Completed:**
-
--   Project structure and configuration
--   Core utilities (config loader, logging, settings)
--   YAML configuration files
--   Environment setup and project initialization
-
-**✅ Phase 2 Completed:**
-
--   Broker abstraction layer with factory pattern
--   Modular market calendar system (forex, ready for stocks/crypto)
--   Data standardization pipeline with quality validation
--   Standardized CSV format: `timestamp,open,high,low,close,volume`
-
-**✅ Phase 3 Completed (Now Deprecated):**
-
--   The original, custom feature engineering framework has been **deprecated and removed** in favor of a more robust Qlib-based pipeline.
-
-**✅ Phase 4 Completed:**
-
--   Live forex.com broker integration (authentication, live prices, historical data)
--   Symbol mapping system supporting multiple brokers
--   Comprehensive test suite
--   DRY compliance and code refactoring
--   Production-ready error handling and logging
-
-**✅ Phase 5 Completed:**
-
--   **Qlib Integration**: Successfully integrated Qlib as the core feature engineering engine.
--   **RL Environment**: Implemented a `gymnasium`-compatible trading environment.
--   **RL Agents**: Built a modular framework for RL agents using `stable-baselines3`.
--   **RL Training Pipeline**: Created a robust, end-to-end training script with automated evaluation, best-model saving, and TensorBoard logging.
--   **Strategy Framework**: Established a base for connecting agents to live trading execution.
-
-**📋 Upcoming Phases:**
-
--   **Backtesting Framework**: Implement a Qlib-native backtesting strategy to evaluate trained agents.
--   **Hyperparameter Optimization**: Build an HPO pipeline using Optuna and Qlib to automate the discovery of optimal agent configurations.
--   **Live Trading Execution**: Refine the live trading strategy to be fully independent of the training environment.
--   **Risk Management and Portfolio Optimization**: Integrate advanced risk controls and portfolio management techniques.
--   **Add Test Coverage**: Add integration tests for the training pipeline and unit tests for the RL environment.
-
 ## 🤝 Contributing
 
 1. Fork the repository

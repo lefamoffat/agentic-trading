@@ -10,201 +10,184 @@ Usage:
     python -m scripts.training.train_agent [options]
 """
 import argparse
-from datetime import datetime
-from pathlib import Path
-from typing import Optional
-import subprocess
-
-import numpy as np
+import mlflow
 import pandas as pd
+from pathlib import Path
+
+from src.agents.factory import agent_factory
+from src.data.pipelines import run_data_preparation_pipeline
+from src.environments.factory import environment_factory
+from src.utils.logger import get_logger
+from src.utils.config_loader import ConfigLoader
 from stable_baselines3.common.callbacks import EvalCallback
 from stable_baselines3.common.monitor import Monitor
 
-from src.agents.factory import agent_factory
-from src.environments.factory import environment_factory
-from src.utils.config_loader import ConfigLoader
-from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
-def train_agent(
+def setup_mlflow(run_name: str):
+    """Configure and start the MLflow tracking run."""
+    mlflow.set_experiment("agentic-trading")
+    run = mlflow.start_run(run_name=run_name)
+    logger.info(f"MLflow Run ID: {run.info.run_id}")
+    return run.info.run_id
+
+
+def load_and_preprocess_data(symbol: str, timeframe: str) -> (pd.DataFrame, pd.DataFrame):
+    """Load and preprocess the feature data, splitting it into train and eval sets."""
+    sanitized_symbol = symbol.replace("/", "")
+    features_path = Path(f"data/processed/features/{sanitized_symbol}_{timeframe}_features.csv")
+    
+    logger.info(f"Loading data from {features_path}...")
+    try:
+        data_df = pd.read_csv(features_path)
+        # The timestamp column is loaded as a string, convert it to datetime
+        data_df["timestamp"] = pd.to_datetime(data_df["timestamp"])
+        data_df.set_index("timestamp", inplace=True)
+        data_df.dropna(inplace=True)
+        data_df.reset_index(drop=True, inplace=True)
+    except FileNotFoundError:
+        logger.error(f"Feature file not found at {features_path}. Please run the data preparation pipeline.")
+        return None, None
+        
+    train_size = int(len(data_df) * 0.8)
+    train_df, eval_df = data_df.iloc[:train_size], data_df.iloc[train_size:]
+    logger.info(f"Training data: {len(train_df)} samples, Evaluation data: {len(eval_df)} samples")
+    return train_df, eval_df
+
+
+def train_agent_session(
+    run_id: str,
     agent_name: str,
     symbol: str,
     timeframe: str,
-    total_timesteps: int,
-    run_id: Optional[str] = None,
-) -> None:
+    timesteps: int,
+    initial_balance: float,
+):
     """
-    Train an RL agent with evaluation and TensorBoard logging.
+    Orchestrates the agent training and evaluation process for a given session.
 
     Args:
-        agent_name (str): The name of the agent to train (e.g., "PPO").
-        symbol (str): The trading symbol to use for training data (e.g., "EURUSD").
-        timeframe (str): The timeframe of the training data (e.g., "1h").
-        total_timesteps (int): The number of timesteps to train for.
-        run_id (Optional[str]): The ID of a previous run to resume training from.
+        run_id (str): The ID of the MLflow run for tracking.
+        agent_name (str): Name of the agent to train (e.g., 'PPO').
+        symbol (str): Trading symbol (e.g., 'EUR/USD').
+        timeframe (str): Timeframe for the data (e.g., '1d').
+        timesteps (int): Total number of timesteps for training.
+        initial_balance (float): The initial balance for the trading environment.
     """
-    logger = get_logger(__name__)
-    config_loader = ConfigLoader()
-    agent_config = config_loader.load_config("agent_config")
-    training_config = agent_config.get("training", {})
-
-    # --- Step 0: Build Features ---
-    logger.info("Building features with Qlib...")
-    try:
-        subprocess.run(
-            [
-                "python",
-                "-m",
-                "scripts.features.build_features",
-                "--symbol",
-                symbol,
-                "--timeframe",
-                timeframe,
-            ],
-            check=True,
-        )
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Feature building failed: {e}")
-        return
-    except FileNotFoundError:
-        logger.error(
-            "Could not find the feature building script. Make sure you are in the project root."
-        )
-        return
-
-    # --- Setup Run ID and Paths ---
-    if run_id:
-        logger.info(f"Resuming training for run ID: {run_id}")
-    else:
-        run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
-        logger.info(f"Starting new training run with ID: {run_id}")
-    
-    model_dir = Path(f"data/models/{agent_name}/{run_id}")
-    log_dir = Path(f"logs/tensorboard/{agent_name}/{run_id}")
-    model_dir.mkdir(parents=True, exist_ok=True)
+    log_dir = Path("logs/tensorboard") / agent_name / run_id
     log_dir.mkdir(parents=True, exist_ok=True)
     
-    best_model_path = model_dir / "best_model.zip"
-    final_model_path = model_dir / "final_model.zip"
-
-    # 1. Load and Split Data
-    sanitized_symbol = symbol.replace("/", "")
-    data_path = Path(f"data/processed/features/{sanitized_symbol}_{timeframe}_features.csv")
-    if not data_path.exists():
-        logger.error(f"Feature file not found at {data_path}. Please generate features first.")
+    # 1. Run Data Pipeline
+    logger.info("Starting full data preparation pipeline...")
+    if not run_data_preparation_pipeline(symbol, timeframe):
+        logger.error("Data preparation pipeline failed.")
+        mlflow.end_run(status="FAILED")
         return
-    
-    logger.info(f"Loading data from {data_path}...")
-    df = pd.read_csv(data_path, index_col="timestamp", parse_dates=True)
-    
-    # Time-based split for training and validation (80/20)
-    train_size = int(len(df) * 0.8)
-    train_df, eval_df = df[:train_size], df[train_size:]
-    logger.info(f"Training data: {len(train_df)} samples")
-    logger.info(f"Evaluation data: {len(eval_df)} samples")
-
-    # 2. Create Environments
+        
+    # 2. Load Data
+    train_df, eval_df = load_and_preprocess_data(symbol, timeframe)
+    if train_df is None or eval_df is None:
+        mlflow.end_run(status="FAILED")
+        return
+        
+    # 3. Create Environments
     logger.info("Creating training and evaluation environments...")
-    train_env = Monitor(environment_factory.create_environment("default", data=train_df))
-    eval_env = Monitor(environment_factory.create_environment("default", data=eval_df))
+    train_env = Monitor(environment_factory.create_environment(
+        name="default",
+        data=train_df,
+        initial_balance=initial_balance,
+    ))
+    eval_env = Monitor(environment_factory.create_environment(
+        name="default",
+        data=eval_df,
+        initial_balance=initial_balance,
+    ))
 
-    # 3. Create Agent
+    # 4. Create Agent
     logger.info(f"Creating agent: {agent_name}")
-    agent = agent_factory.create_agent(name=agent_name, env=train_env)
-    
-    # Load model if resuming a run
-    if run_id and best_model_path.exists():
-        logger.info(f"Loading best model from previous run: {best_model_path}")
-        agent.load(best_model_path)
+    agent = agent_factory.create_agent(
+        name=agent_name,
+        env=train_env,
+        tensorboard_log_path=str(log_dir)
+    )
 
-    # 4. Set up Callbacks
+    # 5. Set up Callbacks
     logger.info("Setting up evaluation callback...")
+    model_dir = Path("data/models") / agent_name / run_id
+    model_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Load training params from config to make eval_freq configurable
+    config_loader = ConfigLoader()
+    agent_config = config_loader.load_config("agent_config")
+    training_params = agent_config.get("training", {})
+    eval_freq = training_params.get("eval_frequency", 500)
+
     eval_callback = EvalCallback(
         eval_env,
         best_model_save_path=str(model_dir),
-        log_path=str(log_dir),
-        eval_freq=training_config.get("eval_frequency", 500),
-        n_eval_episodes=training_config.get("eval_episodes", 5),
+        log_path=str(model_dir),
+        eval_freq=eval_freq,
         deterministic=True,
         render=False,
-        verbose=1,
-    )
-    
-    # 5. Train Agent
-    logger.info(f"Starting training for {total_timesteps} timesteps...")
-    model_params = agent_config.get(agent_name.lower(), {})
-    agent.train(
-        total_timesteps=total_timesteps,
-        model_params=model_params,
-        callback=eval_callback,
-        tensorboard_log_path=str(log_dir),
     )
 
-    # 6. Save Final Model
+    # 6. Train Agent
+    logger.info(f"Starting training for {timesteps} timesteps...")
+    agent.train(
+        total_timesteps=timesteps,
+        callback=eval_callback,
+    )
+    logger.info("Training complete.")
+
+    # 7. Save and Log Final Model
+    final_model_path = model_dir / "final_model.zip"
     logger.info(f"Saving final model to {final_model_path}...")
     agent.save(final_model_path)
+    
+    logger.info(f"Logging model artifact: {final_model_path}")
+    mlflow.log_artifact(str(final_model_path), "model")
+
+    best_model_path = model_dir / "best_model.zip"
     logger.info(f"Training run {run_id} complete.")
     logger.info(f"Best model saved at: {best_model_path}")
-    logger.info(f"To view logs, run: tensorboard --logdir {log_dir}")
+    logger.info(f"To view logs, run: tensorboard --logdir {log_dir.parent.parent}")
+    logger.info("To view MLflow UI, run: mlflow ui")
+    mlflow.end_run()
 
 
 def main():
-    """Main function."""
+    """Main entry point for the training script."""
     parser = argparse.ArgumentParser(description="Train an RL trading agent")
-    parser.add_argument(
-        "--agent",
-        type=str,
-        default="PPO",
-        help="The name of the agent to train (default: PPO)",
-    )
-    parser.add_argument(
-        "--symbol",
-        type=str,
-        default="EUR/USD",
-        help="The trading symbol to use (e.g., EUR/USD)",
-    )
-    parser.add_argument(
-        "--timeframe",
-        type=str,
-        default="1h",
-        help="The timeframe for the data (e.g., 1h)",
-    )
-    parser.add_argument(
-        "--timesteps",
-        type=int,
-        default=20000,
-        help="The number of timesteps to train for (default: 20000)",
-    )
-    parser.add_argument(
-        "--run-id",
-        type=str,
-        default=None,
-        help="The ID of a previous run to resume training from (e.g., '20250613-122345')",
-    )
-
+    parser.add_argument("--agent", type=str, default="PPO", help="Agent to train (e.g., PPO)")
+    parser.add_argument("--symbol", type=str, default="EUR/USD", help="Symbol to train on")
+    parser.add_argument("--timeframe", type=str, default="1d", help="Timeframe of the data")
+    parser.add_argument("--timesteps", type=int, default=10000, help="Number of timesteps to train for")
+    parser.add_argument("--balance", type=float, default=10000, help="Initial account balance")
     args = parser.parse_args()
 
-    # Sanitize symbol for file paths
-    sanitized_symbol = args.symbol.replace("/", "")
-
     print("🚀 Starting Agent Training")
-    print("=" * 40)
+    print("========================================")
     print(f"Agent: {args.agent}")
-    print(f"Symbol: {args.symbol} (Sanitized: {sanitized_symbol})")
+    print(f"Symbol: {args.symbol}")
     print(f"Timeframe: {args.timeframe}")
     print(f"Timesteps: {args.timesteps}")
-    if args.run_id:
-        print(f"Resuming from Run ID: {args.run_id}")
-    print("=" * 40)
-
-    train_agent(
+    print(f"Initial Balance: {args.balance}")
+    print("========================================")
+    
+    run_name = f"{args.agent}_{args.symbol.replace('/', '')}_{args.timeframe}_{args.timesteps}"
+    run_id = setup_mlflow(run_name)
+    
+    train_agent_session(
+        run_id=run_id,
         agent_name=args.agent,
-        symbol=sanitized_symbol,
+        symbol=args.symbol,
         timeframe=args.timeframe,
-        total_timesteps=args.timesteps,
-        run_id=args.run_id,
+        timesteps=args.timesteps,
+        initial_balance=args.balance,
     )
 
 
 if __name__ == "__main__":
-    main() 
+    main()

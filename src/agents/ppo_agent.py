@@ -4,12 +4,15 @@ PPO (Proximal Policy Optimization) Agent.
 """
 from typing import Any, Dict, Optional, Type
 import inspect
+import yaml
+from pathlib import Path
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.agents.base import BaseAgent
 from src.environments.base import BaseTradingEnv
+from src.utils.config_loader import ConfigLoader
 
 
 class PPOAgent(BaseAgent):
@@ -24,48 +27,56 @@ class PPOAgent(BaseAgent):
         """Get the stable-baselines3 PPO model class."""
         return PPO
 
-    def __init__(self, env: BaseTradingEnv):
+    def __init__(self, env: BaseTradingEnv, tensorboard_log_path: Optional[str] = None):
         """
         Initialize the PPO agent.
 
         Args:
             env (BaseTradingEnv): The trading environment.
+            tensorboard_log_path (Optional[str]): Path to the directory for TensorBoard logs.
         """
         super().__init__(env)
+        self.tensorboard_log_path = tensorboard_log_path
+        self.config_loader = ConfigLoader()
+
+    def _load_model_params(self, params_name: str) -> Dict[str, Any]:
+        """Load a named set of model parameters from the agent_config.yaml file."""
+        try:
+            agent_config = self.config_loader.get_agent_config()
+            params = agent_config.get(params_name)
+
+            if params is None:
+                self.logger.warning(f"'{params_name}' parameter set not found in agent_config.yaml. Using empty params.")
+                return {}
+            
+            self.logger.info(f"Loaded '{params_name}' parameter set from agent_config.yaml.")
+            return params
+        except FileNotFoundError:
+            self.logger.warning(f"agent_config.yaml not found. Using empty params.")
+            return {}
 
     def _create_model(
         self,
         model_params: Optional[Dict[str, Any]] = None,
-        tensorboard_log_path: Optional[str] = None,
+        model_params_name: str = "ppo",
     ) -> BaseAlgorithm:
         """
         Create the `stable-baselines3` PPO model instance.
 
         Args:
             model_params (Optional[Dict[str, Any]]): Hyperparameters for the PPO model.
-            tensorboard_log_path (Optional[str]): Path to the directory for TensorBoard logs.
+                If provided, they will override the parameters loaded from the config file.
+            model_params_name (str): The name of the parameter set to load from the config file (e.g., 'ppo').
 
         Returns:
             BaseAlgorithm: An instance of the PPO algorithm.
         """
-        params = model_params or {}
-        
-        # Default PPO parameters if not provided
-        default_params = {
-            "policy": "MlpPolicy",
-            "learning_rate": 3e-4,
-            "n_steps": 2048,
-            "batch_size": 64,
-            "n_epochs": 10,
-            "gamma": 0.99,
-            "gae_lambda": 0.95,
-            "clip_range": 0.2,
-            "ent_coef": 0.0,
-            "verbose": 0,
-        }
-        
-        # Merge provided params with defaults
-        merged_params = {**default_params, **params}
+        # Load default params from the YAML file
+        default_params = self._load_model_params(model_params_name)
+
+        # Merge provided params with defaults (provided params take precedence)
+        user_params = model_params or {}
+        merged_params = {**default_params, **user_params}
 
         # Filter out unexpected arguments to prevent TypeErrors
         ppo_constructor_args = inspect.signature(PPO).parameters.keys()
@@ -79,6 +90,6 @@ class PPOAgent(BaseAgent):
         
         return PPO(
             env=self.env,
-            tensorboard_log=tensorboard_log_path,
+            tensorboard_log=self.tensorboard_log_path,
             **final_params,
         ) 

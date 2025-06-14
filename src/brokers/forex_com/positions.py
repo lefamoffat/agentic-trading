@@ -8,6 +8,7 @@ from src.brokers.forex_com.api import ApiClient
 from src.brokers.base import Position
 from src.brokers.symbol_mapper import SymbolMapper
 from src.utils.logger import get_logger
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 
 class PositionHandler:
@@ -41,7 +42,7 @@ class PositionHandler:
 
             if status == 200:
                 positions = []
-                open_positions = data.get("OpenPositions", [])
+                open_positions = data.get(ForexComApiResponseKeys.OPEN_POSITIONS, [])
                 for pos_data in open_positions:
                     gc_symbol = pos_data.get("Market", {}).get("Name", "")
                     try:

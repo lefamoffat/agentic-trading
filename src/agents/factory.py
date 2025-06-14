@@ -36,13 +36,14 @@ class AgentFactory:
         self.logger.info(f"Registering agent: {name}")
         self._agents[name] = agent_class
 
-    def create_agent(self, name: str, env: BaseTradingEnv) -> BaseAgent:
+    def create_agent(self, name: str, env: BaseTradingEnv, tensorboard_log_path: str = None) -> BaseAgent:
         """
         Create an instance of an RL agent.
 
         Args:
             name (str): The name of the agent to create.
             env (BaseTradingEnv): The trading environment for the agent.
+            tensorboard_log_path (str, optional): Path for TensorBoard logs. Defaults to None.
 
         Returns:
             BaseAgent: An instance of the specified agent.
@@ -57,7 +58,7 @@ class AgentFactory:
             self.logger.error(f"Agent '{name}' not found.")
             raise ValueError(f"Agent '{name}' not found.")
 
-        return agent_class(env=env)
+        return agent_class(env=env, tensorboard_log_path=tensorboard_log_path)
 
 
 # Global instance of the factory

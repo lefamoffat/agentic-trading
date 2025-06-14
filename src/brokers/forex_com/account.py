@@ -6,6 +6,7 @@ from typing import Dict
 
 from src.brokers.forex_com.api import ApiClient
 from src.utils.logger import get_logger
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 
 class AccountHandler:
@@ -36,7 +37,7 @@ class AccountHandler:
             status, data = await self.api_client._make_request('GET', endpoint)
 
             if status == 200:
-                trading_accounts = data.get("TradingAccounts", [])
+                trading_accounts = data.get(ForexComApiResponseKeys.TRADING_ACCOUNTS, [])
                 if trading_accounts:
                     account = trading_accounts[0]
                     return {

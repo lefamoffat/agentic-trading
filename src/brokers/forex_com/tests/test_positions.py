@@ -8,6 +8,7 @@ from unittest.mock import Mock, AsyncMock
 from src.brokers.forex_com.positions import PositionHandler
 from src.brokers.forex_com.api import ApiClient
 from src.brokers.symbol_mapper import SymbolMapper, BrokerType
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 @pytest.fixture
 def mock_api_client():
@@ -29,7 +30,7 @@ def position_handler(mock_api_client, symbol_mapper):
 def mock_positions_response():
     """Mock a successful open positions API response."""
     return {
-        "OpenPositions": [
+        ForexComApiResponseKeys.OPEN_POSITIONS: [
             {
                 "Market": {"Name": "EUR_USD"},
                 "Quantity": 10000.0,

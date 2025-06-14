@@ -19,7 +19,7 @@ from src.utils.logger import get_logger
 from src.utils.settings import Settings
 from src.brokers.factory import broker_factory
 from src.data.processor import DataProcessor
-from src.types import BrokerType
+from src.types import BrokerType, Timeframe
 
 
 def _prepare_for_qlib(df: pd.DataFrame) -> pd.DataFrame:
@@ -66,7 +66,7 @@ def _prepare_for_qlib(df: pd.DataFrame) -> pd.DataFrame:
 async def download_historical_data(
     bars: int = 365, 
     symbol: str = "EUR/USD", 
-    timeframe: str = "1h",
+    timeframe: str = Timeframe.H1.value,
     broker: str = BrokerType.FOREX_COM.value
 ) -> None:
     """
@@ -180,9 +180,9 @@ def main():
     parser.add_argument(
         "--timeframe", 
         type=str, 
-        default="1h", 
-        choices=["5m", "15m", "1h", "4h", "1d"],
-        help="Timeframe for data (default: 1h)"
+        default=Timeframe.D1.value, 
+        choices=Timeframe.get_display_list(),
+        help="Timeframe for data (default: 1d)"
     )
     parser.add_argument(
         "--broker", 

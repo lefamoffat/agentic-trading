@@ -13,6 +13,7 @@ import os
 import pytest
 import pytest_asyncio
 from src.brokers.forex_com.broker import ForexComBroker
+from src.types import Timeframe
 
 @pytest.mark.integration
 class TestForexComBrokerIntegration:
@@ -71,7 +72,9 @@ class TestForexComBrokerIntegration:
     @pytest.mark.asyncio
     async def test_real_get_historical_data(self, authenticated_broker):
         """Test getting real historical data."""
-        df = await authenticated_broker.get_historical_data("EUR/USD", "1h", bars=10)
+        df = await authenticated_broker.get_historical_data(
+            "EUR/USD", Timeframe.H1.value, bars=10
+        )
         
         assert not df.empty
         assert len(df) == 10

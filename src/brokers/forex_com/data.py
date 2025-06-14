@@ -3,31 +3,37 @@ Data handler for Forex.com broker.
 """
 
 from typing import Dict, Tuple, Any
-from datetime import datetime
+from datetime import datetime, timedelta
 import pandas as pd
 
 from src.brokers.forex_com.api import ApiClient
 from src.utils.logger import get_logger
+from src.brokers.symbol_mapper import SymbolMapper
+from src.types import BrokerType
+from src.brokers.forex_com.types import ForexComApiResponseKeys, ForexComApiParams
 
 
 class DataHandler:
     """Handles historical and live price data operations."""
 
-    def __init__(self, api_client: ApiClient):
+    def __init__(self, api: ApiClient):
         """
         Initialize the data handler.
 
         Args:
-            api_client: The API client instance.
+            api: The API client instance.
         """
-        self.api_client = api_client
+        self.api = api
         self.logger = get_logger(__name__)
+        self.symbol_mapper = SymbolMapper(broker_type=BrokerType.FOREX_COM)
 
     def _get_timeframe_params(self, timeframe: str) -> Tuple[str, int]:
         """Maps our standard timeframes to GainCapital API intervals."""
         interval_map = {
+            "1m": ("MINUTE", 1),
             "5m": ("MINUTE", 5),
             "15m": ("MINUTE", 15),
+            "30m": ("MINUTE", 30),
             "1h": ("HOUR", 1),
             "4h": ("HOUR", 4),
             "1d": ("DAY", 1)
@@ -42,56 +48,41 @@ class DataHandler:
         else:
             return pd.to_datetime(date_str)
 
-    async def get_historical_data(
-        self,
-        symbol: str,
-        timeframe: str,
-        bars: int = 1000
-    ) -> pd.DataFrame:
+    async def get_historical_data(self, symbol: str, timeframe: str, bars: int) -> pd.DataFrame:
         """
-        Get historical price data using GainCapital API v2.
-
-        Args:
-            symbol: The symbol in common format.
-            timeframe: The timeframe (e.g., "5m", "1h").
-            bars: The number of bars to fetch.
-
-        Returns:
-            A DataFrame with OHLCV data.
+        Fetch historical price data for a given symbol and timeframe.
         """
-        try:
-            market_id = await self.api_client.get_market_id(symbol)
-            interval, span = self._get_timeframe_params(timeframe)
+        market_id = await self.api.get_market_id(symbol)
+        interval, span = self._get_timeframe_params(timeframe)
+        
+        endpoint = f"/market/{market_id}/barhistory"
+        
+        # The Forex.com API uses 'interval' and a different naming scheme
+        params = {
+            ForexComApiParams.INTERVAL: interval,
+            ForexComApiParams.SPAN: span,
+            ForexComApiParams.PRICE_BARS: bars,
+        }
 
-            params = {
-                "interval": interval,
-                "span": span,
-                "PriceBars": bars,
-                "PriceType": "MID"
+        status, data = await self.api._make_request('GET', endpoint, params=params)
+        
+        # Process and format the data
+        if status != 200 or not data or ForexComApiResponseKeys.PRICE_BARS not in data:
+            raise Exception(f"API request failed: Status {status}, Response: {data}")
+
+        price_bars = data[ForexComApiResponseKeys.PRICE_BARS]
+        rows = [
+            {
+                "timestamp": self._parse_dotnet_date(bar["BarDate"]),
+                "open": float(bar["Open"]),
+                "high": float(bar["High"]),
+                "low": float(bar["Low"]),
+                "close": float(bar["Close"]),
+                "volume": int(bar.get("Volume", 0))
             }
-            endpoint = f"/market/{market_id}/barhistory"
-            status_code, data = await self.api_client._make_request('GET', endpoint, params=params)
-
-            if status_code == 200:
-                price_bars = data.get("PriceBars", [])
-                rows = [
-                    {
-                        "timestamp": self._parse_dotnet_date(bar["BarDate"]),
-                        "open": float(bar["Open"]),
-                        "high": float(bar["High"]),
-                        "low": float(bar["Low"]),
-                        "close": float(bar["Close"]),
-                        "volume": int(bar.get("Volume", 0))
-                    }
-                    for bar in price_bars
-                ]
-                return pd.DataFrame(rows)
-            else:
-                raise Exception(f"API request failed: {status_code} - {data}")
-
-        except Exception as e:
-            self.logger.error(f"Error getting historical data for {symbol}: {e}")
-            raise
+            for bar in price_bars
+        ]
+        return pd.DataFrame(rows)
 
     async def get_live_price(self, symbol: str) -> Dict[str, Any]:
         """
@@ -107,23 +98,27 @@ class DataHandler:
             A dictionary with bid, ask, mid, spread, and timestamp.
         """
         try:
-            market_id = await self.api_client.get_market_id(symbol)
+            market_id = await self.api.get_market_id(symbol)
 
             # Get the latest bar to estimate current price
             hist_endpoint = f"/market/{market_id}/barhistory"
-            hist_params = {"interval": "MINUTE", "span": 5, "PriceBars": 1, "PriceType": "MID"}
-            hist_status, hist_data = await self.api_client._make_request('GET', hist_endpoint, params=hist_params, log_endpoint=False)
+            hist_params = {
+                ForexComApiParams.INTERVAL: "MINUTE",
+                ForexComApiParams.SPAN: 5,
+                ForexComApiParams.PRICE_BARS: 1
+            }
+            hist_status, hist_data = await self.api._make_request('GET', hist_endpoint, params=hist_params, log_endpoint=False)
 
-            if hist_status != 200 or not hist_data.get("PriceBars"):
+            if hist_status != 200 or not hist_data.get(ForexComApiResponseKeys.PRICE_BARS):
                 raise Exception(f"Could not get latest bar for live price: {hist_status} - {hist_data}")
 
-            latest_bar = hist_data["PriceBars"][0]
+            latest_bar = hist_data[ForexComApiResponseKeys.PRICE_BARS][0]
             close_price = float(latest_bar["Close"])
             timestamp = self._parse_dotnet_date(latest_bar["BarDate"])
 
             # Get market spread information
             info_endpoint = f"/market/{market_id}/information"
-            info_status, info_data = await self.api_client._make_request('GET', info_endpoint, log_endpoint=False)
+            info_status, info_data = await self.api._make_request('GET', info_endpoint, log_endpoint=False)
 
             spread = 0.0001  # Default spread
             if info_status == 200:

@@ -16,6 +16,7 @@ from src.brokers.forex_com.account import AccountHandler
 from src.brokers.forex_com.positions import PositionHandler
 from src.brokers.forex_com.orders import OrderHandler
 from src.brokers.forex_com.data import DataHandler
+from src.types import BrokerType, Timeframe
 
 
 class ForexComBroker(BaseBroker):
@@ -73,16 +74,13 @@ class ForexComBroker(BaseBroker):
         self,
         symbol: str,
         timeframe: str,
-        start_date: Optional[datetime] = None, # start_date and end_date are not used, we use bars
-        end_date: Optional[datetime] = None,
-        bars: int = 1000
+        bars: int
     ) -> pd.DataFrame:
         """Get historical price data by delegating to the data handler."""
-        # The new implementation uses 'bars' instead of date ranges to match the original logic
         return await self.data_handler.get_historical_data(symbol, timeframe, bars)
 
     async def get_live_price(self, symbol: str) -> Dict:
-        """Get live price for a symbol by delegating to the data handler."""
+        """Get live price data by delegating to the data handler."""
         return await self.data_handler.get_live_price(symbol)
 
     def map_symbol_to_broker(self, common_symbol: str) -> str:
@@ -92,3 +90,9 @@ class ForexComBroker(BaseBroker):
     def map_symbol_from_broker(self, broker_symbol: str) -> str:
         """Map a broker-specific symbol to the common format."""
         return self.symbol_mapper.from_broker_symbol(broker_symbol)
+
+    async def get_all_positions(self) -> list[Position]:
+        """
+        Get all positions by delegating to the position handler.
+        """
+        return await self.position_handler.get_positions()

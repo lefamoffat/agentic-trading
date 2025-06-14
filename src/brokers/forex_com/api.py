@@ -11,6 +11,7 @@ import aiohttp
 from src.brokers.forex_com.auth import AuthenticationHandler
 from src.utils.logger import get_logger
 from src.brokers.exceptions import JsonParseError
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 
 class ApiClient:
@@ -114,9 +115,9 @@ class ApiClient:
             status, data = await self._make_request('GET', endpoint, params=params, log_endpoint=False)
 
             if status == 200:
-                markets = data.get("Markets", [])
+                markets = data.get(ForexComApiResponseKeys.MARKETS, [])
                 if markets:
-                    market_id = str(markets[0]["MarketId"])
+                    market_id = str(markets[0][ForexComApiResponseKeys.MARKET_ID])
                     self._market_id_cache[symbol] = market_id
                     self.logger.debug(f"Found market ID {market_id} for symbol {symbol}")
                     return market_id

@@ -133,3 +133,9 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp 
+
+# MLflow
+mlruns/
+
+# Qlib
+data/qlib_data/

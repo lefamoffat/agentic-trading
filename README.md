@@ -2,32 +2,36 @@
 
 A sophisticated multi-asset reinforcement learning trading system with a broker-agnostic architecture, built with Microsoft Qlib and PyTorch.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## 🎯 Project Overview
 
-This project implements a reinforcement learning-based trading system with a modular, broker-agnostic architecture supporting multiple asset classes. It leverages:
+This project implements a reinforcement learning-based trading system with a modular, broker-agnostic architecture supporting multiple asset classes. It leverages a powerful combination of institutional-grade quantitative tools and cutting-edge machine learning libraries to create a robust, end-to-end solution for algorithmic trading.
 
--   **Microsoft Qlib** for institutional-grade feature engineering and quantitative analysis.
--   **Stable-Baselines3** for robust, pre-built reinforcement learning algorithms.
--   **Broker-Agnostic Design** with factory patterns for easy broker addition.
--   **Standardized Data Pipeline** ensuring consistent format across all sources.
--   **Gymnasium-based RL Environments** for standardized agent training.
--   **Live Trading Integration** with brokers (forex.com, others planned).
--   **Comprehensive Backtesting** and performance analysis via Qlib.
+For a deeper dive into the system's design, please see the [**Architecture Philosophy**](docs/architecture.md) and the [**Implementation Plan**](docs/implementation_plan.md).
 
 ## 🚀 Features
 
--   ✅ **Broker-Agnostic Architecture** - Modular design supporting multiple brokers (forex.com)
--   ✅ **Qlib-Powered Feature Engineering** - Leverages Qlib's alpha libraries for advanced feature creation.
--   ✅ **Standardized Data Pipeline** - Consistent CSV format across all data sources.
--   ✅ **Market Calendar System** - Modular calendar support (forex 24/5, stocks, crypto).
--   ✅ **RL Training Pipeline** - Automated training, evaluation, and model selection loop.
--   ✅ **Risk Management** - Built-in stop loss, take profit, and drawdown controls.
--   ✅ **Live Trading Ready** - Production-ready forex.com broker integration.
--   ✅ **Configurable** - YAML-based configuration for all parameters.
--   ✅ **Comprehensive Logging** - Detailed logging for training, trading, and TensorBoard visualization.
--   ✅ **100% Test Coverage** - Comprehensive validation for all core components.
--   ✅ **Experiment Tracking** - Integrated with MLflow for logging runs, metrics, and models.
--   ✅ **Hyperparameter Optimization** - Built-in Optuna script for automated HPO.
+-   ✅ **Broker-Agnostic Architecture**: Modular design supporting multiple brokers.
+-   ✅ **Qlib-Powered Feature Engineering**: Leverages Qlib's alpha libraries for advanced feature creation.
+-   ✅ **Standardized Data Pipeline**: Consistent data processing across all sources.
+-   ✅ **Gymnasium-based RL Environments**: Standardized environments for agent training.
+-   ✅ **Live Trading Integration**: Production-ready broker integrations.
+-   ✅ **Comprehensive Backtesting**: Rigorous performance analysis via Qlib.
+-   ✅ **Experiment Tracking**: Integrated with MLflow for logging runs, metrics, and models.
+-   ✅ **Hyperparameter Optimization**: Built-in Optuna script for automated HPO.
+-   ✅ **100% Test Coverage**: Comprehensive validation for all core components.
+
+## 📚 Documentation
+
+| Document                                               | Description                                                                |
+| ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| [**Getting Started**](docs/getting-started.md)         | A step-by-step guide to install, configure, and run the project.           |
+| [**Configuration**](docs/configuration.md)             | Detailed reference for all configuration files and environment variables.  |
+| [**Technical Overview**](docs/technical-overview.md)   | An overview of the project structure, feature engineering, and monitoring. |
+| [**Development Guide**](docs/development.md)           | Guidelines for testing, code quality, and contributing to the project.     |
+| [**Architecture Philosophy**](docs/architecture.md)    | Core principles guiding the project's design and library usage.            |
+| [**Implementation Plan**](docs/implementation_plan.md) | The phased roadmap for the project's evolution.                            |
 
 ## 📋 Prerequisites
 
@@ -40,7 +44,7 @@ This project implements a reinforcement learning-based trading system with a mod
 1. **Clone the repository**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/lefamoffat/agentic-trading.git
     cd agentic-trading
     ```
 
@@ -234,7 +238,7 @@ uv run ruff format src/
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## ⚠️ Disclaimer
 

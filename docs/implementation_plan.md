@@ -34,7 +34,7 @@ This foundational work ensures that as we add more complex features in subsequen
 
 ---
 
-## Phase 1: MLOps Foundation & Hyperparameter Optimization (HPO)
+## Phase 1: MLOps Foundation & Hyperparameter Optimization (HPO) (In Progress)
 
 **Goal:** Establish a robust system for tracking experiments and automatically finding optimal model hyperparameters. This is the foundation for the "smart" training sessions.
 
@@ -43,27 +43,28 @@ This foundational work ensures that as we add more complex features in subsequen
 -   **MLflow**: For experiment tracking, model registry, and performance dashboards.
 -   **Optuna**: For state-of-the-art hyperparameter optimization.
 
-### Implementation Steps:
+### Key Achievements:
 
-1.  **Integrate MLflow:**
+-   **MLflow Integration:**
+    -   Successfully integrated the `mlflow` library into the training pipeline.
+    -   The training script (`scripts/training/train_agent.py`) now logs all critical information to a tracking server:
+        -   Hyperparameters from `agent_config.yaml`.
+        -   Custom performance metrics (Sharpe ratio, profit, drawdown) via a custom callback.
+        -   The final trained model artifact, correctly packaged and registered in the MLflow Model Registry.
+-   **Local MLflow Environment:**
+    -   Created a `scripts/setup/launch_mlflow.sh` script to spin up a local, persistent MLflow server using Docker, streamlining the development workflow.
+-   **Robust Data & Configuration Pipeline:**
+    -   Systematically debugged and hardened the entire pipeline, from Qlib frequency handling to resolving ambiguous configuration files, ensuring reliable and repeatable runs.
 
-    -   Add `mlflow` to the project dependencies.
-    -   Modify the training script (`scripts/training/train_agent.py`) to log all relevant information to MLflow:
-        -   Hyperparameters (`agent_config.yaml`).
-        -   Performance metrics (Sharpe ratio, profit, drawdown).
-        -   The trained model artifact itself, directly to the MLflow Model Registry.
-        -   A unique `run_id` for traceability.
+### Next Steps:
 
-2.  **Integrate Optuna:**
+1.  **Integrate Optuna for HPO:**
 
     -   Add `optuna` to the project dependencies.
     -   Create a new training script, `scripts/training/optimize_agent.py`, that uses Optuna.
     -   This script will define an `objective` function that Optuna tries to maximize (e.g., return or Sharpe ratio).
     -   Inside the `objective` function, Optuna will suggest hyperparameters to run a training trial.
-    -   Each trial will be logged as a separate run under a single MLflow "experiment".
-
-3.  **Create Local Infrastructure Script:**
-    -   Create a script (`scripts/setup/launch_mlflow.sh`) to easily launch a local MLflow server using Docker, configured to store data in a `mlflow-data/` directory.
+    -   Each trial will be logged as a separate run under a single MLflow "experiment", allowing for easy comparison of results.
 
 ---
 

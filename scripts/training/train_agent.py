@@ -13,7 +13,8 @@ import argparse
 import mlflow
 import pandas as pd
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
+from datetime import datetime
 
 import cloudpickle
 import stable_baselines3
@@ -25,18 +26,12 @@ from src.environments.factory import environment_factory
 from src.utils.logger import get_logger
 from src.utils.config_loader import ConfigLoader
 from src.callbacks.metrics_callback import MlflowMetricsCallback
+from src.callbacks.interrupt_callback import GracefulShutdownCallback
 from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.callbacks import CallbackList, BaseCallback
 
 
 logger = get_logger(__name__)
-
-
-def setup_mlflow(run_name: str):
-    """Configure and start the MLflow tracking run."""
-    mlflow.set_experiment("agentic-trading")
-    run = mlflow.start_run(run_name=run_name)
-    logger.info(f"MLflow Run ID: {run.info.run_id}")
-    return run.info.run_id
 
 
 def load_and_preprocess_data(symbol: str, timeframe: str) -> (pd.DataFrame, pd.DataFrame):
@@ -62,44 +57,126 @@ def load_and_preprocess_data(symbol: str, timeframe: str) -> (pd.DataFrame, pd.D
     return train_df, eval_df
 
 
-def train_agent_session(
+def train_agent(
+    agent_name: str,
+    train_env: Monitor,
+    eval_env: Monitor,
+    agent_config: Dict[str, Any],
+    training_config: Dict[str, Any],
+    timesteps: int,
     run_id: str,
+) -> (BaseAlgorithm, BaseCallback):
+    """
+    Creates, trains, and returns an RL agent.
+
+    Args:
+        agent_name: The name of the agent to create.
+        train_env: The environment for training.
+        eval_env: The environment for evaluation.
+        agent_config: Configuration parameters for the agent.
+        training_config: Configuration parameters for training.
+        timesteps: The total number of timesteps for training.
+        run_id: The current MLflow run ID.
+
+    Returns:
+        A tuple containing the trained model and the callback list.
+    """
+    model_dir = Path("data/models") / agent_name / run_id
+    model_dir.mkdir(parents=True, exist_ok=True)
+    log_dir = Path("logs/tensorboard") / agent_name / run_id
+
+    # 1. Create Callbacks
+    metrics_callback = MlflowMetricsCallback(
+        eval_env=eval_env,
+        eval_freq=training_config.get("eval_frequency", 500),
+        n_eval_episodes=training_config.get("n_eval_episodes", 5),
+        best_model_save_path=str(model_dir / "best_model.zip"),
+    )
+    shutdown_callback = GracefulShutdownCallback()
+    callback_list = CallbackList([metrics_callback, shutdown_callback])
+
+    # 2. Create Agent using the factory
+    model = agent_factory.create_agent(
+        name=agent_name,
+        env=train_env,
+        hyperparams=agent_config,
+        tensorboard_log_path=str(log_dir),
+    )
+
+    # 3. Train Agent
+    model.learn(
+        total_timesteps=timesteps,
+        callback=callback_list,
+    )
+
+    return model, callback_list
+
+
+def train_agent_session(
     agent_name: str,
     symbol: str,
     timeframe: str,
     timesteps: int,
-    initial_balance: float,
-    hyperparam_overrides: Dict[str, Any] = None,
+    initial_balance: int,
+    run_id: Optional[str] = None,
+    agent_params: Optional[Dict[str, Any]] = None,
 ):
     """
     Orchestrates the agent training and evaluation process for a given session.
 
     Args:
-        run_id (str): The ID of the MLflow run for tracking.
         agent_name (str): Name of the agent to train (e.g., 'PPO').
         symbol (str): Trading symbol (e.g., 'EUR/USD').
         timeframe (str): Timeframe for the data (e.g., '1d').
         timesteps (int): Total number of timesteps for training.
-        initial_balance (float): The initial balance for the trading environment.
-        hyperparam_overrides (Dict[str, Any], optional): Hyperparameters to override config.
+        initial_balance (int): The initial balance for the trading environment.
+        run_id: Optional existing MLflow run ID to resume.
+        agent_params: Optional dictionary of agent parameters to override config.
     """
-    log_dir = Path("logs/tensorboard") / agent_name / run_id
-    log_dir.mkdir(parents=True, exist_ok=True)
+    # 1. Setup
+    active_run = mlflow.active_run()
+    if not active_run:
+        raise RuntimeError(
+            "train_agent_session must be called within an active MLflow run."
+        )
+    current_run_id = active_run.info.run_id
+    logger.info(f"Executing within MLflow Run ID: {current_run_id}")
+
+    config_loader = ConfigLoader()
+    config = config_loader.load_config("agent_config")
     
-    # 1. Run Data Pipeline
+    # Override agent parameters if provided
+    if agent_params:
+        agent_config = config.get(agent_name.lower(), {})
+        agent_config.update(agent_params)
+        config[agent_name.lower()] = agent_config
+    else:
+        agent_config = config.get(agent_name.lower(), {})
+        
+    training_config = config.get("training", {})
+    logger.info(f"Starting training session for {agent_name} on {symbol} ({timeframe})...")
+
+    # Log all agent parameters
+    mlflow.log_params(agent_config)
+    mlflow.log_param("agent", agent_name)
+    mlflow.log_param("symbol", symbol)
+    mlflow.log_param("timeframe", timeframe)
+    mlflow.log_param("timesteps", timesteps)
+
+    # 2. Data Preparation
     logger.info("Starting full data preparation pipeline...")
     if not run_data_preparation_pipeline(symbol, timeframe):
         logger.error("Data preparation pipeline failed.")
         mlflow.end_run(status="FAILED")
         return
-        
-    # 2. Load Data
+    
+    # 3. Load Data
     train_df, eval_df = load_and_preprocess_data(symbol, timeframe)
     if train_df is None or eval_df is None:
         mlflow.end_run(status="FAILED")
         return
-        
-    # 3. Create Environments
+    
+    # 4. Create Environments
     logger.info("Creating training and evaluation environments...")
     train_env = Monitor(environment_factory.create_environment(
         name="default",
@@ -111,57 +188,25 @@ def train_agent_session(
         data=eval_df,
         initial_balance=initial_balance,
     ))
+    logger.info("Environments created successfully.")
 
-    # 4. Load Config and Set Hyperparameters
-    config_loader = ConfigLoader()
-    agent_config = config_loader.reload_config("agent_config")
-    
-    agent_params = agent_config.get(agent_name.lower(), {})
-    if hyperparam_overrides:
-        agent_params.update(hyperparam_overrides)
-    
-    training_params = agent_config.get("training", {})
-    
-    # Log hyperparameters to MLflow
-    mlflow.log_params(agent_params)
-    mlflow.log_params(training_params)
-
-    # 5. Create Agent
-    logger.info(f"Creating agent: {agent_name}")
-    agent = agent_factory.create_agent(
-        name=agent_name,
-        env=train_env,
-        hyperparams=agent_params,
-        tensorboard_log_path=str(log_dir)
-    )
-
-    # 6. Set up Callbacks
-    logger.info("Setting up evaluation callback...")
-    model_dir = Path("data/models") / agent_name / run_id
-    model_dir.mkdir(parents=True, exist_ok=True)
-    
-    eval_freq = training_params.get("eval_frequency", 500)
-    n_eval_episodes = training_params.get("n_eval_episodes", 5)
-
-    # Use the custom MLflow callback
-    metrics_callback = MlflowMetricsCallback(
+    # 5. Agent Training
+    logger.info(f"Training {agent_name} agent...")
+    model, callback = train_agent(
+        agent_name=agent_name,
+        train_env=train_env,
         eval_env=eval_env,
-        eval_freq=eval_freq,
-        n_eval_episodes=n_eval_episodes
+        agent_config=agent_config,
+        training_config=training_config,
+        timesteps=timesteps,
+        run_id=current_run_id,
     )
+    logger.info("Agent training completed.")
 
-    # 7. Train Agent
-    logger.info(f"Starting training for {timesteps} timesteps...")
-    agent.train(
-        total_timesteps=timesteps,
-        callback=metrics_callback,
-    )
-    logger.info("Training complete.")
-
-    # 8. Save and Log Final Model
-    final_model_path = model_dir / "final_model.zip"
+    # 6. Model Saving
+    final_model_path = Path("data/models") / agent_name / current_run_id / "final_model.zip"
     logger.info(f"Saving final model to {final_model_path}...")
-    agent.save(final_model_path)
+    model.save(final_model_path)
     
     # Create a wrapper for the model for MLflow logging
     class Sb3ModelWrapper(mlflow.pyfunc.PythonModel):
@@ -188,17 +233,16 @@ def train_agent_session(
         registered_model_name=f"{agent_name}_{symbol.replace('/', '')}",
     )
 
-    best_model_path = model_dir / "best_model.zip"
-    logger.info(f"Training run {run_id} complete.")
-    logger.info(f"Best model saved at: {best_model_path}")
-    logger.info(f"To view logs, run: tensorboard --logdir {log_dir.parent.parent}")
+    logger.info(f"Training run {current_run_id} complete.")
+    logger.info(f"Model saved at: {final_model_path}")
+    logger.info(f"To view logs, run: tensorboard --logdir {Path('logs/tensorboard') / agent_name / current_run_id}")
     logger.info("To view MLflow UI, run: mlflow ui")
-    mlflow.end_run()
 
 
 def main():
     """Main entry point for the training script."""
     parser = argparse.ArgumentParser(description="Train an RL trading agent")
+    parser.add_argument("--run_id", type=str, default=None, help="Run ID to resume a previous training run")
     parser.add_argument("--agent", type=str, default="PPO", help="Agent to train (e.g., PPO)")
     parser.add_argument("--symbol", type=str, default="EUR/USD", help="Symbol to train on")
     parser.add_argument("--timeframe", type=str, default="1d", help="Timeframe of the data")
@@ -208,6 +252,7 @@ def main():
 
     print("🚀 Starting Agent Training")
     print("========================================")
+    print(f"Run ID: {args.run_id}")
     print(f"Agent: {args.agent}")
     print(f"Symbol: {args.symbol}")
     print(f"Timeframe: {args.timeframe}")
@@ -216,17 +261,17 @@ def main():
     print("========================================")
     
     run_name = f"{args.agent}_{args.symbol.replace('/', '')}_{args.timeframe}_{args.timesteps}"
-    run_id = setup_mlflow(run_name)
     
-    train_agent_session(
-        run_id=run_id,
-        agent_name=args.agent,
-        symbol=args.symbol,
-        timeframe=args.timeframe,
-        timesteps=args.timesteps,
-        initial_balance=args.balance,
-        hyperparam_overrides=None, # No overrides for direct training
-    )
+    with mlflow.start_run(run_name=run_name, run_id=args.run_id) as run:
+        train_agent_session(
+            agent_name=args.agent,
+            symbol=args.symbol,
+            timeframe=args.timeframe,
+            timesteps=args.timesteps,
+            initial_balance=args.balance,
+            run_id=run.info.run_id,
+            agent_params=None,
+        )
 
 
 if __name__ == "__main__":

@@ -56,15 +56,16 @@ This foundational work ensures that as we add more complex features in subsequen
 -   **Robust Data & Configuration Pipeline:**
     -   Systematically debugged and hardened the entire pipeline, from Qlib frequency handling to resolving ambiguous configuration files, ensuring reliable and repeatable runs.
 
-### Next Steps:
+### Next Steps: HPO Integration (Completed)
 
 1.  **Integrate Optuna for HPO:**
 
-    -   Add `optuna` to the project dependencies.
-    -   Create a new training script, `scripts/training/optimize_agent.py`, that uses Optuna.
-    -   This script will define an `objective` function that Optuna tries to maximize (e.g., return or Sharpe ratio).
-    -   Inside the `objective` function, Optuna will suggest hyperparameters to run a training trial.
-    -   Each trial will be logged as a separate run under a single MLflow "experiment", allowing for easy comparison of results.
+    -   Added `optuna` and `optuna-integration` to the project dependencies.
+    -   Created a new, robust `scripts/training/optimize_agent.py` script.
+    -   The script defines an `objective` function that Optuna maximizes (Sharpe ratio).
+    -   Each trial is logged as a nested run under a single parent MLflow experiment, allowing for easy comparison and visualization of results.
+    -   The hyperparameter search space is now defined declaratively in `config/agent_config.yaml`, making it easy to configure.
+    -   The optimization script reuses the core `train_agent_session` function, ensuring that HPO trials benefit from the same robust training logic as single runs.
 
 ---
 

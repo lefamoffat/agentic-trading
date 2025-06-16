@@ -46,8 +46,8 @@ sac:
 
 # Training Configuration
 training:
-    eval_frequency: 1000 # How often to run evaluation during training (in timesteps)
-    n_eval_episodes: 5 # How many episodes to run for each evaluation
+    eval_frequency: 1000 # Evaluate the model every 1000 steps
+    n_eval_episodes: 5 # Run 5 episodes for each evaluation
 
 # Model Selection
 auto_selection:
@@ -55,3 +55,41 @@ auto_selection:
     algorithms: ["ppo", "sac", "a3c"]
     hyperopt_trials: 50
     cv_folds: 3
+
+# Hyperparameter Optimization (HPO) search space for Optuna
+hpo_params:
+    # For PPO, we can tune these common hyperparameters
+    ppo:
+        # Learning rate will be sampled from a log uniform distribution
+        learning_rate:
+            type: "log_float"
+            low: 0.00001
+            high: 0.001
+
+        # Number of steps to run for each environment per update
+        n_steps:
+            type: "categorical"
+            choices: [2048, 4096, 8192]
+
+        # Batch size for training
+        batch_size:
+            type: "categorical"
+            choices: [64, 128, 256]
+
+        # Number of epochs when optimizing the surrogate loss
+        n_epochs:
+            type: "int"
+            low: 5
+            high: 20
+
+        # Discount factor for future rewards
+        gamma:
+            type: "float"
+            low: 0.99
+            high: 0.9999
+
+        # Clipping parameter for PPO
+        clip_range:
+            type: "float"
+            low: 0.1
+            high: 0.3

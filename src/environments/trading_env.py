@@ -2,7 +2,7 @@
 """
 Concrete implementation of the trading environment.
 """
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
@@ -10,6 +10,15 @@ from gymnasium import spaces
 
 from src.environments.base import BaseTradingEnv
 from src.environments.types import Position
+
+
+class Trade:
+    """A data class to store details of a single trade."""
+    def __init__(self, entry_price: float, exit_price: float, position: Position, profit: float):
+        self.entry_price = entry_price
+        self.exit_price = exit_price
+        self.position = position
+        self.profit = profit
 
 
 class TradingEnv(BaseTradingEnv):
@@ -58,6 +67,7 @@ class TradingEnv(BaseTradingEnv):
         self._position_entry_price = 0.0
         self._last_portfolio_value = self.initial_balance
         self._portfolio_value = self.initial_balance
+        self.trade_history: List[Trade] = []
 
     @property
     def portfolio_value(self) -> float:
@@ -108,6 +118,7 @@ class TradingEnv(BaseTradingEnv):
             "balance": self.balance,
             "position": self._position.name,
             "entry_price": self._position_entry_price,
+            "trade_history": self.trade_history,
         }
 
     def _take_action(self, action: int) -> None:
@@ -130,6 +141,15 @@ class TradingEnv(BaseTradingEnv):
                 profit = (self._position_entry_price - current_price) * (
                     self.balance / self._position_entry_price
                 )
+            
+            # Record the closed trade
+            trade = Trade(
+                entry_price=self._position_entry_price,
+                exit_price=current_price,
+                position=self._position,
+                profit=profit,
+            )
+            self.trade_history.append(trade)
             
             self.balance += profit * (1 - self.trade_fee)
             self._position = Position.FLAT
@@ -160,5 +180,6 @@ class TradingEnv(BaseTradingEnv):
         self._position_entry_price = 0.0
         self._last_portfolio_value = self.initial_balance
         self._portfolio_value = self.initial_balance
+        self.trade_history = []
         
         return self._get_observation(), self._get_info() 

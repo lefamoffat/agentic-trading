@@ -72,6 +72,10 @@ class PPOAgent(BaseAgent):
             **agent_config,
         )
 
+    def learn(self, *args, **kwargs):
+        """Delegate the learn method to the underlying stable-baselines3 model."""
+        self.model.learn(*args, **kwargs)
+
     def _get_model_class(self) -> Type[BaseAlgorithm]:
         """
         Get the stable-baselines3 model class for PPO.

@@ -11,4 +11,5 @@ alwaysApply: false
 - [ ] Appropriate logging usage
 - [ ] Tests included
 - [ ] No hardcoded values
+- [ ] No placeholder logic, estimations, or "hacky" code
 - [ ] Follows established naming conventions 

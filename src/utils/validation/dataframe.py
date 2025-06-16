@@ -247,27 +247,63 @@ def validate_data_quality(data: pd.DataFrame, min_quality_score: float = 0.8) ->
     return data
 
 
-def calculate_data_quality_score(data: pd.DataFrame) -> float:
+def calculate_data_quality_score(data: pd.DataFrame, weights: Optional[Dict[str, float]] = None) -> float:
     """
-    Calculate a data quality score based on completeness and consistency.
-    
+    Calculate a data quality score based on completeness, consistency, and volume health.
+    The score is a weighted average of:
+    - Completeness (40%): How many values are not NaN.
+    - Consistency (40%): How many rows have valid OHLC (high >= low).
+    - Volume Health (20%): How many rows have non-zero volume.
+
     Args:
-        data: DataFrame to analyze
-        
+        data: DataFrame to analyze.
+        weights: Optional dictionary to weight the contributions of each component
+
     Returns:
-        Quality score between 0.0 and 1.0
+        A quality score between 0.0 and 1.0.
     """
     if data.empty:
         return 0.0
-    
-    # Calculate completeness score (1.0 - percentage of missing values)
-    total_values = len(data) * len(data.columns)
-    missing_values = data.isnull().sum().sum()
-    completeness_score = 1.0 - (missing_values / total_values) if total_values > 0 else 0.0
-    
-    # For now, return just the completeness score
-    # Could be extended with other quality metrics
-    return max(0.0, min(1.0, completeness_score))
+
+    # 1. Completeness Score (Weight: 40%)
+    total_cells = data.size
+    missing_cells = data.isnull().sum().sum()
+    completeness_score = 1.0 - (missing_cells / total_cells) if total_cells > 0 else 0.0
+
+    # 2. Consistency Score (Weight: 40%)
+    consistency_score = 1.0
+    if 'high' in data.columns and 'low' in data.columns:
+        # Only check for consistency where high and low are not NaN
+        consistency_subset = data[['high', 'low']].dropna()
+        if not consistency_subset.empty:
+            inconsistent_rows = (consistency_subset['high'] < consistency_subset['low']).sum()
+            consistency_score = 1.0 - (inconsistent_rows / len(consistency_subset))
+
+    # 3. Volume Health Score (Weight: 20%)
+    volume_health_score = 1.0
+    if 'volume' in data.columns:
+        # Penalize for excessive zero-volume bars.
+        # The score degrades linearly if more than 10% of bars have zero volume,
+        # reaching 0 if 30% or more have zero volume.
+        zero_volume_rows = (data['volume'] == 0).sum()
+        zero_volume_ratio = zero_volume_rows / len(data) if len(data) > 0 else 0.0
+        
+        if zero_volume_ratio > 0.1:
+            # Penalize starting from a 10% threshold.
+            penalty_ratio = (zero_volume_ratio - 0.1) / 0.2 # Scale penalty over a 20% range (10% to 30%)
+            volume_health_score = max(0.0, 1.0 - penalty_ratio)
+        else:
+            volume_health_score = 1.0
+
+    # Final weighted score
+    current_weights = weights or {'completeness': 0.4, 'consistency': 0.4, 'volume': 0.2}
+    final_score = (
+        completeness_score * current_weights['completeness'] +
+        consistency_score * current_weights['consistency'] +
+        volume_health_score * current_weights['volume']
+    )
+
+    return final_score
 
 
 def check_data_gaps(data: pd.DataFrame, timestamp_column: str = 'timestamp') -> Dict[str, Any]:

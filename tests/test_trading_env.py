@@ -84,6 +84,8 @@ class TestTradingEnv:
         assert trading_env._position_entry_price == 0.0
         assert isinstance(observation, np.ndarray)
         assert isinstance(info, dict)
+        assert trading_env.trade_history == []
+        assert info["trade_history"] == []
 
         # Verify observation content
         expected_price = trading_env.data.iloc[0]["close"]
@@ -186,6 +188,32 @@ class TestTradingEnv:
         assert trading_env._position == Position.SHORT
         entry_price_short = 107
         assert trading_env._position_entry_price == entry_price_short
+
+    def test_trade_history_tracking_and_reset(self, trading_env: TradingEnv):
+        """
+        Test that trade history is correctly recorded and cleared on reset.
+        """
+        initial_balance = trading_env.initial_balance
+        assert len(trading_env.trade_history) == 0
+
+        # 1. Go Long at step 0 (entry price: 102)
+        trading_env.step(Position.LONG.value)
+        assert len(trading_env.trade_history) == 0  # Trade not closed yet
+
+        # 2. Close Long position at step 1 (exit price: 105)
+        trading_env.step(Position.FLAT.value)
+        assert len(trading_env.trade_history) == 1
+        
+        trade1 = trading_env.trade_history[0]
+        assert trade1.position == Position.LONG
+        assert trade1.entry_price == 102
+        assert trade1.exit_price == 105
+        expected_profit_long = (105 - 102) * (initial_balance / 102)
+        assert trade1.profit == pytest.approx(expected_profit_long)
+
+        # 3. Reset the environment
+        trading_env.reset()
+        assert len(trading_env.trade_history) == 0
 
     def test_episode_end_on_data_depletion(self, trading_env: TradingEnv):
         """

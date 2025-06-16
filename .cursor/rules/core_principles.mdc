@@ -9,3 +9,4 @@ alwaysApply: false
 4. **Robustness** - Graceful error handling and fallback mechanisms
 5. **Performance** - Efficient data processing for real-time trading
 6. **Maintainability** - Consistent patterns and comprehensive documentation
+7. **Production-Ready Code** - All committed code must be complete, robust, and free of placeholders, estimations, or "hacky" solutions. Implementations must be precise and deterministic.

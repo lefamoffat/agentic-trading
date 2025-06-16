@@ -7,4 +7,5 @@ alwaysApply: false
 - Use descriptive test method names
 - Include both positive and negative test cases
 - Test edge cases and error conditions
+- All new features or logic changes MUST be accompanied by corresponding tests.
 - Example: `test_feature_engineering.py`, `test_broker_integration.py`

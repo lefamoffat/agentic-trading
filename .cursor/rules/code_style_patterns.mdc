@@ -145,4 +145,8 @@ class ComponentFactory:
         
         component_class = self.registry[component_type]
         return component_class(**kwargs)
-```
+
+### Code Completeness
+- **NO PLACEHOLDERS**: Do not commit any code with `TODO`, `FIXME`, or placeholder comments. All logic must be fully implemented.
+- **NO HACKS**: Avoid temporary workarounds or "hacky" solutions. If a complex problem is found, it should be solved correctly or documented as a technical debt issue with a clear plan.
+- **NO ESTIMATIONS**: Algorithms and calculations must be precise and deterministic. Avoid estimations where exact values can be computed (e.g., using `len()` and `timeframe` to calculate duration instead of guessing).

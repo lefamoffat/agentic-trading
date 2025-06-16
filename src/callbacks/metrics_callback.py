@@ -13,19 +13,30 @@ from src.environments.wrappers import EvaluationWrapper
 
 class MlflowMetricsCallback(BaseCallback):
     """
-    A custom callback to log evaluation metrics to MLflow.
+    A custom callback to log evaluation metrics to MLflow and save the best model.
     
     This callback runs policy evaluation at regular intervals and logs key
     performance metrics (Sharpe ratio, profit, drawdown) to the active
     MLflow run.
     """
 
-    def __init__(self, eval_env, eval_freq: int, n_eval_episodes: int = 5, verbose: int = 0):
+    def __init__(
+        self,
+        eval_env,
+        eval_freq: int,
+        n_eval_episodes: int = 5,
+        timeframe: str = "1d",
+        best_model_save_path: str = None,
+        verbose: int = 0
+    ):
         super().__init__(verbose)
         # It's recommended to wrap the eval env here for clarity
         self.eval_env = EvaluationWrapper(eval_env)
         self.eval_freq = eval_freq
         self.n_eval_episodes = n_eval_episodes
+        self.timeframe = timeframe
+        self.best_model_save_path = best_model_save_path
+        self.best_mean_sharpe = -np.inf
 
     def _on_step(self) -> bool:
         """
@@ -50,7 +61,12 @@ class MlflowMetricsCallback(BaseCallback):
 
             # After the episode, calculate metrics from the wrapper's data
             portfolio_values = self.eval_env.portfolio_values
-            metrics = calculate_performance_metrics(portfolio_values)
+            trade_history = self.eval_env.trade_history
+            metrics = calculate_performance_metrics(
+                portfolio_values,
+                trade_history,
+                self.timeframe
+            )
             all_metrics.append(metrics)
 
         # Average the metrics over all evaluation episodes
@@ -60,8 +76,14 @@ class MlflowMetricsCallback(BaseCallback):
                 for key in all_metrics[0]
             }
             
-            self.logger.record("eval/sharpe_ratio", avg_metrics["sharpe_ratio"])
-            self.logger.record("eval/profit_pct", avg_metrics["profit_pct"])
-            self.logger.record("eval/max_drawdown_pct", avg_metrics["max_drawdown_pct"])
+            # Log all metrics to the console and MLflow
+            for key, value in avg_metrics.items():
+                self.logger.record(f"eval/{key}", value)
             
-            mlflow.log_metrics(avg_metrics, step=self.n_calls) 
+            mlflow.log_metrics(avg_metrics, step=self.n_calls)
+            
+            # Save the best model
+            if self.best_model_save_path and avg_metrics["sharpe_ratio"] > self.best_mean_sharpe:
+                self.best_mean_sharpe = avg_metrics["sharpe_ratio"]
+                self.logger.info(f"New best Sharpe ratio: {self.best_mean_sharpe:.4f}. Saving model...")
+                self.model.save(self.best_model_save_path) 

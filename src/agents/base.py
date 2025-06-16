@@ -74,7 +74,6 @@ class BaseAgent(ABC):
         self,
         total_timesteps: int,
         callback: Any = "auto",
-        model_params: Optional[Dict[str, Any]] = None,
         tb_log_name: Optional[str] = "PPO",
     ) -> None:
         """
@@ -86,14 +85,10 @@ class BaseAgent(ABC):
         Args:
             total_timesteps (int): The total number of samples (env steps) to train on.
             callback (Any): A callback function for the training process.
-            model_params (Optional[Dict[str, Any]]): Hyperparameters for the model.
             tb_log_name (Optional[str]): The name for the TensorBoard log.
         """
         if self.model is None:
-            self.logger.info("Creating new model for training...")
-            self.model = self._create_model(model_params=model_params)
-        else:
-            self.logger.info("Continuing training with existing model...")
+            raise ValueError("Model must be created in the agent's constructor.")
 
         self.logger.info(f"Starting training for {total_timesteps} timesteps...")
         self.model.learn(

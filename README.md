@@ -26,6 +26,8 @@ This project implements a reinforcement learning-based trading system with a mod
 -   ✅ **Configurable** - YAML-based configuration for all parameters.
 -   ✅ **Comprehensive Logging** - Detailed logging for training, trading, and TensorBoard visualization.
 -   ✅ **100% Test Coverage** - Comprehensive validation for all core components.
+-   ✅ **Experiment Tracking** - Integrated with MLflow for logging runs, metrics, and models.
+-   ✅ **Hyperparameter Optimization** - Built-in Optuna script for automated HPO.
 
 ## 📋 Prerequisites
 
@@ -106,7 +108,8 @@ agentic-trading/
 │   ├── features/          # Qlib-based feature generation
 │   │   └── build_features.py
 │   ├── training/          # RL agent training scripts
-│   │   └── train_agent.py
+│   │   ├── train_agent.py
+│   │   └── optimize_agent.py
 │   └── setup/             # Project initialization
 ├── data/                  # Data storage (raw, processed, qlib, models)
 ├── logs/                  # Log files (system and tensorboard)
@@ -116,7 +119,17 @@ agentic-trading/
 
 ## 🎮 Quick Start
 
-### 1. Build Features with Qlib
+### 1. Launch MLflow Server (Optional, for Tracking)
+
+To track experiments, parameters, and metrics, first launch the MLflow server.
+
+```bash
+bash scripts/setup/launch_mlflow.sh
+```
+
+Access the UI at [http://localhost:5001](http://localhost:5001).
+
+### 2. Build Features with Qlib
 
 Before training, you must generate features from the raw data using Qlib.
 
@@ -124,19 +137,24 @@ Before training, you must generate features from the raw data using Qlib.
 uv run python scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
 ```
 
-### 2. Train an RL Agent
+### 3. Train an RL Agent
 
-Now you can run the training pipeline. This will use the features generated in the previous step.
+Now you can run the training pipeline. This will use the features generated in the previous step and log the run to MLflow if the server is active.
 
 ```bash
 # Start a new training run
 uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
-
-# Resume a previous training run
-uv run python scripts/training/train_agent.py --run-id <YOUR_RUN_ID>
 ```
 
-### 3. Run Tests
+### 4. Optimize Hyperparameters
+
+To find the best hyperparameters for an agent, use the optimization script. This will run multiple training trials and log them as nested runs in MLflow.
+
+```bash
+uv run python scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
+```
+
+### 5. Run Tests
 
 ```bash
 # Run unit tests (default, fast)
@@ -149,7 +167,7 @@ uv run python scripts/run_tests.py --all
 uv run python scripts/run_tests.py --integration
 ```
 
-### 4. Test Broker Integration
+### 6. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)

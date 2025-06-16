@@ -13,6 +13,7 @@ from pathlib import Path
 import shutil
 
 from src.utils.logger import get_logger
+from src.types import Timeframe
 
 def run_command(command: list[str], description: str):
     """Run a command and handle errors."""
@@ -74,12 +75,15 @@ def main():
     # --- Step 2: Dump Data to Qlib Binary Format ---
     qlib_source_path = f"data/qlib_source/{args.timeframe}"
     
+    # Get the correct frequency name for Qlib
+    qlib_freq = Timeframe.from_standard(args.timeframe).qlib_name
+
     dump_command = [
         "python", "-m", "scripts.data.dump_bin", "dump_all",
         "--csv_path", qlib_source_path,
         "--qlib_dir", str(qlib_data_path),
-        "--freq", args.timeframe,
-        "--date_field_name", "timestamp",
+        "--freq", qlib_freq,
+        "--date_field_name", "date",  # The CSVs are prepared with a 'date' column
         "--symbol_field_name", "symbol",
     ]
     run_command(dump_command, "Dump to Qlib Binary")

@@ -1,54 +1,43 @@
 #!/bin/bash
+#
 # This script launches a local MLflow tracking server using Docker.
-
+#
+# The server will be accessible at http://localhost:5000.
+# Artifacts and data will be stored in the `mlflow_data` directory
+# in the project root.
+#
 set -e
 
-HOST_PORT=5000
-CONTAINER_PORT=5000
-SERVER_NAME="agentic_trading_mlflow_server"
-DATA_DIR_NAME="mlflow_data"
-
-# Get the absolute path of the project root
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-PROJECT_ROOT=$(realpath "$SCRIPT_DIR/../../")
-DATA_PATH="$PROJECT_ROOT/$DATA_DIR_NAME"
-ARTIFACT_ROOT="/mlflow_artifacts_store"
+# Get the project root directory
+PROJECT_ROOT=$(git rev-parse --show-toplevel)
+MLFLOW_DATA_DIR="$PROJECT_ROOT/mlflow_data"
 
 # Create the data directory if it doesn't exist
-mkdir -p "$DATA_PATH"
-
-echo "Project Root: $PROJECT_ROOT"
-echo "MLflow Data Path (Host): $DATA_PATH"
-
-# Check if the container is already running
-if [ "$(docker ps -q -f name=^/${SERVER_NAME}$)" ]; then
-    echo "MLflow server is already running."
-    echo "Access it at http://localhost:$HOST_PORT"
-    echo "To stop it, run: docker stop $SERVER_NAME"
-    exit 0
+if [ ! -d "$MLFLOW_DATA_DIR" ]; then
+    echo "Creating MLflow data directory at: $MLFLOW_DATA_DIR"
+    mkdir -p "$MLFLOW_DATA_DIR"
 fi
 
-# Check if the container exists but is stopped
-if [ "$(docker ps -aq -f status=exited -f name=^/${SERVER_NAME}$)" ]; then
-    echo "Found a stopped MLflow server container. Removing it..."
-    docker rm "$SERVER_NAME"
+# Check if Docker is running
+if ! docker info > /dev/null 2>&1; then
+    echo "Error: Docker is not running."
+    echo "Please start Docker and try again."
+    exit 1
 fi
 
-echo "Starting new MLflow server..."
+# Check for and forcibly remove any existing container with the same name
+if [ "$(docker ps -aq -f name=mlflow_server)" ]; then
+    echo "Found existing mlflow_server container. Forcibly removing it..."
+    docker rm -f mlflow_server
+fi
+
+echo "Launching MLflow Tracking Server on port 5001..."
 docker run -d \
-    --name "$SERVER_NAME" \
-    -p "$HOST_PORT":"$CONTAINER_PORT" \
-    -v "$DATA_PATH":"$ARTIFACT_ROOT" \
-    evk02/mlflow:latest \
-    mlflow server \
-    --host 0.0.0.0 \
-    --port "$CONTAINER_PORT" \
-    --backend-store-uri "$ARTIFACT_ROOT" \
-    --default-artifact-root "$ARTIFACT_ROOT"
+    --name mlflow_server \
+    -p 5001:5000 \
+    -v "$MLFLOW_DATA_DIR:/app/mlruns" \
+    bitnami/mlflow:latest
 
-echo ""
-echo "✅ MLflow server started successfully in the background."
-echo "   UI available at: http://localhost:$HOST_PORT"
-echo ""
-echo "To view logs, run: docker logs -f $SERVER_NAME"
-echo "To stop the server, run: docker stop $SERVER_NAME" 
+echo "MLflow server started successfully."
+echo "Access it at: http://localhost:5001"
+echo "To stop the server, run: docker stop mlflow_server" 

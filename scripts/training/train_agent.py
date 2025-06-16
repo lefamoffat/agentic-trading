@@ -13,13 +13,18 @@ import argparse
 import mlflow
 import pandas as pd
 from pathlib import Path
+from typing import Dict, Any
+
+import cloudpickle
+import stable_baselines3
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.agents.factory import agent_factory
 from src.data.pipelines import run_data_preparation_pipeline
 from src.environments.factory import environment_factory
 from src.utils.logger import get_logger
 from src.utils.config_loader import ConfigLoader
-from stable_baselines3.common.callbacks import EvalCallback
+from src.callbacks.metrics_callback import MlflowMetricsCallback
 from stable_baselines3.common.monitor import Monitor
 
 
@@ -64,6 +69,7 @@ def train_agent_session(
     timeframe: str,
     timesteps: int,
     initial_balance: float,
+    hyperparam_overrides: Dict[str, Any] = None,
 ):
     """
     Orchestrates the agent training and evaluation process for a given session.
@@ -75,6 +81,7 @@ def train_agent_session(
         timeframe (str): Timeframe for the data (e.g., '1d').
         timesteps (int): Total number of timesteps for training.
         initial_balance (float): The initial balance for the trading environment.
+        hyperparam_overrides (Dict[str, Any], optional): Hyperparameters to override config.
     """
     log_dir = Path("logs/tensorboard") / agent_name / run_id
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -105,49 +112,81 @@ def train_agent_session(
         initial_balance=initial_balance,
     ))
 
-    # 4. Create Agent
+    # 4. Load Config and Set Hyperparameters
+    config_loader = ConfigLoader()
+    agent_config = config_loader.reload_config("agent_config")
+    
+    agent_params = agent_config.get(agent_name.lower(), {})
+    if hyperparam_overrides:
+        agent_params.update(hyperparam_overrides)
+    
+    training_params = agent_config.get("training", {})
+    
+    # Log hyperparameters to MLflow
+    mlflow.log_params(agent_params)
+    mlflow.log_params(training_params)
+
+    # 5. Create Agent
     logger.info(f"Creating agent: {agent_name}")
     agent = agent_factory.create_agent(
         name=agent_name,
         env=train_env,
+        hyperparams=agent_params,
         tensorboard_log_path=str(log_dir)
     )
 
-    # 5. Set up Callbacks
+    # 6. Set up Callbacks
     logger.info("Setting up evaluation callback...")
     model_dir = Path("data/models") / agent_name / run_id
     model_dir.mkdir(parents=True, exist_ok=True)
     
-    # Load training params from config to make eval_freq configurable
-    config_loader = ConfigLoader()
-    agent_config = config_loader.load_config("agent_config")
-    training_params = agent_config.get("training", {})
     eval_freq = training_params.get("eval_frequency", 500)
+    n_eval_episodes = training_params.get("n_eval_episodes", 5)
 
-    eval_callback = EvalCallback(
-        eval_env,
-        best_model_save_path=str(model_dir),
-        log_path=str(model_dir),
+    # Use the custom MLflow callback
+    metrics_callback = MlflowMetricsCallback(
+        eval_env=eval_env,
         eval_freq=eval_freq,
-        deterministic=True,
-        render=False,
+        n_eval_episodes=n_eval_episodes
     )
 
-    # 6. Train Agent
+    # 7. Train Agent
     logger.info(f"Starting training for {timesteps} timesteps...")
     agent.train(
         total_timesteps=timesteps,
-        callback=eval_callback,
+        callback=metrics_callback,
     )
     logger.info("Training complete.")
 
-    # 7. Save and Log Final Model
+    # 8. Save and Log Final Model
     final_model_path = model_dir / "final_model.zip"
     logger.info(f"Saving final model to {final_model_path}...")
     agent.save(final_model_path)
     
-    logger.info(f"Logging model artifact: {final_model_path}")
-    mlflow.log_artifact(str(final_model_path), "model")
+    # Create a wrapper for the model for MLflow logging
+    class Sb3ModelWrapper(mlflow.pyfunc.PythonModel):
+        def __init__(self, agent_name):
+            self.agent_name = agent_name
+            self.model = None
+
+        def load_context(self, context):
+            model_class = getattr(stable_baselines3, self.agent_name)
+            self.model = model_class.load(context.artifacts["model_path"])
+
+        def predict(self, context, model_input):
+            # SB3 expects a numpy array, not a pandas DataFrame
+            obs = model_input.to_numpy()
+            actions, _ = self.model.predict(obs, deterministic=True)
+            return actions
+
+    # Log the model to MLflow and register it
+    logger.info("Logging and registering the model with MLflow...")
+    mlflow.pyfunc.log_model(
+        artifact_path="model",
+        python_model=Sb3ModelWrapper(agent_name=agent_name),
+        artifacts={"model_path": str(final_model_path)},
+        registered_model_name=f"{agent_name}_{symbol.replace('/', '')}",
+    )
 
     best_model_path = model_dir / "best_model.zip"
     logger.info(f"Training run {run_id} complete.")
@@ -186,6 +225,7 @@ def main():
         timeframe=args.timeframe,
         timesteps=args.timesteps,
         initial_balance=args.balance,
+        hyperparam_overrides=None, # No overrides for direct training
     )
 
 

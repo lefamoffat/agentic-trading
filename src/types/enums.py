@@ -1,33 +1,7 @@
 """
-Project-wide type definitions for the agentic trading system.
-
-This module contains common types used across brokers, data processing,
-feature engineering, and trading strategies.
+Common, project-wide enums.
 """
-
 from enum import Enum
-from typing import Dict, List, Optional, Union, Any, Tuple, TypeAlias, Callable
-import pandas as pd
-from datetime import datetime
-
-# Core trading types
-SymbolType: TypeAlias = str
-PriceType: TypeAlias = float
-VolumeType: TypeAlias = float
-TimestampType: TypeAlias = Union[datetime, pd.Timestamp, str]
-
-# Basic data structure types (no forward references)
-OHLCVData: TypeAlias = pd.DataFrame
-FeatureData: TypeAlias = pd.DataFrame
-IndicatorData: TypeAlias = pd.DataFrame
-SignalData: TypeAlias = pd.DataFrame
-PriceData: TypeAlias = Dict[str, PriceType]
-MarketData: TypeAlias = Dict[str, Any]
-TradingSession: TypeAlias = Dict[str, Any]
-
-# Configuration types
-ConfigDict: TypeAlias = Dict[str, Any]
-ParameterDict: TypeAlias = Dict[str, Union[int, float, str, bool]]
 
 # Broker-related enums
 class BrokerType(Enum):
@@ -57,6 +31,15 @@ class Timeframe(Enum):
     MN1 = "1M"
     
     @property
+    def qlib_name(self) -> str:
+        """Get the Qlib-compatible name for the timeframe."""
+        mapping = {
+            "1m": "1min", "5m": "5min", "15m": "15min", "30m": "30min",
+            "1h": "60min", "4h": "240min", "1d": "1d", "1w": "1w", "1M": "1mon"
+        }
+        return mapping[self.value]
+    
+    @property
     def minutes(self) -> int:
         """Convert timeframe to minutes."""
         mapping = {
@@ -75,6 +58,19 @@ class Timeframe(Enum):
         if minutes not in reverse_mapping:
             raise ValueError(f"Unsupported timeframe: {minutes} minutes")
         return reverse_mapping[minutes]
+
+    @classmethod
+    def from_standard(cls, timeframe_str: str) -> 'Timeframe':
+        """Create a Timeframe instance from a standard string like '1h' or '1d'."""
+        for member in cls:
+            if member.value == timeframe_str:
+                return member
+        raise ValueError(f"'{timeframe_str}' is not a valid Timeframe string.")
+
+    @classmethod
+    def get_display_list(cls) -> list[str]:
+        """Returns a list of all timeframe string values."""
+        return [item.value for item in cls]
 
 # Trading-related enums
 class OrderType(Enum):
@@ -108,13 +104,6 @@ class DataQuality(Enum):
     INVALID = "invalid"
 
 # Calendar and time types
-class TradingSession(Enum):
-    """Trading session types."""
-    LONDON = "london"
-    NEW_YORK = "new_york"
-    TOKYO = "tokyo"
-    SYDNEY = "sydney"
-
 class MarketSession(Enum):
     """Market trading session types."""
     CLOSED = "closed"
@@ -155,24 +144,4 @@ class RiskLevel(Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
-    VERY_HIGH = "very_high"
-
-# Complex type aliases that depend on enums (defined after enums)
-AccountInfo: TypeAlias = Dict[str, Union[str, float, int]]
-Position: TypeAlias = Dict[str, Union[str, float, datetime]]
-Order: TypeAlias = Dict[str, Union[str, float, datetime, OrderType, OrderSide]]
-TradeRecord: TypeAlias = Dict[str, Union[str, float, datetime, OrderType, OrderSide]]
-PositionInfo: TypeAlias = Dict[str, Union[str, float, datetime]]
-
-# Function signature types
-DataValidator: TypeAlias = Callable[[pd.DataFrame], bool]
-DataProcessor: TypeAlias = Callable[[pd.DataFrame], pd.DataFrame]
-FeatureCalculator: TypeAlias = Callable[[pd.DataFrame], pd.DataFrame]
-SignalGenerator: TypeAlias = Callable[[pd.DataFrame], SignalType]
-ValidationFunction: TypeAlias = Callable[..., bool]
-StrategyFunction: TypeAlias = Callable[[pd.DataFrame], pd.Series]
-
-# Validation types
-ValidationResult: TypeAlias = Dict[str, Union[bool, List[str]]]
-ErrorContext: TypeAlias = Dict[str, Any]
-ProcessingResult: TypeAlias = Tuple[bool, Optional[pd.DataFrame], Optional[str]] 
+    VERY_HIGH = "very_high" 

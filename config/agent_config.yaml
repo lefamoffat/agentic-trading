@@ -4,17 +4,18 @@
 ppo:
     policy: "MlpPolicy"
     learning_rate: 0.0003
-    n_epochs: 10
-    batch_size: 64
     n_steps: 2048
-    gae_lambda: 0.95
+    batch_size: 64
+    n_epochs: 10
     gamma: 0.99
+    gae_lambda: 0.95
     clip_range: 0.2
     ent_coef: 0.01
     vf_coef: 0.5
     max_grad_norm: 0.5
-    target_kl: 0.01
-    episodes: 1000
+    normalize_advantage: True
+    use_sde: False
+    target_kl: null
 
 # A3C Configuration
 a3c:
@@ -26,6 +27,8 @@ a3c:
     max_grad_norm: 0.5
     n_workers: 4
     episodes: 1000
+    ent_coef: "auto"
+    target_update_interval: 1
 
 # SAC Configuration
 sac:
@@ -43,10 +46,8 @@ sac:
 
 # Training Configuration
 training:
-    save_frequency: 100 # Save model every N episodes
-    eval_frequency: 50 # Evaluate model every N episodes
-    patience: 200 # Early stopping patience
-    min_improvement: 0.001 # Minimum improvement for early stopping
+    eval_frequency: 1000 # How often to run evaluation during training (in timesteps)
+    n_eval_episodes: 5 # How many episodes to run for each evaluation
 
 # Model Selection
 auto_selection:

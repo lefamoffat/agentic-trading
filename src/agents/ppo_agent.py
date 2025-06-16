@@ -23,73 +23,57 @@ class PPOAgent(BaseAgent):
     algorithm, making it compatible with the project's agent interface.
     """
 
-    def _get_model_class(self) -> Type[BaseAlgorithm]:
-        """Get the stable-baselines3 PPO model class."""
-        return PPO
-
-    def __init__(self, env: BaseTradingEnv, tensorboard_log_path: Optional[str] = None):
+    def __init__(
+        self,
+        env: BaseTradingEnv,
+        hyperparams: Optional[Dict[str, Any]] = None,
+        tensorboard_log_path: Optional[str] = None,
+    ):
         """
         Initialize the PPO agent.
-
-        Args:
-            env (BaseTradingEnv): The trading environment.
-            tensorboard_log_path (Optional[str]): Path to the directory for TensorBoard logs.
         """
         super().__init__(env)
-        self.tensorboard_log_path = tensorboard_log_path
-        self.config_loader = ConfigLoader()
-
-    def _load_model_params(self, params_name: str) -> Dict[str, Any]:
-        """Load a named set of model parameters from the agent_config.yaml file."""
-        try:
-            agent_config = self.config_loader.get_agent_config()
-            params = agent_config.get(params_name)
-
-            if params is None:
-                self.logger.warning(f"'{params_name}' parameter set not found in agent_config.yaml. Using empty params.")
-                return {}
-            
-            self.logger.info(f"Loaded '{params_name}' parameter set from agent_config.yaml.")
-            return params
-        except FileNotFoundError:
-            self.logger.warning(f"agent_config.yaml not found. Using empty params.")
-            return {}
+        self.hyperparams = hyperparams
+        self.model = self._create_model(
+            model_params=self.hyperparams,
+            tensorboard_log_path=tensorboard_log_path,
+        )
 
     def _create_model(
         self,
         model_params: Optional[Dict[str, Any]] = None,
-        model_params_name: str = "ppo",
+        tensorboard_log_path: Optional[str] = None,
     ) -> BaseAlgorithm:
         """
-        Create the `stable-baselines3` PPO model instance.
+        Create the PPO model instance.
 
         Args:
             model_params (Optional[Dict[str, Any]]): Hyperparameters for the PPO model.
                 If provided, they will override the parameters loaded from the config file.
-            model_params_name (str): The name of the parameter set to load from the config file (e.g., 'ppo').
+            tensorboard_log_path (Optional[str]): Path to the directory for TensorBoard logs.
 
         Returns:
             BaseAlgorithm: An instance of the PPO algorithm.
         """
-        # Load default params from the YAML file
-        default_params = self._load_model_params(model_params_name)
-
-        # Merge provided params with defaults (provided params take precedence)
-        user_params = model_params or {}
-        merged_params = {**default_params, **user_params}
-
-        # Filter out unexpected arguments to prevent TypeErrors
-        ppo_constructor_args = inspect.signature(PPO).parameters.keys()
-        final_params = {
-            key: value
-            for key, value in merged_params.items()
-            if key in ppo_constructor_args
-        }
-
-        self.logger.info(f"Creating PPO model with params: {final_params}")
+        self.logger.info("Creating PPO model...")
         
+        # Load base config
+        config_loader = ConfigLoader()
+        agent_config = config_loader.reload_config("agent_config").get("ppo", {})
+
+        # If specific params are provided, they override the base config
+        if model_params:
+            agent_config.update(model_params)
+            
         return PPO(
             env=self.env,
-            tensorboard_log=self.tensorboard_log_path,
-            **final_params,
-        ) 
+            tensorboard_log=tensorboard_log_path,
+            verbose=1,
+            **agent_config,
+        )
+
+    def _get_model_class(self) -> Type[BaseAlgorithm]:
+        """
+        Get the stable-baselines3 model class for PPO.
+        """
+        return PPO

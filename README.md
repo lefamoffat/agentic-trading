@@ -57,7 +57,7 @@ For a deeper dive into the system's design, please see the [**Architecture Philo
 3. **Initialize the project**
 
     ```bash
-    uv run python scripts/setup/init_project.py
+    uv run scripts/setup/init_project.py
     ```
 
 4. **Set up environment variables**
@@ -106,14 +106,11 @@ agentic-trading/
 │   ├── environments/      # Gymnasium-based RL environments
 │   ├── strategies/        # Trading strategy implementations
 │   ├── utils/             # Core utilities
-│   ├── types.py           # Centralized type definitions
+│   ├── types/             # Centralized type definitions
 │   └── exceptions.py      # Custom exception hierarchy
 ├── scripts/               # Executable scripts
 │   ├── features/          # Qlib-based feature generation
-│   │   └── build_features.py
 │   ├── training/          # RL agent training scripts
-│   │   ├── train_agent.py
-│   │   └── optimize_agent.py
 │   └── setup/             # Project initialization
 ├── data/                  # Data storage (raw, processed, qlib, models)
 ├── logs/                  # Log files (system and tensorboard)
@@ -128,7 +125,7 @@ agentic-trading/
 To track experiments, parameters, and metrics, first launch the MLflow server.
 
 ```bash
-bash scripts/setup/launch_mlflow.sh
+uv run scripts/setup/launch_mlflow.sh
 ```
 
 Access the UI at [http://localhost:5001](http://localhost:5001).
@@ -138,7 +135,7 @@ Access the UI at [http://localhost:5001](http://localhost:5001).
 Before training, you must generate features from the raw data using Qlib.
 
 ```bash
-uv run python scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
+uv run scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
 ```
 
 ### 3. Train an RL Agent
@@ -147,7 +144,7 @@ Now you can run the training pipeline. This will use the features generated in t
 
 ```bash
 # Start a new training run
-uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
+uv run scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
 ```
 
 ### 4. Optimize Hyperparameters
@@ -155,30 +152,30 @@ uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h 
 To find the best hyperparameters for an agent, use the optimization script. This will run multiple training trials and log them as nested runs in MLflow.
 
 ```bash
-uv run python scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
+uv run scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
 ```
 
 ### 5. Run Tests
 
 ```bash
 # Run unit tests (default, fast)
-uv run python scripts/run_tests.py
+uv run scripts/run_tests.py
 
 # Run all tests (unit and integration)
-uv run python scripts/run_tests.py --all
+uv run scripts/run_tests.py --all
 
 # Run only integration tests (requires credentials)
-uv run python scripts/run_tests.py --integration
+uv run scripts/run_tests.py --integration
 ```
 
 ### 6. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)
-uv run python scripts/run_tests.py --integration -k "test_real_get_live_price"
+uv run scripts/run_tests.py --integration -k "test_real_get_live_price"
 
 # Test broker authentication
-uv run python scripts/run_tests.py --integration -k "test_real_authentication_is_successful"
+uv run scripts/run_tests.py --integration -k "test_real_authentication_is_successful"
 ```
 
 ## 🧠 Technical Indicators Available
@@ -199,42 +196,6 @@ Feature engineering is handled by **Microsoft Qlib**, which provides access to a
 -   Gap detection and analysis
 -   Outlier identification
 -   Consistency validation
-
-## 🧪 Development
-
-### Running Tests
-
-```bash
-# Run all tests
-uv run pytest
-
-# Run with coverage
-uv run pytest --cov=src
-
-# Run specific test categories
-uv run pytest tests/test_forex_com_broker.py -v
-```
-
-### Code Quality
-
-```bash
-# Type checking
-uv run mypy src/
-
-# Linting
-uv run ruff check src/
-
-# Formatting
-uv run ruff format src/
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests (maintain 100% coverage)
-5. Submit a pull request
 
 ## 📄 License
 

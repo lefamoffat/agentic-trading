@@ -1,23 +1,25 @@
 """Tests for the project-wide exceptions module (relocated)."""
 
 import unittest
+
 import pytest
+
 from src.utils.exceptions import (
-    TradingSystemError,
     BrokerAPIError,
     ConfigurationError,
     DataError,
-    StrategyError,
-    ValidationError,
+    FeatureEngineeringError,
+    IndicatorCalculationError,
+    InvalidParameterError,
     MissingConfigError,
     MissingDataError,
-    FeatureEngineeringError,
-    InvalidParameterError,
-    IndicatorCalculationError,
-    SignalGenerationError,
     OrderExecutionError,
+    SignalGenerationError,
     SlippageError,
+    StrategyError,
     TradingExecutionError,
+    TradingSystemError,
+    ValidationError,
 )
 
 
@@ -39,4 +41,4 @@ class TestExceptionSystem(unittest.TestCase):
     def test_context_storage(self):
         ctx = {"foo": "bar"}
         err = TradingSystemError("oops", context=ctx)
-        assert err.context == ctx 
+        assert err.context == ctx

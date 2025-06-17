@@ -5,7 +5,7 @@ and overlap periods for optimal trading times.
 """
 
 from datetime import datetime, time, timedelta, timezone
-from typing import List, Tuple
+from typing import ClassVar, List, Tuple
 
 import pytz
 
@@ -15,13 +15,13 @@ from .base import BaseCalendar
 
 class ForexCalendar(BaseCalendar):
     """Forex market calendar implementation.
-    
+
     Forex markets trade 24/5 from Sunday 17:00 EST to Friday 17:00 EST.
     Major sessions: Sydney, Tokyo, London, New York with overlap periods.
     """
 
     # Major forex trading sessions (all times in UTC)
-    SESSIONS = {
+    SESSIONS: ClassVar[dict[str, dict[str, time]]] = {
         "sydney": {"start": time(21, 0), "end": time(6, 0)},      # 21:00-06:00 UTC
         "tokyo": {"start": time(0, 0), "end": time(9, 0)},        # 00:00-09:00 UTC
         "london": {"start": time(7, 0), "end": time(16, 0)},      # 07:00-16:00 UTC
@@ -29,21 +29,21 @@ class ForexCalendar(BaseCalendar):
     }
 
     # Major overlap periods (highest volatility)
-    OVERLAPS = {
+    OVERLAPS: ClassVar[dict[str, dict[str, time]]] = {
         "london_ny": {"start": time(12, 0), "end": time(16, 0)},  # 12:00-16:00 UTC
         "sydney_tokyo": {"start": time(0, 0), "end": time(6, 0)}, # 00:00-06:00 UTC
         "tokyo_london": {"start": time(7, 0), "end": time(9, 0)}  # 07:00-09:00 UTC
     }
 
     # Forex holidays (when major markets are closed)
-    FOREX_HOLIDAYS = [
+    FOREX_HOLIDAYS: ClassVar[list[str]] = [
         "01-01",  # New Year's Day
         "12-25",  # Christmas Day
     ]
 
     def __init__(self, timezone: str = "UTC"):
         """Initialize forex calendar.
-        
+
         Args:
             timezone: Timezone for operations (default: UTC)
 
@@ -53,12 +53,12 @@ class ForexCalendar(BaseCalendar):
 
     def is_market_open(self, timestamp: datetime) -> bool:
         """Check if forex market is open.
-        
+
         Forex is open 24/5 from Sunday 17:00 EST to Friday 17:00 EST.
-        
+
         Args:
             timestamp: Datetime to check
-            
+
         Returns:
             True if market is open, False otherwise
 
@@ -94,10 +94,10 @@ class ForexCalendar(BaseCalendar):
 
     def get_market_session(self, timestamp: datetime) -> MarketSession:
         """Get current forex session and check for overlaps.
-        
+
         Args:
             timestamp: Datetime to check
-            
+
         Returns:
             Market session type
 
@@ -112,12 +112,12 @@ class ForexCalendar(BaseCalendar):
         utc_time = timestamp.astimezone(timezone.utc).time()
 
         # Check for overlap periods first (highest priority)
-        for overlap_name, overlap_times in self.OVERLAPS.items():
+        for _overlap_name, overlap_times in self.OVERLAPS.items():
             if self._is_time_in_session(utc_time, overlap_times):
                 return MarketSession.OVERLAP
 
         # Check individual sessions
-        for session_name, session_times in self.SESSIONS.items():
+        for _session_name, session_times in self.SESSIONS.items():
             if self._is_time_in_session(utc_time, session_times):
                 return MarketSession.OPEN
 
@@ -125,13 +125,13 @@ class ForexCalendar(BaseCalendar):
 
     def _is_time_in_session(self, current_time: time, session: dict) -> bool:
         """Check if current time falls within a trading session.
-        
+
         Handles sessions that cross midnight (e.g., Sydney session).
-        
+
         Args:
             current_time: Time to check
             session: Session dict with 'start' and 'end' times
-            
+
         Returns:
             True if time is in session, False otherwise
 
@@ -148,10 +148,10 @@ class ForexCalendar(BaseCalendar):
 
     def get_trading_hours(self, date: datetime) -> List[Tuple[datetime, datetime]]:
         """Get forex trading hours for a specific date.
-        
+
         Args:
             date: Date to get trading hours for
-            
+
         Returns:
             List of (start_time, end_time) tuples for trading sessions
 
@@ -167,10 +167,10 @@ class ForexCalendar(BaseCalendar):
 
     def is_holiday(self, date: datetime) -> bool:
         """Check if given date is a forex holiday.
-        
+
         Args:
             date: Date to check
-            
+
         Returns:
             True if it's a holiday, False otherwise
 
@@ -180,10 +180,10 @@ class ForexCalendar(BaseCalendar):
 
     def next_market_open(self, timestamp: datetime) -> datetime:
         """Get next forex market open time.
-        
+
         Args:
             timestamp: Reference timestamp
-            
+
         Returns:
             Next market open datetime
 
@@ -201,10 +201,10 @@ class ForexCalendar(BaseCalendar):
 
     def next_market_close(self, timestamp: datetime) -> datetime:
         """Get next forex market close time.
-        
+
         Args:
             timestamp: Reference timestamp
-            
+
         Returns:
             Next market close datetime
 
@@ -222,10 +222,10 @@ class ForexCalendar(BaseCalendar):
 
     def get_active_session(self, timestamp: datetime) -> str:
         """Get the name of the currently active major session.
-        
+
         Args:
             timestamp: Datetime to check
-            
+
         Returns:
             Name of active session or "multiple" for overlaps
 
@@ -253,10 +253,10 @@ class ForexCalendar(BaseCalendar):
 
     def is_high_volatility_period(self, timestamp: datetime) -> bool:
         """Check if timestamp falls during high volatility overlap periods.
-        
+
         Args:
             timestamp: Datetime to check
-            
+
         Returns:
             True if during overlap period, False otherwise
 

@@ -3,8 +3,8 @@
 """
 from typing import Dict, Type
 
-from src.agents.base import BaseAgent
 from src.brokers.base import BaseBroker
+from src.models.sb3.base import BaseAgent
 from src.strategies.base import BaseStrategy
 from src.strategies.rl_strategy import RLStrategy
 from src.utils.logger import get_logger

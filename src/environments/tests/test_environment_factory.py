@@ -17,4 +17,4 @@ class TestEnvironmentFactory:
 
     def test_unknown_env_raises(self):
         with pytest.raises(ValueError):
-            environment_factory.create_environment("unknown", _df()) 
+            environment_factory.create_environment("unknown", _df())

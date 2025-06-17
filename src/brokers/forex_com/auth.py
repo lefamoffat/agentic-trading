@@ -64,7 +64,7 @@ class AuthenticationHandler:
 
                 auth_endpoint = f"{self.AUTH_BASE_URL}/Session"
                 self.logger.info(f"Authenticating to endpoint: {auth_endpoint}")
-                self.logger.debug(f"Login data: {dict((k, v if k != 'Password' else '***') for k, v in login_data.items())}")
+                self.logger.debug(f"Login data: { {k: v if k != 'Password' else '***' for k, v in login_data.items()} }")
 
                 async with session.request("POST", auth_endpoint, json=login_data, headers=headers) as response:
                     try:

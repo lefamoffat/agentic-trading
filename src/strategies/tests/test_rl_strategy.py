@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Tests for the RL-based trading strategy (relocated)."""
-import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import numpy as np
@@ -95,4 +94,4 @@ async def test_execute_main_loop_single_pass(rl_strategy, mock_agent, mock_broke
         mock_broker.get_historical_data.assert_called_once()
         mock_agent.predict.assert_called_once()
         mock_broker.get_open_positions.assert_called_once()
-        mock_broker.open_position.assert_called_once_with("BUY", "EUR/USD", 10000) 
+        mock_broker.open_position.assert_called_once_with("BUY", "EUR/USD", 10000)

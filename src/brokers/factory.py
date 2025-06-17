@@ -4,7 +4,7 @@ This factory provides a central point for creating broker instances,
 making it easy to add new brokers without changing existing code.
 """
 
-from typing import Dict, Type
+from typing import ClassVar, Dict, Type
 
 from ..types import BrokerType
 from ..utils.logger import get_logger
@@ -16,7 +16,7 @@ class BrokerFactory:
     """Factory for creating broker instances."""
 
     # Registry of available brokers
-    _broker_registry: Dict[BrokerType, Type[BaseBroker]] = {
+    _broker_registry: ClassVar[Dict[BrokerType, Type[BaseBroker]]] = {
         BrokerType.FOREX_COM: ForexComBroker,
     }
 
@@ -26,7 +26,7 @@ class BrokerFactory:
     @classmethod
     def register_broker(cls, broker_type: BrokerType, broker_class: Type[BaseBroker]) -> None:
         """Register a new broker implementation.
-        
+
         Args:
             broker_type: The broker type identifier
             broker_class: The broker implementation class
@@ -37,7 +37,7 @@ class BrokerFactory:
     @classmethod
     def get_available_brokers(cls) -> list[str]:
         """Get list of available broker names.
-        
+
         Returns:
             List of broker names as strings
 
@@ -53,29 +53,29 @@ class BrokerFactory:
         **kwargs
     ) -> BaseBroker:
         """Create a broker instance based on broker name.
-        
+
         Args:
             broker_name: Name of the broker (e.g., "forex.com")
             api_key: API key or username
             api_secret: API secret or password
             sandbox: Whether to use sandbox/demo environment
             **kwargs: Additional broker-specific parameters
-            
+
         Returns:
             Configured broker instance
-            
+
         Raises:
             ValueError: If broker is not supported
 
         """
         try:
             broker_type = BrokerType(broker_name)
-        except ValueError:
+        except ValueError as err:
             available = self.get_available_brokers()
             raise ValueError(
                 f"Unsupported broker: '{broker_name}'. "
                 f"Available brokers: {available}"
-            )
+            ) from err
 
         broker_class = self._broker_registry[broker_type]
 
@@ -94,10 +94,10 @@ class BrokerFactory:
 
     def is_broker_supported(self, broker_name: str) -> bool:
         """Check if a broker is supported.
-        
+
         Args:
             broker_name: Name of the broker to check
-            
+
         Returns:
             True if broker is supported, False otherwise
 

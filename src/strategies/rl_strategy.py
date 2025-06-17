@@ -7,9 +7,9 @@ from typing import Dict
 import numpy as np
 import pandas as pd
 
-from src.agents.base import BaseAgent
 from src.brokers.base import BaseBroker
 from src.environments.types import Position
+from src.models.sb3.base import BaseAgent
 from src.strategies.base import BaseStrategy
 
 
@@ -111,13 +111,15 @@ class RLStrategy(BaseStrategy):
     async def generate_signals(
         self, latest_data: pd.DataFrame, broker: BaseBroker
     ) -> Position:
-        """
-        Generate trading signals using the RL agent.
+        """Generate trading signals using the RL agent.
+
         Args:
             latest_data: DataFrame with the latest market data for a single symbol.
             broker: The broker instance, providing portfolio and position status.
+
         Returns:
             The trading position (LONG, SHORT, FLAT).
+
         """
         if len(latest_data) < self.window_size:
             return Position.FLAT  # Not enough data to make a decision

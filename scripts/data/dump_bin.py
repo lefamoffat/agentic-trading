@@ -41,7 +41,7 @@ class DumpDataBase:
         self,
         csv_path: str,
         qlib_dir: str,
-        backup_dir: str = None,
+        backup_dir: str | None = None,
         freq: str = "day",
         max_workers: int = 16,
         date_field_name: str = "date",
@@ -49,7 +49,7 @@ class DumpDataBase:
         symbol_field_name: str = "symbol",
         exclude_fields: str = "",
         include_fields: str = "",
-        limit_nums: int = None,
+        limit_nums: int | None = None,
     ):
         """Parameters
         ----------
@@ -339,7 +339,7 @@ class DumpDataFix(DumpDataAll):
                 for file_path, (_begin_time, _end_time) in zip(new_stock_files, execute.map(_fun, new_stock_files), strict=False):
                     if isinstance(_begin_time, pd.Timestamp) and isinstance(_end_time, pd.Timestamp):
                         symbol = fname_to_code(self.get_symbol_from_file(file_path).lower()).upper()
-                        _dt_map = self._old_instruments.setdefault(symbol, dict())
+                        _dt_map = self._old_instruments.setdefault(symbol, {})
                         _dt_map[self.INSTRUMENTS_START_FIELD] = self._format_datetime(_begin_time)
                         _dt_map[self.INSTRUMENTS_END_FIELD] = self._format_datetime(_end_time)
                     p_bar.update()
@@ -365,7 +365,7 @@ class DumpDataUpdate(DumpDataBase):
         self,
         csv_path: str,
         qlib_dir: str,
-        backup_dir: str = None,
+        backup_dir: str | None = None,
         freq: str = "day",
         max_workers: int = 16,
         date_field_name: str = "date",
@@ -373,7 +373,7 @@ class DumpDataUpdate(DumpDataBase):
         symbol_field_name: str = "symbol",
         exclude_fields: str = "",
         include_fields: str = "",
-        limit_nums: int = None,
+        limit_nums: int | None = None,
     ):
         """Parameters
         ----------
@@ -480,7 +480,7 @@ class DumpDataUpdate(DumpDataBase):
                         futures[executor.submit(self._dump_bin, _df, _update_calendars)] = _code
                 else:
                     # new stock
-                    _dt_range = self._update_instruments.setdefault(_code, dict())
+                    _dt_range = self._update_instruments.setdefault(_code, {})
                     _dt_range[self.INSTRUMENTS_START_FIELD] = self._format_datetime(_start)
                     _dt_range[self.INSTRUMENTS_END_FIELD] = self._format_datetime(_end)
                     futures[executor.submit(self._dump_bin, _df, self._new_calendar_list)] = _code

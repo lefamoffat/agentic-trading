@@ -40,7 +40,7 @@ def _get_qlib_freq(timeframe: str) -> str:
 
 def sanitize_column_names(df: pd.DataFrame) -> pd.DataFrame:
     """Sanitize the column names of a DataFrame.
-    
+
     Qlib generates column names like 'Mean($close, 5)' or '$high'.
     This function converts them to a more database-friendly format
     like 'mean_close_5' or 'high'.
@@ -97,7 +97,7 @@ def build_features(symbol: str, timeframe: str) -> None:
     print("Defining fields and fetching features from Qlib...")
 
     # Prefixing with '$' tells Qlib to use the raw value. Formulas are used directly.
-    fields = ["$open", "$high", "$low", "$close", "$volume"] + ALPHA_FACTORS
+    fields = ["$open", "$high", "$low", "$close", "$volume", *ALPHA_FACTORS]
     qlib_freq = _get_qlib_freq(timeframe)
 
     # Fetch all data, including calculated alpha factors

@@ -2,7 +2,7 @@
 """Base classes for reinforcement learning environments.
 """
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, ClassVar, Dict, Optional, Tuple
 
 import gymnasium as gym
 import numpy as np
@@ -24,7 +24,7 @@ class BaseTradingEnv(gym.Env, ABC):
 
     """
 
-    metadata = {"render_modes": ["human", "ansi"], "render_fps": 1}
+    metadata: ClassVar[dict[str, Any]] = {"render_modes": ["human", "ansi"], "render_fps": 1}
 
     def __init__(self, data: pd.DataFrame, initial_balance: float = 10000.0):
         """Initialize the trading environment.

@@ -1,6 +1,7 @@
 """Forex.com-specific tests for SymbolMapper (moved from generic tests)."""
 
 import pytest
+
 from src.brokers.symbol_mapper import BrokerType, SymbolMapper
 
 
@@ -21,4 +22,4 @@ class TestForexComSymbolMapper:
 
     def test_unsupported(self):
         with pytest.raises(ValueError):
-            self.mapper.to_broker_symbol("FOO/BAR") 
+            self.mapper.to_broker_symbol("FOO/BAR")

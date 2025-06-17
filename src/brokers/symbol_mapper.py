@@ -4,17 +4,19 @@ and broker-specific naming conventions.
 """
 
 
+from typing import ClassVar
+
 from ..types import BrokerType
 
 
 class SymbolMapper:
     """Maps between common symbol formats and broker-specific formats.
-    
+
     Common format: "EUR/USD", "GBP/USD", etc.
     """
 
     # Forex.com uses specific naming conventions
-    FOREX_COM_MAPPINGS = {
+    FOREX_COM_MAPPINGS: ClassVar[dict[str, str]] = {
         # Common -> Forex.com format
         "EUR/USD": "EUR_USD",
         "GBP/USD": "GBP_USD",
@@ -44,11 +46,11 @@ class SymbolMapper:
     }
 
     # Reverse mapping for Forex.com
-    FOREX_COM_REVERSE_MAPPINGS = {v: k for k, v in FOREX_COM_MAPPINGS.items()}
+    FOREX_COM_REVERSE_MAPPINGS: ClassVar[dict[str, str]] = {v: k for k, v in FOREX_COM_MAPPINGS.items()}
 
     def __init__(self, broker_type: BrokerType = BrokerType.FOREX_COM):
         """Initialize symbol mapper for specific broker.
-        
+
         Args:
             broker_type: The broker type to map symbols for
 
@@ -65,13 +67,13 @@ class SymbolMapper:
 
     def to_broker_symbol(self, common_symbol: str) -> str:
         """Map common symbol format to broker-specific format.
-        
+
         Args:
             common_symbol: Symbol in common format (e.g., "EUR/USD")
-            
+
         Returns:
             Broker-specific symbol format
-            
+
         Raises:
             ValueError: If symbol is not supported
 
@@ -89,13 +91,13 @@ class SymbolMapper:
 
     def from_broker_symbol(self, broker_symbol: str) -> str:
         """Map broker-specific symbol format to common format.
-        
+
         Args:
             broker_symbol: Symbol in broker-specific format
-            
+
         Returns:
             Common symbol format
-            
+
         Raises:
             ValueError: If symbol is not supported
 
@@ -113,10 +115,10 @@ class SymbolMapper:
 
     def is_supported(self, common_symbol: str) -> bool:
         """Check if a symbol is supported for this broker.
-        
+
         Args:
             common_symbol: Symbol in common format
-            
+
         Returns:
             True if supported, False otherwise
 
@@ -127,7 +129,7 @@ class SymbolMapper:
 
     def get_supported_symbols(self) -> list[str]:
         """Get list of all supported symbols in common format.
-        
+
         Returns:
             List of supported symbols
 
@@ -144,7 +146,7 @@ class SymbolMapper:
         broker_symbol: str
     ) -> None:
         """Add a custom symbol mapping for a broker.
-        
+
         Args:
             broker_type: The broker to add mapping for
             common_symbol: Symbol in common format

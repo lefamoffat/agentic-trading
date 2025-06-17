@@ -143,7 +143,7 @@ class TradingEnv(BaseTradingEnv):
             # Apply trade fee
             trade_cost = self.balance * self.trade_fee
             self.balance -= trade_cost
-            
+
             # Record the closed trade
             trade = Trade(
                 entry_price=self._position_entry_price,
@@ -183,7 +183,7 @@ class TradingEnv(BaseTradingEnv):
         reward = self._calculate_reward()
         terminated = self._portfolio_value <= 0 or self.current_step >= len(self.data) - 1
         truncated = False
-        
+
         observation = self._get_observation()
         info = self._get_info()
 

@@ -5,7 +5,7 @@ to ensure consistent CSV format regardless of data source.
 """
 
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, Optional
 
 import pandas as pd
 
@@ -15,18 +15,25 @@ from .calendars.factory import calendar_factory
 
 class DataProcessor:
     """Data processor for standardizing and validating trading data.
-    
+
     Ensures all brokers produce identical CSV format:
     timestamp,open,high,low,close,volume
     2020-04-01T00:00:00Z,1.0856,1.0862,1.0854,1.0859,1250
     """
 
-    REQUIRED_COLUMNS = ["timestamp", "open", "high", "low", "close", "volume"]
-    TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+    REQUIRED_COLUMNS: ClassVar[list[str]] = [
+        "timestamp",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+    ]
+    TIMESTAMP_FORMAT: ClassVar[str] = "%Y-%m-%dT%H:%M:%SZ"
 
     def __init__(self, symbol: str, asset_class: str = "forex"):
         """Initialize data processor for a specific symbol.
-        
+
         Args:
             symbol: Trading symbol (e.g., "EUR/USD")
             asset_class: Asset class for calendar selection
@@ -37,13 +44,13 @@ class DataProcessor:
         self.logger = get_logger(__name__)
         self.calendar = calendar_factory.create_calendar(asset_class)
 
-    def standardize_dataframe(self, df: pd.DataFrame, broker_name: str = None) -> pd.DataFrame:
+    def standardize_dataframe(self, df: pd.DataFrame, broker_name: Optional[str] = None) -> pd.DataFrame:
         """Standardize DataFrame to consistent format.
-        
+
         Args:
             df: Raw DataFrame from broker
             broker_name: Name of source broker for logging
-            
+
         Returns:
             Standardized DataFrame with required columns and format
 
@@ -81,10 +88,10 @@ class DataProcessor:
 
     def _validate_required_columns(self, df: pd.DataFrame) -> None:
         """Validate that DataFrame has all required columns.
-        
+
         Args:
             df: DataFrame to validate
-            
+
         Raises:
             ValueError: If required columns are missing
 
@@ -100,10 +107,10 @@ class DataProcessor:
 
     def _standardize_timestamps(self, df: pd.DataFrame) -> pd.DataFrame:
         """Standardize timestamp column to ISO format with UTC timezone.
-        
+
         Args:
             df: DataFrame with timestamp column
-            
+
         Returns:
             DataFrame with standardized timestamps
 
@@ -128,10 +135,10 @@ class DataProcessor:
 
     def _validate_ohlcv_data(self, df: pd.DataFrame) -> pd.DataFrame:
         """Validate and clean OHLCV data.
-        
+
         Args:
             df: DataFrame with OHLCV columns
-            
+
         Returns:
             Cleaned DataFrame
 
@@ -167,10 +174,10 @@ class DataProcessor:
 
     def _validate_ohlc_relationships(self, df: pd.DataFrame) -> pd.DataFrame:
         """Validate OHLC relationships and fix minor inconsistencies.
-        
+
         Args:
             df: DataFrame with OHLC data
-            
+
         Returns:
             DataFrame with validated OHLC relationships
 
@@ -193,7 +200,7 @@ class DataProcessor:
 
     def _create_empty_standard_df(self) -> pd.DataFrame:
         """Create empty DataFrame with standard columns.
-        
+
         Returns:
             Empty standardized DataFrame
 
@@ -202,10 +209,10 @@ class DataProcessor:
 
     def validate_data_quality(self, df: pd.DataFrame) -> Dict[str, Any]:
         """Perform comprehensive data quality checks.
-        
+
         Args:
             df: DataFrame to validate
-            
+
         Returns:
             Dictionary with quality metrics and issues
 
@@ -274,7 +281,7 @@ class DataProcessor:
         metadata: Optional[Dict] = None
     ) -> None:
         """Save standardized DataFrame to CSV file.
-        
+
         Args:
             df: Standardized DataFrame
             filepath: Path to save CSV file
@@ -298,10 +305,10 @@ class DataProcessor:
 
     def filter_trading_hours(self, df: pd.DataFrame) -> pd.DataFrame:
         """Filter DataFrame to only include trading hours based on calendar.
-        
+
         Args:
             df: DataFrame with timestamp column
-            
+
         Returns:
             Filtered DataFrame with only trading hours
 

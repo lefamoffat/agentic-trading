@@ -29,7 +29,6 @@ class DummyModel:
 @pytest.fixture
 def monkeypatched_train(monkeypatch):
     """Patch heavy dependencies inside train_agent.py to enable a fast smoke test."""
-
     monkeypatch.setattr(ta, "run_data_preparation_pipeline", lambda *_: True)
 
     df = pd.DataFrame({
@@ -70,4 +69,4 @@ def test_train_agent_session_smoke(monkeypatched_train):
 
         model_root = Path("data/models/PPO") / run.info.run_id
         final_model = model_root / "final_model.zip"
-        assert final_model.exists() 
+        assert final_model.exists()

@@ -70,7 +70,7 @@ async def download_historical_data(
     broker: str = BrokerType.FOREX_COM.value
 ) -> None:
     """Download historical data from specified broker.
-    
+
     Args:
         bars: Number of bars to download
         symbol: Symbol to download data for (default: EUR/USD)

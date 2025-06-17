@@ -1,9 +1,6 @@
 """Logging configuration using loguru
 """
 
-import os
-import sys
-from pathlib import Path
 from typing import Optional
 
 from loguru import logger
@@ -13,8 +10,10 @@ from src.utils.settings import settings
 
 def setup_logging(log_level: Optional[str] = None):
     """Set up logging configuration.
+
     Args:
         log_level: Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+
     """
     # Get log level from environment or default to INFO
     if log_level is None:
@@ -57,10 +56,13 @@ def setup_logging(log_level: Optional[str] = None):
 
 def get_logger(name: Optional[str] = None):
     """Get a logger instance.
+
     Args:
         name: Logger name (usually __name__).
+
     Returns:
         Logger instance.
+
     """
     # Setup logging if not already configured
     if not logger._core.handlers:

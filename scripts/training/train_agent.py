@@ -9,31 +9,29 @@ Usage:
     python -m scripts.training.train_agent [options]
 """
 import argparse
-from pathlib import Path
-from typing import Any, Dict, Optional
 
 # -----------------------------------------------------------------------------
 # Environment configuration (must occur BEFORE importing mlflow)
 # -----------------------------------------------------------------------------
 import os
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 import mlflow
 import pandas as pd
-import stable_baselines3
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.callbacks import BaseCallback, CallbackList
 from stable_baselines3.common.monitor import Monitor
-import numpy as np
 
-from src.agents.factory import agent_factory
 from src.callbacks.interrupt_callback import GracefulShutdownCallback
 from src.callbacks.metrics_callback import MlflowMetricsCallback
 from src.data.pipelines import run_data_preparation_pipeline
 from src.environments.factory import environment_factory
+from src.models.sb3.factory import agent_factory
+from src.models.sb3.wrapper import Sb3ModelWrapper
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
-from src.mlflow_utils import log_sb3_model, log_params
-from src.models.sb3_wrapper import Sb3ModelWrapper
+from src.utils.mlflow import log_params, log_sb3_model
 
 logger = get_logger(__name__)
 

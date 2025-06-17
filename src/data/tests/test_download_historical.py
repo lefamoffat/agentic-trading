@@ -28,4 +28,4 @@ def test_prepare_for_qlib():
     assert "factor" in qlib_df.columns
     assert (qlib_df["factor"] == 1.0).all()
     assert qlib_df["open"].iloc[0] == 1.1000
-    assert qlib_df["volume"].iloc[1] == 1200 
+    assert qlib_df["volume"].iloc[1] == 1200

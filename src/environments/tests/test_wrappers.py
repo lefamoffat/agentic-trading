@@ -54,4 +54,4 @@ class TestEvaluationWrapper:
         assert len(wrapper.portfolio_values) == 2
         wrapper.reset()
         assert len(wrapper.portfolio_values) == 1
-        assert len(wrapper.trade_history) == 0 
+        assert len(wrapper.trade_history) == 0

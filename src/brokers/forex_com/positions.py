@@ -1,40 +1,39 @@
-"""
-Position handler for Forex.com broker.
+"""Position handler for Forex.com broker.
 """
 
 from typing import List
 
-from src.brokers.forex_com.api import ApiClient
 from src.brokers.base import Position
+from src.brokers.forex_com.api import ApiClient
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.brokers.symbol_mapper import SymbolMapper
 from src.utils.logger import get_logger
-from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 
 class PositionHandler:
     """Handles position-related operations."""
 
     def __init__(self, api_client: ApiClient, symbol_mapper: SymbolMapper):
-        """
-        Initialize the position handler.
+        """Initialize the position handler.
 
         Args:
             api_client: The API client instance.
             symbol_mapper: The symbol mapper instance.
+
         """
         self.api_client = api_client
         self.symbol_mapper = symbol_mapper
         self.logger = get_logger(__name__)
 
     async def get_positions(self) -> List[Position]:
-        """
-        Get current positions using GainCapital API v2.
+        """Get current positions using GainCapital API v2.
 
         Returns:
             A list of Position objects.
 
         Raises:
             Exception: If the API request fails.
+
         """
         try:
             endpoint = "/order/openpositions"

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Concrete implementation of the trading environment.
+"""Concrete implementation of the trading environment.
 """
 from typing import Any, Dict, List
 
@@ -14,6 +13,7 @@ from src.environments.types import Position
 
 class Trade:
     """A data class to store details of a single trade."""
+
     def __init__(self, entry_price: float, exit_price: float, position: Position, profit: float):
         self.entry_price = entry_price
         self.exit_price = exit_price
@@ -22,8 +22,7 @@ class Trade:
 
 
 class TradingEnv(BaseTradingEnv):
-    """
-    A concrete trading environment for reinforcement learning.
+    """A concrete trading environment for reinforcement learning.
 
     This environment simulates trading a single asset. It provides a simplified
     action space (short, flat, long) and an observation space that includes
@@ -33,6 +32,7 @@ class TradingEnv(BaseTradingEnv):
         action_space (spaces.Discrete): The action space (Short, Flat, Long).
         observation_space (spaces.Box): The observation space.
         trade_fee (float): The fee for executing a trade.
+
     """
 
     def __init__(
@@ -41,13 +41,13 @@ class TradingEnv(BaseTradingEnv):
         initial_balance: float = 10000.0,
         trade_fee: float = 0.001,
     ):
-        """
-        Initialize the trading environment.
+        """Initialize the trading environment.
 
         Args:
             data (pd.DataFrame): DataFrame containing market data and features.
             initial_balance (float): The initial account balance.
             trade_fee (float): The transaction fee as a fraction of the trade amount.
+
         """
         super().__init__(data, initial_balance)
         self.trade_fee = trade_fee
@@ -71,29 +71,27 @@ class TradingEnv(BaseTradingEnv):
 
     @property
     def portfolio_value(self) -> float:
-        """
-        Calculate the current portfolio value.
+        """Calculate the current portfolio value.
         """
         current_price = self.data.iloc[self.current_step]["close"]
-        
+
         # Calculate unrealized PnL
         unrealized_pnl = 0.0
         if self._position == Position.LONG:
             unrealized_pnl = (current_price - self._position_entry_price) * (self.balance / self._position_entry_price)
         elif self._position == Position.SHORT:
             unrealized_pnl = (self._position_entry_price - current_price) * (self.balance / self._position_entry_price)
-            
+
         return self.balance + unrealized_pnl
 
     def _get_observation(self) -> np.ndarray:
-        """
-        Get the observation for the current step.
+        """Get the observation for the current step.
 
         The observation includes the current price, balance, position, and all
         other features from the input data frame.
         """
         features = self.data.iloc[self.current_step].values
-        
+
         # Normalize balance to avoid large values dominating the observation
         normalized_balance = self.balance / self.initial_balance
 
@@ -141,6 +139,10 @@ class TradingEnv(BaseTradingEnv):
                 profit = (self._position_entry_price - current_price) * (
                     self.balance / self._position_entry_price
                 )
+
+            # Apply trade fee
+            trade_cost = self.balance * self.trade_fee
+            self.balance -= trade_cost
             
             # Record the closed trade
             trade = Trade(
@@ -150,26 +152,42 @@ class TradingEnv(BaseTradingEnv):
                 profit=profit,
             )
             self.trade_history.append(trade)
-            
-            self.balance += profit * (1 - self.trade_fee)
+
+            self.balance += profit
             self._position = Position.FLAT
             self._position_entry_price = 0.0
 
         # Open new position
         if action != Position.FLAT:
+            self.balance -= self.balance * self.trade_fee
             self._position = action
             self._position_entry_price = current_price
 
     def _calculate_reward(self) -> float:
-        """
-        Calculate the reward, defined as the change in portfolio value.
+        """Calculate the reward, defined as the change in portfolio value.
         """
         self._portfolio_value = self.portfolio_value
-        
+
         reward = self._portfolio_value - self._last_portfolio_value
         self._last_portfolio_value = self._portfolio_value
-        
+
         return reward
+
+    def step(
+        self, action: int
+    ) -> tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
+        """Execute one time step within the environment."""
+        self._take_action(action)
+        self.current_step += 1
+
+        reward = self._calculate_reward()
+        terminated = self._portfolio_value <= 0 or self.current_step >= len(self.data) - 1
+        truncated = False
+        
+        observation = self._get_observation()
+        info = self._get_info()
+
+        return observation, reward, terminated, truncated, info
 
     def reset(
         self, *, seed: int | None = None, options: Dict[str, Any] | None = None
@@ -181,5 +199,5 @@ class TradingEnv(BaseTradingEnv):
         self._last_portfolio_value = self.initial_balance
         self._portfolio_value = self.initial_balance
         self.trade_history = []
-        
-        return self._get_observation(), self._get_info() 
+
+        return self._get_observation(), self._get_info()

@@ -1,5 +1,4 @@
-"""
-The types package contains project-wide type definitions, enums, and aliases.
+"""The types package contains project-wide type definitions, enums, and aliases.
 """
 from .common import *
 from .enums import *
@@ -17,4 +16,4 @@ __all__ = [
     "BrokerType", "AssetClass", "Timeframe", "OrderType", "OrderSide",
     "OrderStatus", "DataQuality", "MarketSession", "EventImportance",
     "StrategyType", "SignalType", "RiskLevel"
-] 
+]

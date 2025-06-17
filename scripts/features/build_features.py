@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Build features using Qlib.
+"""Build features using Qlib.
 
 This script initializes Qlib using the pre-existing binary data source,
 calculates a defined set of alpha factors, and saves the resulting
@@ -15,15 +14,12 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-import sys
 
 import pandas as pd
 import qlib
 from qlib.data import D
-from src.data.pipelines import run_data_preparation_pipeline
+
 from src.types import Timeframe
-from src.utils.config_loader import ConfigLoader
-from src.utils.logger import get_logger
 
 # A selection of factors from Alpha360. We can expand this list.
 # See: https://qlib.readthedocs.io/en/latest/component/meta_dataset.html#alpha-360
@@ -35,8 +31,7 @@ ALPHA_FACTORS = [
 
 
 def _get_qlib_freq(timeframe: str) -> str:
-    """
-    Converts a standard timeframe string to a Qlib-compatible frequency
+    """Converts a standard timeframe string to a Qlib-compatible frequency
     by looking it up in the centralized Timeframe enum.
     """
     timeframe_enum = Timeframe.from_standard(timeframe)
@@ -44,8 +39,7 @@ def _get_qlib_freq(timeframe: str) -> str:
 
 
 def sanitize_column_names(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Sanitize the column names of a DataFrame.
+    """Sanitize the column names of a DataFrame.
     
     Qlib generates column names like 'Mean($close, 5)' or '$high'.
     This function converts them to a more database-friendly format
@@ -56,6 +50,7 @@ def sanitize_column_names(df: pd.DataFrame) -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: The DataFrame with sanitized column names.
+
     """
     sanitized_columns = {}
     for col in df.columns:
@@ -68,21 +63,21 @@ def sanitize_column_names(df: pd.DataFrame) -> pd.DataFrame:
         # Replace multiple underscores with a single one
         new_col = re.sub(r'__+', '_', new_col)
         sanitized_columns[col] = new_col.lower()
-    
+
     df = df.rename(columns=sanitized_columns)
     return df
 
 
 def build_features(symbol: str, timeframe: str) -> None:
-    """
-    Build daily features for a given symbol using Qlib's binary data source.
+    """Build daily features for a given symbol using Qlib's binary data source.
 
     Args:
         symbol (str): The trading symbol (e.g., "EUR/USD").
         timeframe (str): The data timeframe (e.g., "1h").
+
     """
     sanitized_symbol = symbol.replace("/", "")
-    
+
     # Define paths
     qlib_data_dir = Path("data/qlib_data")
     output_dir = Path("data/processed/features")
@@ -93,18 +88,18 @@ def build_features(symbol: str, timeframe: str) -> None:
     if not (qlib_data_dir / "calendars").exists() or not (qlib_data_dir / "instruments").exists():
         print(f"Qlib data not found at {qlib_data_dir}. Please run the data preparation script first.")
         return
-        
+
     print("Initializing Qlib...")
     qlib.init(provider_uri=str(qlib_data_dir.resolve()))
     print("Qlib initialized successfully.")
 
     # --- Step 2: Define fields and fetch features from Qlib ---
     print("Defining fields and fetching features from Qlib...")
-    
+
     # Prefixing with '$' tells Qlib to use the raw value. Formulas are used directly.
     fields = ["$open", "$high", "$low", "$close", "$volume"] + ALPHA_FACTORS
     qlib_freq = _get_qlib_freq(timeframe)
-    
+
     # Fetch all data, including calculated alpha factors
     all_df = D.features(
         instruments=[sanitized_symbol],
@@ -119,15 +114,15 @@ def build_features(symbol: str, timeframe: str) -> None:
     # --- Step 3: Clean up and Save ---
     all_df = all_df.reset_index()
     all_df.rename(columns={"datetime": "timestamp", "instrument": "symbol"}, inplace=True)
-    
+
     all_df = sanitize_column_names(all_df)
-    
+
     final_df = all_df.drop(columns=["symbol"])
-    
+
     output_path = output_dir / f"{sanitized_symbol}_{timeframe}_features.csv"
     final_df.to_csv(output_path, index=False)
-    
-    print(f"✅ Features built successfully!")
+
+    print("✅ Features built successfully!")
     print(f"Saved {len(final_df.columns)} features for {len(final_df)} timesteps to {output_path}")
 
 
@@ -146,7 +141,7 @@ def main():
         default="1d",
         help="The timeframe of the data (e.g., 1d, 1h)",
     )
-    
+
     args = parser.parse_args()
 
     print("🚀 Starting Feature Building Process")
@@ -154,7 +149,7 @@ def main():
     print(f"Symbol: {args.symbol}")
     print(f"Timeframe: {args.timeframe}")
     print("=" * 40)
-    
+
     build_features(symbol=args.symbol, timeframe=args.timeframe)
 
 

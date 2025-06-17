@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Factory for creating reinforcement learning environments.
+"""Factory for creating reinforcement learning environments.
 """
 from typing import Dict, Type
 
@@ -12,8 +11,7 @@ from src.utils.logger import get_logger
 
 
 class EnvironmentFactory:
-    """
-    A factory for creating trading environments.
+    """A factory for creating trading environments.
 
     This factory allows for the creation of different trading environment
     implementations based on a specified name.
@@ -26,12 +24,12 @@ class EnvironmentFactory:
         }
 
     def register_environment(self, name: str, env_class: Type[BaseTradingEnv]) -> None:
-        """
-        Register a new environment class.
+        """Register a new environment class.
 
         Args:
             name (str): The name to register the environment under.
             env_class (Type[BaseTradingEnv]): The class of the environment.
+
         """
         self.logger.info(f"Registering environment: {name}")
         self._environments[name] = env_class
@@ -43,8 +41,7 @@ class EnvironmentFactory:
         initial_balance: float = 10000.0,
         **kwargs,
     ) -> BaseTradingEnv:
-        """
-        Create an instance of a trading environment.
+        """Create an instance of a trading environment.
 
         Args:
             name (str): The name of the environment to create.
@@ -57,6 +54,7 @@ class EnvironmentFactory:
 
         Raises:
             ValueError: If the specified environment name is not registered.
+
         """
         self.logger.info(f"Creating environment '{name}'")
         env_class = self._environments.get(name)
@@ -71,4 +69,4 @@ class EnvironmentFactory:
 
 
 # Global instance of the factory
-environment_factory = EnvironmentFactory() 
+environment_factory = EnvironmentFactory()

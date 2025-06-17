@@ -77,7 +77,7 @@ requires-dist = [
     { name = "jupyter", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "loguru", specifier = ">=0.7.0" },
     { name = "matplotlib", specifier = ">=3.7.0" },
-    { name = "mlflow", specifier = ">=2.21.0" },
+    { name = "mlflow", specifier = ">=3.1.0" },
     { name = "numpy", specifier = "<2.0" },
     { name = "optuna", specifier = ">=4.2.0" },
     { name = "optuna-integration", specifier = ">=3.2.0" },

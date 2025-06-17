@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Base classes for reinforcement learning environments.
+"""Base classes for reinforcement learning environments.
 """
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, Tuple
@@ -11,8 +10,7 @@ import pandas as pd
 
 
 class BaseTradingEnv(gym.Env, ABC):
-    """
-    Abstract base class for a trading environment.
+    """Abstract base class for a trading environment.
 
     This class defines the interface for a trading environment that is compatible
     with the Gymnasium (formerly OpenAI Gym) API. It handles the core logic for
@@ -23,17 +21,18 @@ class BaseTradingEnv(gym.Env, ABC):
         initial_balance (float): The starting balance for each episode.
         current_step (int): The current time step in the episode.
         balance (float): The current account balance.
+
     """
 
     metadata = {"render_modes": ["human", "ansi"], "render_fps": 1}
 
     def __init__(self, data: pd.DataFrame, initial_balance: float = 10000.0):
-        """
-        Initialize the trading environment.
+        """Initialize the trading environment.
 
         Args:
             data (pd.DataFrame): DataFrame containing the market data (OHLCV, features).
             initial_balance (float): The initial account balance for the simulation.
+
         """
         super().__init__()
         self.data = data
@@ -50,54 +49,52 @@ class BaseTradingEnv(gym.Env, ABC):
     @property
     @abstractmethod
     def portfolio_value(self) -> float:
-        """
-        Return the current total portfolio value (balance + unrealized PnL).
+        """Return the current total portfolio value (balance + unrealized PnL).
         """
         raise NotImplementedError
 
     @abstractmethod
     def _get_observation(self) -> np.ndarray:
-        """
-        Get the observation for the current step.
+        """Get the observation for the current step.
 
         Returns:
             np.ndarray: The observation array for the agent.
+
         """
         raise NotImplementedError
 
     @abstractmethod
     def _get_info(self) -> Dict[str, Any]:
-        """
-        Get auxiliary information for the current step.
+        """Get auxiliary information for the current step.
 
         Returns:
             Dict[str, Any]: A dictionary containing auxiliary diagnostic information.
+
         """
         raise NotImplementedError
 
     @abstractmethod
     def _take_action(self, action: Any) -> None:
-        """
-        Execute a trading action.
+        """Execute a trading action.
 
         Args:
             action (Any): The action to be taken by the agent.
+
         """
         raise NotImplementedError
 
     @abstractmethod
     def _calculate_reward(self) -> float:
-        """
-        Calculate the reward for the current step.
+        """Calculate the reward for the current step.
 
         Returns:
             float: The reward value.
+
         """
         raise NotImplementedError
 
     def step(self, action: Any) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
-        """
-        Run one timestep of the environment's dynamics.
+        """Run one timestep of the environment's dynamics.
 
         Args:
             action (Any): An action provided by the agent.
@@ -109,6 +106,7 @@ class BaseTradingEnv(gym.Env, ABC):
                 - terminated (bool): Whether the episode has ended.
                 - truncated (bool): Whether the episode was truncated.
                 - info (dict): Contains auxiliary diagnostic information.
+
         """
         self._take_action(action)
         self.current_step += 1
@@ -127,8 +125,7 @@ class BaseTradingEnv(gym.Env, ABC):
     def reset(
         self, *, seed: Optional[int] = None, options: Optional[Dict[str, Any]] = None
     ) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """
-        Reset the environment to its initial state.
+        """Reset the environment to its initial state.
 
         Args:
             seed (Optional[int]): The random seed for the environment.
@@ -136,6 +133,7 @@ class BaseTradingEnv(gym.Env, ABC):
 
         Returns:
             Tuple[np.ndarray, Dict[str, Any]]: The initial observation and info dictionary.
+
         """
         super().reset(seed=seed)
         self.balance = self.initial_balance
@@ -143,11 +141,11 @@ class BaseTradingEnv(gym.Env, ABC):
         return self._get_observation(), self._get_info()
 
     def render(self, mode: str = "human") -> Any:
-        """
-        Render the environment.
+        """Render the environment.
 
         Args:
             mode (str): The mode to render with ('human' or 'ansi').
+
         """
         if mode == "human":
             print(f"Step: {self.current_step}")
@@ -158,4 +156,4 @@ class BaseTradingEnv(gym.Env, ABC):
 
     def close(self) -> None:
         """Perform any necessary cleanup."""
-        print("Closing trading environment.") 
+        print("Closing trading environment.")

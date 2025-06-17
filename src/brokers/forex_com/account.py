@@ -1,36 +1,35 @@
-"""
-Account handler for Forex.com broker.
+"""Account handler for Forex.com broker.
 """
 
 from typing import Dict
 
 from src.brokers.forex_com.api import ApiClient
-from src.utils.logger import get_logger
 from src.brokers.forex_com.types import ForexComApiResponseKeys
+from src.utils.logger import get_logger
 
 
 class AccountHandler:
     """Handles account-related operations."""
 
     def __init__(self, api_client: ApiClient):
-        """
-        Initialize the account handler.
+        """Initialize the account handler.
 
         Args:
             api_client: The API client instance.
+
         """
         self.api_client = api_client
         self.logger = get_logger(__name__)
 
     async def get_account_info(self) -> Dict:
-        """
-        Get account information using GainCapital API v2.
+        """Get account information using GainCapital API v2.
 
         Returns:
             A dictionary with account info.
 
         Raises:
             Exception: If the API request fails.
+
         """
         try:
             endpoint = "/useraccount/ClientAndTradingAccount"
@@ -58,4 +57,4 @@ class AccountHandler:
 
         except Exception as e:
             self.logger.error(f"Error getting account info: {e}")
-            raise 
+            raise

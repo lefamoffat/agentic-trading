@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
+"""Run tests for the agentic-trading project.
 """
-Run tests for the agentic-trading project.
-"""
-import sys
-import pytest
 import argparse
-from pathlib import Path
 import os
+import sys
+from pathlib import Path
+
+import pytest
+
 
 def main():
-    """
-    Run tests using pytest.
+    """Run tests using pytest.
 
     By default, this runs all unit tests (tests not marked as 'integration').
     Use the --integration flag to run only integration tests.
@@ -29,8 +29,13 @@ def main():
         help="Run all tests, including integration tests."
     )
     parser.add_argument(
-        'pytest_args', 
-        nargs=argparse.REMAINDER, 
+        "--no-cov",
+        action="store_true",
+        help="Disable coverage reporting."
+    )
+    parser.add_argument(
+        'pytest_args',
+        nargs=argparse.REMAINDER,
         help='Additional arguments to pass to pytest'
     )
     args = parser.parse_args()
@@ -41,9 +46,12 @@ def main():
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 
-    # Specify all top-level directories where tests can be found.
-    pytest_cmd = ["tests/", "src/"]
-    
+    # Let pytest discover tests based on pytest.ini::testpaths.
+    pytest_cmd: list[str] = []
+
+    if not args.no_cov:
+        pytest_cmd.extend(["--cov=src", "--cov-report=term-missing"])
+
     if args.integration:
         print("Running INTEGRATION tests only.")
         pytest_cmd.extend(["-m", "integration"])
@@ -69,4 +77,4 @@ def main():
     sys.exit(exit_code)
 
 if __name__ == "__main__":
-    main() 
+    main()

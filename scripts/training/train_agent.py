@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Train a reinforcement learning agent.
+"""Train a reinforcement learning agent.
 
 This script handles the training process for an RL agent, including
 loading data, setting up the environment, training the agent, and
@@ -10,35 +9,43 @@ Usage:
     python -m scripts.training.train_agent [options]
 """
 import argparse
+from pathlib import Path
+from typing import Any, Dict, Optional
+
+# -----------------------------------------------------------------------------
+# Environment configuration (must occur BEFORE importing mlflow)
+# -----------------------------------------------------------------------------
+import os
+
 import mlflow
 import pandas as pd
-from pathlib import Path
-from typing import Dict, Any, Optional
-from datetime import datetime
-
-import cloudpickle
 import stable_baselines3
 from stable_baselines3.common.base_class import BaseAlgorithm
+from stable_baselines3.common.callbacks import BaseCallback, CallbackList
+from stable_baselines3.common.monitor import Monitor
+import numpy as np
 
 from src.agents.factory import agent_factory
+from src.callbacks.interrupt_callback import GracefulShutdownCallback
+from src.callbacks.metrics_callback import MlflowMetricsCallback
 from src.data.pipelines import run_data_preparation_pipeline
 from src.environments.factory import environment_factory
-from src.utils.logger import get_logger
 from src.utils.config_loader import ConfigLoader
-from src.callbacks.metrics_callback import MlflowMetricsCallback
-from src.callbacks.interrupt_callback import GracefulShutdownCallback
-from stable_baselines3.common.monitor import Monitor
-from stable_baselines3.common.callbacks import CallbackList, BaseCallback
-
+from src.utils.logger import get_logger
+from src.mlflow_utils import log_sb3_model, log_params
+from src.models.sb3_wrapper import Sb3ModelWrapper
 
 logger = get_logger(__name__)
+
+# Use stdlib distutils to prevent setuptools replacement warnings
+os.environ.setdefault("SETUPTOOLS_USE_DISTUTILS", "stdlib")
 
 
 def load_and_preprocess_data(symbol: str, timeframe: str) -> (pd.DataFrame, pd.DataFrame):
     """Load and preprocess the feature data, splitting it into train and eval sets."""
     sanitized_symbol = symbol.replace("/", "")
     features_path = Path(f"data/processed/features/{sanitized_symbol}_{timeframe}_features.csv")
-    
+
     logger.info(f"Loading data from {features_path}...")
     try:
         data_df = pd.read_csv(features_path)
@@ -50,7 +57,7 @@ def load_and_preprocess_data(symbol: str, timeframe: str) -> (pd.DataFrame, pd.D
     except FileNotFoundError:
         logger.error(f"Feature file not found at {features_path}. Please run the data preparation pipeline.")
         return None, None
-        
+
     train_size = int(len(data_df) * 0.8)
     train_df, eval_df = data_df.iloc[:train_size], data_df.iloc[train_size:]
     logger.info(f"Training data: {len(train_df)} samples, Evaluation data: {len(eval_df)} samples")
@@ -66,8 +73,7 @@ def train_agent(
     timesteps: int,
     run_id: str,
 ) -> (BaseAlgorithm, BaseCallback):
-    """
-    Creates, trains, and returns an RL agent.
+    """Creates, trains, and returns an RL agent.
 
     Args:
         agent_name: The name of the agent to create.
@@ -80,6 +86,7 @@ def train_agent(
 
     Returns:
         A tuple containing the trained model and the callback list.
+
     """
     model_dir = Path("data/models") / agent_name / run_id
     model_dir.mkdir(parents=True, exist_ok=True)
@@ -121,8 +128,7 @@ def train_agent_session(
     run_id: Optional[str] = None,
     agent_params: Optional[Dict[str, Any]] = None,
 ):
-    """
-    Orchestrates the agent training and evaluation process for a given session.
+    """Orchestrates the agent training and evaluation process for a given session.
 
     Args:
         agent_name (str): Name of the agent to train (e.g., 'PPO').
@@ -132,6 +138,7 @@ def train_agent_session(
         initial_balance (int): The initial balance for the trading environment.
         run_id: Optional existing MLflow run ID to resume.
         agent_params: Optional dictionary of agent parameters to override config.
+
     """
     # 1. Setup
     active_run = mlflow.active_run()
@@ -144,7 +151,7 @@ def train_agent_session(
 
     config_loader = ConfigLoader()
     config = config_loader.load_config("agent_config")
-    
+
     # Override agent parameters if provided
     if agent_params:
         agent_config = config.get(agent_name.lower(), {})
@@ -152,12 +159,12 @@ def train_agent_session(
         config[agent_name.lower()] = agent_config
     else:
         agent_config = config.get(agent_name.lower(), {})
-        
+
     training_config = config.get("training", {})
     logger.info(f"Starting training session for {agent_name} on {symbol} ({timeframe})...")
 
     # Log all agent parameters
-    mlflow.log_params(agent_config)
+    log_params(agent_config)
     mlflow.log_param("agent", agent_name)
     mlflow.log_param("symbol", symbol)
     mlflow.log_param("timeframe", timeframe)
@@ -169,13 +176,13 @@ def train_agent_session(
         logger.error("Data preparation pipeline failed.")
         mlflow.end_run(status="FAILED")
         return
-    
+
     # 3. Load Data
     train_df, eval_df = load_and_preprocess_data(symbol, timeframe)
     if train_df is None or eval_df is None:
         mlflow.end_run(status="FAILED")
         return
-    
+
     # 4. Create Environments
     logger.info("Creating training and evaluation environments...")
     train_env = Monitor(environment_factory.create_environment(
@@ -207,30 +214,18 @@ def train_agent_session(
     final_model_path = Path("data/models") / agent_name / current_run_id / "final_model.zip"
     logger.info(f"Saving final model to {final_model_path}...")
     model.save(final_model_path)
-    
-    # Create a wrapper for the model for MLflow logging
-    class Sb3ModelWrapper(mlflow.pyfunc.PythonModel):
-        def __init__(self, agent_name):
-            self.agent_name = agent_name
-            self.model = None
 
-        def load_context(self, context):
-            model_class = getattr(stable_baselines3, self.agent_name)
-            self.model = model_class.load(context.artifacts["model_path"])
-
-        def predict(self, context, model_input):
-            # SB3 expects a numpy array, not a pandas DataFrame
-            obs = model_input.to_numpy()
-            actions, _ = self.model.predict(obs, deterministic=True)
-            return actions
-
-    # Log the model to MLflow and register it
+    # Log the model as a *LoggedModel* (MLflow 3)
     logger.info("Logging and registering the model with MLflow...")
-    mlflow.pyfunc.log_model(
-        artifact_path="model",
-        python_model=Sb3ModelWrapper(agent_name=agent_name),
+
+    example_df = train_df.head(1)
+
+    log_sb3_model(
+        model=model,
+        name=f"{agent_name}_{symbol.replace('/', '')}",
         artifacts={"model_path": str(final_model_path)},
-        registered_model_name=f"{agent_name}_{symbol.replace('/', '')}",
+        signature_df=example_df,
+        python_model=Sb3ModelWrapper(policy_name=agent_name),
     )
 
     logger.info(f"Training run {current_run_id} complete.")
@@ -259,9 +254,9 @@ def main():
     print(f"Timesteps: {args.timesteps}")
     print(f"Initial Balance: {args.balance}")
     print("========================================")
-    
+
     run_name = f"{args.agent}_{args.symbol.replace('/', '')}_{args.timeframe}_{args.timesteps}"
-    
+
     with mlflow.start_run(run_name=run_name, run_id=args.run_id) as run:
         train_agent_session(
             agent_name=args.agent,

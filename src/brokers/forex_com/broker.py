@@ -1,38 +1,40 @@
-"""
-Main broker class for Forex.com integration.
+"""Main broker class for Forex.com integration.
 """
 
 from typing import Dict, List, Optional
+
 import pandas as pd
-from datetime import datetime
 
-from src.brokers.base import BaseBroker, Order, Position, OrderStatus, OrderSide, OrderType
-from src.brokers.symbol_mapper import SymbolMapper, BrokerType as BrokerTypeEnum
-from src.utils.logger import get_logger
-
-from src.brokers.forex_com.auth import AuthenticationHandler
-from src.brokers.forex_com.api import ApiClient
+from src.brokers.base import (
+    BaseBroker,
+    Order,
+    OrderStatus,
+    Position,
+)
 from src.brokers.forex_com.account import AccountHandler
-from src.brokers.forex_com.positions import PositionHandler
-from src.brokers.forex_com.orders import OrderHandler
+from src.brokers.forex_com.api import ApiClient
+from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.data import DataHandler
-from src.types import BrokerType, Timeframe
+from src.brokers.forex_com.orders import OrderHandler
+from src.brokers.forex_com.positions import PositionHandler
+from src.brokers.symbol_mapper import BrokerType as BrokerTypeEnum
+from src.brokers.symbol_mapper import SymbolMapper
+from src.utils.logger import get_logger
 
 
 class ForexComBroker(BaseBroker):
-    """
-    Forex.com broker implementation using the composition pattern.
+    """Forex.com broker implementation using the composition pattern.
     This class orchestrates the different handlers for auth, data, orders, etc.
     """
 
     def __init__(self, api_key: str, api_secret: str, sandbox: bool = True):
-        """
-        Initialize the Forex.com broker.
+        """Initialize the Forex.com broker.
 
         Args:
             api_key: The API key (username).
             api_secret: The API secret (password).
             sandbox: Whether to use the sandbox environment (ignored by this broker).
+
         """
         super().__init__(api_key, api_secret, sandbox)
         self.logger = get_logger(__name__)
@@ -92,7 +94,6 @@ class ForexComBroker(BaseBroker):
         return self.symbol_mapper.from_broker_symbol(broker_symbol)
 
     async def get_all_positions(self) -> list[Position]:
-        """
-        Get all positions by delegating to the position handler.
+        """Get all positions by delegating to the position handler.
         """
         return await self.position_handler.get_positions()

@@ -1,13 +1,12 @@
-"""
-Shared fixtures and test utilities for Forex.com tests.
+"""Shared fixtures and test utilities for Forex.com tests.
 """
 
 import json
 from unittest.mock import AsyncMock, MagicMock
 
+
 def create_async_session_mock(response_data, status_code=200):
-    """
-    Helper to create a properly mocked aiohttp.ClientSession that
+    """Helper to create a properly mocked aiohttp.ClientSession that
     handles nested async context managers, as required by the aiohttp library.
     """
     # 1. The final response object that the inner context manager returns.
@@ -31,5 +30,5 @@ def create_async_session_mock(response_data, status_code=200):
     #    via "async with aiohttp.ClientSession() as session:".
     session_context_manager = AsyncMock()
     session_context_manager.__aenter__.return_value = mock_session
-    
-    return session_context_manager 
+
+    return session_context_manager

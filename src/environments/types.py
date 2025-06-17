@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""
-Types for reinforcement learning environments.
+"""Types for reinforcement learning environments.
 """
 from enum import Enum
 
 
 class Position(Enum):
+    """Trading position.
     """
-    Trading position.
-    """
+
     SHORT = 0
     FLAT = 1
-    LONG = 2 
+    LONG = 2

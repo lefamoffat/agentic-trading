@@ -9,3 +9,27 @@ alwaysApply: false
 - Test edge cases and error conditions
 - All new features or logic changes MUST be accompanied by corresponding tests.
 - Example: `test_feature_engineering.py`, `test_broker_integration.py`
+
+Testing layout & expectations
+----------------------------
+1. **Location**
+   • Unit / component tests live beside the production code in a sibling `tests/` folder, e.g. `src/environments/tests/test_trading_env.py` or `src/brokers/forex_com/tests/test_api.py`.
+   • Integration / end-to-end tests that rely on live services (real broker, Dockerised MLflow, etc.) live in the project-root `integration_tests/` directory and are marked with `@pytest.mark.integration`.
+
+2. **Naming convention**
+   • _Mirror the file you are testing_: `api.py` ➜ `test_api.py`, `orders.py` ➜ `test_orders.py`.
+
+3. **Markers & runtime**
+   • `@pytest.mark.unit` – pure logic, < 50 ms.
+   • `@pytest.mark.component` – uses mocks/fakes, < 1 s.
+   • `@pytest.mark.integration` – real external dependencies; skipped by default in CI.
+
+4. **Guidelines**
+   • One test file per module.
+   • Use descriptive test method names.
+   • Include positive, negative, and edge-case assertions.
+   • All new features or logic changes MUST include corresponding tests.
+
+5. **CI behaviour**
+   • Pull-request pipeline runs `pytest -m "not integration"`.
+   • Nightly job runs full suite with `pytest -m integration`.

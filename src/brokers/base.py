@@ -1,18 +1,18 @@
-"""
-Base broker interface for trading system.
+"""Base broker interface for trading system.
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Tuple
 from datetime import datetime
+from typing import Dict, List, Optional
+
 import pandas as pd
 
-from ..types import OrderType, OrderSide, OrderStatus
+from ..types import OrderSide, OrderStatus, OrderType
 
 
 class Position:
     """Represents a trading position."""
-    
+
     def __init__(
         self,
         symbol: str,
@@ -26,19 +26,19 @@ class Position:
         self.avg_price = avg_price
         self.unrealized_pnl = unrealized_pnl
         self.realized_pnl = realized_pnl
-        
+
     @property
     def market_value(self) -> float:
         """Calculate market value of position."""
         return self.quantity * self.avg_price
-        
+
     def __repr__(self) -> str:
         return f"Position(symbol={self.symbol}, qty={self.quantity}, avg_price={self.avg_price})"
 
 
 class Order:
     """Represents a trading order."""
-    
+
     def __init__(
         self,
         symbol: str,
@@ -59,50 +59,50 @@ class Order:
         self.order_id = order_id
         self.status = status
         self.created_at = datetime.now()
-        
+
     def __repr__(self) -> str:
         return f"Order(id={self.order_id}, symbol={self.symbol}, {self.side.value} {self.quantity} @ {self.price})"
 
 
 class BaseBroker(ABC):
     """Abstract base class for broker integrations."""
-    
+
     def __init__(self, api_key: str, api_secret: str, sandbox: bool = True):
         self.api_key = api_key
         self.api_secret = api_secret
         self.sandbox = sandbox
         self._authenticated = False
-        
+
     @abstractmethod
     async def authenticate(self) -> bool:
         """Authenticate with the broker API."""
         pass
-        
+
     @abstractmethod
     async def get_account_info(self) -> Dict:
         """Get account information including balance and buying power."""
         pass
-        
+
     @abstractmethod
     async def get_positions(self) -> List[Position]:
         """Get current positions."""
         pass
-        
+
     @abstractmethod
     async def get_orders(self, status: Optional[OrderStatus] = None) -> List[Order]:
         """Get orders, optionally filtered by status."""
         pass
-        
+
     @abstractmethod
     async def place_order(self, order: Order) -> str:
         """Place an order and return order ID."""
         pass
-        
+
     @abstractmethod
     async def cancel_order(self, order_id: str) -> bool:
         """Cancel an order."""
         pass
-        
+
     @abstractmethod
     async def get_historical_data(
         self,
@@ -113,18 +113,18 @@ class BaseBroker(ABC):
     ) -> pd.DataFrame:
         """Get historical price data."""
         pass
-        
+
     @abstractmethod
     async def get_live_price(self, symbol: str) -> Dict:
         """Get current live price for a symbol."""
         pass
-        
+
     @abstractmethod
     def map_symbol_to_broker(self, common_symbol: str) -> str:
         """Map common symbol format to broker-specific format."""
         pass
-        
+
     @abstractmethod
     def map_symbol_from_broker(self, broker_symbol: str) -> str:
         """Map broker-specific symbol format to common format."""
-        pass 
+        pass

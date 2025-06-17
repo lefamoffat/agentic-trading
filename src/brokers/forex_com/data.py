@@ -1,27 +1,27 @@
-"""
-Data handler for Forex.com broker.
+"""Data handler for Forex.com broker.
 """
 
-from typing import Dict, Tuple, Any
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import Any, Dict, Tuple
+
 import pandas as pd
 
 from src.brokers.forex_com.api import ApiClient
-from src.utils.logger import get_logger
+from src.brokers.forex_com.types import ForexComApiParams, ForexComApiResponseKeys
 from src.brokers.symbol_mapper import SymbolMapper
 from src.types import BrokerType
-from src.brokers.forex_com.types import ForexComApiResponseKeys, ForexComApiParams
+from src.utils.logger import get_logger
 
 
 class DataHandler:
     """Handles historical and live price data operations."""
 
     def __init__(self, api: ApiClient):
-        """
-        Initialize the data handler.
+        """Initialize the data handler.
 
         Args:
             api: The API client instance.
+
         """
         self.api = api
         self.logger = get_logger(__name__)
@@ -49,14 +49,13 @@ class DataHandler:
             return pd.to_datetime(date_str)
 
     async def get_historical_data(self, symbol: str, timeframe: str, bars: int) -> pd.DataFrame:
-        """
-        Fetch historical price data for a given symbol and timeframe.
+        """Fetch historical price data for a given symbol and timeframe.
         """
         market_id = await self.api.get_market_id(symbol)
         interval, span = self._get_timeframe_params(timeframe)
-        
+
         endpoint = f"/market/{market_id}/barhistory"
-        
+
         # The Forex.com API uses 'interval' and a different naming scheme
         params = {
             ForexComApiParams.INTERVAL: interval,
@@ -65,7 +64,7 @@ class DataHandler:
         }
 
         status, data = await self.api._make_request('GET', endpoint, params=params)
-        
+
         # Process and format the data
         if status != 200 or not data or ForexComApiResponseKeys.PRICE_BARS not in data:
             raise Exception(f"API request failed: Status {status}, Response: {data}")
@@ -85,8 +84,7 @@ class DataHandler:
         return pd.DataFrame(rows)
 
     async def get_live_price(self, symbol: str) -> Dict[str, Any]:
-        """
-        Get the current live price.
+        """Get the current live price.
 
         Since the API doesn't provide a direct live price endpoint, this fetches
         the latest historical bar and market spread information.
@@ -96,6 +94,7 @@ class DataHandler:
 
         Returns:
             A dictionary with bid, ask, mid, spread, and timestamp.
+
         """
         try:
             market_id = await self.api.get_market_id(symbol)
@@ -141,4 +140,4 @@ class DataHandler:
             }
         except Exception as e:
             self.logger.error(f"Error getting live price for {symbol}: {e}")
-            raise 
+            raise

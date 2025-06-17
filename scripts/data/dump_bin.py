@@ -9,17 +9,17 @@
 import abc
 import shutil
 import traceback
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+from functools import partial
 from pathlib import Path
 from typing import Iterable, List, Union
-from functools import partial
-from concurrent.futures import ThreadPoolExecutor, as_completed, ProcessPoolExecutor
 
 import fire
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from loguru import logger
-from qlib.utils import fname_to_code, code_to_fname
+from qlib.utils import code_to_fname, fname_to_code
+from tqdm import tqdm
 
 
 class DumpDataBase:
@@ -51,9 +51,7 @@ class DumpDataBase:
         include_fields: str = "",
         limit_nums: int = None,
     ):
-        """
-
-        Parameters
+        """Parameters
         ----------
         csv_path: str
             stock data path or directory
@@ -77,6 +75,7 @@ class DumpDataBase:
             fields not dumped
         limit_nums: int
             Use when debugging, default None
+
         """
         csv_path = Path(csv_path).expanduser()
         if isinstance(exclude_fields, str):
@@ -282,7 +281,7 @@ class DumpDataAll(DumpDataBase):
         with tqdm(total=len(self.csv_files)) as p_bar:
             with ProcessPoolExecutor(max_workers=self.works) as executor:
                 for file_path, ((_begin_time, _end_time), _set_calendars) in zip(
-                    self.csv_files, executor.map(_fun, self.csv_files)
+                    self.csv_files, executor.map(_fun, self.csv_files), strict=False
                 ):
                     all_datetime = all_datetime | _set_calendars
                     if isinstance(_begin_time, pd.Timestamp) and isinstance(_end_time, pd.Timestamp):
@@ -337,7 +336,7 @@ class DumpDataFix(DumpDataAll):
         )
         with tqdm(total=len(new_stock_files)) as p_bar:
             with ProcessPoolExecutor(max_workers=self.works) as execute:
-                for file_path, (_begin_time, _end_time) in zip(new_stock_files, execute.map(_fun, new_stock_files)):
+                for file_path, (_begin_time, _end_time) in zip(new_stock_files, execute.map(_fun, new_stock_files), strict=False):
                     if isinstance(_begin_time, pd.Timestamp) and isinstance(_end_time, pd.Timestamp):
                         symbol = fname_to_code(self.get_symbol_from_file(file_path).lower()).upper()
                         _dt_map = self._old_instruments.setdefault(symbol, dict())
@@ -376,9 +375,7 @@ class DumpDataUpdate(DumpDataBase):
         include_fields: str = "",
         limit_nums: int = None,
     ):
-        """
-
-        Parameters
+        """Parameters
         ----------
         csv_path: str
             stock data path or directory
@@ -402,6 +399,7 @@ class DumpDataUpdate(DumpDataBase):
             fields not dumped
         limit_nums: int
             Use when debugging, default None
+
         """
         super().__init__(
             csv_path,

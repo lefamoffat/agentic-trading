@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""
-A master script to prepare all data needed for training.
+"""A master script to prepare all data needed for training.
 
 This script orchestrates the entire data pipeline:
 1. Downloads historical data.
 2. Dumps the data into Qlib's binary format.
 3. Builds features from the binary data.
 """
-import subprocess
 import argparse
-from pathlib import Path
 import shutil
+import subprocess
+from pathlib import Path
 
-from src.utils.logger import get_logger
 from src.types import Timeframe
+from src.utils.logger import get_logger
+
 
 def run_command(command: list[str], description: str):
     """Run a command and handle errors."""
@@ -47,9 +47,9 @@ def main():
         help="The timeframe for the data (e.g., 1d)",
     )
     args = parser.parse_args()
-    
+
     sanitized_symbol = args.symbol.replace("/", "")
-    
+
     print("🚀 Starting Full Data Preparation Pipeline")
     print("=" * 40)
     print(f"Symbol: {args.symbol}")
@@ -74,7 +74,7 @@ def main():
 
     # --- Step 2: Dump Data to Qlib Binary Format ---
     qlib_source_path = f"data/qlib_source/{args.timeframe}"
-    
+
     # Get the correct frequency name for Qlib
     qlib_freq = Timeframe.from_standard(args.timeframe).qlib_name
 
@@ -87,7 +87,7 @@ def main():
         "--symbol_field_name", "symbol",
     ]
     run_command(dump_command, "Dump to Qlib Binary")
-    
+
     # --- Step 3: Build Features ---
     build_command = [
         "python", "-m", "scripts.features.build_features",
@@ -95,10 +95,10 @@ def main():
         "--timeframe", args.timeframe,
     ]
     run_command(build_command, "Build Features")
-    
+
     print("=" * 40)
     print("✅ Data preparation complete.")
     print("=" * 40)
 
 if __name__ == "__main__":
-    main() 
+    main()

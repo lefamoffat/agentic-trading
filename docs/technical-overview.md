@@ -10,7 +10,7 @@ The codebase is organized into several key directories:
 agentic-trading/
 ├── config/                 # YAML configuration files
 ├── src/                    # Main source code
-│   ├── agents/            # RL agent implementations
+│   ├── models/            # RL agent implementations
 │   ├── brokers/           # Broker integrations
 │   ├── data/              # Data handling & market calendars
 │   ├── environments/      # Gymnasium-based RL environments

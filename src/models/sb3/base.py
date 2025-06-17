@@ -43,7 +43,8 @@ class BaseAgent(ABC):
     # Common operations
     # ---------------------------------------------------------------------
 
-    def train(self, total_timesteps: int, callback: Any = "auto", tb_log_name: str | None = "PPO") -> None:
+    def train(self, total_timesteps: int, callback: Any | None = None) -> None:
+        """Public training entrypoint that delegates to the underlying SB3 model."""
         if self.model is None:
             raise ValueError("Model must be created in the agent's constructor.")
         self.logger.info(f"Starting training for {total_timesteps} timesteps…")

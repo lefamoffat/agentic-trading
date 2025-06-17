@@ -155,3 +155,9 @@ class ComponentFactory:
 
 ### Linter Overrides
 Only suppress linter warnings when there is a *good* reason. A common example is re-exporting names in a package's `__init__.py`. In that case use `# noqa: F401` to silence the "imported but unused" warning for the re-export *only*.
+
+### No Hard-Coded Values
+- **NEVER** embed literals that vary across environments (API keys, symbols, timeframes, file paths, ports, etc.) directly in production code.
+- Accept such parameters via **function arguments**, **configuration files**, or **environment variables**.
+- Tests may use literals **only** inside their own scope (fixtures) – never leak into production modules.
+- Violations are an automatic code-review reject.

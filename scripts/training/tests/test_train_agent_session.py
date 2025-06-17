@@ -17,7 +17,7 @@ class DummyModel:
     def __init__(self, *_, **__):
         self.saved_path = None
 
-    def learn(self, *_, **__):
+    def train(self, *_, **__):
         return self
 
     def save(self, file_path):
@@ -48,6 +48,8 @@ def monkeypatched_train(monkeypatch):
     monkeypatch.setattr(ta, "CallbackList", lambda cb_list: cb_list)
 
     monkeypatch.setattr(ta.agent_factory, "create_agent", lambda *_, **__: DummyModel())
+
+    monkeypatch.setattr(ta.mlflow, "set_experiment", lambda *_: None)
 
     yield
 

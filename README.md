@@ -19,6 +19,7 @@ For a deeper dive into the system's design, please see the [**Architecture Philo
 -   ✅ **Live Trading Integration**: Production-ready broker integrations.
 -   ✅ **Comprehensive Backtesting**: Rigorous performance analysis via Qlib.
 -   ✅ **Experiment Tracking**: Integrated with MLflow for logging runs, metrics, and models.
+-   ✅ **Interactive Simulation UI**: Streamlit-powered back-testing dashboard.
 -   ✅ **Hyperparameter Optimization**: Built-in Optuna script for automated HPO.
 -   ✅ **100% Test Coverage**: Comprehensive validation for all core components.
 
@@ -32,6 +33,7 @@ For a deeper dive into the system's design, please see the [**Architecture Philo
 | [**Development Guide**](docs/development.md)           | Guidelines for testing, code quality, and contributing to the project.     |
 | [**Architecture Philosophy**](docs/architecture.md)    | Core principles guiding the project's design and library usage.            |
 | [**Implementation Plan**](docs/implementation_plan.md) | The phased roadmap for the project's evolution.                            |
+| [**Simulation Mode**](docs/simulation_mode.md)         | Guide to the interactive Streamlit back-testing UI.                        |
 
 ## 📋 Prerequisites
 
@@ -147,7 +149,17 @@ Now you can run the training pipeline. This will use the features generated in t
 uv run scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
 ```
 
-### 4. Optimize Hyperparameters
+### 4. Interactive Simulation
+
+Once you have at least one registered model and the corresponding features file, launch the Streamlit app:
+
+```bash
+uv run streamlit run scripts/analysis/run_simulation.py
+```
+
+Then open your browser at http://localhost:8501 and pick a model to simulate.
+
+### 5. Optimize Hyperparameters
 
 To find the best hyperparameters for an agent, use the optimization script. This will run multiple training trials and log them as nested runs in MLflow.
 
@@ -155,7 +167,7 @@ To find the best hyperparameters for an agent, use the optimization script. This
 uv run scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
 ```
 
-### 5. Run Tests
+### 6. Run Tests
 
 ```bash
 # Run unit tests (default, fast)
@@ -168,7 +180,7 @@ uv run scripts/run_tests.py --all
 uv run scripts/run_tests.py --integration
 ```
 
-### 6. Test Broker Integration
+### 7. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)
@@ -204,3 +216,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## ⚠️ Disclaimer
 
 This software is for educational and research purposes only. Trading involves substantial risk and may not be suitable for all investors. Past performance is not indicative of future results.
+
+```
+
+```

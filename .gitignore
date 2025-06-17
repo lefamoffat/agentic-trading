@@ -135,7 +135,10 @@ Thumbs.db
 *.temp 
 
 # MLflow
-mlruns/
+mlflow_data/
 
 # Qlib
 data/qlib_data/
+
+# Streamlit
+sys.stdout

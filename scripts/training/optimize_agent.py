@@ -8,6 +8,7 @@ Usage:
     python -m scripts.training.optimize_agent [options]
 """
 import argparse
+import os
 from typing import Any, Dict
 
 import mlflow
@@ -16,9 +17,13 @@ import optuna
 from scripts.training.train_agent import train_agent_session
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
-from src.utils.mlflow import log_params
+from src.utils.mlflow import log_params, ensure_experiment
 
 logger = get_logger(__name__)
+
+# Ensure experiment exists for HPO runs
+EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "AgenticTrading")
+ensure_experiment(EXPERIMENT_NAME)
 
 def suggest_hyperparameters(trial: optuna.Trial, hpo_config: Dict[str, Any]) -> Dict[str, Any]:
     """Suggest hyperparameters for a given trial based on the HPO config."""

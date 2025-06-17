@@ -15,6 +15,7 @@ import mlflow
 import pandas as pd
 from mlflow import ActiveRun
 from mlflow.models import infer_signature
+import os
 
 __all__ = [
     "log_metrics",
@@ -22,6 +23,27 @@ __all__ = [
     "log_sb3_model",
     "start_experiment_run",
 ]
+
+# ---------------------------------------------------------------------------
+# Global helper (single source of truth)
+# ---------------------------------------------------------------------------
+
+
+def ensure_experiment(experiment_name: str) -> str:  # pragma: no cover
+    """Return the experiment id, creating the experiment if it doesn't exist.
+
+    We **let MLflow pick the artifact location** so behaviour is consistent
+    with defaults (it will create `<backend-store>/<experiment_id>/artifacts`).
+    """
+    client = mlflow.tracking.MlflowClient()
+    exp = client.get_experiment_by_name(experiment_name)
+    if exp is None:
+        exp_id = client.create_experiment(name=experiment_name)
+    else:
+        exp_id = exp.experiment_id
+
+    mlflow.set_experiment(experiment_name)
+    return exp_id
 
 # ---------------------------------------------------------------------------
 # Experiment / run helpers
@@ -47,7 +69,7 @@ def start_experiment_run(
 
     """
     if experiment_name is not None:
-        mlflow.set_experiment(experiment_name)
+        ensure_experiment(experiment_name)
 
     with mlflow.start_run(run_name=run_name, tags=tags) as run:  # type: ignore[arg-type]
         yield run
@@ -65,8 +87,23 @@ def log_params(params: Dict[str, Any]) -> None:
 
 
 def log_metrics(metrics: Dict[str, float], step: int | None = None) -> None:
-    if metrics:
-        mlflow.log_metrics(metrics, step=step)
+    if not metrics:
+        return
+
+    cleaned: Dict[str, float] = {}
+    for k, v in metrics.items():
+        try:
+            val = float(v)
+        except (TypeError, ValueError):
+            continue  # skip non numeric
+
+        if val != val or val in (float("inf"), float("-inf")):
+            # NaN or ±Inf → skip to avoid MLflow UI crash
+            continue
+        cleaned[k] = val
+
+    if cleaned:
+        mlflow.log_metrics(cleaned, step=step)
 
 
 # ---------------------------------------------------------------------------
@@ -107,4 +144,14 @@ def log_sb3_model(
         input_example=signature_df,
         signature=infer_signature(signature_df),
     )
+
+    # Explicitly register the model so it shows up in the Model Registry.
+    try:
+        mlflow.register_model(model_uri=logged_model.model_uri, name=name)
+    except Exception as exc:  # pragma: no cover
+        # Registration may fail if the model already exists or registry not configured.
+        import warnings
+
+        warnings.warn(f"[mlflow] Model registration skipped: {exc}")
+
     return logged_model.model_uri

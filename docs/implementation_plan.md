@@ -34,7 +34,7 @@ This foundational work ensures that as we add more complex features in subsequen
 
 ---
 
-## Phase 1: MLOps Foundation & Hyperparameter Optimization (HPO) (In Progress)
+## Phase 1: MLOps Foundation & Hyperparameter Optimization (HPO) (Completed)
 
 **Goal:** Establish a robust system for tracking experiments and automatically finding optimal model hyperparameters. This is the foundation for the "smart" training sessions.
 
@@ -69,7 +69,7 @@ This foundational work ensures that as we add more complex features in subsequen
 
 ---
 
-## Phase 2: Interactive Simulation Mode
+## Phase 2: Interactive Simulation Mode (Completed)
 
 **Goal:** Create a user-friendly web interface to visually backtest trained models against historical data, allowing for qualitative analysis and stress-testing.
 
@@ -100,6 +100,13 @@ This foundational work ensures that as we add more complex features in subsequen
         -   Buy/Sell markers at the points where the agent traded.
         -   An equity curve showing the agent's performance over time.
     -   Display key metrics (Total Profit, Sharpe Ratio, Max Drawdown) in the UI.
+
+### Key Achievements:
+
+-   **Streamlit UI** (`scripts/analysis/run_simulation.py`) delivers a browser-based workflow to pick any registered MLflow model, select a date range, and run a simulation with one click.
+-   **Reusable Simulation Backend** (`src/simulation/`) provides a test-covered `Backtester` class and Plotly visualisation helpers that can be re-used by notebooks or scheduled reports.
+-   **Full Test Coverage & Lint** – New unit tests (`src/simulation/tests/`) keep fast suite at 100 % pass rate; Ruff & mypy clean.
+-   **Continuous Integration Ready** – Streamlit and Plotly added to dependency list; no regressions in CI gates.
 
 ---
 

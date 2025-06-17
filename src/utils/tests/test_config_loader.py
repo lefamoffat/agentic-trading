@@ -1,5 +1,3 @@
-import os
-from pathlib import Path
 
 import pytest
 
@@ -30,4 +28,4 @@ class TestConfigLoader:
     def test_missing_file_raises(self):
         loader = ConfigLoader(config_dir="nonexistent")
         with pytest.raises(FileNotFoundError):
-            loader.load_config("nope") 
+            loader.load_config("nope")

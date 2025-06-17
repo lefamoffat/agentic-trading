@@ -12,8 +12,10 @@ class Settings:
 
     def __init__(self, env_file: Optional[str] = None):
         """Initialize settings.
+
         Args:
             env_file: Optional path to .env file.
+
         """
         if env_file:
             load_dotenv(env_file)
@@ -113,8 +115,10 @@ class Settings:
 
     def validate_api_keys(self) -> bool:
         """Validate that required API keys are present.
+
         Returns:
             True if all required keys are present.
+
         """
         required_keys = [
             self.forex_com_username,

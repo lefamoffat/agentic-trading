@@ -3,8 +3,8 @@
 """
 from abc import ABC, abstractmethod
 
-from src.agents.base import BaseAgent
 from src.brokers.base import BaseBroker
+from src.models.sb3.base import BaseAgent
 from src.utils.logger import get_logger
 
 

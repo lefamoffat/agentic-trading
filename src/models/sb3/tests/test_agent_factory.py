@@ -1,7 +1,8 @@
-import pytest
-from src.agents.factory import agent_factory
-from src.environments.trading_env import TradingEnv
 import pandas as pd
+import pytest
+
+from src.environments.trading_env import TradingEnv
+from src.models.sb3.factory import agent_factory
 
 
 def _dummy_env():
@@ -19,4 +20,4 @@ class TestAgentFactory:
     def test_unregistered_agent_raises(self):
         env = _dummy_env()
         with pytest.raises(ValueError):
-            agent_factory.create_agent("NON_EXISTENT", env) 
+            agent_factory.create_agent("NON_EXISTENT", env)

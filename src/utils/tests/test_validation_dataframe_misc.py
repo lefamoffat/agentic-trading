@@ -1,13 +1,12 @@
 import pandas as pd
-import numpy as np
 import pytest
 
-from src.utils.validation.dataframe import (
-    validate_ohlcv_data,
-    validate_ohlcv_consistency,
-    check_data_gaps,
-)
 from src.utils.exceptions import ValidationError
+from src.utils.validation.dataframe import (
+    check_data_gaps,
+    validate_ohlcv_consistency,
+    validate_ohlcv_data,
+)
 
 
 @pytest.fixture
@@ -44,4 +43,4 @@ def test_check_data_gaps():
     ts = pd.date_range("2024-01-01", periods=5, freq="1H")
     df = pd.DataFrame({"timestamp": ts, "open": 1, "high": 1, "low": 1, "close": 1, "volume": 10})
     gaps = check_data_gaps(df)
-    assert gaps["total_gaps"] == 0 
+    assert gaps["total_gaps"] == 0

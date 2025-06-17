@@ -14,7 +14,7 @@ class ConfigLoader:
 
     def __init__(self, config_dir: str = "config"):
         """Initialize the config loader
-        
+
         Args:
             config_dir: Directory containing configuration files
 
@@ -24,10 +24,10 @@ class ConfigLoader:
 
     def load_config(self, config_name: str) -> Dict[str, Any]:
         """Load a configuration file
-        
+
         Args:
             config_name: Name of the config file (without .yaml extension)
-            
+
         Returns:
             Dict containing the configuration
 
@@ -56,10 +56,10 @@ class ConfigLoader:
 
     def _substitute_env_vars(self, content: str) -> str:
         """Substitute environment variables in the format ${VAR_NAME}
-        
+
         Args:
             content: YAML content as string
-            
+
         Returns:
             Content with environment variables substituted
 
@@ -90,10 +90,10 @@ class ConfigLoader:
 
     def reload_config(self, config_name: str) -> Dict[str, Any]:
         """Reload a configuration file (clears cache)
-        
+
         Args:
             config_name: Name of the config to reload
-            
+
         Returns:
             Reloaded configuration
 

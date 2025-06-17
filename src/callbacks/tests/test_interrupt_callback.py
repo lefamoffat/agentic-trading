@@ -38,4 +38,4 @@ class TestGracefulShutdownCallback:
         with patch("signal.signal") as mock_signal:
             self.callback._signal_handler(signal.SIGINT, None)
             assert self.callback.shutdown_requested is True
-            mock_signal.assert_called_once_with(signal.SIGINT, self.callback.original_handler) 
+            mock_signal.assert_called_once_with(signal.SIGINT, self.callback.original_handler)

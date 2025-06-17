@@ -4,7 +4,7 @@ This factory provides dynamic calendar selection based on asset class,
 making it easy to switch between forex, stocks, crypto without changing core logic.
 """
 
-from typing import Dict, Type
+from typing import ClassVar, Dict, Type
 
 from ...types import AssetClass
 from ...utils.logger import get_logger
@@ -16,7 +16,7 @@ class CalendarFactory:
     """Factory for creating calendar instances based on asset class."""
 
     # Registry of available calendars
-    _calendar_registry: Dict[AssetClass, Type[BaseCalendar]] = {
+    _calendar_registry: ClassVar[Dict[AssetClass, Type[BaseCalendar]]] = {
         AssetClass.FOREX: ForexCalendar,
     }
 
@@ -26,7 +26,7 @@ class CalendarFactory:
     @classmethod
     def register_calendar(cls, asset_class: AssetClass, calendar_class: Type[BaseCalendar]) -> None:
         """Register a new calendar implementation.
-        
+
         Args:
             asset_class: The asset class identifier
             calendar_class: The calendar implementation class
@@ -37,7 +37,7 @@ class CalendarFactory:
     @classmethod
     def get_available_asset_classes(cls) -> list[str]:
         """Get list of available asset class names.
-        
+
         Returns:
             List of asset class names as strings
 
@@ -51,27 +51,27 @@ class CalendarFactory:
         **kwargs
     ) -> BaseCalendar:
         """Create a calendar instance based on asset class.
-        
+
         Args:
             asset_class: Name of the asset class (e.g., "forex")
             timezone: Timezone for calendar operations
             **kwargs: Additional calendar-specific parameters
-            
+
         Returns:
             Configured calendar instance
-            
+
         Raises:
             ValueError: If asset class is not supported
 
         """
         try:
             asset_class_enum = AssetClass(asset_class.lower())
-        except ValueError:
+        except ValueError as err:
             available = self.get_available_asset_classes()
             raise ValueError(
                 f"Unsupported asset class: '{asset_class}'. "
                 f"Available asset classes: {available}"
-            )
+            ) from err
 
         calendar_class = self._calendar_registry[asset_class_enum]
 
@@ -88,10 +88,10 @@ class CalendarFactory:
 
     def is_asset_class_supported(self, asset_class: str) -> bool:
         """Check if an asset class is supported.
-        
+
         Args:
             asset_class: Name of the asset class to check
-            
+
         Returns:
             True if asset class is supported, False otherwise
 
@@ -104,14 +104,14 @@ class CalendarFactory:
 
     def get_calendar_for_symbol(self, symbol: str, timezone: str = "UTC") -> BaseCalendar:
         """Get appropriate calendar for a given symbol.
-        
+
         This method uses symbol patterns to determine the asset class
         and return the appropriate calendar.
-        
+
         Args:
             symbol: Trading symbol (e.g., "EUR/USD", "AAPL", "BTC/USD")
             timezone: Timezone for calendar operations
-            
+
         Returns:
             Appropriate calendar instance
 

@@ -12,11 +12,11 @@ from typing import Any, Dict
 
 import mlflow
 import optuna
-from src.mlflow_utils import log_params
 
 from scripts.training.train_agent import train_agent_session
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
+from src.utils.mlflow import log_params
 
 logger = get_logger(__name__)
 
@@ -67,7 +67,7 @@ def objective(
         except Exception as e:
             logger.error(f"Trial {trial.number} failed with error: {e}", exc_info=True)
             # Report failure to Optuna so it doesn't try this again
-            raise optuna.exceptions.TrialPruned()
+            raise optuna.exceptions.TrialPruned() from e
 
         # 4. Fetch the primary metric to optimize (e.g., Sharpe ratio)
         # We assume the last recorded value is from the final evaluation.

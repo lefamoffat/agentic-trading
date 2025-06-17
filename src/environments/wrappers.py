@@ -11,7 +11,7 @@ from src.environments.trading_env import Trade
 class EvaluationWrapper(gym.Wrapper):
     """A wrapper to collect portfolio values and trade history during an
     evaluation episode.
-    
+
     This wrapper records the 'portfolio_value' from the info dictionary
     at each step and stores the history in `self.portfolio_values`.
     """

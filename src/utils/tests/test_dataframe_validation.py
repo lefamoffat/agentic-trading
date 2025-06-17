@@ -55,4 +55,4 @@ class TestDataQualityScore:
             'volume': [100,200,0,np.nan,500]
         })
         expected = 0.7433333333333334
-        assert calculate_data_quality_score(data) == pytest.approx(expected) 
+        assert calculate_data_quality_score(data) == pytest.approx(expected)

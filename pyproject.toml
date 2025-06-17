@@ -92,12 +92,21 @@ markers = [
 # For a full list of supported rules, see:
 # https://docs.astral.sh/ruff/rules/
 # Note: F401 and F841 are for unused imports and variables. Consider removing in production.
-select = ["E", "F", "W", "I", "N", "D", "B", "C4", "A", "RUF"]
-ignore = ["D100", "D104", "D107"]
+select = ["E", "F", "W", "I", "N", "B", "C4", "A", "RUF"]
+# Ignore only D1xx for missing docstrings, line length; keep others
+ignore = ["D100", "D104", "D107", "E501", "RUF022"]
+
+# Match Black's line length
+line-length = 100
+
+# Exclude non-existent top-level tests directory to silence E902
+exclude = ["tests"]
+unsafe-fixes = true
 
 # Allow unused variables in `__init__.py`.
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401"]
+"src/types/__init__.py" = ["A005"]
 
 [tool.mypy]
 # ... existing code ...

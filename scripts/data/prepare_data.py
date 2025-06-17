@@ -48,8 +48,6 @@ def main():
     )
     args = parser.parse_args()
 
-    sanitized_symbol = args.symbol.replace("/", "")
-
     print("🚀 Starting Full Data Preparation Pipeline")
     print("=" * 40)
     print(f"Symbol: {args.symbol}")

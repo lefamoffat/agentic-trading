@@ -110,24 +110,24 @@ class SlippageError(TradingExecutionError):
 
 # Convenience export list
 __all__ = [
-    "TradingSystemError",
-    "DataError",
-    "ValidationError",
-    "MissingDataError",
-    "FeatureEngineeringError",
-    "InvalidParameterError",
-    "IndicatorCalculationError",
-    "ConfigurationError",
-    "MissingConfigError",
-    "BrokerError",
-    "BrokerConnectionError",
-    "BrokerAuthenticationError",
     "BrokerAPIError",
-    "StrategyError",
-    "SignalGenerationError",
-    "TradingExecutionError",
+    "BrokerAuthenticationError",
+    "BrokerConnectionError",
+    "BrokerError",
+    "ConfigurationError",
+    "DataError",
+    "FeatureEngineeringError",
+    "IndicatorCalculationError",
+    "InvalidParameterError",
+    "MissingConfigError",
+    "MissingDataError",
     "OrderExecutionError",
+    "SignalGenerationError",
     "SlippageError",
+    "StrategyError",
+    "TradingExecutionError",
+    "TradingSystemError",
+    "ValidationError",
     "create_context",
     "format_validation_error",
 ]
@@ -139,12 +139,10 @@ __all__ = [
 
 
 def create_context(**kwargs) -> Dict[str, Any]:
-    """Return kwargs unmodified – syntactic sugar for populating exception context."""
-
+    """Return kwargs unmodified - syntactic sugar for populating exception context."""
     return kwargs
 
 
 def format_validation_error(field_name: str, value: Any, expected: str) -> str:
     """Small helper to produce consistent validation-error messages."""
-
-    return f"Invalid {field_name}: got {value}, expected {expected}" 
+    return f"Invalid {field_name}: got {value}, expected {expected}"

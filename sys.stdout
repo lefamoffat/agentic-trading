@@ -2225,3 +2225,226 @@
 2025-06-17 10:56:22 | INFO     | Model saved at: data/models/PPO/c3dcafccbc6b456fba8092711cd087b7/final_model.zip
 2025-06-17 10:56:22 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/c3dcafccbc6b456fba8092711cd087b7
 2025-06-17 10:56:22 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 11:14:04 | INFO     | Creating agent 'PPO'
+2025-06-17 11:14:04 | INFO     | Creating PPO model...
+2025-06-17 11:14:04 | INFO     | Creating agent 'NON_EXISTENT'
+2025-06-17 11:14:04 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:14:04 | INFO     | Creating PPO model...
+2025-06-17 11:14:04 | INFO     | Creating PPO model...
+2025-06-17 11:14:04 | INFO     | Creating PPO model...
+2025-06-17 11:14:04 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:14:04 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:14:04 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:14:04 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:14:04 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:14:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:14:04 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:14:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:14:04 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:14:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:14:04 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:14:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:14:04 | INFO     | Successfully authenticated with Forex.com. Session: 680f7bd3...
+2025-06-17 11:14:04 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:14:06 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:14:06 | INFO     | Order placed successfully: 555
+2025-06-17 11:14:06 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:14:06 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:14:06 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:14:06 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:14:06 | INFO     | Creating environment 'default'
+2025-06-17 11:14:06 | INFO     | Creating environment 'unknown'
+2025-06-17 11:14:06 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:14:06 | INFO     | Opening LONG position.
+2025-06-17 11:14:06 | INFO     | Opening SHORT position.
+2025-06-17 11:14:06 | INFO     | Closing open position.
+2025-06-17 11:14:06 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:14:06 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:14:06 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:14:06 | INFO     | Opening LONG position.
+2025-06-17 11:22:20 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:22:20 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:22:20 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:22:20 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:22:20 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:22:20 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:22:20 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:22:20 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:22:20 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:22:20 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:22:21 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:22:21 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:22:21 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:22:21 | INFO     | Successfully authenticated with Forex.com. Session: 9f1825ca...
+2025-06-17 11:22:21 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:22:22 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:22:22 | INFO     | Order placed successfully: 555
+2025-06-17 11:22:22 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:22:22 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:22:22 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:22:22 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:22:22 | INFO     | Creating environment 'default'
+2025-06-17 11:22:22 | INFO     | Creating environment 'unknown'
+2025-06-17 11:22:22 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:22:22 | INFO     | Opening LONG position.
+2025-06-17 11:22:22 | INFO     | Opening SHORT position.
+2025-06-17 11:22:22 | INFO     | Closing open position.
+2025-06-17 11:22:22 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:22:22 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:22:22 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:22:22 | INFO     | Opening LONG position.
+2025-06-17 11:33:53 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:33:53 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:33:53 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:33:53 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:33:53 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:33:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:33:53 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:33:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:33:53 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:33:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:33:53 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:33:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:33:53 | INFO     | Successfully authenticated with Forex.com. Session: ad2a27d1...
+2025-06-17 11:33:53 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:33:54 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:33:55 | INFO     | Order placed successfully: 555
+2025-06-17 11:33:55 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:33:55 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:33:55 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:33:55 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:33:55 | INFO     | Creating environment 'default'
+2025-06-17 11:33:55 | INFO     | Creating environment 'unknown'
+2025-06-17 11:33:55 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:33:56 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:33:56 | INFO     | Opening LONG position.
+2025-06-17 11:33:56 | INFO     | Opening SHORT position.
+2025-06-17 11:33:56 | INFO     | Closing open position.
+2025-06-17 11:33:56 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:33:56 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:33:56 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:33:56 | INFO     | Opening LONG position.
+2025-06-17 11:34:47 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:34:47 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:34:47 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:34:47 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:34:47 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:34:47 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:34:47 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:34:47 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:34:47 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:34:47 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:34:47 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:34:47 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:34:48 | INFO     | Successfully authenticated with Forex.com. Session: e62685df...
+2025-06-17 11:34:48 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:34:49 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:34:49 | INFO     | Order placed successfully: 555
+2025-06-17 11:34:49 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:34:49 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:34:49 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:34:49 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:34:49 | INFO     | Creating environment 'default'
+2025-06-17 11:34:49 | INFO     | Creating environment 'unknown'
+2025-06-17 11:34:49 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:34:50 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:34:50 | INFO     | Opening LONG position.
+2025-06-17 11:34:50 | INFO     | Opening SHORT position.
+2025-06-17 11:34:50 | INFO     | Closing open position.
+2025-06-17 11:34:50 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:34:50 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:34:50 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:34:50 | INFO     | Opening LONG position.
+2025-06-17 11:43:02 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:43:02 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:43:02 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:43:02 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:43:02 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:43:02 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:43:02 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:43:02 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:43:02 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:43:02 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:43:02 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:43:02 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:43:02 | INFO     | Successfully authenticated with Forex.com. Session: 34b428f1...
+2025-06-17 11:43:02 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:43:04 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:43:04 | INFO     | Order placed successfully: 555
+2025-06-17 11:43:04 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:43:04 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:43:04 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:43:04 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:43:04 | INFO     | Creating environment 'default'
+2025-06-17 11:43:04 | INFO     | Creating environment 'unknown'
+2025-06-17 11:43:04 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:43:05 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:43:05 | INFO     | Opening LONG position.
+2025-06-17 11:43:05 | INFO     | Opening SHORT position.
+2025-06-17 11:43:05 | INFO     | Closing open position.
+2025-06-17 11:43:05 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:43:05 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:43:05 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:43:05 | INFO     | Opening LONG position.
+2025-06-17 11:45:19 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:45:19 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:45:19 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:45:19 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:45:19 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:45:19 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:45:19 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:45:19 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:45:19 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:45:19 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:45:19 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:45:19 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:45:19 | INFO     | Successfully authenticated with Forex.com. Session: cf96727c...
+2025-06-17 11:45:19 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:45:21 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:45:21 | INFO     | Order placed successfully: 555
+2025-06-17 11:45:21 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:45:21 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:45:21 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:45:21 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:45:21 | INFO     | Creating environment 'default'
+2025-06-17 11:45:21 | INFO     | Creating environment 'unknown'
+2025-06-17 11:45:21 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:45:21 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:45:21 | INFO     | Opening LONG position.
+2025-06-17 11:45:21 | INFO     | Opening SHORT position.
+2025-06-17 11:45:21 | INFO     | Closing open position.
+2025-06-17 11:45:21 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:45:21 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:45:21 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:45:21 | INFO     | Opening LONG position.
+2025-06-17 11:48:15 | WARNING  | No trading accounts found in API response.
+2025-06-17 11:48:15 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 11:48:15 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:48:15 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 11:48:15 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 11:48:15 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:48:15 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 11:48:15 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:48:15 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 11:48:15 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:48:15 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 11:48:15 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 11:48:15 | INFO     | Successfully authenticated with Forex.com. Session: adc974f1...
+2025-06-17 11:48:15 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 11:48:16 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 11:48:16 | INFO     | Order placed successfully: 555
+2025-06-17 11:48:16 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 11:48:16 | INFO     | Order cancelled successfully: 123
+2025-06-17 11:48:16 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 11:48:16 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 11:48:16 | INFO     | Creating environment 'default'
+2025-06-17 11:48:16 | INFO     | Creating environment 'unknown'
+2025-06-17 11:48:16 | ERROR    | Environment 'unknown' not found.
+2025-06-17 11:48:17 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 11:48:17 | INFO     | Opening LONG position.
+2025-06-17 11:48:17 | INFO     | Opening SHORT position.
+2025-06-17 11:48:17 | INFO     | Closing open position.
+2025-06-17 11:48:17 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:48:17 | INFO     | Starting strategy: RLStrategy
+2025-06-17 11:48:17 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 11:48:17 | INFO     | Opening LONG position.

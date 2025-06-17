@@ -95,4 +95,4 @@ class TestTradingEnv:
         trading_env.data.loc[trading_env.data.index[0], "close"] = 100
         trading_env.data.loc[trading_env.data.index[1], "close"] = 0
         _, _, terminated, truncated, _ = trading_env.step(Position.LONG.value)
-        assert terminated or truncated 
+        assert terminated or truncated

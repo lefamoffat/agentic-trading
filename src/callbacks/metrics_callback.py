@@ -2,18 +2,19 @@
 """Custom callbacks for Stable-Baselines3.
 """
 
-import mlflow
+from typing import Optional
+
 import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
 
 from src.callbacks.utils import calculate_performance_metrics
 from src.environments.wrappers import EvaluationWrapper
-from src.mlflow_utils import log_metrics
+from src.utils.mlflow import log_metrics
 
 
 class MlflowMetricsCallback(BaseCallback):
     """A custom callback to log evaluation metrics to MLflow and save the best model.
-    
+
     This callback runs policy evaluation at regular intervals and logs key
     performance metrics (Sharpe ratio, profit, drawdown) to the active
     MLflow run.
@@ -25,7 +26,7 @@ class MlflowMetricsCallback(BaseCallback):
         eval_freq: int,
         n_eval_episodes: int = 5,
         timeframe: str = "1d",
-        best_model_save_path: str = None,
+        best_model_save_path: Optional[str] = None,
         verbose: int = 0
     ):
         super().__init__(verbose)

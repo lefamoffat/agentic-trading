@@ -5,8 +5,8 @@ from unittest.mock import patch
 import pandas as pd
 import yaml
 
-from src.agents.ppo_agent import PPOAgent
 from src.environments.trading_env import TradingEnv
+from src.models.sb3.ppo import PPOAgent
 
 
 class TestPPOAgent(unittest.TestCase):
@@ -37,7 +37,7 @@ class TestPPOAgent(unittest.TestCase):
         """
         agent = PPOAgent(env=self.mock_env)
 
-        with patch("src.agents.ppo_agent.PPO") as MockPPO:
+        with patch("src.models.sb3.ppo.PPO") as MockPPO:
             agent._create_model()
 
             MockPPO.assert_called_once()
@@ -47,5 +47,6 @@ class TestPPOAgent(unittest.TestCase):
                 self.assertIn(key, kwargs)
                 self.assertEqual(kwargs[key], value)
 
+
 if __name__ == "__main__":
-    unittest.main() 
+    unittest.main()

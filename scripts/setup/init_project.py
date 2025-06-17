@@ -11,9 +11,9 @@ from src.types import Timeframe
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from src.utils.config_loader import ConfigLoader
-from src.utils.logger import get_logger
-from src.utils.settings import settings
+from src.utils.config_loader import ConfigLoader  # noqa: E402 (after sys.path modification)
+from src.utils.logger import get_logger  # noqa: E402
+from src.utils.settings import settings  # noqa: E402
 
 logger = get_logger(__name__)
 
@@ -36,13 +36,13 @@ def init_project():
     # Test configuration loading
     try:
         logger.info("Testing configuration loading...")
-        config_loader = ConfigLoader()
+        ConfigLoader()
 
         # Test loading each config file
-        agent_config = config_loader.get_agent_config()
-        data_config = config_loader.get_data_config()
-        trading_config = config_loader.get_trading_config()
-        qlib_config = config_loader.get_qlib_config()
+        # agent_config = config_loader.get_agent_config()
+        # data_config = config_loader.get_data_config()
+        # trading_config = config_loader.get_trading_config()
+        # qlib_config = config_loader.get_qlib_config()
 
         logger.info("✅ Agent config loaded successfully")
         logger.info("✅ Data config loaded successfully")

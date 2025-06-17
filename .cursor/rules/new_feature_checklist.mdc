@@ -12,3 +12,4 @@ alwaysApply: false
 7. Update relevant __init__.py exports
 8. Consider backward compatibility
 9. Ensure code is production-ready (no placeholders or estimations)
+10. Run the full test & lint suite (`uv run pytest`, `uv run ruff check`) and ensure **zero** failures before submission

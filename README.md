@@ -100,7 +100,7 @@ STOP_LOSS=0.02
 agentic-trading/
 ├── config/                 # YAML configuration files
 ├── src/                    # Main source code
-│   ├── agents/            # RL agent implementations (PPO, etc.)
+│   ├── models/            # RL agent implementations (Stable-Baselines3)
 │   ├── brokers/           # Broker integrations (forex.com working)
 │   ├── data/              # Data handling & market calendars
 │   ├── environments/      # Gymnasium-based RL environments

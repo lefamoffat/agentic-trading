@@ -150,3 +150,8 @@ class ComponentFactory:
 - **NO PLACEHOLDERS**: Do not commit any code with `TODO`, `FIXME`, or placeholder comments. All logic must be fully implemented.
 - **NO HACKS**: Avoid temporary workarounds or "hacky" solutions. If a complex problem is found, it should be solved correctly or documented as a technical debt issue with a clear plan.
 - **NO ESTIMATIONS**: Algorithms and calculations must be precise and deterministic. Avoid estimations where exact values can be computed (e.g., using `len()` and `timeframe` to calculate duration instead of guessing).
+
+**NO DEPRECATED SHIMS**: Compatibility-only modules ("shims") that simply re-export moved symbols MUST NOT be kept in the code-base. When code is refactored, update all import sites immediately and delete obsolete modules.
+
+### Linter Overrides
+Only suppress linter warnings when there is a *good* reason. A common example is re-exporting names in a package's `__init__.py`. In that case use `# noqa: F401` to silence the "imported but unused" warning for the re-export *only*.

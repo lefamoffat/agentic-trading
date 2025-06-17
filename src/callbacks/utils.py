@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+"""Utilities for custom callbacks.
 """
-Utilities for custom callbacks.
-"""
-from typing import List, Dict, Any, Tuple
+from typing import Dict, List
+
 import numpy as np
 import pandas as pd
 
@@ -11,8 +11,7 @@ from src.types.enums import Timeframe
 
 
 def get_annualization_factor(timeframe: str) -> int:
-    """
-    Get the annualization factor based on the data timeframe.
+    """Get the annualization factor based on the data timeframe.
     Assumes 252 trading days per year.
     """
     if 'h' in timeframe:
@@ -57,8 +56,7 @@ def calculate_performance_metrics(
     trade_history: List[Trade],
     timeframe: str
 ) -> Dict[str, float]:
-    """
-    Calculate performance metrics from portfolio values and trade history.
+    """Calculate performance metrics from portfolio values and trade history.
     """
     trade_metrics = calculate_trade_metrics(trade_history)
 
@@ -79,7 +77,7 @@ def calculate_performance_metrics(
     sharpe_ratio = 0.0
     if returns.std() != 0:
         sharpe_ratio = (returns.mean() / returns.std()) * np.sqrt(annualization_factor)
-        
+
     # Sortino Ratio
     downside_returns = returns[returns < 0]
     downside_std = downside_returns.std()
@@ -91,12 +89,12 @@ def calculate_performance_metrics(
     initial_value = portfolio_values[0]
     final_value = portfolio_values[-1]
     profit_pct = ((final_value - initial_value) / initial_value) * 100
-    
+
     # Max Drawdown
     cumulative_max = pd.Series(portfolio_values).cummax()
     drawdown = (pd.Series(portfolio_values) - cumulative_max) / cumulative_max
     max_drawdown_pct = drawdown.min() * 100
-    
+
     # Calmar Ratio
     calmar_ratio = 0.0
     if max_drawdown_pct != 0:
@@ -118,5 +116,5 @@ def calculate_performance_metrics(
         "profit_pct": profit_pct,
         "max_drawdown_pct": max_drawdown_pct,
     }
-    
-    return {**performance_metrics, **trade_metrics} 
+
+    return {**performance_metrics, **trade_metrics}

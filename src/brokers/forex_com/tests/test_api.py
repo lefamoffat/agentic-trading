@@ -1,14 +1,15 @@
-"""
-Tests for the Forex.com ApiClient.
+"""Tests for the Forex.com ApiClient.
 """
 
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from unittest.mock import MagicMock, AsyncMock, Mock, patch
 
 from src.brokers.forex_com.api import ApiClient
 from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.tests.conftest import create_async_session_mock
 from src.brokers.forex_com.types import ForexComApiResponseKeys
+
 
 @pytest.fixture
 def mock_auth_handler():
@@ -54,12 +55,12 @@ async def test_make_request_post_success(mock_session_class, api_client):
 async def test_get_market_id_success(api_client):
     """Test successfully retrieving a market ID."""
     mock_response = {ForexComApiResponseKeys.MARKETS: [{ForexComApiResponseKeys.MARKET_ID: "12345"}]}
-    
+
     with patch.object(api_client, '_make_request', new_callable=AsyncMock) as mock_make_request:
         mock_make_request.return_value = (200, mock_response)
-        
+
         market_id = await api_client.get_market_id("EUR/USD")
-        
+
         assert market_id == "12345"
         # Check that it's cached
         assert "EUR/USD" in api_client._market_id_cache
@@ -69,10 +70,10 @@ async def test_get_market_id_success(api_client):
 async def test_get_market_id_cached(api_client):
     """Test that a cached market ID is returned without a new API call."""
     api_client._market_id_cache["EUR/USD"] = "54321"
-    
+
     with patch.object(api_client, '_make_request', new_callable=AsyncMock) as mock_make_request:
         market_id = await api_client.get_market_id("EUR/USD")
-        
+
         assert market_id == "54321"
         mock_make_request.assert_not_called()
 
@@ -80,9 +81,9 @@ async def test_get_market_id_cached(api_client):
 async def test_get_market_id_not_found(api_client):
     """Test the case where a market ID is not found for a symbol."""
     mock_response = {ForexComApiResponseKeys.MARKETS: []} # Empty response
-    
+
     with patch.object(api_client, '_make_request', new_callable=AsyncMock) as mock_make_request:
         mock_make_request.return_value = (200, mock_response)
-        
+
         with pytest.raises(ValueError, match="No market found for symbol: EUR/USD"):
-            await api_client.get_market_id("EUR/USD") 
+            await api_client.get_market_id("EUR/USD")

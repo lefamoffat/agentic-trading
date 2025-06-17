@@ -1,16 +1,18 @@
-"""
-Common, project-wide enums.
+"""Common, project-wide enums.
 """
 from enum import Enum
+
 
 # Broker-related enums
 class BrokerType(Enum):
     """Supported broker types."""
+
     FOREX_COM = "forex_com"
     GENERIC = "generic"
 
 class AssetClass(Enum):
     """Asset class classifications."""
+
     FOREX = "forex"
     STOCKS = "stocks"
     COMMODITIES = "commodities"
@@ -20,6 +22,7 @@ class AssetClass(Enum):
 
 class Timeframe(Enum):
     """Standard timeframes for market data."""
+
     M1 = "1m"
     M5 = "5m"
     M15 = "15m"
@@ -29,7 +32,7 @@ class Timeframe(Enum):
     D1 = "1d"
     W1 = "1w"
     MN1 = "1M"
-    
+
     @property
     def qlib_name(self) -> str:
         """Get the Qlib-compatible name for the timeframe."""
@@ -38,7 +41,7 @@ class Timeframe(Enum):
             "1h": "60min", "4h": "240min", "1d": "1d", "1w": "1w", "1M": "1mon"
         }
         return mapping[self.value]
-    
+
     @property
     def minutes(self) -> int:
         """Convert timeframe to minutes."""
@@ -47,7 +50,7 @@ class Timeframe(Enum):
             "1h": 60, "4h": 240, "1d": 1440, "1w": 10080, "1M": 43200
         }
         return mapping[self.value]
-    
+
     @classmethod
     def from_minutes(cls, minutes: int) -> 'Timeframe':
         """Create timeframe from minutes."""
@@ -75,6 +78,7 @@ class Timeframe(Enum):
 # Trading-related enums
 class OrderType(Enum):
     """Order types for trading."""
+
     MARKET = "market"
     LIMIT = "limit"
     STOP = "stop"
@@ -83,11 +87,13 @@ class OrderType(Enum):
 
 class OrderSide(Enum):
     """Order sides."""
+
     BUY = "buy"
     SELL = "sell"
 
 class OrderStatus(Enum):
     """Order status states."""
+
     PENDING = "pending"
     FILLED = "filled"
     CANCELLED = "cancelled"
@@ -97,6 +103,7 @@ class OrderStatus(Enum):
 # Data processing types
 class DataQuality(Enum):
     """Data quality indicators."""
+
     EXCELLENT = "excellent"
     GOOD = "good"
     ACCEPTABLE = "acceptable"
@@ -106,6 +113,7 @@ class DataQuality(Enum):
 # Calendar and time types
 class MarketSession(Enum):
     """Market trading session types."""
+
     CLOSED = "closed"
     OPEN = "open"
     PRE_MARKET = "pre_market"
@@ -114,6 +122,7 @@ class MarketSession(Enum):
 
 class EventImportance(Enum):
     """Economic event importance levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -122,6 +131,7 @@ class EventImportance(Enum):
 # Strategy types
 class StrategyType(Enum):
     """Trading strategy types."""
+
     TREND_FOLLOWING = "trend_following"
     MEAN_REVERSION = "mean_reversion"
     MOMENTUM = "momentum"
@@ -132,6 +142,7 @@ class StrategyType(Enum):
 
 class SignalType(Enum):
     """Trading signal types."""
+
     BUY = "buy"
     SELL = "sell"
     HOLD = "hold"
@@ -140,8 +151,9 @@ class SignalType(Enum):
 # Risk management types
 class RiskLevel(Enum):
     """Risk level classifications."""
+
     VERY_LOW = "very_low"
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
-    VERY_HIGH = "very_high" 
+    VERY_HIGH = "very_high"

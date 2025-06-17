@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Hyperparameter optimization for an RL agent using Optuna and MLflow.
+"""Hyperparameter optimization for an RL agent using Optuna and MLflow.
 
 This script runs multiple training trials to find the best hyperparameters
 for a given agent and environment.
@@ -9,13 +8,15 @@ Usage:
     python -m scripts.training.optimize_agent [options]
 """
 import argparse
+from typing import Any, Dict
+
 import mlflow
 import optuna
-from typing import Dict, Any
+from src.mlflow_utils import log_params
 
-from src.utils.logger import get_logger
-from src.utils.config_loader import ConfigLoader
 from scripts.training.train_agent import train_agent_session
+from src.utils.config_loader import ConfigLoader
+from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -30,7 +31,7 @@ def suggest_hyperparameters(trial: optuna.Trial, hpo_config: Dict[str, Any]) -> 
         elif config["type"] == "float":
             params[param_name] = trial.suggest_float(param_name, config["low"], config["high"])
         elif config["type"] == "log_float":
-            params[param_name] = trial.suggest_loguniform(param_name, config["low"], config["high"])
+            params[param_name] = trial.suggest_float(param_name, config["low"], config["high"], log=True)
     return params
 
 def objective(
@@ -51,7 +52,7 @@ def objective(
         config_loader = ConfigLoader()
         hpo_config = config_loader.load_config("agent_config")["hpo_params"][agent_name.lower()]
         hyperparams = suggest_hyperparameters(trial, hpo_config)
-        mlflow.log_params(hyperparams)
+        log_params(hyperparams)
 
         # 3. Run the training session with the suggested hyperparameters
         try:
@@ -74,7 +75,7 @@ def objective(
         if not metric_history:
             logger.warning("Could not find 'eval/sharpe_ratio' metric for trial. Returning -1.0")
             return -1.0
-        
+
         final_sharpe = metric_history[-1].value
         logger.info(f"--- Trial {trial.number} Finished. Sharpe Ratio: {final_sharpe:.4f} ---")
         return final_sharpe
@@ -106,7 +107,7 @@ def main():
 
         # 2. Create the Optuna study
         study = optuna.create_study(direction="maximize")
-        
+
         # 3. Run the optimization
         study.optimize(
             lambda trial: objective(
@@ -135,4 +136,4 @@ def main():
             logger.info(f"    {key}: {value}")
 
 if __name__ == "__main__":
-    main() 
+    main()

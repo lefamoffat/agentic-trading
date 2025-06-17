@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-"""
-PPO (Proximal Policy Optimization) Agent.
+"""PPO (Proximal Policy Optimization) Agent.
 """
 from typing import Any, Dict, Optional, Type
-import inspect
-import yaml
-from pathlib import Path
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.base_class import BaseAlgorithm
@@ -16,8 +12,7 @@ from src.utils.config_loader import ConfigLoader
 
 
 class PPOAgent(BaseAgent):
-    """
-    A reinforcement learning agent using the PPO algorithm.
+    """A reinforcement learning agent using the PPO algorithm.
 
     This class wraps the `stable-baselines3` implementation of the PPO
     algorithm, making it compatible with the project's agent interface.
@@ -29,8 +24,7 @@ class PPOAgent(BaseAgent):
         hyperparams: Optional[Dict[str, Any]] = None,
         tensorboard_log_path: Optional[str] = None,
     ):
-        """
-        Initialize the PPO agent.
+        """Initialize the PPO agent.
         """
         super().__init__(env)
         self.hyperparams = hyperparams
@@ -44,8 +38,7 @@ class PPOAgent(BaseAgent):
         model_params: Optional[Dict[str, Any]] = None,
         tensorboard_log_path: Optional[str] = None,
     ) -> BaseAlgorithm:
-        """
-        Create the PPO model instance.
+        """Create the PPO model instance.
 
         Args:
             model_params (Optional[Dict[str, Any]]): Hyperparameters for the PPO model.
@@ -54,9 +47,10 @@ class PPOAgent(BaseAgent):
 
         Returns:
             BaseAlgorithm: An instance of the PPO algorithm.
+
         """
         self.logger.info("Creating PPO model...")
-        
+
         # Load base config
         config_loader = ConfigLoader()
         agent_config = config_loader.reload_config("agent_config").get("ppo", {})
@@ -64,7 +58,7 @@ class PPOAgent(BaseAgent):
         # If specific params are provided, they override the base config
         if model_params:
             agent_config.update(model_params)
-            
+
         return PPO(
             env=self.env,
             tensorboard_log=tensorboard_log_path,
@@ -77,7 +71,6 @@ class PPOAgent(BaseAgent):
         self.model.learn(*args, **kwargs)
 
     def _get_model_class(self) -> Type[BaseAlgorithm]:
-        """
-        Get the stable-baselines3 model class for PPO.
+        """Get the stable-baselines3 model class for PPO.
         """
         return PPO

@@ -1,17 +1,16 @@
-"""
-API client for Forex.com broker.
+"""API client for Forex.com broker.
 """
 
-import urllib.parse
-from typing import Dict, Any, Optional, Tuple
 import json
+import urllib.parse
+from typing import Any, Dict, Optional, Tuple
 
 import aiohttp
 
-from src.brokers.forex_com.auth import AuthenticationHandler
-from src.utils.logger import get_logger
 from src.brokers.exceptions import JsonParseError
+from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.types import ForexComApiResponseKeys
+from src.utils.logger import get_logger
 
 
 class ApiClient:
@@ -20,11 +19,11 @@ class ApiClient:
     API_BASE_URL = "https://ciapi.cityindex.com/TradingAPI"
 
     def __init__(self, auth_handler: AuthenticationHandler):
-        """
-        Initialize the API client.
+        """Initialize the API client.
 
         Args:
             auth_handler: The authentication handler instance.
+
         """
         self.auth_handler = auth_handler
         self.logger = get_logger(__name__)
@@ -38,8 +37,7 @@ class ApiClient:
         json_data: Optional[Dict] = None,
         log_endpoint: bool = True
     ) -> Tuple[int, Any]:
-        """
-        Make an authenticated HTTP request to the GainCapital API.
+        """Make an authenticated HTTP request to the GainCapital API.
 
         Args:
             method: HTTP method ('GET' or 'POST').
@@ -50,6 +48,7 @@ class ApiClient:
 
         Returns:
             A tuple of (status_code, response_data).
+
         """
         if not self.auth_handler.is_authenticated:
             raise Exception("Cannot make API request without being authenticated.")
@@ -88,8 +87,7 @@ class ApiClient:
             raise
 
     async def get_market_id(self, symbol: str) -> str:
-        """
-        Get GainCapital market ID for a symbol using the search API, with caching.
+        """Get GainCapital market ID for a symbol using the search API, with caching.
 
         Args:
             symbol: Symbol in common format (e.g., "EUR/USD").
@@ -100,6 +98,7 @@ class ApiClient:
         Raises:
             ValueError: If no market is found for the symbol.
             Exception: If the market search API call fails.
+
         """
         if symbol in self._market_id_cache:
             return self._market_id_cache[symbol]
@@ -128,4 +127,4 @@ class ApiClient:
 
         except Exception as e:
             self.logger.error(f"Error getting market ID for {symbol}: {e}")
-            raise 
+            raise

@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
+"""Custom callbacks for Stable-Baselines3.
 """
-Custom callbacks for Stable-Baselines3.
-"""
-from typing import Dict, Any
 
-import numpy as np
 import mlflow
+import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
 
 from src.callbacks.utils import calculate_performance_metrics
 from src.environments.wrappers import EvaluationWrapper
+from src.mlflow_utils import log_metrics
+
 
 class MlflowMetricsCallback(BaseCallback):
-    """
-    A custom callback to log evaluation metrics to MLflow and save the best model.
+    """A custom callback to log evaluation metrics to MLflow and save the best model.
     
     This callback runs policy evaluation at regular intervals and logs key
     performance metrics (Sharpe ratio, profit, drawdown) to the active
@@ -39,16 +38,14 @@ class MlflowMetricsCallback(BaseCallback):
         self.best_mean_sharpe = -np.inf
 
     def _on_step(self) -> bool:
-        """
-        This method is called after each step in the training process.
+        """This method is called after each step in the training process.
         """
         if self.n_calls % self.eval_freq == 0:
             self.run_evaluation()
         return True
 
     def run_evaluation(self):
-        """
-        Run policy evaluation and log the results to MLflow.
+        """Run policy evaluation and log the results to MLflow.
         """
         all_metrics = []
         for _ in range(self.n_eval_episodes):
@@ -75,15 +72,15 @@ class MlflowMetricsCallback(BaseCallback):
                 key: np.mean([m[key] for m in all_metrics])
                 for key in all_metrics[0]
             }
-            
+
             # Log all metrics to the console and MLflow
             for key, value in avg_metrics.items():
                 self.logger.record(f"eval/{key}", value)
-            
-            mlflow.log_metrics(avg_metrics, step=self.n_calls)
-            
+
+            log_metrics(avg_metrics, step=self.n_calls)
+
             # Save the best model
             if self.best_model_save_path and avg_metrics["sharpe_ratio"] > self.best_mean_sharpe:
                 self.best_mean_sharpe = avg_metrics["sharpe_ratio"]
                 self.logger.info(f"New best Sharpe ratio: {self.best_mean_sharpe:.4f}. Saving model...")
-                self.model.save(self.best_model_save_path) 
+                self.model.save(self.best_model_save_path)

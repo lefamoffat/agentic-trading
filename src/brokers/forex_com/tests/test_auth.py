@@ -1,13 +1,13 @@
-"""
-Tests for the Forex.com AuthenticationHandler.
+"""Tests for the Forex.com AuthenticationHandler.
 """
 
+from unittest.mock import patch
+
 import pytest
-import json
-from unittest.mock import Mock, patch, AsyncMock
 
 from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.tests.conftest import create_async_session_mock
+
 
 @pytest.fixture
 def auth_handler():
@@ -29,7 +29,7 @@ async def test_authentication_success(mock_session_class, auth_handler, mock_ses
     """Test a successful authentication flow."""
     mock_session_cm = create_async_session_mock(mock_session_response)
     mock_session_class.return_value = mock_session_cm
-    
+
     result = await auth_handler.authenticate()
 
     assert result is True
@@ -43,7 +43,7 @@ async def test_authentication_failure_status_code(mock_session_class, auth_handl
     """Test an authentication failure due to a non-200 status code."""
     mock_session_cm = create_async_session_mock(None, status_code=401)
     mock_session_class.return_value = mock_session_cm
-    
+
     result = await auth_handler.authenticate()
 
     assert result is False
@@ -57,7 +57,7 @@ async def test_authentication_failure_api_error(mock_session_class, auth_handler
     error_response = {"statusCode": 1, "errorMessage": "Invalid credentials"}
     mock_session_cm = create_async_session_mock(error_response, status_code=200)
     mock_session_class.return_value = mock_session_cm
-    
+
     result = await auth_handler.authenticate()
 
     assert result is False
@@ -73,9 +73,9 @@ def test_get_headers_authenticated(auth_handler):
     auth_handler._authenticated = True
     auth_handler.session_token = "test_token"
     auth_handler.username = "test_user"
-    
+
     headers = auth_handler.get_headers()
-    
+
     assert headers["Session"] == "test_token"
     assert headers["UserName"] == "test_user"
     assert headers["Content-Type"] == "application/json"

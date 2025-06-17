@@ -1,11 +1,13 @@
 import unittest
-from unittest.mock import patch
-import pandas as pd
 from pathlib import Path
+from unittest.mock import patch
+
+import pandas as pd
 import yaml
 
 from src.agents.ppo_agent import PPOAgent
 from src.environments.trading_env import TradingEnv
+
 
 class TestPPOAgent(unittest.TestCase):
     """Unit tests for the PPOAgent."""
@@ -18,7 +20,7 @@ class TestPPOAgent(unittest.TestCase):
             "volume": [100, 110, 120]
         })
         self.mock_env = TradingEnv(data=dummy_data)
-        
+
         config_path = Path("config/agent_config.yaml")
         with open(config_path, "r") as f:
             self.expected_params = yaml.safe_load(f)["ppo"]
@@ -30,17 +32,16 @@ class TestPPOAgent(unittest.TestCase):
         self.assertIsInstance(agent, PPOAgent)
 
     def test_model_creation_with_default_params(self):
-        """
-        Test if the underlying Stable Baselines 3 model is created with the
+        """Test if the underlying Stable Baselines 3 model is created with the
         correct default parameters from the config file.
         """
         agent = PPOAgent(env=self.mock_env)
-        
+
         with patch("src.agents.ppo_agent.PPO") as MockPPO:
             agent._create_model()
-            
+
             MockPPO.assert_called_once()
-            
+
             _, kwargs = MockPPO.call_args
             for key, value in self.expected_params.items():
                 self.assertIn(key, kwargs)

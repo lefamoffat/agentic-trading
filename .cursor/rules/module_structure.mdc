@@ -3,14 +3,14 @@ description: Module structure
 globs: 
 alwaysApply: false
 ---
-```
 src/module_name/
 ├── __init__.py          # Exports all public interfaces
 ├── base.py              # Abstract base classes
 ├── types.py             # Module-specific types (if needed)
 ├── factory.py           # Factory classes
 ├── implementation.py    # Concrete implementations
-└── utils.py            # Module-specific utilities
+├── utils.py             # Module-specific utilities
+└── tests/               # Unit/component tests for this module
 ```
 
 ### Import Organization in __init__.py

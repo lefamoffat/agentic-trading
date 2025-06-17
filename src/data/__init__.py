@@ -1,5 +1,4 @@
-"""
-Data handling modules for the trading system.
+"""Data handling modules for the trading system.
 
 This package contains:
 - Market calendars for different asset classes
@@ -8,14 +7,14 @@ This package contains:
 - Data validation and quality checks
 """
 
-from .processor import DataProcessor
 from .calendars import BaseCalendar, ForexCalendar
 from .calendars.factory import CalendarFactory, calendar_factory
+from .processor import DataProcessor
 
 __all__ = [
-    'DataProcessor',
-    'BaseCalendar', 
-    'ForexCalendar',
+    'BaseCalendar',
     'CalendarFactory',
+    'DataProcessor',
+    'ForexCalendar',
     'calendar_factory'
-] 
+]

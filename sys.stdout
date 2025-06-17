@@ -1,0 +1,2227 @@
+2025-06-16 18:52:13 | INFO     | Opening LONG position.
+2025-06-16 18:52:13 | INFO     | Opening SHORT position.
+2025-06-16 18:52:13 | INFO     | Closing open position.
+2025-06-16 18:52:13 | INFO     | Starting strategy: RLStrategy
+2025-06-16 18:52:13 | INFO     | Starting strategy: RLStrategy
+2025-06-16 18:52:13 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 18:52:13 | INFO     | Opening LONG position.
+2025-06-16 18:53:10 | INFO     | Opening LONG position.
+2025-06-16 18:53:10 | INFO     | Opening SHORT position.
+2025-06-16 18:53:10 | INFO     | Closing open position.
+2025-06-16 18:53:10 | INFO     | Starting strategy: RLStrategy
+2025-06-16 18:53:10 | INFO     | Starting strategy: RLStrategy
+2025-06-16 18:53:10 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 18:53:10 | INFO     | Opening LONG position.
+2025-06-16 21:14:11 | WARNING  | No trading accounts found in API response.
+2025-06-16 21:14:11 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 21:14:11 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:14:11 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:14:11 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 21:14:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:14:11 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 21:14:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:14:11 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 21:14:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:14:11 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 21:14:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:14:12 | INFO     | Successfully authenticated with Forex.com. Session: e878b8bc...
+2025-06-16 21:14:12 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 21:14:14 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 21:14:14 | INFO     | Order placed successfully: 555
+2025-06-16 21:14:14 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 21:14:14 | INFO     | Order cancelled successfully: 123
+2025-06-16 21:14:14 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 21:14:14 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 21:14:14 | INFO     | Creating PPO model...
+2025-06-16 21:14:15 | INFO     | Creating PPO model...
+2025-06-16 21:14:15 | INFO     | Creating PPO model...
+2025-06-16 21:14:16 | INFO     | Opening LONG position.
+2025-06-16 21:14:16 | INFO     | Opening SHORT position.
+2025-06-16 21:14:16 | INFO     | Closing open position.
+2025-06-16 21:14:16 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:14:16 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:14:16 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 21:14:16 | INFO     | Opening LONG position.
+2025-06-16 21:14:17 | INFO     | Executing within MLflow Run ID: ed733bf7a7d4405aa573727d84e3252f
+2025-06-16 21:14:17 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:14:17 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:14:17 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:14:17 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:14:17 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:14:17 | INFO     | Creating environment 'default'
+2025-06-16 21:14:17 | INFO     | Creating environment 'default'
+2025-06-16 21:14:17 | INFO     | Environments created successfully.
+2025-06-16 21:14:17 | INFO     | Training PPO agent...
+2025-06-16 21:14:17 | INFO     | Creating agent 'PPO'
+2025-06-16 21:14:17 | INFO     | Creating PPO model...
+2025-06-16 21:14:23 | INFO     | Agent training completed.
+2025-06-16 21:14:23 | INFO     | Saving final model to data/models/PPO/ed733bf7a7d4405aa573727d84e3252f/final_model.zip...
+2025-06-16 21:14:23 | INFO     | Model saved to data/models/PPO/ed733bf7a7d4405aa573727d84e3252f/final_model.zip
+2025-06-16 21:14:23 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:14:55 | INFO     | Training run ed733bf7a7d4405aa573727d84e3252f complete.
+2025-06-16 21:14:55 | INFO     | Model saved at: data/models/PPO/ed733bf7a7d4405aa573727d84e3252f/final_model.zip
+2025-06-16 21:14:55 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/ed733bf7a7d4405aa573727d84e3252f
+2025-06-16 21:14:55 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:14:55 | INFO     | --- Starting Trial 0 (Run ID: 5d0cdee86530405ab2e86b1567fbdc77) ---
+2025-06-16 21:14:55 | INFO     | Executing within MLflow Run ID: 5d0cdee86530405ab2e86b1567fbdc77
+2025-06-16 21:14:55 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:14:55 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:14:55 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:14:55 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:14:55 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:14:55 | INFO     | Creating environment 'default'
+2025-06-16 21:14:55 | INFO     | Creating environment 'default'
+2025-06-16 21:14:55 | INFO     | Environments created successfully.
+2025-06-16 21:14:55 | INFO     | Training PPO agent...
+2025-06-16 21:14:55 | INFO     | Creating agent 'PPO'
+2025-06-16 21:14:55 | INFO     | Creating PPO model...
+2025-06-16 21:14:56 | INFO     | Agent training completed.
+2025-06-16 21:14:56 | INFO     | Saving final model to data/models/PPO/5d0cdee86530405ab2e86b1567fbdc77/final_model.zip...
+2025-06-16 21:14:56 | INFO     | Model saved to data/models/PPO/5d0cdee86530405ab2e86b1567fbdc77/final_model.zip
+2025-06-16 21:14:56 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:15:27 | INFO     | Training run 5d0cdee86530405ab2e86b1567fbdc77 complete.
+2025-06-16 21:15:27 | INFO     | Model saved at: data/models/PPO/5d0cdee86530405ab2e86b1567fbdc77/final_model.zip
+2025-06-16 21:15:27 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/5d0cdee86530405ab2e86b1567fbdc77
+2025-06-16 21:15:27 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:15:27 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:15:27 | INFO     | Parent MLflow Run ID for HPO Study: 13b66d8ab4284730a3b25c16e0fc3690
+2025-06-16 21:15:27 | INFO     | --- Starting Trial 0 (Run ID: a000d74a9ea54166ae5ac626cf237b96) ---
+2025-06-16 21:15:27 | INFO     | Executing within MLflow Run ID: a000d74a9ea54166ae5ac626cf237b96
+2025-06-16 21:15:27 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:15:27 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:15:27 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:15:27 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:15:27 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:15:27 | INFO     | Creating environment 'default'
+2025-06-16 21:15:27 | INFO     | Creating environment 'default'
+2025-06-16 21:15:27 | INFO     | Environments created successfully.
+2025-06-16 21:15:27 | INFO     | Training PPO agent...
+2025-06-16 21:15:27 | INFO     | Creating agent 'PPO'
+2025-06-16 21:15:27 | INFO     | Creating PPO model...
+2025-06-16 21:15:47 | INFO     | Agent training completed.
+2025-06-16 21:15:47 | INFO     | Saving final model to data/models/PPO/a000d74a9ea54166ae5ac626cf237b96/final_model.zip...
+2025-06-16 21:15:47 | INFO     | Model saved to data/models/PPO/a000d74a9ea54166ae5ac626cf237b96/final_model.zip
+2025-06-16 21:15:47 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:16:18 | INFO     | Training run a000d74a9ea54166ae5ac626cf237b96 complete.
+2025-06-16 21:16:18 | INFO     | Model saved at: data/models/PPO/a000d74a9ea54166ae5ac626cf237b96/final_model.zip
+2025-06-16 21:16:18 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/a000d74a9ea54166ae5ac626cf237b96
+2025-06-16 21:16:18 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:16:18 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:16:18 | INFO     | --- Starting Trial 1 (Run ID: daa06b1c7215427b8ffa0f6c2e8e29a4) ---
+2025-06-16 21:16:18 | INFO     | Executing within MLflow Run ID: daa06b1c7215427b8ffa0f6c2e8e29a4
+2025-06-16 21:16:18 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:16:18 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:16:18 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:16:18 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:16:18 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:16:18 | INFO     | Creating environment 'default'
+2025-06-16 21:16:18 | INFO     | Creating environment 'default'
+2025-06-16 21:16:18 | INFO     | Environments created successfully.
+2025-06-16 21:16:18 | INFO     | Training PPO agent...
+2025-06-16 21:16:18 | INFO     | Creating agent 'PPO'
+2025-06-16 21:16:18 | INFO     | Creating PPO model...
+2025-06-16 21:16:35 | INFO     | Agent training completed.
+2025-06-16 21:16:35 | INFO     | Saving final model to data/models/PPO/daa06b1c7215427b8ffa0f6c2e8e29a4/final_model.zip...
+2025-06-16 21:16:35 | INFO     | Model saved to data/models/PPO/daa06b1c7215427b8ffa0f6c2e8e29a4/final_model.zip
+2025-06-16 21:16:35 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:17:03 | INFO     | Training run daa06b1c7215427b8ffa0f6c2e8e29a4 complete.
+2025-06-16 21:17:03 | INFO     | Model saved at: data/models/PPO/daa06b1c7215427b8ffa0f6c2e8e29a4/final_model.zip
+2025-06-16 21:17:03 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/daa06b1c7215427b8ffa0f6c2e8e29a4
+2025-06-16 21:17:03 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:17:03 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:17:03 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 21:17:03 | INFO     | Best Trial: 0
+2025-06-16 21:17:03 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 21:17:03 | INFO     |   Hyperparameters:
+2025-06-16 21:17:03 | INFO     |     learning_rate: 1.379963369163343e-05
+2025-06-16 21:17:03 | INFO     |     n_steps: 4096
+2025-06-16 21:17:03 | INFO     |     batch_size: 256
+2025-06-16 21:17:03 | INFO     |     n_epochs: 11
+2025-06-16 21:17:03 | INFO     |     gamma: 0.9992634455606375
+2025-06-16 21:17:03 | INFO     |     clip_range: 0.12070090168408623
+2025-06-16 21:27:08 | WARNING  | No trading accounts found in API response.
+2025-06-16 21:27:08 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 21:27:09 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:27:09 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:27:09 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 21:27:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:27:09 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 21:27:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:27:09 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 21:27:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:27:09 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 21:27:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:27:09 | INFO     | Successfully authenticated with Forex.com. Session: acaf4550...
+2025-06-16 21:27:09 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 21:27:11 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 21:27:11 | INFO     | Order placed successfully: 555
+2025-06-16 21:27:11 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 21:27:11 | INFO     | Order cancelled successfully: 123
+2025-06-16 21:27:11 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 21:27:11 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 21:27:11 | INFO     | Creating PPO model...
+2025-06-16 21:27:12 | INFO     | Creating PPO model...
+2025-06-16 21:27:12 | INFO     | Creating PPO model...
+2025-06-16 21:27:12 | INFO     | Opening LONG position.
+2025-06-16 21:27:12 | INFO     | Opening SHORT position.
+2025-06-16 21:27:12 | INFO     | Closing open position.
+2025-06-16 21:27:12 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:27:12 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:27:12 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 21:27:12 | INFO     | Opening LONG position.
+2025-06-16 21:27:14 | INFO     | Executing within MLflow Run ID: eaff17e2e44f4591952d32668c099e4c
+2025-06-16 21:27:14 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:27:14 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:27:14 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:27:14 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:27:14 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:27:14 | INFO     | Creating environment 'default'
+2025-06-16 21:27:14 | INFO     | Creating environment 'default'
+2025-06-16 21:27:14 | INFO     | Environments created successfully.
+2025-06-16 21:27:14 | INFO     | Training PPO agent...
+2025-06-16 21:27:14 | INFO     | Creating agent 'PPO'
+2025-06-16 21:27:14 | INFO     | Creating PPO model...
+2025-06-16 21:27:23 | INFO     | Agent training completed.
+2025-06-16 21:27:23 | INFO     | Saving final model to data/models/PPO/eaff17e2e44f4591952d32668c099e4c/final_model.zip...
+2025-06-16 21:27:23 | INFO     | Model saved to data/models/PPO/eaff17e2e44f4591952d32668c099e4c/final_model.zip
+2025-06-16 21:27:23 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:27:52 | INFO     | Training run eaff17e2e44f4591952d32668c099e4c complete.
+2025-06-16 21:27:52 | INFO     | Model saved at: data/models/PPO/eaff17e2e44f4591952d32668c099e4c/final_model.zip
+2025-06-16 21:27:52 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/eaff17e2e44f4591952d32668c099e4c
+2025-06-16 21:27:52 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:27:53 | INFO     | --- Starting Trial 0 (Run ID: ff4acad206ec4ea88e60564bcfc53e64) ---
+2025-06-16 21:27:53 | INFO     | Executing within MLflow Run ID: ff4acad206ec4ea88e60564bcfc53e64
+2025-06-16 21:27:53 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:27:53 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:27:53 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:27:53 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:27:53 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:27:53 | INFO     | Creating environment 'default'
+2025-06-16 21:27:53 | INFO     | Creating environment 'default'
+2025-06-16 21:27:53 | INFO     | Environments created successfully.
+2025-06-16 21:27:53 | INFO     | Training PPO agent...
+2025-06-16 21:27:53 | INFO     | Creating agent 'PPO'
+2025-06-16 21:27:53 | INFO     | Creating PPO model...
+2025-06-16 21:27:54 | INFO     | Agent training completed.
+2025-06-16 21:27:54 | INFO     | Saving final model to data/models/PPO/ff4acad206ec4ea88e60564bcfc53e64/final_model.zip...
+2025-06-16 21:27:54 | INFO     | Model saved to data/models/PPO/ff4acad206ec4ea88e60564bcfc53e64/final_model.zip
+2025-06-16 21:27:54 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:28:18 | INFO     | Training run ff4acad206ec4ea88e60564bcfc53e64 complete.
+2025-06-16 21:28:18 | INFO     | Model saved at: data/models/PPO/ff4acad206ec4ea88e60564bcfc53e64/final_model.zip
+2025-06-16 21:28:18 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/ff4acad206ec4ea88e60564bcfc53e64
+2025-06-16 21:28:18 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:28:18 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:28:19 | INFO     | Parent MLflow Run ID for HPO Study: dd3fdd1336e04315a1c99f1df9ba5b16
+2025-06-16 21:28:19 | INFO     | --- Starting Trial 0 (Run ID: 714a1b05b85f42ce8fb3b775e97d5f4f) ---
+2025-06-16 21:28:19 | INFO     | Executing within MLflow Run ID: 714a1b05b85f42ce8fb3b775e97d5f4f
+2025-06-16 21:28:19 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:28:19 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:28:19 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:28:19 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:28:19 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:28:19 | INFO     | Creating environment 'default'
+2025-06-16 21:28:19 | INFO     | Creating environment 'default'
+2025-06-16 21:28:19 | INFO     | Environments created successfully.
+2025-06-16 21:28:19 | INFO     | Training PPO agent...
+2025-06-16 21:28:19 | INFO     | Creating agent 'PPO'
+2025-06-16 21:28:19 | INFO     | Creating PPO model...
+2025-06-16 21:28:35 | INFO     | Agent training completed.
+2025-06-16 21:28:35 | INFO     | Saving final model to data/models/PPO/714a1b05b85f42ce8fb3b775e97d5f4f/final_model.zip...
+2025-06-16 21:28:35 | INFO     | Model saved to data/models/PPO/714a1b05b85f42ce8fb3b775e97d5f4f/final_model.zip
+2025-06-16 21:28:35 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:28:59 | INFO     | Training run 714a1b05b85f42ce8fb3b775e97d5f4f complete.
+2025-06-16 21:28:59 | INFO     | Model saved at: data/models/PPO/714a1b05b85f42ce8fb3b775e97d5f4f/final_model.zip
+2025-06-16 21:28:59 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/714a1b05b85f42ce8fb3b775e97d5f4f
+2025-06-16 21:28:59 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:28:59 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:28:59 | INFO     | --- Starting Trial 1 (Run ID: c35ad202a22447d68bc415110a061f4c) ---
+2025-06-16 21:28:59 | INFO     | Executing within MLflow Run ID: c35ad202a22447d68bc415110a061f4c
+2025-06-16 21:28:59 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:28:59 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:28:59 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:28:59 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:28:59 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:28:59 | INFO     | Creating environment 'default'
+2025-06-16 21:28:59 | INFO     | Creating environment 'default'
+2025-06-16 21:28:59 | INFO     | Environments created successfully.
+2025-06-16 21:28:59 | INFO     | Training PPO agent...
+2025-06-16 21:28:59 | INFO     | Creating agent 'PPO'
+2025-06-16 21:28:59 | INFO     | Creating PPO model...
+2025-06-16 21:29:07 | INFO     | Agent training completed.
+2025-06-16 21:29:07 | INFO     | Saving final model to data/models/PPO/c35ad202a22447d68bc415110a061f4c/final_model.zip...
+2025-06-16 21:29:07 | INFO     | Model saved to data/models/PPO/c35ad202a22447d68bc415110a061f4c/final_model.zip
+2025-06-16 21:29:07 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:29:39 | INFO     | Training run c35ad202a22447d68bc415110a061f4c complete.
+2025-06-16 21:29:39 | INFO     | Model saved at: data/models/PPO/c35ad202a22447d68bc415110a061f4c/final_model.zip
+2025-06-16 21:29:39 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/c35ad202a22447d68bc415110a061f4c
+2025-06-16 21:29:39 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:29:39 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:29:39 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 21:29:39 | INFO     | Best Trial: 0
+2025-06-16 21:29:39 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 21:29:39 | INFO     |   Hyperparameters:
+2025-06-16 21:29:39 | INFO     |     learning_rate: 8.210940054029108e-05
+2025-06-16 21:29:39 | INFO     |     n_steps: 4096
+2025-06-16 21:29:39 | INFO     |     batch_size: 256
+2025-06-16 21:29:39 | INFO     |     n_epochs: 15
+2025-06-16 21:29:39 | INFO     |     gamma: 0.9937315498505447
+2025-06-16 21:29:39 | INFO     |     clip_range: 0.10340707915728414
+2025-06-16 21:38:44 | WARNING  | No trading accounts found in API response.
+2025-06-16 21:38:44 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 21:38:44 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:38:44 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:38:44 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 21:38:44 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:38:44 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 21:38:44 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:38:44 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 21:38:44 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:38:44 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 21:38:45 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:38:45 | INFO     | Successfully authenticated with Forex.com. Session: d3c91cfc...
+2025-06-16 21:38:45 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 21:38:46 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 21:38:46 | INFO     | Order placed successfully: 555
+2025-06-16 21:38:46 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 21:38:46 | INFO     | Order cancelled successfully: 123
+2025-06-16 21:38:46 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 21:38:46 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 21:38:46 | INFO     | Creating PPO model...
+2025-06-16 21:38:47 | INFO     | Creating PPO model...
+2025-06-16 21:38:47 | INFO     | Creating PPO model...
+2025-06-16 21:38:47 | INFO     | Opening LONG position.
+2025-06-16 21:38:47 | INFO     | Opening SHORT position.
+2025-06-16 21:38:47 | INFO     | Closing open position.
+2025-06-16 21:38:47 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:38:47 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:38:47 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 21:38:47 | INFO     | Opening LONG position.
+2025-06-16 21:38:50 | INFO     | Executing within MLflow Run ID: add1bc17f2bd4a8fa8f6dc8310c316b0
+2025-06-16 21:38:50 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:38:50 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:38:50 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:38:50 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:38:50 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:38:50 | INFO     | Creating environment 'default'
+2025-06-16 21:38:50 | INFO     | Creating environment 'default'
+2025-06-16 21:38:50 | INFO     | Environments created successfully.
+2025-06-16 21:38:50 | INFO     | Training PPO agent...
+2025-06-16 21:38:50 | INFO     | Creating agent 'PPO'
+2025-06-16 21:38:50 | INFO     | Creating PPO model...
+2025-06-16 21:39:00 | INFO     | Agent training completed.
+2025-06-16 21:39:00 | INFO     | Saving final model to data/models/PPO/add1bc17f2bd4a8fa8f6dc8310c316b0/final_model.zip...
+2025-06-16 21:39:00 | INFO     | Model saved to data/models/PPO/add1bc17f2bd4a8fa8f6dc8310c316b0/final_model.zip
+2025-06-16 21:39:00 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:39:31 | INFO     | Training run add1bc17f2bd4a8fa8f6dc8310c316b0 complete.
+2025-06-16 21:39:31 | INFO     | Model saved at: data/models/PPO/add1bc17f2bd4a8fa8f6dc8310c316b0/final_model.zip
+2025-06-16 21:39:31 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/add1bc17f2bd4a8fa8f6dc8310c316b0
+2025-06-16 21:39:31 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:39:31 | INFO     | --- Starting Trial 0 (Run ID: 33a13c42f2204edf9876da19f16dae28) ---
+2025-06-16 21:39:31 | INFO     | Executing within MLflow Run ID: 33a13c42f2204edf9876da19f16dae28
+2025-06-16 21:39:31 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:39:31 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:39:31 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:39:31 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:39:31 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:39:31 | INFO     | Creating environment 'default'
+2025-06-16 21:39:31 | INFO     | Creating environment 'default'
+2025-06-16 21:39:31 | INFO     | Environments created successfully.
+2025-06-16 21:39:31 | INFO     | Training PPO agent...
+2025-06-16 21:39:31 | INFO     | Creating agent 'PPO'
+2025-06-16 21:39:31 | INFO     | Creating PPO model...
+2025-06-16 21:39:33 | INFO     | Agent training completed.
+2025-06-16 21:39:33 | INFO     | Saving final model to data/models/PPO/33a13c42f2204edf9876da19f16dae28/final_model.zip...
+2025-06-16 21:39:33 | INFO     | Model saved to data/models/PPO/33a13c42f2204edf9876da19f16dae28/final_model.zip
+2025-06-16 21:39:33 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:40:03 | INFO     | Training run 33a13c42f2204edf9876da19f16dae28 complete.
+2025-06-16 21:40:03 | INFO     | Model saved at: data/models/PPO/33a13c42f2204edf9876da19f16dae28/final_model.zip
+2025-06-16 21:40:03 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/33a13c42f2204edf9876da19f16dae28
+2025-06-16 21:40:03 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:40:03 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:40:04 | INFO     | Parent MLflow Run ID for HPO Study: cf46f9651efe4f7ea11e8a5a1d10987b
+2025-06-16 21:40:04 | INFO     | --- Starting Trial 0 (Run ID: 5c857070f75845738bbeb2517080116b) ---
+2025-06-16 21:40:04 | INFO     | Executing within MLflow Run ID: 5c857070f75845738bbeb2517080116b
+2025-06-16 21:40:04 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:40:04 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:40:04 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:40:04 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:40:04 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:40:04 | INFO     | Creating environment 'default'
+2025-06-16 21:40:04 | INFO     | Creating environment 'default'
+2025-06-16 21:40:04 | INFO     | Environments created successfully.
+2025-06-16 21:40:04 | INFO     | Training PPO agent...
+2025-06-16 21:40:04 | INFO     | Creating agent 'PPO'
+2025-06-16 21:40:04 | INFO     | Creating PPO model...
+2025-06-16 21:40:39 | INFO     | Agent training completed.
+2025-06-16 21:40:39 | INFO     | Saving final model to data/models/PPO/5c857070f75845738bbeb2517080116b/final_model.zip...
+2025-06-16 21:40:39 | INFO     | Model saved to data/models/PPO/5c857070f75845738bbeb2517080116b/final_model.zip
+2025-06-16 21:40:39 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:41:06 | INFO     | Training run 5c857070f75845738bbeb2517080116b complete.
+2025-06-16 21:41:06 | INFO     | Model saved at: data/models/PPO/5c857070f75845738bbeb2517080116b/final_model.zip
+2025-06-16 21:41:06 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/5c857070f75845738bbeb2517080116b
+2025-06-16 21:41:06 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:41:06 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:41:06 | INFO     | --- Starting Trial 1 (Run ID: de96e66a2b944b739ab5fc59dab2c0fe) ---
+2025-06-16 21:41:06 | INFO     | Executing within MLflow Run ID: de96e66a2b944b739ab5fc59dab2c0fe
+2025-06-16 21:41:06 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:41:06 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:41:06 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:41:06 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:41:06 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:41:06 | INFO     | Creating environment 'default'
+2025-06-16 21:41:06 | INFO     | Creating environment 'default'
+2025-06-16 21:41:06 | INFO     | Environments created successfully.
+2025-06-16 21:41:06 | INFO     | Training PPO agent...
+2025-06-16 21:41:06 | INFO     | Creating agent 'PPO'
+2025-06-16 21:41:06 | INFO     | Creating PPO model...
+2025-06-16 21:41:13 | INFO     | Agent training completed.
+2025-06-16 21:41:13 | INFO     | Saving final model to data/models/PPO/de96e66a2b944b739ab5fc59dab2c0fe/final_model.zip...
+2025-06-16 21:41:14 | INFO     | Model saved to data/models/PPO/de96e66a2b944b739ab5fc59dab2c0fe/final_model.zip
+2025-06-16 21:41:14 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:41:39 | INFO     | Training run de96e66a2b944b739ab5fc59dab2c0fe complete.
+2025-06-16 21:41:39 | INFO     | Model saved at: data/models/PPO/de96e66a2b944b739ab5fc59dab2c0fe/final_model.zip
+2025-06-16 21:41:39 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/de96e66a2b944b739ab5fc59dab2c0fe
+2025-06-16 21:41:39 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:41:39 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:41:39 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 21:41:39 | INFO     | Best Trial: 0
+2025-06-16 21:41:39 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 21:41:39 | INFO     |   Hyperparameters:
+2025-06-16 21:41:39 | INFO     |     learning_rate: 0.00016123219058188684
+2025-06-16 21:41:39 | INFO     |     n_steps: 8192
+2025-06-16 21:41:39 | INFO     |     batch_size: 128
+2025-06-16 21:41:39 | INFO     |     n_epochs: 19
+2025-06-16 21:41:39 | INFO     |     gamma: 0.9971462314148687
+2025-06-16 21:41:39 | INFO     |     clip_range: 0.2804392486203975
+2025-06-16 21:52:06 | WARNING  | No trading accounts found in API response.
+2025-06-16 21:52:06 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 21:52:06 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:52:06 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 21:52:06 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 21:52:06 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:52:06 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 21:52:06 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:52:06 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 21:52:06 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:52:06 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 21:52:06 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 21:52:06 | INFO     | Successfully authenticated with Forex.com. Session: ba3c2f67...
+2025-06-16 21:52:06 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 21:52:07 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 21:52:08 | INFO     | Order placed successfully: 555
+2025-06-16 21:52:08 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 21:52:08 | INFO     | Order cancelled successfully: 123
+2025-06-16 21:52:08 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 21:52:08 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 21:52:08 | INFO     | Creating PPO model...
+2025-06-16 21:52:09 | INFO     | Creating PPO model...
+2025-06-16 21:52:09 | INFO     | Creating PPO model...
+2025-06-16 21:52:09 | INFO     | Opening LONG position.
+2025-06-16 21:52:09 | INFO     | Opening SHORT position.
+2025-06-16 21:52:09 | INFO     | Closing open position.
+2025-06-16 21:52:09 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:52:09 | INFO     | Starting strategy: RLStrategy
+2025-06-16 21:52:09 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 21:52:09 | INFO     | Opening LONG position.
+2025-06-16 21:52:11 | INFO     | Executing within MLflow Run ID: 8c35716be04246ff82ffa6fb165642e9
+2025-06-16 21:52:11 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:52:11 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:52:11 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:52:11 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:52:11 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:52:11 | INFO     | Creating environment 'default'
+2025-06-16 21:52:11 | INFO     | Creating environment 'default'
+2025-06-16 21:52:11 | INFO     | Environments created successfully.
+2025-06-16 21:52:11 | INFO     | Training PPO agent...
+2025-06-16 21:52:11 | INFO     | Creating agent 'PPO'
+2025-06-16 21:52:11 | INFO     | Creating PPO model...
+2025-06-16 21:52:20 | INFO     | Agent training completed.
+2025-06-16 21:52:20 | INFO     | Saving final model to data/models/PPO/8c35716be04246ff82ffa6fb165642e9/final_model.zip...
+2025-06-16 21:52:20 | INFO     | Model saved to data/models/PPO/8c35716be04246ff82ffa6fb165642e9/final_model.zip
+2025-06-16 21:52:20 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:52:49 | INFO     | Training run 8c35716be04246ff82ffa6fb165642e9 complete.
+2025-06-16 21:52:49 | INFO     | Model saved at: data/models/PPO/8c35716be04246ff82ffa6fb165642e9/final_model.zip
+2025-06-16 21:52:49 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/8c35716be04246ff82ffa6fb165642e9
+2025-06-16 21:52:49 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:52:49 | INFO     | --- Starting Trial 0 (Run ID: dd0c90f010bf48a8ba8374cf486805ab) ---
+2025-06-16 21:52:49 | INFO     | Executing within MLflow Run ID: dd0c90f010bf48a8ba8374cf486805ab
+2025-06-16 21:52:49 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:52:49 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:52:49 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:52:49 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:52:49 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:52:49 | INFO     | Creating environment 'default'
+2025-06-16 21:52:49 | INFO     | Creating environment 'default'
+2025-06-16 21:52:49 | INFO     | Environments created successfully.
+2025-06-16 21:52:49 | INFO     | Training PPO agent...
+2025-06-16 21:52:49 | INFO     | Creating agent 'PPO'
+2025-06-16 21:52:49 | INFO     | Creating PPO model...
+2025-06-16 21:52:50 | INFO     | Agent training completed.
+2025-06-16 21:52:50 | INFO     | Saving final model to data/models/PPO/dd0c90f010bf48a8ba8374cf486805ab/final_model.zip...
+2025-06-16 21:52:50 | INFO     | Model saved to data/models/PPO/dd0c90f010bf48a8ba8374cf486805ab/final_model.zip
+2025-06-16 21:52:50 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:53:20 | INFO     | Training run dd0c90f010bf48a8ba8374cf486805ab complete.
+2025-06-16 21:53:20 | INFO     | Model saved at: data/models/PPO/dd0c90f010bf48a8ba8374cf486805ab/final_model.zip
+2025-06-16 21:53:20 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/dd0c90f010bf48a8ba8374cf486805ab
+2025-06-16 21:53:20 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:53:20 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:53:20 | INFO     | Parent MLflow Run ID for HPO Study: d580393e26434e8ca9bae9370730ece0
+2025-06-16 21:53:20 | INFO     | --- Starting Trial 0 (Run ID: 6ce063a23c274072a855b2c4c246c016) ---
+2025-06-16 21:53:20 | INFO     | Executing within MLflow Run ID: 6ce063a23c274072a855b2c4c246c016
+2025-06-16 21:53:20 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:53:20 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:53:20 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:53:20 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:53:20 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:53:20 | INFO     | Creating environment 'default'
+2025-06-16 21:53:20 | INFO     | Creating environment 'default'
+2025-06-16 21:53:20 | INFO     | Environments created successfully.
+2025-06-16 21:53:20 | INFO     | Training PPO agent...
+2025-06-16 21:53:20 | INFO     | Creating agent 'PPO'
+2025-06-16 21:53:20 | INFO     | Creating PPO model...
+2025-06-16 21:53:30 | INFO     | Agent training completed.
+2025-06-16 21:53:30 | INFO     | Saving final model to data/models/PPO/6ce063a23c274072a855b2c4c246c016/final_model.zip...
+2025-06-16 21:53:30 | INFO     | Model saved to data/models/PPO/6ce063a23c274072a855b2c4c246c016/final_model.zip
+2025-06-16 21:53:30 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:53:58 | INFO     | Training run 6ce063a23c274072a855b2c4c246c016 complete.
+2025-06-16 21:53:58 | INFO     | Model saved at: data/models/PPO/6ce063a23c274072a855b2c4c246c016/final_model.zip
+2025-06-16 21:53:58 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/6ce063a23c274072a855b2c4c246c016
+2025-06-16 21:53:58 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:53:58 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:53:59 | INFO     | --- Starting Trial 1 (Run ID: ad841dc53f4b47ce864abfd4959efa3c) ---
+2025-06-16 21:53:59 | INFO     | Executing within MLflow Run ID: ad841dc53f4b47ce864abfd4959efa3c
+2025-06-16 21:53:59 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 21:53:59 | INFO     | Starting full data preparation pipeline...
+2025-06-16 21:53:59 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 21:53:59 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 21:53:59 | INFO     | Creating training and evaluation environments...
+2025-06-16 21:53:59 | INFO     | Creating environment 'default'
+2025-06-16 21:53:59 | INFO     | Creating environment 'default'
+2025-06-16 21:53:59 | INFO     | Environments created successfully.
+2025-06-16 21:53:59 | INFO     | Training PPO agent...
+2025-06-16 21:53:59 | INFO     | Creating agent 'PPO'
+2025-06-16 21:53:59 | INFO     | Creating PPO model...
+2025-06-16 21:54:07 | INFO     | Agent training completed.
+2025-06-16 21:54:07 | INFO     | Saving final model to data/models/PPO/ad841dc53f4b47ce864abfd4959efa3c/final_model.zip...
+2025-06-16 21:54:07 | INFO     | Model saved to data/models/PPO/ad841dc53f4b47ce864abfd4959efa3c/final_model.zip
+2025-06-16 21:54:07 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 21:54:36 | INFO     | Training run ad841dc53f4b47ce864abfd4959efa3c complete.
+2025-06-16 21:54:36 | INFO     | Model saved at: data/models/PPO/ad841dc53f4b47ce864abfd4959efa3c/final_model.zip
+2025-06-16 21:54:36 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/ad841dc53f4b47ce864abfd4959efa3c
+2025-06-16 21:54:36 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 21:54:36 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 21:54:36 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 21:54:36 | INFO     | Best Trial: 0
+2025-06-16 21:54:36 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 21:54:36 | INFO     |   Hyperparameters:
+2025-06-16 21:54:36 | INFO     |     learning_rate: 2.260951247868663e-05
+2025-06-16 21:54:36 | INFO     |     n_steps: 2048
+2025-06-16 21:54:36 | INFO     |     batch_size: 64
+2025-06-16 21:54:36 | INFO     |     n_epochs: 17
+2025-06-16 21:54:36 | INFO     |     gamma: 0.9961722280880658
+2025-06-16 21:54:36 | INFO     |     clip_range: 0.25636440809378747
+2025-06-16 22:02:33 | WARNING  | No trading accounts found in API response.
+2025-06-16 22:02:33 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 22:02:33 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:02:33 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:02:33 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 22:02:33 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:02:33 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 22:02:33 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:02:33 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 22:02:33 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:02:33 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 22:02:33 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:02:33 | INFO     | Successfully authenticated with Forex.com. Session: b2efd61e...
+2025-06-16 22:02:33 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 22:02:35 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 22:02:35 | INFO     | Order placed successfully: 555
+2025-06-16 22:02:35 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 22:02:35 | INFO     | Order cancelled successfully: 123
+2025-06-16 22:02:35 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 22:02:35 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 22:02:35 | INFO     | Creating PPO model...
+2025-06-16 22:02:36 | INFO     | Creating PPO model...
+2025-06-16 22:02:36 | INFO     | Creating PPO model...
+2025-06-16 22:02:36 | INFO     | Opening LONG position.
+2025-06-16 22:02:36 | INFO     | Opening SHORT position.
+2025-06-16 22:02:36 | INFO     | Closing open position.
+2025-06-16 22:02:36 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:02:36 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:02:36 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 22:02:36 | INFO     | Opening LONG position.
+2025-06-16 22:02:38 | INFO     | Executing within MLflow Run ID: 048d3a2e260f428cadebe7a21f90855c
+2025-06-16 22:02:38 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:02:38 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:02:38 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:02:38 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:02:38 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:02:38 | INFO     | Creating environment 'default'
+2025-06-16 22:02:38 | INFO     | Creating environment 'default'
+2025-06-16 22:02:38 | INFO     | Environments created successfully.
+2025-06-16 22:02:38 | INFO     | Training PPO agent...
+2025-06-16 22:02:38 | INFO     | Creating agent 'PPO'
+2025-06-16 22:02:38 | INFO     | Creating PPO model...
+2025-06-16 22:02:48 | INFO     | Agent training completed.
+2025-06-16 22:02:48 | INFO     | Saving final model to data/models/PPO/048d3a2e260f428cadebe7a21f90855c/final_model.zip...
+2025-06-16 22:02:48 | INFO     | Model saved to data/models/PPO/048d3a2e260f428cadebe7a21f90855c/final_model.zip
+2025-06-16 22:02:48 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:03:18 | INFO     | Training run 048d3a2e260f428cadebe7a21f90855c complete.
+2025-06-16 22:03:18 | INFO     | Model saved at: data/models/PPO/048d3a2e260f428cadebe7a21f90855c/final_model.zip
+2025-06-16 22:03:18 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/048d3a2e260f428cadebe7a21f90855c
+2025-06-16 22:03:18 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:03:18 | INFO     | --- Starting Trial 0 (Run ID: 438b9ad1f5f54c79b5ea93391aa59301) ---
+2025-06-16 22:03:18 | INFO     | Executing within MLflow Run ID: 438b9ad1f5f54c79b5ea93391aa59301
+2025-06-16 22:03:18 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:03:18 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:03:18 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:03:18 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:03:18 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:03:18 | INFO     | Creating environment 'default'
+2025-06-16 22:03:18 | INFO     | Creating environment 'default'
+2025-06-16 22:03:18 | INFO     | Environments created successfully.
+2025-06-16 22:03:18 | INFO     | Training PPO agent...
+2025-06-16 22:03:18 | INFO     | Creating agent 'PPO'
+2025-06-16 22:03:18 | INFO     | Creating PPO model...
+2025-06-16 22:03:19 | INFO     | Agent training completed.
+2025-06-16 22:03:19 | INFO     | Saving final model to data/models/PPO/438b9ad1f5f54c79b5ea93391aa59301/final_model.zip...
+2025-06-16 22:03:19 | INFO     | Model saved to data/models/PPO/438b9ad1f5f54c79b5ea93391aa59301/final_model.zip
+2025-06-16 22:03:19 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:03:45 | INFO     | Training run 438b9ad1f5f54c79b5ea93391aa59301 complete.
+2025-06-16 22:03:45 | INFO     | Model saved at: data/models/PPO/438b9ad1f5f54c79b5ea93391aa59301/final_model.zip
+2025-06-16 22:03:45 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/438b9ad1f5f54c79b5ea93391aa59301
+2025-06-16 22:03:45 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:03:45 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:03:45 | INFO     | Parent MLflow Run ID for HPO Study: 3a6e42cbf175478f9dcf30fd2bf55046
+2025-06-16 22:03:45 | INFO     | --- Starting Trial 0 (Run ID: 2655bb2beabe4095b538fcd4fe872514) ---
+2025-06-16 22:03:45 | INFO     | Executing within MLflow Run ID: 2655bb2beabe4095b538fcd4fe872514
+2025-06-16 22:03:45 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:03:45 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:03:45 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:03:45 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:03:45 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:03:45 | INFO     | Creating environment 'default'
+2025-06-16 22:03:45 | INFO     | Creating environment 'default'
+2025-06-16 22:03:45 | INFO     | Environments created successfully.
+2025-06-16 22:03:45 | INFO     | Training PPO agent...
+2025-06-16 22:03:45 | INFO     | Creating agent 'PPO'
+2025-06-16 22:03:45 | INFO     | Creating PPO model...
+2025-06-16 22:04:01 | INFO     | Agent training completed.
+2025-06-16 22:04:01 | INFO     | Saving final model to data/models/PPO/2655bb2beabe4095b538fcd4fe872514/final_model.zip...
+2025-06-16 22:04:01 | INFO     | Model saved to data/models/PPO/2655bb2beabe4095b538fcd4fe872514/final_model.zip
+2025-06-16 22:04:01 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:04:23 | INFO     | Training run 2655bb2beabe4095b538fcd4fe872514 complete.
+2025-06-16 22:04:23 | INFO     | Model saved at: data/models/PPO/2655bb2beabe4095b538fcd4fe872514/final_model.zip
+2025-06-16 22:04:23 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/2655bb2beabe4095b538fcd4fe872514
+2025-06-16 22:04:23 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:04:23 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:04:23 | INFO     | --- Starting Trial 1 (Run ID: ab3a980472d744c6a58b0623afd02fee) ---
+2025-06-16 22:04:23 | INFO     | Executing within MLflow Run ID: ab3a980472d744c6a58b0623afd02fee
+2025-06-16 22:04:23 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:04:23 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:04:23 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:04:23 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:04:23 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:04:23 | INFO     | Creating environment 'default'
+2025-06-16 22:04:23 | INFO     | Creating environment 'default'
+2025-06-16 22:04:23 | INFO     | Environments created successfully.
+2025-06-16 22:04:23 | INFO     | Training PPO agent...
+2025-06-16 22:04:23 | INFO     | Creating agent 'PPO'
+2025-06-16 22:04:23 | INFO     | Creating PPO model...
+2025-06-16 22:04:53 | INFO     | Agent training completed.
+2025-06-16 22:04:53 | INFO     | Saving final model to data/models/PPO/ab3a980472d744c6a58b0623afd02fee/final_model.zip...
+2025-06-16 22:04:53 | INFO     | Model saved to data/models/PPO/ab3a980472d744c6a58b0623afd02fee/final_model.zip
+2025-06-16 22:04:53 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:05:15 | INFO     | Training run ab3a980472d744c6a58b0623afd02fee complete.
+2025-06-16 22:05:15 | INFO     | Model saved at: data/models/PPO/ab3a980472d744c6a58b0623afd02fee/final_model.zip
+2025-06-16 22:05:15 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/ab3a980472d744c6a58b0623afd02fee
+2025-06-16 22:05:15 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:05:15 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:05:15 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 22:05:15 | INFO     | Best Trial: 0
+2025-06-16 22:05:15 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 22:05:15 | INFO     |   Hyperparameters:
+2025-06-16 22:05:15 | INFO     |     learning_rate: 0.0004984863590993168
+2025-06-16 22:05:15 | INFO     |     n_steps: 4096
+2025-06-16 22:05:15 | INFO     |     batch_size: 128
+2025-06-16 22:05:15 | INFO     |     n_epochs: 13
+2025-06-16 22:05:15 | INFO     |     gamma: 0.9947339914526511
+2025-06-16 22:05:15 | INFO     |     clip_range: 0.25340861321528346
+2025-06-16 22:12:58 | WARNING  | No trading accounts found in API response.
+2025-06-16 22:12:58 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 22:12:58 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:12:59 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:12:59 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 22:12:59 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:12:59 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 22:12:59 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:12:59 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 22:12:59 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:12:59 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 22:12:59 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:12:59 | INFO     | Successfully authenticated with Forex.com. Session: d3bed0ea...
+2025-06-16 22:12:59 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 22:13:01 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 22:13:01 | INFO     | Order placed successfully: 555
+2025-06-16 22:13:01 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 22:13:01 | INFO     | Order cancelled successfully: 123
+2025-06-16 22:13:01 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 22:13:01 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 22:13:01 | INFO     | Creating PPO model...
+2025-06-16 22:13:02 | INFO     | Creating PPO model...
+2025-06-16 22:13:02 | INFO     | Creating PPO model...
+2025-06-16 22:13:02 | INFO     | Opening LONG position.
+2025-06-16 22:13:02 | INFO     | Opening SHORT position.
+2025-06-16 22:13:02 | INFO     | Closing open position.
+2025-06-16 22:13:02 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:13:02 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:13:02 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 22:13:02 | INFO     | Opening LONG position.
+2025-06-16 22:13:04 | INFO     | Executing within MLflow Run ID: f403496a097f4be7bc02534772c7d5e4
+2025-06-16 22:13:04 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:13:04 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:13:04 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:13:04 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:13:04 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:13:04 | INFO     | Creating environment 'default'
+2025-06-16 22:13:04 | INFO     | Creating environment 'default'
+2025-06-16 22:13:04 | INFO     | Environments created successfully.
+2025-06-16 22:13:04 | INFO     | Training PPO agent...
+2025-06-16 22:13:04 | INFO     | Creating agent 'PPO'
+2025-06-16 22:13:04 | INFO     | Creating PPO model...
+2025-06-16 22:13:14 | INFO     | Agent training completed.
+2025-06-16 22:13:14 | INFO     | Saving final model to data/models/PPO/f403496a097f4be7bc02534772c7d5e4/final_model.zip...
+2025-06-16 22:13:14 | INFO     | Model saved to data/models/PPO/f403496a097f4be7bc02534772c7d5e4/final_model.zip
+2025-06-16 22:13:14 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:13:38 | INFO     | Training run f403496a097f4be7bc02534772c7d5e4 complete.
+2025-06-16 22:13:38 | INFO     | Model saved at: data/models/PPO/f403496a097f4be7bc02534772c7d5e4/final_model.zip
+2025-06-16 22:13:38 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/f403496a097f4be7bc02534772c7d5e4
+2025-06-16 22:13:38 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:13:38 | INFO     | --- Starting Trial 0 (Run ID: c91c452b9d2043539cea20413b36d8de) ---
+2025-06-16 22:13:38 | INFO     | Executing within MLflow Run ID: c91c452b9d2043539cea20413b36d8de
+2025-06-16 22:13:38 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:13:38 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:13:38 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:13:38 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:13:38 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:13:38 | INFO     | Creating environment 'default'
+2025-06-16 22:13:38 | INFO     | Creating environment 'default'
+2025-06-16 22:13:38 | INFO     | Environments created successfully.
+2025-06-16 22:13:38 | INFO     | Training PPO agent...
+2025-06-16 22:13:38 | INFO     | Creating agent 'PPO'
+2025-06-16 22:13:38 | INFO     | Creating PPO model...
+2025-06-16 22:13:40 | INFO     | Agent training completed.
+2025-06-16 22:13:40 | INFO     | Saving final model to data/models/PPO/c91c452b9d2043539cea20413b36d8de/final_model.zip...
+2025-06-16 22:13:40 | INFO     | Model saved to data/models/PPO/c91c452b9d2043539cea20413b36d8de/final_model.zip
+2025-06-16 22:13:40 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:13:56 | INFO     | Training run c91c452b9d2043539cea20413b36d8de complete.
+2025-06-16 22:13:56 | INFO     | Model saved at: data/models/PPO/c91c452b9d2043539cea20413b36d8de/final_model.zip
+2025-06-16 22:13:56 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/c91c452b9d2043539cea20413b36d8de
+2025-06-16 22:13:56 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:13:56 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:13:56 | INFO     | Parent MLflow Run ID for HPO Study: 5dbad183b3ab4330b430ddc880d0409d
+2025-06-16 22:13:56 | INFO     | --- Starting Trial 0 (Run ID: ef096cceef8344b3b1888013ddb2029e) ---
+2025-06-16 22:13:56 | INFO     | Executing within MLflow Run ID: ef096cceef8344b3b1888013ddb2029e
+2025-06-16 22:13:56 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:13:56 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:13:56 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:13:56 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:13:56 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:13:56 | INFO     | Creating environment 'default'
+2025-06-16 22:13:56 | INFO     | Creating environment 'default'
+2025-06-16 22:13:56 | INFO     | Environments created successfully.
+2025-06-16 22:13:56 | INFO     | Training PPO agent...
+2025-06-16 22:13:56 | INFO     | Creating agent 'PPO'
+2025-06-16 22:13:56 | INFO     | Creating PPO model...
+2025-06-16 22:14:05 | INFO     | Agent training completed.
+2025-06-16 22:14:05 | INFO     | Saving final model to data/models/PPO/ef096cceef8344b3b1888013ddb2029e/final_model.zip...
+2025-06-16 22:14:05 | INFO     | Model saved to data/models/PPO/ef096cceef8344b3b1888013ddb2029e/final_model.zip
+2025-06-16 22:14:05 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:14:30 | INFO     | Training run ef096cceef8344b3b1888013ddb2029e complete.
+2025-06-16 22:14:30 | INFO     | Model saved at: data/models/PPO/ef096cceef8344b3b1888013ddb2029e/final_model.zip
+2025-06-16 22:14:30 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/ef096cceef8344b3b1888013ddb2029e
+2025-06-16 22:14:30 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:14:30 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:14:30 | INFO     | --- Starting Trial 1 (Run ID: 99bd5ae56c3843d8a487660664991927) ---
+2025-06-16 22:14:30 | INFO     | Executing within MLflow Run ID: 99bd5ae56c3843d8a487660664991927
+2025-06-16 22:14:30 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:14:30 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:14:30 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:14:30 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:14:30 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:14:30 | INFO     | Creating environment 'default'
+2025-06-16 22:14:30 | INFO     | Creating environment 'default'
+2025-06-16 22:14:30 | INFO     | Environments created successfully.
+2025-06-16 22:14:30 | INFO     | Training PPO agent...
+2025-06-16 22:14:30 | INFO     | Creating agent 'PPO'
+2025-06-16 22:14:30 | INFO     | Creating PPO model...
+2025-06-16 22:14:38 | INFO     | Agent training completed.
+2025-06-16 22:14:38 | INFO     | Saving final model to data/models/PPO/99bd5ae56c3843d8a487660664991927/final_model.zip...
+2025-06-16 22:14:38 | INFO     | Model saved to data/models/PPO/99bd5ae56c3843d8a487660664991927/final_model.zip
+2025-06-16 22:14:38 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:15:02 | INFO     | Training run 99bd5ae56c3843d8a487660664991927 complete.
+2025-06-16 22:15:02 | INFO     | Model saved at: data/models/PPO/99bd5ae56c3843d8a487660664991927/final_model.zip
+2025-06-16 22:15:02 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/99bd5ae56c3843d8a487660664991927
+2025-06-16 22:15:02 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:15:02 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:15:02 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 22:15:02 | INFO     | Best Trial: 0
+2025-06-16 22:15:02 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 22:15:02 | INFO     |   Hyperparameters:
+2025-06-16 22:15:02 | INFO     |     learning_rate: 1.6046182420317098e-05
+2025-06-16 22:15:02 | INFO     |     n_steps: 4096
+2025-06-16 22:15:02 | INFO     |     batch_size: 128
+2025-06-16 22:15:02 | INFO     |     n_epochs: 15
+2025-06-16 22:15:02 | INFO     |     gamma: 0.9942691629641999
+2025-06-16 22:15:02 | INFO     |     clip_range: 0.27567530782671534
+2025-06-16 22:22:11 | WARNING  | No trading accounts found in API response.
+2025-06-16 22:22:11 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 22:22:11 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:22:11 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:22:11 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 22:22:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:22:11 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 22:22:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:22:11 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 22:22:12 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:22:12 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 22:22:12 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:22:12 | INFO     | Successfully authenticated with Forex.com. Session: fbb8cd84...
+2025-06-16 22:22:12 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 22:22:13 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 22:22:14 | INFO     | Order placed successfully: 555
+2025-06-16 22:22:14 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 22:22:14 | INFO     | Order cancelled successfully: 123
+2025-06-16 22:22:14 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 22:22:14 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 22:22:14 | INFO     | Creating PPO model...
+2025-06-16 22:22:14 | INFO     | Creating PPO model...
+2025-06-16 22:22:14 | INFO     | Creating PPO model...
+2025-06-16 22:22:14 | INFO     | Opening LONG position.
+2025-06-16 22:22:14 | INFO     | Opening SHORT position.
+2025-06-16 22:22:14 | INFO     | Closing open position.
+2025-06-16 22:22:14 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:22:14 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:22:14 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 22:22:14 | INFO     | Opening LONG position.
+2025-06-16 22:22:16 | INFO     | Executing within MLflow Run ID: bde11ef6c93646188f65f0750d4348d5
+2025-06-16 22:22:16 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:22:16 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:22:16 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:22:16 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:22:16 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:22:16 | INFO     | Creating environment 'default'
+2025-06-16 22:22:16 | INFO     | Creating environment 'default'
+2025-06-16 22:22:16 | INFO     | Environments created successfully.
+2025-06-16 22:22:16 | INFO     | Training PPO agent...
+2025-06-16 22:22:16 | INFO     | Creating agent 'PPO'
+2025-06-16 22:22:16 | INFO     | Creating PPO model...
+2025-06-16 22:22:20 | INFO     | Agent training completed.
+2025-06-16 22:22:20 | INFO     | Saving final model to data/models/PPO/bde11ef6c93646188f65f0750d4348d5/final_model.zip...
+2025-06-16 22:22:20 | INFO     | Model saved to data/models/PPO/bde11ef6c93646188f65f0750d4348d5/final_model.zip
+2025-06-16 22:22:20 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:22:37 | INFO     | Training run bde11ef6c93646188f65f0750d4348d5 complete.
+2025-06-16 22:22:37 | INFO     | Model saved at: data/models/PPO/bde11ef6c93646188f65f0750d4348d5/final_model.zip
+2025-06-16 22:22:37 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/bde11ef6c93646188f65f0750d4348d5
+2025-06-16 22:22:37 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:22:37 | INFO     | --- Starting Trial 0 (Run ID: acfc13e53d934a52ad22c7aaa6cfa181) ---
+2025-06-16 22:22:37 | INFO     | Executing within MLflow Run ID: acfc13e53d934a52ad22c7aaa6cfa181
+2025-06-16 22:22:37 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:22:37 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:22:37 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:22:37 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:22:37 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:22:37 | INFO     | Creating environment 'default'
+2025-06-16 22:22:37 | INFO     | Creating environment 'default'
+2025-06-16 22:22:37 | INFO     | Environments created successfully.
+2025-06-16 22:22:37 | INFO     | Training PPO agent...
+2025-06-16 22:22:37 | INFO     | Creating agent 'PPO'
+2025-06-16 22:22:37 | INFO     | Creating PPO model...
+2025-06-16 22:22:37 | INFO     | Agent training completed.
+2025-06-16 22:22:37 | INFO     | Saving final model to data/models/PPO/acfc13e53d934a52ad22c7aaa6cfa181/final_model.zip...
+2025-06-16 22:22:37 | INFO     | Model saved to data/models/PPO/acfc13e53d934a52ad22c7aaa6cfa181/final_model.zip
+2025-06-16 22:22:37 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:22:51 | INFO     | Training run acfc13e53d934a52ad22c7aaa6cfa181 complete.
+2025-06-16 22:22:51 | INFO     | Model saved at: data/models/PPO/acfc13e53d934a52ad22c7aaa6cfa181/final_model.zip
+2025-06-16 22:22:51 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/acfc13e53d934a52ad22c7aaa6cfa181
+2025-06-16 22:22:51 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:22:51 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:22:51 | INFO     | Parent MLflow Run ID for HPO Study: 4cce7bb9fcf1486ebd6063485671ba98
+2025-06-16 22:22:51 | INFO     | --- Starting Trial 0 (Run ID: b6cb96be75c940fcaee2c033313dcac0) ---
+2025-06-16 22:22:51 | INFO     | Executing within MLflow Run ID: b6cb96be75c940fcaee2c033313dcac0
+2025-06-16 22:22:51 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:22:51 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:22:51 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:22:51 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:22:51 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:22:51 | INFO     | Creating environment 'default'
+2025-06-16 22:22:51 | INFO     | Creating environment 'default'
+2025-06-16 22:22:51 | INFO     | Environments created successfully.
+2025-06-16 22:22:51 | INFO     | Training PPO agent...
+2025-06-16 22:22:51 | INFO     | Creating agent 'PPO'
+2025-06-16 22:22:51 | INFO     | Creating PPO model...
+2025-06-16 22:22:55 | INFO     | Agent training completed.
+2025-06-16 22:22:55 | INFO     | Saving final model to data/models/PPO/b6cb96be75c940fcaee2c033313dcac0/final_model.zip...
+2025-06-16 22:22:55 | INFO     | Model saved to data/models/PPO/b6cb96be75c940fcaee2c033313dcac0/final_model.zip
+2025-06-16 22:22:55 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:23:08 | INFO     | Training run b6cb96be75c940fcaee2c033313dcac0 complete.
+2025-06-16 22:23:08 | INFO     | Model saved at: data/models/PPO/b6cb96be75c940fcaee2c033313dcac0/final_model.zip
+2025-06-16 22:23:08 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/b6cb96be75c940fcaee2c033313dcac0
+2025-06-16 22:23:08 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:23:08 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:23:08 | INFO     | --- Starting Trial 1 (Run ID: bf77116f797c42d5970b77422d9d27a7) ---
+2025-06-16 22:23:08 | INFO     | Executing within MLflow Run ID: bf77116f797c42d5970b77422d9d27a7
+2025-06-16 22:23:08 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:23:08 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:23:08 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:23:08 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:23:08 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:23:08 | INFO     | Creating environment 'default'
+2025-06-16 22:23:08 | INFO     | Creating environment 'default'
+2025-06-16 22:23:08 | INFO     | Environments created successfully.
+2025-06-16 22:23:08 | INFO     | Training PPO agent...
+2025-06-16 22:23:08 | INFO     | Creating agent 'PPO'
+2025-06-16 22:23:08 | INFO     | Creating PPO model...
+2025-06-16 22:23:22 | INFO     | Agent training completed.
+2025-06-16 22:23:22 | INFO     | Saving final model to data/models/PPO/bf77116f797c42d5970b77422d9d27a7/final_model.zip...
+2025-06-16 22:23:22 | INFO     | Model saved to data/models/PPO/bf77116f797c42d5970b77422d9d27a7/final_model.zip
+2025-06-16 22:23:22 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:23:36 | INFO     | Training run bf77116f797c42d5970b77422d9d27a7 complete.
+2025-06-16 22:23:36 | INFO     | Model saved at: data/models/PPO/bf77116f797c42d5970b77422d9d27a7/final_model.zip
+2025-06-16 22:23:36 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/bf77116f797c42d5970b77422d9d27a7
+2025-06-16 22:23:36 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:23:36 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:23:36 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 22:23:36 | INFO     | Best Trial: 0
+2025-06-16 22:23:36 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 22:23:36 | INFO     |   Hyperparameters:
+2025-06-16 22:23:36 | INFO     |     learning_rate: 5.392821613897664e-05
+2025-06-16 22:23:36 | INFO     |     n_steps: 2048
+2025-06-16 22:23:36 | INFO     |     batch_size: 64
+2025-06-16 22:23:36 | INFO     |     n_epochs: 13
+2025-06-16 22:23:36 | INFO     |     gamma: 0.9947467786215575
+2025-06-16 22:23:36 | INFO     |     clip_range: 0.2789721013300763
+2025-06-16 22:30:17 | WARNING  | No trading accounts found in API response.
+2025-06-16 22:30:17 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 22:30:17 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:30:17 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:30:17 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 22:30:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:30:17 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 22:30:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:30:17 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 22:30:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:30:17 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 22:30:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:30:17 | INFO     | Successfully authenticated with Forex.com. Session: 0884601e...
+2025-06-16 22:30:17 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 22:30:18 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 22:30:18 | INFO     | Order placed successfully: 555
+2025-06-16 22:30:18 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 22:30:18 | INFO     | Order cancelled successfully: 123
+2025-06-16 22:30:18 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 22:30:18 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 22:30:19 | INFO     | Creating PPO model...
+2025-06-16 22:30:19 | INFO     | Creating PPO model...
+2025-06-16 22:30:19 | INFO     | Creating PPO model...
+2025-06-16 22:30:19 | INFO     | Opening LONG position.
+2025-06-16 22:30:19 | INFO     | Opening SHORT position.
+2025-06-16 22:30:19 | INFO     | Closing open position.
+2025-06-16 22:30:19 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:30:19 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:30:19 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 22:30:19 | INFO     | Opening LONG position.
+2025-06-16 22:30:21 | INFO     | Executing within MLflow Run ID: 4b3cc099afc543d9bce70fe79e5ed610
+2025-06-16 22:30:21 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:30:21 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:30:21 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:30:21 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:30:21 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:30:21 | INFO     | Creating environment 'default'
+2025-06-16 22:30:21 | INFO     | Creating environment 'default'
+2025-06-16 22:30:21 | INFO     | Environments created successfully.
+2025-06-16 22:30:21 | INFO     | Training PPO agent...
+2025-06-16 22:30:21 | INFO     | Creating agent 'PPO'
+2025-06-16 22:30:21 | INFO     | Creating PPO model...
+2025-06-16 22:30:31 | INFO     | Agent training completed.
+2025-06-16 22:30:31 | INFO     | Saving final model to data/models/PPO/4b3cc099afc543d9bce70fe79e5ed610/final_model.zip...
+2025-06-16 22:30:31 | INFO     | Model saved to data/models/PPO/4b3cc099afc543d9bce70fe79e5ed610/final_model.zip
+2025-06-16 22:30:32 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:30:58 | INFO     | Training run 4b3cc099afc543d9bce70fe79e5ed610 complete.
+2025-06-16 22:30:58 | INFO     | Model saved at: data/models/PPO/4b3cc099afc543d9bce70fe79e5ed610/final_model.zip
+2025-06-16 22:30:58 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/4b3cc099afc543d9bce70fe79e5ed610
+2025-06-16 22:30:58 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:30:59 | INFO     | --- Starting Trial 0 (Run ID: 1c40c513b6d4448a90bc0cb2b3ab4a6d) ---
+2025-06-16 22:30:59 | INFO     | Executing within MLflow Run ID: 1c40c513b6d4448a90bc0cb2b3ab4a6d
+2025-06-16 22:30:59 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:30:59 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:30:59 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:30:59 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:30:59 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:30:59 | INFO     | Creating environment 'default'
+2025-06-16 22:30:59 | INFO     | Creating environment 'default'
+2025-06-16 22:30:59 | INFO     | Environments created successfully.
+2025-06-16 22:30:59 | INFO     | Training PPO agent...
+2025-06-16 22:30:59 | INFO     | Creating agent 'PPO'
+2025-06-16 22:30:59 | INFO     | Creating PPO model...
+2025-06-16 22:30:59 | INFO     | Agent training completed.
+2025-06-16 22:30:59 | INFO     | Saving final model to data/models/PPO/1c40c513b6d4448a90bc0cb2b3ab4a6d/final_model.zip...
+2025-06-16 22:30:59 | INFO     | Model saved to data/models/PPO/1c40c513b6d4448a90bc0cb2b3ab4a6d/final_model.zip
+2025-06-16 22:30:59 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:31:26 | INFO     | Training run 1c40c513b6d4448a90bc0cb2b3ab4a6d complete.
+2025-06-16 22:31:26 | INFO     | Model saved at: data/models/PPO/1c40c513b6d4448a90bc0cb2b3ab4a6d/final_model.zip
+2025-06-16 22:31:26 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/1c40c513b6d4448a90bc0cb2b3ab4a6d
+2025-06-16 22:31:26 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:31:26 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:31:26 | INFO     | Parent MLflow Run ID for HPO Study: add388830bda4a59b3f75b40f62fe7ae
+2025-06-16 22:31:26 | INFO     | --- Starting Trial 0 (Run ID: 44a15e9f28864478bff986111433147f) ---
+2025-06-16 22:31:26 | INFO     | Executing within MLflow Run ID: 44a15e9f28864478bff986111433147f
+2025-06-16 22:31:26 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:31:26 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:31:26 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:31:26 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:31:26 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:31:26 | INFO     | Creating environment 'default'
+2025-06-16 22:31:26 | INFO     | Creating environment 'default'
+2025-06-16 22:31:26 | INFO     | Environments created successfully.
+2025-06-16 22:31:26 | INFO     | Training PPO agent...
+2025-06-16 22:31:26 | INFO     | Creating agent 'PPO'
+2025-06-16 22:31:26 | INFO     | Creating PPO model...
+2025-06-16 22:31:54 | INFO     | Agent training completed.
+2025-06-16 22:31:54 | INFO     | Saving final model to data/models/PPO/44a15e9f28864478bff986111433147f/final_model.zip...
+2025-06-16 22:31:54 | INFO     | Model saved to data/models/PPO/44a15e9f28864478bff986111433147f/final_model.zip
+2025-06-16 22:31:54 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:32:20 | INFO     | Training run 44a15e9f28864478bff986111433147f complete.
+2025-06-16 22:32:20 | INFO     | Model saved at: data/models/PPO/44a15e9f28864478bff986111433147f/final_model.zip
+2025-06-16 22:32:20 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/44a15e9f28864478bff986111433147f
+2025-06-16 22:32:20 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:32:20 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:32:20 | INFO     | --- Starting Trial 1 (Run ID: 043d83ee495648d49ede2fac4db19867) ---
+2025-06-16 22:32:20 | INFO     | Executing within MLflow Run ID: 043d83ee495648d49ede2fac4db19867
+2025-06-16 22:32:20 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:32:20 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:32:20 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:32:20 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:32:20 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:32:20 | INFO     | Creating environment 'default'
+2025-06-16 22:32:20 | INFO     | Creating environment 'default'
+2025-06-16 22:32:20 | INFO     | Environments created successfully.
+2025-06-16 22:32:20 | INFO     | Training PPO agent...
+2025-06-16 22:32:20 | INFO     | Creating agent 'PPO'
+2025-06-16 22:32:20 | INFO     | Creating PPO model...
+2025-06-16 22:32:36 | INFO     | Agent training completed.
+2025-06-16 22:32:36 | INFO     | Saving final model to data/models/PPO/043d83ee495648d49ede2fac4db19867/final_model.zip...
+2025-06-16 22:32:36 | INFO     | Model saved to data/models/PPO/043d83ee495648d49ede2fac4db19867/final_model.zip
+2025-06-16 22:32:36 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:33:03 | INFO     | Training run 043d83ee495648d49ede2fac4db19867 complete.
+2025-06-16 22:33:03 | INFO     | Model saved at: data/models/PPO/043d83ee495648d49ede2fac4db19867/final_model.zip
+2025-06-16 22:33:03 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/043d83ee495648d49ede2fac4db19867
+2025-06-16 22:33:03 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:33:03 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:33:03 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 22:33:03 | INFO     | Best Trial: 0
+2025-06-16 22:33:03 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 22:33:03 | INFO     |   Hyperparameters:
+2025-06-16 22:33:03 | INFO     |     learning_rate: 0.0005244185809206036
+2025-06-16 22:33:03 | INFO     |     n_steps: 8192
+2025-06-16 22:33:03 | INFO     |     batch_size: 64
+2025-06-16 22:33:03 | INFO     |     n_epochs: 10
+2025-06-16 22:33:03 | INFO     |     gamma: 0.9990123193396552
+2025-06-16 22:33:03 | INFO     |     clip_range: 0.23345600032023064
+2025-06-16 22:39:16 | WARNING  | No trading accounts found in API response.
+2025-06-16 22:39:16 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 22:39:16 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:39:16 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:39:16 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 22:39:16 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:39:16 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 22:39:16 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:39:16 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 22:39:16 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:39:16 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 22:39:16 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:39:17 | INFO     | Successfully authenticated with Forex.com. Session: 9fcfa198...
+2025-06-16 22:39:17 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 22:39:18 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 22:39:19 | INFO     | Order placed successfully: 555
+2025-06-16 22:39:19 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 22:39:19 | INFO     | Order cancelled successfully: 123
+2025-06-16 22:39:19 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 22:39:19 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 22:39:19 | INFO     | Creating PPO model...
+2025-06-16 22:39:20 | INFO     | Creating PPO model...
+2025-06-16 22:39:20 | INFO     | Creating PPO model...
+2025-06-16 22:39:20 | INFO     | Opening LONG position.
+2025-06-16 22:39:20 | INFO     | Opening SHORT position.
+2025-06-16 22:39:20 | INFO     | Closing open position.
+2025-06-16 22:39:20 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:39:20 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:39:20 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 22:39:20 | INFO     | Opening LONG position.
+2025-06-16 22:39:21 | INFO     | Executing within MLflow Run ID: 831daafb6ea1447aa719f2a5fa0b51f1
+2025-06-16 22:39:21 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:39:21 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:39:21 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:39:21 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:39:21 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:39:21 | INFO     | Creating environment 'default'
+2025-06-16 22:39:21 | INFO     | Creating environment 'default'
+2025-06-16 22:39:21 | INFO     | Environments created successfully.
+2025-06-16 22:39:21 | INFO     | Training PPO agent...
+2025-06-16 22:39:21 | INFO     | Creating agent 'PPO'
+2025-06-16 22:39:21 | INFO     | Creating PPO model...
+2025-06-16 22:39:30 | INFO     | Agent training completed.
+2025-06-16 22:39:30 | INFO     | Saving final model to data/models/PPO/831daafb6ea1447aa719f2a5fa0b51f1/final_model.zip...
+2025-06-16 22:39:30 | INFO     | Model saved to data/models/PPO/831daafb6ea1447aa719f2a5fa0b51f1/final_model.zip
+2025-06-16 22:39:30 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:39:58 | INFO     | Training run 831daafb6ea1447aa719f2a5fa0b51f1 complete.
+2025-06-16 22:39:58 | INFO     | Model saved at: data/models/PPO/831daafb6ea1447aa719f2a5fa0b51f1/final_model.zip
+2025-06-16 22:39:58 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/831daafb6ea1447aa719f2a5fa0b51f1
+2025-06-16 22:39:58 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:39:58 | INFO     | --- Starting Trial 0 (Run ID: f32bab9948c341c5b8954400c58fd9c1) ---
+2025-06-16 22:39:58 | INFO     | Executing within MLflow Run ID: f32bab9948c341c5b8954400c58fd9c1
+2025-06-16 22:39:58 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:39:58 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:39:58 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:39:58 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:39:58 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:39:58 | INFO     | Creating environment 'default'
+2025-06-16 22:39:58 | INFO     | Creating environment 'default'
+2025-06-16 22:39:58 | INFO     | Environments created successfully.
+2025-06-16 22:39:58 | INFO     | Training PPO agent...
+2025-06-16 22:39:58 | INFO     | Creating agent 'PPO'
+2025-06-16 22:39:58 | INFO     | Creating PPO model...
+2025-06-16 22:39:59 | INFO     | Agent training completed.
+2025-06-16 22:39:59 | INFO     | Saving final model to data/models/PPO/f32bab9948c341c5b8954400c58fd9c1/final_model.zip...
+2025-06-16 22:39:59 | INFO     | Model saved to data/models/PPO/f32bab9948c341c5b8954400c58fd9c1/final_model.zip
+2025-06-16 22:39:59 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:40:26 | INFO     | Training run f32bab9948c341c5b8954400c58fd9c1 complete.
+2025-06-16 22:40:26 | INFO     | Model saved at: data/models/PPO/f32bab9948c341c5b8954400c58fd9c1/final_model.zip
+2025-06-16 22:40:26 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/f32bab9948c341c5b8954400c58fd9c1
+2025-06-16 22:40:26 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:40:26 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:40:26 | INFO     | Parent MLflow Run ID for HPO Study: 38a9217a6fad4099a246c7ea92917fc3
+2025-06-16 22:40:26 | INFO     | --- Starting Trial 0 (Run ID: bd231be9307b4d7289afe962d443c705) ---
+2025-06-16 22:40:26 | INFO     | Executing within MLflow Run ID: bd231be9307b4d7289afe962d443c705
+2025-06-16 22:40:26 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:40:26 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:40:26 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:40:26 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:40:26 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:40:26 | INFO     | Creating environment 'default'
+2025-06-16 22:40:26 | INFO     | Creating environment 'default'
+2025-06-16 22:40:26 | INFO     | Environments created successfully.
+2025-06-16 22:40:26 | INFO     | Training PPO agent...
+2025-06-16 22:40:26 | INFO     | Creating agent 'PPO'
+2025-06-16 22:40:26 | INFO     | Creating PPO model...
+2025-06-16 22:40:35 | INFO     | Agent training completed.
+2025-06-16 22:40:35 | INFO     | Saving final model to data/models/PPO/bd231be9307b4d7289afe962d443c705/final_model.zip...
+2025-06-16 22:40:35 | INFO     | Model saved to data/models/PPO/bd231be9307b4d7289afe962d443c705/final_model.zip
+2025-06-16 22:40:35 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:41:02 | INFO     | Training run bd231be9307b4d7289afe962d443c705 complete.
+2025-06-16 22:41:02 | INFO     | Model saved at: data/models/PPO/bd231be9307b4d7289afe962d443c705/final_model.zip
+2025-06-16 22:41:02 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/bd231be9307b4d7289afe962d443c705
+2025-06-16 22:41:02 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:41:02 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:41:02 | INFO     | --- Starting Trial 1 (Run ID: f6cd4f1e1c1e46eaa1cfe39481d6deb7) ---
+2025-06-16 22:41:02 | INFO     | Executing within MLflow Run ID: f6cd4f1e1c1e46eaa1cfe39481d6deb7
+2025-06-16 22:41:02 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:41:02 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:41:02 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:41:02 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:41:02 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:41:02 | INFO     | Creating environment 'default'
+2025-06-16 22:41:02 | INFO     | Creating environment 'default'
+2025-06-16 22:41:02 | INFO     | Environments created successfully.
+2025-06-16 22:41:02 | INFO     | Training PPO agent...
+2025-06-16 22:41:02 | INFO     | Creating agent 'PPO'
+2025-06-16 22:41:02 | INFO     | Creating PPO model...
+2025-06-16 22:41:10 | INFO     | Agent training completed.
+2025-06-16 22:41:10 | INFO     | Saving final model to data/models/PPO/f6cd4f1e1c1e46eaa1cfe39481d6deb7/final_model.zip...
+2025-06-16 22:41:10 | INFO     | Model saved to data/models/PPO/f6cd4f1e1c1e46eaa1cfe39481d6deb7/final_model.zip
+2025-06-16 22:41:10 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:41:38 | INFO     | Training run f6cd4f1e1c1e46eaa1cfe39481d6deb7 complete.
+2025-06-16 22:41:38 | INFO     | Model saved at: data/models/PPO/f6cd4f1e1c1e46eaa1cfe39481d6deb7/final_model.zip
+2025-06-16 22:41:38 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/f6cd4f1e1c1e46eaa1cfe39481d6deb7
+2025-06-16 22:41:38 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:41:38 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:41:38 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 22:41:38 | INFO     | Best Trial: 0
+2025-06-16 22:41:38 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 22:41:38 | INFO     |   Hyperparameters:
+2025-06-16 22:41:38 | INFO     |     learning_rate: 0.0001133785154133434
+2025-06-16 22:41:38 | INFO     |     n_steps: 2048
+2025-06-16 22:41:38 | INFO     |     batch_size: 256
+2025-06-16 22:41:38 | INFO     |     n_epochs: 9
+2025-06-16 22:41:38 | INFO     |     gamma: 0.9909475062617704
+2025-06-16 22:41:38 | INFO     |     clip_range: 0.20341912858821876
+2025-06-16 22:47:14 | WARNING  | No trading accounts found in API response.
+2025-06-16 22:47:14 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-16 22:47:14 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:47:14 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-16 22:47:14 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-16 22:47:14 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:47:14 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-16 22:47:14 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:47:14 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-16 22:47:14 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:47:14 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-16 22:47:14 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-16 22:47:14 | INFO     | Successfully authenticated with Forex.com. Session: 62aab2d9...
+2025-06-16 22:47:14 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-16 22:47:16 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-16 22:47:16 | INFO     | Order placed successfully: 555
+2025-06-16 22:47:16 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-16 22:47:16 | INFO     | Order cancelled successfully: 123
+2025-06-16 22:47:16 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-16 22:47:16 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-16 22:47:16 | INFO     | Creating PPO model...
+2025-06-16 22:47:16 | INFO     | Creating PPO model...
+2025-06-16 22:47:16 | INFO     | Creating PPO model...
+2025-06-16 22:47:16 | INFO     | Opening LONG position.
+2025-06-16 22:47:16 | INFO     | Opening SHORT position.
+2025-06-16 22:47:16 | INFO     | Closing open position.
+2025-06-16 22:47:16 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:47:16 | INFO     | Starting strategy: RLStrategy
+2025-06-16 22:47:16 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-16 22:47:16 | INFO     | Opening LONG position.
+2025-06-16 22:47:17 | INFO     | Executing within MLflow Run ID: 9a0179673ff44ed989b3ef4d0fb14da4
+2025-06-16 22:47:17 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:47:17 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:47:17 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:47:17 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:47:17 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:47:17 | INFO     | Creating environment 'default'
+2025-06-16 22:47:17 | INFO     | Creating environment 'default'
+2025-06-16 22:47:17 | INFO     | Environments created successfully.
+2025-06-16 22:47:17 | INFO     | Training PPO agent...
+2025-06-16 22:47:17 | INFO     | Creating agent 'PPO'
+2025-06-16 22:47:17 | INFO     | Creating PPO model...
+2025-06-16 22:47:21 | INFO     | Agent training completed.
+2025-06-16 22:47:21 | INFO     | Saving final model to data/models/PPO/9a0179673ff44ed989b3ef4d0fb14da4/final_model.zip...
+2025-06-16 22:47:21 | INFO     | Model saved to data/models/PPO/9a0179673ff44ed989b3ef4d0fb14da4/final_model.zip
+2025-06-16 22:47:22 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:47:36 | INFO     | Training run 9a0179673ff44ed989b3ef4d0fb14da4 complete.
+2025-06-16 22:47:36 | INFO     | Model saved at: data/models/PPO/9a0179673ff44ed989b3ef4d0fb14da4/final_model.zip
+2025-06-16 22:47:36 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/9a0179673ff44ed989b3ef4d0fb14da4
+2025-06-16 22:47:36 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:47:37 | INFO     | --- Starting Trial 0 (Run ID: 20ccdfe042bb404da185e9212a2d9c7a) ---
+2025-06-16 22:47:37 | INFO     | Executing within MLflow Run ID: 20ccdfe042bb404da185e9212a2d9c7a
+2025-06-16 22:47:37 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:47:37 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:47:37 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:47:37 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:47:37 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:47:37 | INFO     | Creating environment 'default'
+2025-06-16 22:47:37 | INFO     | Creating environment 'default'
+2025-06-16 22:47:37 | INFO     | Environments created successfully.
+2025-06-16 22:47:37 | INFO     | Training PPO agent...
+2025-06-16 22:47:37 | INFO     | Creating agent 'PPO'
+2025-06-16 22:47:37 | INFO     | Creating PPO model...
+2025-06-16 22:47:37 | INFO     | Agent training completed.
+2025-06-16 22:47:37 | INFO     | Saving final model to data/models/PPO/20ccdfe042bb404da185e9212a2d9c7a/final_model.zip...
+2025-06-16 22:47:37 | INFO     | Model saved to data/models/PPO/20ccdfe042bb404da185e9212a2d9c7a/final_model.zip
+2025-06-16 22:47:37 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:47:50 | INFO     | Training run 20ccdfe042bb404da185e9212a2d9c7a complete.
+2025-06-16 22:47:50 | INFO     | Model saved at: data/models/PPO/20ccdfe042bb404da185e9212a2d9c7a/final_model.zip
+2025-06-16 22:47:50 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/20ccdfe042bb404da185e9212a2d9c7a
+2025-06-16 22:47:50 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:47:50 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:47:50 | INFO     | Parent MLflow Run ID for HPO Study: 5e6a038d6ffe42af83980aad8d6699fc
+2025-06-16 22:47:50 | INFO     | --- Starting Trial 0 (Run ID: 19a50914cb324a0ba0736ff73ad71438) ---
+2025-06-16 22:47:50 | INFO     | Executing within MLflow Run ID: 19a50914cb324a0ba0736ff73ad71438
+2025-06-16 22:47:50 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:47:50 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:47:50 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:47:50 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:47:50 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:47:50 | INFO     | Creating environment 'default'
+2025-06-16 22:47:50 | INFO     | Creating environment 'default'
+2025-06-16 22:47:50 | INFO     | Environments created successfully.
+2025-06-16 22:47:50 | INFO     | Training PPO agent...
+2025-06-16 22:47:50 | INFO     | Creating agent 'PPO'
+2025-06-16 22:47:50 | INFO     | Creating PPO model...
+2025-06-16 22:48:03 | INFO     | Agent training completed.
+2025-06-16 22:48:03 | INFO     | Saving final model to data/models/PPO/19a50914cb324a0ba0736ff73ad71438/final_model.zip...
+2025-06-16 22:48:03 | INFO     | Model saved to data/models/PPO/19a50914cb324a0ba0736ff73ad71438/final_model.zip
+2025-06-16 22:48:03 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:48:15 | INFO     | Training run 19a50914cb324a0ba0736ff73ad71438 complete.
+2025-06-16 22:48:15 | INFO     | Model saved at: data/models/PPO/19a50914cb324a0ba0736ff73ad71438/final_model.zip
+2025-06-16 22:48:15 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/19a50914cb324a0ba0736ff73ad71438
+2025-06-16 22:48:15 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:48:15 | INFO     | --- Trial 0 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:48:15 | INFO     | --- Starting Trial 1 (Run ID: 0fcb84bba95748c3bde367895bdd2c70) ---
+2025-06-16 22:48:15 | INFO     | Executing within MLflow Run ID: 0fcb84bba95748c3bde367895bdd2c70
+2025-06-16 22:48:15 | INFO     | Starting training session for PPO on test_symbol (1d)...
+2025-06-16 22:48:15 | INFO     | Starting full data preparation pipeline...
+2025-06-16 22:48:15 | INFO     | Loading data from data/processed/features/test_symbol_1d_features.csv...
+2025-06-16 22:48:15 | INFO     | Training data: 160 samples, Evaluation data: 40 samples
+2025-06-16 22:48:15 | INFO     | Creating training and evaluation environments...
+2025-06-16 22:48:15 | INFO     | Creating environment 'default'
+2025-06-16 22:48:15 | INFO     | Creating environment 'default'
+2025-06-16 22:48:15 | INFO     | Environments created successfully.
+2025-06-16 22:48:15 | INFO     | Training PPO agent...
+2025-06-16 22:48:15 | INFO     | Creating agent 'PPO'
+2025-06-16 22:48:15 | INFO     | Creating PPO model...
+2025-06-16 22:48:18 | INFO     | Agent training completed.
+2025-06-16 22:48:18 | INFO     | Saving final model to data/models/PPO/0fcb84bba95748c3bde367895bdd2c70/final_model.zip...
+2025-06-16 22:48:18 | INFO     | Model saved to data/models/PPO/0fcb84bba95748c3bde367895bdd2c70/final_model.zip
+2025-06-16 22:48:18 | INFO     | Logging and registering the model with MLflow...
+2025-06-16 22:48:30 | INFO     | Training run 0fcb84bba95748c3bde367895bdd2c70 complete.
+2025-06-16 22:48:30 | INFO     | Model saved at: data/models/PPO/0fcb84bba95748c3bde367895bdd2c70/final_model.zip
+2025-06-16 22:48:30 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/0fcb84bba95748c3bde367895bdd2c70
+2025-06-16 22:48:30 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-16 22:48:30 | INFO     | --- Trial 1 Finished. Sharpe Ratio: 1.5000 ---
+2025-06-16 22:48:30 | INFO     | 
+🎉 Optimization Finished!
+2025-06-16 22:48:30 | INFO     | Best Trial: 0
+2025-06-16 22:48:30 | INFO     |   Sharpe Ratio: 1.5000
+2025-06-16 22:48:30 | INFO     |   Hyperparameters:
+2025-06-16 22:48:30 | INFO     |     learning_rate: 6.609782375979735e-05
+2025-06-16 22:48:30 | INFO     |     n_steps: 8192
+2025-06-16 22:48:30 | INFO     |     batch_size: 256
+2025-06-16 22:48:30 | INFO     |     n_epochs: 20
+2025-06-16 22:48:30 | INFO     |     gamma: 0.9996926669813453
+2025-06-16 22:48:30 | INFO     |     clip_range: 0.1905812147510918
+2025-06-17 07:54:03 | INFO     | Executing within MLflow Run ID: 810d36023afc44388c4d39b787ef7c92
+2025-06-17 07:54:03 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 07:54:03 | INFO     | Starting full data preparation pipeline...
+2025-06-17 07:54:03 | INFO     | Running data preparation script...
+2025-06-17 07:54:03 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 07:54:04 | INFO     | Creating forex_com broker instance
+2025-06-17 07:54:04 | INFO     | Creating forex calendar instance
+2025-06-17 07:54:04 | INFO     | Authenticating with forex_com...
+2025-06-17 07:54:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 07:54:05 | INFO     | Successfully authenticated with Forex.com. Session: 47f369c5...
+2025-06-17 07:54:05 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 07:54:05 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 07:54:05 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 07:54:05 | INFO     | Standardizing data format...
+2025-06-17 07:54:05 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 07:54:05 | INFO     | Standardization complete. Final records: 365
+2025-06-17 07:54:05 | INFO     | Data quality score: 0.90
+2025-06-17 07:54:05 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 07:54:05 | INFO     | Preparing data for Qlib...
+2025-06-17 07:54:05 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 07:54:06 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 07:54:06 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 07:54:08 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 07:54:08 | INFO     | --- Running: Build Features ---
+2025-06-17 07:54:11 | INFO     | --- Finished: Build Features ---
+2025-06-17 07:54:11 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 07:54:11 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 07:54:11 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 07:54:11 | INFO     | Creating training and evaluation environments...
+2025-06-17 07:54:11 | INFO     | Creating environment 'default'
+2025-06-17 07:54:11 | INFO     | Creating environment 'default'
+2025-06-17 07:54:11 | INFO     | Environments created successfully.
+2025-06-17 07:54:11 | INFO     | Training PPO agent...
+2025-06-17 07:54:11 | INFO     | Creating agent 'PPO'
+2025-06-17 07:54:11 | INFO     | Creating PPO model...
+2025-06-17 07:54:43 | INFO     | Agent training completed.
+2025-06-17 07:54:43 | INFO     | Saving final model to data/models/PPO/810d36023afc44388c4d39b787ef7c92/final_model.zip...
+2025-06-17 07:54:43 | INFO     | Model saved to data/models/PPO/810d36023afc44388c4d39b787ef7c92/final_model.zip
+2025-06-17 07:54:43 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 07:54:55 | INFO     | Training run 810d36023afc44388c4d39b787ef7c92 complete.
+2025-06-17 07:54:55 | INFO     | Model saved at: data/models/PPO/810d36023afc44388c4d39b787ef7c92/final_model.zip
+2025-06-17 07:54:55 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/810d36023afc44388c4d39b787ef7c92
+2025-06-17 07:54:55 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 08:46:04 | INFO     | Creating PPO model...
+2025-06-17 08:46:05 | INFO     | Creating PPO model...
+2025-06-17 08:46:05 | INFO     | Creating PPO model...
+2025-06-17 08:46:05 | WARNING  | No trading accounts found in API response.
+2025-06-17 08:46:05 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 08:46:05 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:46:05 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:46:05 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 08:46:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:46:05 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 08:46:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:46:05 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 08:46:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:46:05 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 08:46:05 | INFO     | Order placed successfully: 555
+2025-06-17 08:46:05 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 08:46:05 | INFO     | Order cancelled successfully: 123
+2025-06-17 08:46:05 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 08:46:05 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 08:46:05 | INFO     | Opening LONG position.
+2025-06-17 08:46:05 | INFO     | Opening SHORT position.
+2025-06-17 08:46:05 | INFO     | Closing open position.
+2025-06-17 08:46:05 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:46:05 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:46:05 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 08:46:05 | INFO     | Opening LONG position.
+2025-06-17 08:46:15 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:46:15 | INFO     | Successfully authenticated with Forex.com. Session: 9ca76ae6...
+2025-06-17 08:46:15 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 08:46:16 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 08:55:16 | INFO     | Creating PPO model...
+2025-06-17 08:55:16 | INFO     | Creating PPO model...
+2025-06-17 08:55:16 | INFO     | Creating PPO model...
+2025-06-17 08:55:16 | WARNING  | No trading accounts found in API response.
+2025-06-17 08:55:16 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 08:55:16 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:55:17 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:55:17 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 08:55:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:55:17 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 08:55:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:55:17 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 08:55:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:55:17 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 08:55:17 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:55:17 | INFO     | Successfully authenticated with Forex.com. Session: c4e06972...
+2025-06-17 08:55:17 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 08:55:18 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 08:55:18 | INFO     | Order placed successfully: 555
+2025-06-17 08:55:18 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 08:55:18 | INFO     | Order cancelled successfully: 123
+2025-06-17 08:55:18 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 08:55:18 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 08:55:19 | INFO     | Opening LONG position.
+2025-06-17 08:55:19 | INFO     | Opening SHORT position.
+2025-06-17 08:55:19 | INFO     | Closing open position.
+2025-06-17 08:55:19 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:55:19 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:55:19 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 08:55:19 | INFO     | Opening LONG position.
+2025-06-17 08:57:40 | INFO     | Creating agent 'PPO'
+2025-06-17 08:57:40 | INFO     | Creating PPO model...
+2025-06-17 08:57:40 | INFO     | Creating agent 'NON_EXISTENT'
+2025-06-17 08:57:40 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 08:57:40 | INFO     | Creating PPO model...
+2025-06-17 08:57:40 | INFO     | Creating PPO model...
+2025-06-17 08:57:41 | INFO     | Creating PPO model...
+2025-06-17 08:57:41 | WARNING  | No trading accounts found in API response.
+2025-06-17 08:57:41 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 08:57:41 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:57:41 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:57:41 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 08:57:41 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:57:41 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 08:57:41 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:57:41 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 08:57:41 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:57:41 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 08:57:41 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:57:41 | INFO     | Successfully authenticated with Forex.com. Session: d57d98bb...
+2025-06-17 08:57:41 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 08:57:42 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 08:57:42 | INFO     | Order placed successfully: 555
+2025-06-17 08:57:42 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 08:57:42 | INFO     | Order cancelled successfully: 123
+2025-06-17 08:57:42 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 08:57:42 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 08:57:42 | INFO     | Creating environment 'default'
+2025-06-17 08:57:42 | INFO     | Creating environment 'unknown'
+2025-06-17 08:57:42 | ERROR    | Environment 'unknown' not found.
+2025-06-17 08:57:42 | INFO     | Opening LONG position.
+2025-06-17 08:57:42 | INFO     | Opening SHORT position.
+2025-06-17 08:57:43 | INFO     | Closing open position.
+2025-06-17 08:57:43 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:57:43 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:57:43 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 08:57:43 | INFO     | Opening LONG position.
+2025-06-17 08:59:23 | INFO     | Creating agent 'PPO'
+2025-06-17 08:59:23 | INFO     | Creating PPO model...
+2025-06-17 08:59:23 | INFO     | Creating agent 'NON_EXISTENT'
+2025-06-17 08:59:23 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 08:59:23 | INFO     | Creating PPO model...
+2025-06-17 08:59:23 | INFO     | Creating PPO model...
+2025-06-17 08:59:23 | INFO     | Creating PPO model...
+2025-06-17 08:59:23 | WARNING  | No trading accounts found in API response.
+2025-06-17 08:59:23 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 08:59:23 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:59:23 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 08:59:23 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 08:59:23 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:59:23 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 08:59:23 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:59:23 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 08:59:23 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:59:23 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 08:59:23 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 08:59:23 | INFO     | Successfully authenticated with Forex.com. Session: f2f8a40a...
+2025-06-17 08:59:23 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 08:59:25 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 08:59:25 | INFO     | Order placed successfully: 555
+2025-06-17 08:59:25 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 08:59:25 | INFO     | Order cancelled successfully: 123
+2025-06-17 08:59:25 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 08:59:25 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 08:59:25 | INFO     | Creating environment 'default'
+2025-06-17 08:59:25 | INFO     | Creating environment 'unknown'
+2025-06-17 08:59:25 | ERROR    | Environment 'unknown' not found.
+2025-06-17 08:59:25 | INFO     | Opening LONG position.
+2025-06-17 08:59:25 | INFO     | Opening SHORT position.
+2025-06-17 08:59:25 | INFO     | Closing open position.
+2025-06-17 08:59:25 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:59:25 | INFO     | Starting strategy: RLStrategy
+2025-06-17 08:59:25 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 08:59:25 | INFO     | Opening LONG position.
+2025-06-17 09:22:53 | INFO     | Creating agent 'PPO'
+2025-06-17 09:22:53 | INFO     | Creating PPO model...
+2025-06-17 09:22:53 | INFO     | Creating agent 'NON_EXISTENT'
+2025-06-17 09:22:53 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 09:22:53 | INFO     | Creating PPO model...
+2025-06-17 09:22:53 | INFO     | Creating PPO model...
+2025-06-17 09:22:53 | INFO     | Creating PPO model...
+2025-06-17 09:22:53 | WARNING  | No trading accounts found in API response.
+2025-06-17 09:22:53 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 09:22:53 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 09:22:53 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 09:22:53 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 09:22:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:22:53 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 09:22:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:22:53 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 09:22:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:22:53 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 09:22:54 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:22:54 | INFO     | Successfully authenticated with Forex.com. Session: 1471e658...
+2025-06-17 09:22:54 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 09:22:55 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:22:55 | INFO     | Order placed successfully: 555
+2025-06-17 09:22:55 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 09:22:55 | INFO     | Order cancelled successfully: 123
+2025-06-17 09:22:55 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 09:22:55 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 09:22:55 | INFO     | Creating environment 'default'
+2025-06-17 09:22:55 | INFO     | Creating environment 'unknown'
+2025-06-17 09:22:55 | ERROR    | Environment 'unknown' not found.
+2025-06-17 09:22:56 | INFO     | Opening LONG position.
+2025-06-17 09:22:56 | INFO     | Opening SHORT position.
+2025-06-17 09:22:56 | INFO     | Closing open position.
+2025-06-17 09:22:56 | INFO     | Starting strategy: RLStrategy
+2025-06-17 09:22:56 | INFO     | Starting strategy: RLStrategy
+2025-06-17 09:22:56 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 09:22:56 | INFO     | Opening LONG position.
+2025-06-17 09:30:57 | INFO     | Creating agent 'PPO'
+2025-06-17 09:30:57 | INFO     | Creating PPO model...
+2025-06-17 09:30:57 | INFO     | Creating agent 'NON_EXISTENT'
+2025-06-17 09:30:57 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 09:30:57 | INFO     | Creating PPO model...
+2025-06-17 09:30:57 | INFO     | Creating PPO model...
+2025-06-17 09:30:57 | INFO     | Creating PPO model...
+2025-06-17 09:30:57 | WARNING  | No trading accounts found in API response.
+2025-06-17 09:30:57 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 09:30:57 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 09:30:57 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 09:30:57 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 09:30:57 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:30:57 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 09:30:57 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:30:57 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 09:30:57 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:30:57 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 09:30:57 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:30:57 | INFO     | Successfully authenticated with Forex.com. Session: 2bd82539...
+2025-06-17 09:30:57 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 09:30:59 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:30:59 | INFO     | Order placed successfully: 555
+2025-06-17 09:30:59 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 09:30:59 | INFO     | Order cancelled successfully: 123
+2025-06-17 09:30:59 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 09:30:59 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 09:30:59 | INFO     | Creating environment 'default'
+2025-06-17 09:30:59 | INFO     | Creating environment 'unknown'
+2025-06-17 09:30:59 | ERROR    | Environment 'unknown' not found.
+2025-06-17 09:30:59 | INFO     | Opening LONG position.
+2025-06-17 09:30:59 | INFO     | Opening SHORT position.
+2025-06-17 09:30:59 | INFO     | Closing open position.
+2025-06-17 09:30:59 | INFO     | Starting strategy: RLStrategy
+2025-06-17 09:30:59 | INFO     | Starting strategy: RLStrategy
+2025-06-17 09:30:59 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 09:30:59 | INFO     | Opening LONG position.
+2025-06-17 09:32:11 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:32:11 | INFO     | Successfully authenticated with Forex.com. Session: c0bdee0d...
+2025-06-17 09:32:11 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 09:32:13 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:32:38 | INFO     | Executing within MLflow Run ID: 0ba0bd10bb26427a8e42ae5844c32fe7
+2025-06-17 09:32:38 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 09:32:38 | INFO     | Starting full data preparation pipeline...
+2025-06-17 09:32:38 | INFO     | Running data preparation script...
+2025-06-17 09:32:38 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 09:32:39 | INFO     | Creating forex_com broker instance
+2025-06-17 09:32:39 | INFO     | Creating forex calendar instance
+2025-06-17 09:32:39 | INFO     | Authenticating with forex_com...
+2025-06-17 09:32:39 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:32:40 | INFO     | Successfully authenticated with Forex.com. Session: 7364e8b2...
+2025-06-17 09:32:40 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 09:32:40 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 09:32:40 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:32:40 | INFO     | Standardizing data format...
+2025-06-17 09:32:40 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 09:32:40 | INFO     | Standardization complete. Final records: 365
+2025-06-17 09:32:40 | INFO     | Data quality score: 0.90
+2025-06-17 09:32:40 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 09:32:40 | INFO     | Preparing data for Qlib...
+2025-06-17 09:32:40 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 09:32:40 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 09:32:40 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 09:32:43 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 09:32:43 | INFO     | --- Running: Build Features ---
+2025-06-17 09:32:46 | INFO     | --- Finished: Build Features ---
+2025-06-17 09:32:46 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 09:32:46 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 09:32:46 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 09:32:46 | INFO     | Creating training and evaluation environments...
+2025-06-17 09:32:46 | INFO     | Creating environment 'default'
+2025-06-17 09:32:46 | INFO     | Creating environment 'default'
+2025-06-17 09:32:46 | INFO     | Environments created successfully.
+2025-06-17 09:32:46 | INFO     | Training PPO agent...
+2025-06-17 09:32:46 | INFO     | Creating agent 'PPO'
+2025-06-17 09:32:46 | INFO     | Creating PPO model...
+2025-06-17 09:33:18 | INFO     | Agent training completed.
+2025-06-17 09:33:18 | INFO     | Saving final model to data/models/PPO/0ba0bd10bb26427a8e42ae5844c32fe7/final_model.zip...
+2025-06-17 09:33:18 | INFO     | Model saved to data/models/PPO/0ba0bd10bb26427a8e42ae5844c32fe7/final_model.zip
+2025-06-17 09:33:18 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 09:33:31 | INFO     | Training run 0ba0bd10bb26427a8e42ae5844c32fe7 complete.
+2025-06-17 09:33:31 | INFO     | Model saved at: data/models/PPO/0ba0bd10bb26427a8e42ae5844c32fe7/final_model.zip
+2025-06-17 09:33:31 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/0ba0bd10bb26427a8e42ae5844c32fe7
+2025-06-17 09:33:31 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 09:36:29 | INFO     | Executing within MLflow Run ID: cae49d9527d4496cb5dda4007dc45004
+2025-06-17 09:36:29 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 09:36:29 | INFO     | Starting full data preparation pipeline...
+2025-06-17 09:36:29 | INFO     | Running data preparation script...
+2025-06-17 09:36:30 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 09:36:30 | INFO     | Creating forex_com broker instance
+2025-06-17 09:36:30 | INFO     | Creating forex calendar instance
+2025-06-17 09:36:30 | INFO     | Authenticating with forex_com...
+2025-06-17 09:36:30 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:36:31 | INFO     | Successfully authenticated with Forex.com. Session: e024d1d2...
+2025-06-17 09:36:31 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 09:36:31 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 09:36:31 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:36:31 | INFO     | Standardizing data format...
+2025-06-17 09:36:31 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 09:36:31 | INFO     | Standardization complete. Final records: 365
+2025-06-17 09:36:31 | INFO     | Data quality score: 0.90
+2025-06-17 09:36:31 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 09:36:31 | INFO     | Preparing data for Qlib...
+2025-06-17 09:36:31 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 09:36:31 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 09:36:31 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 09:36:34 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 09:36:34 | INFO     | --- Running: Build Features ---
+2025-06-17 09:36:37 | INFO     | --- Finished: Build Features ---
+2025-06-17 09:36:37 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 09:36:37 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 09:36:37 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 09:36:37 | INFO     | Creating training and evaluation environments...
+2025-06-17 09:36:37 | INFO     | Creating environment 'default'
+2025-06-17 09:36:37 | INFO     | Creating environment 'default'
+2025-06-17 09:36:37 | INFO     | Environments created successfully.
+2025-06-17 09:36:37 | INFO     | Training PPO agent...
+2025-06-17 09:36:37 | INFO     | Creating agent 'PPO'
+2025-06-17 09:36:37 | INFO     | Creating PPO model...
+2025-06-17 09:37:08 | INFO     | Agent training completed.
+2025-06-17 09:37:08 | INFO     | Saving final model to data/models/PPO/cae49d9527d4496cb5dda4007dc45004/final_model.zip...
+2025-06-17 09:37:08 | INFO     | Model saved to data/models/PPO/cae49d9527d4496cb5dda4007dc45004/final_model.zip
+2025-06-17 09:37:08 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 09:37:22 | INFO     | Training run cae49d9527d4496cb5dda4007dc45004 complete.
+2025-06-17 09:37:22 | INFO     | Model saved at: data/models/PPO/cae49d9527d4496cb5dda4007dc45004/final_model.zip
+2025-06-17 09:37:22 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/cae49d9527d4496cb5dda4007dc45004
+2025-06-17 09:37:22 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 09:38:38 | INFO     | Executing within MLflow Run ID: 703e6bfb1d784d2eb25b812f2aa7c91d
+2025-06-17 09:38:38 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 09:38:38 | INFO     | Starting full data preparation pipeline...
+2025-06-17 09:38:38 | INFO     | Running data preparation script...
+2025-06-17 09:38:39 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 09:38:39 | INFO     | Creating forex_com broker instance
+2025-06-17 09:38:39 | INFO     | Creating forex calendar instance
+2025-06-17 09:38:39 | INFO     | Authenticating with forex_com...
+2025-06-17 09:38:39 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:38:40 | INFO     | Successfully authenticated with Forex.com. Session: 5099890f...
+2025-06-17 09:38:40 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 09:38:40 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 09:38:40 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:38:41 | INFO     | Standardizing data format...
+2025-06-17 09:38:41 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 09:38:41 | INFO     | Standardization complete. Final records: 365
+2025-06-17 09:38:41 | INFO     | Data quality score: 0.90
+2025-06-17 09:38:41 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 09:38:41 | INFO     | Preparing data for Qlib...
+2025-06-17 09:38:41 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 09:38:41 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 09:38:41 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 09:38:43 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 09:38:43 | INFO     | --- Running: Build Features ---
+2025-06-17 09:38:46 | INFO     | --- Finished: Build Features ---
+2025-06-17 09:38:46 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 09:38:46 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 09:38:46 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 09:38:46 | INFO     | Creating training and evaluation environments...
+2025-06-17 09:38:46 | INFO     | Creating environment 'default'
+2025-06-17 09:38:46 | INFO     | Creating environment 'default'
+2025-06-17 09:38:46 | INFO     | Environments created successfully.
+2025-06-17 09:38:46 | INFO     | Training PPO agent...
+2025-06-17 09:38:46 | INFO     | Creating agent 'PPO'
+2025-06-17 09:38:46 | INFO     | Creating PPO model...
+2025-06-17 09:39:21 | INFO     | Agent training completed.
+2025-06-17 09:39:21 | INFO     | Saving final model to data/models/PPO/703e6bfb1d784d2eb25b812f2aa7c91d/final_model.zip...
+2025-06-17 09:39:21 | INFO     | Model saved to data/models/PPO/703e6bfb1d784d2eb25b812f2aa7c91d/final_model.zip
+2025-06-17 09:39:21 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 09:39:34 | INFO     | Training run 703e6bfb1d784d2eb25b812f2aa7c91d complete.
+2025-06-17 09:39:34 | INFO     | Model saved at: data/models/PPO/703e6bfb1d784d2eb25b812f2aa7c91d/final_model.zip
+2025-06-17 09:39:34 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/703e6bfb1d784d2eb25b812f2aa7c91d
+2025-06-17 09:39:34 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 09:43:53 | INFO     | Executing within MLflow Run ID: 048f6f031ade46d480b2d99560d888b3
+2025-06-17 09:43:53 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 09:43:53 | INFO     | Starting full data preparation pipeline...
+2025-06-17 09:43:53 | INFO     | Running data preparation script...
+2025-06-17 09:43:53 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 09:43:54 | INFO     | Creating forex_com broker instance
+2025-06-17 09:43:54 | INFO     | Creating forex calendar instance
+2025-06-17 09:43:54 | INFO     | Authenticating with forex_com...
+2025-06-17 09:43:54 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:43:54 | INFO     | Successfully authenticated with Forex.com. Session: 757fe772...
+2025-06-17 09:43:54 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 09:43:54 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 09:43:55 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:43:55 | INFO     | Standardizing data format...
+2025-06-17 09:43:55 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 09:43:55 | INFO     | Standardization complete. Final records: 365
+2025-06-17 09:43:55 | INFO     | Data quality score: 0.90
+2025-06-17 09:43:55 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 09:43:55 | INFO     | Preparing data for Qlib...
+2025-06-17 09:43:55 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 09:43:55 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 09:43:55 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 09:43:58 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 09:43:58 | INFO     | --- Running: Build Features ---
+2025-06-17 09:44:01 | INFO     | --- Finished: Build Features ---
+2025-06-17 09:44:01 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 09:44:01 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 09:44:01 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 09:44:01 | INFO     | Creating training and evaluation environments...
+2025-06-17 09:44:01 | INFO     | Creating environment 'default'
+2025-06-17 09:44:01 | INFO     | Creating environment 'default'
+2025-06-17 09:44:01 | INFO     | Environments created successfully.
+2025-06-17 09:44:01 | INFO     | Training PPO agent...
+2025-06-17 09:44:01 | INFO     | Creating agent 'PPO'
+2025-06-17 09:44:01 | INFO     | Creating PPO model...
+2025-06-17 09:44:33 | INFO     | Agent training completed.
+2025-06-17 09:44:33 | INFO     | Saving final model to data/models/PPO/048f6f031ade46d480b2d99560d888b3/final_model.zip...
+2025-06-17 09:44:33 | INFO     | Model saved to data/models/PPO/048f6f031ade46d480b2d99560d888b3/final_model.zip
+2025-06-17 09:44:33 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 09:44:47 | INFO     | Training run 048f6f031ade46d480b2d99560d888b3 complete.
+2025-06-17 09:44:47 | INFO     | Model saved at: data/models/PPO/048f6f031ade46d480b2d99560d888b3/final_model.zip
+2025-06-17 09:44:47 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/048f6f031ade46d480b2d99560d888b3
+2025-06-17 09:44:47 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 09:50:19 | INFO     | Executing within MLflow Run ID: f1d7868c568f46f5a2909e6210e477ad
+2025-06-17 09:50:19 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 09:50:19 | INFO     | Starting full data preparation pipeline...
+2025-06-17 09:50:19 | INFO     | Running data preparation script...
+2025-06-17 09:50:20 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 09:50:21 | INFO     | Creating forex_com broker instance
+2025-06-17 09:50:21 | INFO     | Creating forex calendar instance
+2025-06-17 09:50:21 | INFO     | Authenticating with forex_com...
+2025-06-17 09:50:21 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:50:21 | INFO     | Successfully authenticated with Forex.com. Session: 193f28cc...
+2025-06-17 09:50:21 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 09:50:21 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 09:50:21 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:50:22 | INFO     | Standardizing data format...
+2025-06-17 09:50:22 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 09:50:22 | INFO     | Standardization complete. Final records: 365
+2025-06-17 09:50:22 | INFO     | Data quality score: 0.90
+2025-06-17 09:50:22 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 09:50:22 | INFO     | Preparing data for Qlib...
+2025-06-17 09:50:22 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 09:50:22 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 09:50:22 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 09:50:24 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 09:50:24 | INFO     | --- Running: Build Features ---
+2025-06-17 09:50:27 | INFO     | --- Finished: Build Features ---
+2025-06-17 09:50:27 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 09:50:27 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 09:50:27 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 09:50:27 | INFO     | Creating training and evaluation environments...
+2025-06-17 09:50:27 | INFO     | Creating environment 'default'
+2025-06-17 09:50:27 | INFO     | Creating environment 'default'
+2025-06-17 09:50:27 | INFO     | Environments created successfully.
+2025-06-17 09:50:27 | INFO     | Training PPO agent...
+2025-06-17 09:50:27 | INFO     | Creating agent 'PPO'
+2025-06-17 09:50:27 | INFO     | Creating PPO model...
+2025-06-17 09:50:58 | INFO     | Agent training completed.
+2025-06-17 09:50:58 | INFO     | Saving final model to data/models/PPO/f1d7868c568f46f5a2909e6210e477ad/final_model.zip...
+2025-06-17 09:50:58 | INFO     | Model saved to data/models/PPO/f1d7868c568f46f5a2909e6210e477ad/final_model.zip
+2025-06-17 09:50:58 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 09:53:40 | INFO     | Executing within MLflow Run ID: 1fdce8a83ea04e3b813cf318d4d096d6
+2025-06-17 09:53:40 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 09:53:40 | INFO     | Starting full data preparation pipeline...
+2025-06-17 09:53:40 | INFO     | Running data preparation script...
+2025-06-17 09:53:40 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 09:53:41 | INFO     | Creating forex_com broker instance
+2025-06-17 09:53:41 | INFO     | Creating forex calendar instance
+2025-06-17 09:53:41 | INFO     | Authenticating with forex_com...
+2025-06-17 09:53:41 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 09:53:41 | INFO     | Successfully authenticated with Forex.com. Session: e50a9513...
+2025-06-17 09:53:41 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 09:53:41 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 09:53:42 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 09:53:42 | INFO     | Standardizing data format...
+2025-06-17 09:53:42 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 09:53:42 | INFO     | Standardization complete. Final records: 365
+2025-06-17 09:53:42 | INFO     | Data quality score: 0.90
+2025-06-17 09:53:42 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 09:53:42 | INFO     | Preparing data for Qlib...
+2025-06-17 09:53:42 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 09:53:42 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 09:53:42 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 09:53:44 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 09:53:44 | INFO     | --- Running: Build Features ---
+2025-06-17 09:53:46 | INFO     | --- Finished: Build Features ---
+2025-06-17 09:53:46 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 09:53:46 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 09:53:46 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 09:53:46 | INFO     | Creating training and evaluation environments...
+2025-06-17 09:53:46 | INFO     | Creating environment 'default'
+2025-06-17 09:53:46 | INFO     | Creating environment 'default'
+2025-06-17 09:53:46 | INFO     | Environments created successfully.
+2025-06-17 09:53:46 | INFO     | Training PPO agent...
+2025-06-17 09:53:46 | INFO     | Creating agent 'PPO'
+2025-06-17 09:53:46 | INFO     | Creating PPO model...
+2025-06-17 09:54:19 | INFO     | Agent training completed.
+2025-06-17 09:54:19 | INFO     | Saving final model to data/models/PPO/1fdce8a83ea04e3b813cf318d4d096d6/final_model.zip...
+2025-06-17 09:54:19 | INFO     | Model saved to data/models/PPO/1fdce8a83ea04e3b813cf318d4d096d6/final_model.zip
+2025-06-17 09:54:19 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 09:54:20 | INFO     | Training run 1fdce8a83ea04e3b813cf318d4d096d6 complete.
+2025-06-17 09:54:20 | INFO     | Model saved at: data/models/PPO/1fdce8a83ea04e3b813cf318d4d096d6/final_model.zip
+2025-06-17 09:54:20 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/1fdce8a83ea04e3b813cf318d4d096d6
+2025-06-17 09:54:20 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:01:38 | INFO     | Executing within MLflow Run ID: 4d6ee643fc1e4ba2a521b29b89eab531
+2025-06-17 10:01:38 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:01:38 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:01:38 | INFO     | Running data preparation script...
+2025-06-17 10:01:39 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:01:40 | INFO     | Creating forex_com broker instance
+2025-06-17 10:01:40 | INFO     | Creating forex calendar instance
+2025-06-17 10:01:40 | INFO     | Authenticating with forex_com...
+2025-06-17 10:01:40 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:01:40 | INFO     | Successfully authenticated with Forex.com. Session: ae8512b7...
+2025-06-17 10:01:40 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:01:40 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:01:40 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:01:41 | INFO     | Standardizing data format...
+2025-06-17 10:01:41 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:01:41 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:01:41 | INFO     | Data quality score: 0.90
+2025-06-17 10:01:41 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:01:41 | INFO     | Preparing data for Qlib...
+2025-06-17 10:01:41 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:01:41 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:01:41 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:01:44 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:01:44 | INFO     | --- Running: Build Features ---
+2025-06-17 10:01:46 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:01:46 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:01:46 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:01:46 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:01:46 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:01:46 | INFO     | Creating environment 'default'
+2025-06-17 10:01:46 | INFO     | Creating environment 'default'
+2025-06-17 10:01:46 | INFO     | Environments created successfully.
+2025-06-17 10:01:46 | INFO     | Training PPO agent...
+2025-06-17 10:01:46 | INFO     | Creating agent 'PPO'
+2025-06-17 10:01:46 | INFO     | Creating PPO model...
+2025-06-17 10:02:19 | INFO     | Agent training completed.
+2025-06-17 10:02:19 | INFO     | Saving final model to data/models/PPO/4d6ee643fc1e4ba2a521b29b89eab531/final_model.zip...
+2025-06-17 10:02:19 | INFO     | Model saved to data/models/PPO/4d6ee643fc1e4ba2a521b29b89eab531/final_model.zip
+2025-06-17 10:02:19 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:02:33 | INFO     | Training run 4d6ee643fc1e4ba2a521b29b89eab531 complete.
+2025-06-17 10:02:33 | INFO     | Model saved at: data/models/PPO/4d6ee643fc1e4ba2a521b29b89eab531/final_model.zip
+2025-06-17 10:02:33 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/4d6ee643fc1e4ba2a521b29b89eab531
+2025-06-17 10:02:33 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:04:38 | INFO     | Executing within MLflow Run ID: 9bfda2ffd2e64a51b5458a44bf45a4c4
+2025-06-17 10:04:38 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:04:38 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:04:38 | INFO     | Running data preparation script...
+2025-06-17 10:04:38 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:04:39 | INFO     | Creating forex_com broker instance
+2025-06-17 10:04:39 | INFO     | Creating forex calendar instance
+2025-06-17 10:04:39 | INFO     | Authenticating with forex_com...
+2025-06-17 10:04:39 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:04:40 | INFO     | Successfully authenticated with Forex.com. Session: c43375d5...
+2025-06-17 10:04:40 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:04:40 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:04:40 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:04:40 | INFO     | Standardizing data format...
+2025-06-17 10:04:40 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:04:40 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:04:40 | INFO     | Data quality score: 0.90
+2025-06-17 10:04:40 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:04:40 | INFO     | Preparing data for Qlib...
+2025-06-17 10:04:40 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:04:40 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:04:40 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:04:43 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:04:43 | INFO     | --- Running: Build Features ---
+2025-06-17 10:04:46 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:04:46 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:04:46 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:04:46 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:04:46 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:04:46 | INFO     | Creating environment 'default'
+2025-06-17 10:04:46 | INFO     | Creating environment 'default'
+2025-06-17 10:04:46 | INFO     | Environments created successfully.
+2025-06-17 10:04:46 | INFO     | Training PPO agent...
+2025-06-17 10:04:46 | INFO     | Creating agent 'PPO'
+2025-06-17 10:04:46 | INFO     | Creating PPO model...
+2025-06-17 10:05:20 | INFO     | Agent training completed.
+2025-06-17 10:05:20 | INFO     | Saving final model to data/models/PPO/9bfda2ffd2e64a51b5458a44bf45a4c4/final_model.zip...
+2025-06-17 10:05:20 | INFO     | Model saved to data/models/PPO/9bfda2ffd2e64a51b5458a44bf45a4c4/final_model.zip
+2025-06-17 10:05:20 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:05:32 | INFO     | Training run 9bfda2ffd2e64a51b5458a44bf45a4c4 complete.
+2025-06-17 10:05:32 | INFO     | Model saved at: data/models/PPO/9bfda2ffd2e64a51b5458a44bf45a4c4/final_model.zip
+2025-06-17 10:05:32 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/9bfda2ffd2e64a51b5458a44bf45a4c4
+2025-06-17 10:05:32 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:08:25 | INFO     | Executing within MLflow Run ID: 771a26acf5934818a91e96526b705b63
+2025-06-17 10:08:25 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:08:25 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:08:25 | INFO     | Running data preparation script...
+2025-06-17 10:08:25 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:08:26 | INFO     | Creating forex_com broker instance
+2025-06-17 10:08:26 | INFO     | Creating forex calendar instance
+2025-06-17 10:08:26 | INFO     | Authenticating with forex_com...
+2025-06-17 10:08:26 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:08:27 | INFO     | Successfully authenticated with Forex.com. Session: 82dbbafc...
+2025-06-17 10:08:27 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:08:27 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:08:27 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:08:27 | INFO     | Standardizing data format...
+2025-06-17 10:08:27 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:08:27 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:08:27 | INFO     | Data quality score: 0.90
+2025-06-17 10:08:27 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:08:27 | INFO     | Preparing data for Qlib...
+2025-06-17 10:08:27 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:08:27 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:08:27 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:08:30 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:08:30 | INFO     | --- Running: Build Features ---
+2025-06-17 10:08:33 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:08:33 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:08:33 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:08:33 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:08:33 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:08:33 | INFO     | Creating environment 'default'
+2025-06-17 10:08:33 | INFO     | Creating environment 'default'
+2025-06-17 10:08:33 | INFO     | Environments created successfully.
+2025-06-17 10:08:33 | INFO     | Training PPO agent...
+2025-06-17 10:08:33 | INFO     | Creating agent 'PPO'
+2025-06-17 10:08:33 | INFO     | Creating PPO model...
+2025-06-17 10:09:02 | INFO     | Agent training completed.
+2025-06-17 10:09:02 | INFO     | Saving final model to data/models/PPO/771a26acf5934818a91e96526b705b63/final_model.zip...
+2025-06-17 10:09:02 | INFO     | Model saved to data/models/PPO/771a26acf5934818a91e96526b705b63/final_model.zip
+2025-06-17 10:09:02 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:09:03 | INFO     | Training run 771a26acf5934818a91e96526b705b63 complete.
+2025-06-17 10:09:03 | INFO     | Model saved at: data/models/PPO/771a26acf5934818a91e96526b705b63/final_model.zip
+2025-06-17 10:09:03 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/771a26acf5934818a91e96526b705b63
+2025-06-17 10:09:03 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:11:58 | INFO     | Executing within MLflow Run ID: 239efa39d5704f64b2197a4c3fa5cd22
+2025-06-17 10:11:58 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:11:58 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:11:58 | INFO     | Running data preparation script...
+2025-06-17 10:11:59 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:11:59 | INFO     | Creating forex_com broker instance
+2025-06-17 10:11:59 | INFO     | Creating forex calendar instance
+2025-06-17 10:11:59 | INFO     | Authenticating with forex_com...
+2025-06-17 10:11:59 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:12:00 | INFO     | Successfully authenticated with Forex.com. Session: 3b6c026e...
+2025-06-17 10:12:00 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:12:00 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:12:01 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:12:01 | INFO     | Standardizing data format...
+2025-06-17 10:12:01 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:12:01 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:12:01 | INFO     | Data quality score: 0.90
+2025-06-17 10:12:01 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:12:01 | INFO     | Preparing data for Qlib...
+2025-06-17 10:12:01 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:12:01 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:12:01 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:12:04 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:12:04 | INFO     | --- Running: Build Features ---
+2025-06-17 10:12:08 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:12:08 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:12:08 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:12:08 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:12:08 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:12:08 | INFO     | Creating environment 'default'
+2025-06-17 10:12:08 | INFO     | Creating environment 'default'
+2025-06-17 10:12:08 | INFO     | Environments created successfully.
+2025-06-17 10:12:08 | INFO     | Training PPO agent...
+2025-06-17 10:12:08 | INFO     | Creating agent 'PPO'
+2025-06-17 10:12:08 | INFO     | Creating PPO model...
+2025-06-17 10:12:40 | INFO     | Agent training completed.
+2025-06-17 10:12:40 | INFO     | Saving final model to data/models/PPO/239efa39d5704f64b2197a4c3fa5cd22/final_model.zip...
+2025-06-17 10:12:40 | INFO     | Model saved to data/models/PPO/239efa39d5704f64b2197a4c3fa5cd22/final_model.zip
+2025-06-17 10:12:40 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:12:54 | INFO     | Training run 239efa39d5704f64b2197a4c3fa5cd22 complete.
+2025-06-17 10:12:54 | INFO     | Model saved at: data/models/PPO/239efa39d5704f64b2197a4c3fa5cd22/final_model.zip
+2025-06-17 10:12:54 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/239efa39d5704f64b2197a4c3fa5cd22
+2025-06-17 10:12:54 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:13:13 | INFO     | Executing within MLflow Run ID: 48271bbbcaad4fcd969f505271e6eb0e
+2025-06-17 10:13:13 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:13:13 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:13:13 | INFO     | Running data preparation script...
+2025-06-17 10:13:14 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:13:15 | INFO     | Creating forex_com broker instance
+2025-06-17 10:13:15 | INFO     | Creating forex calendar instance
+2025-06-17 10:13:15 | INFO     | Authenticating with forex_com...
+2025-06-17 10:13:15 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:13:15 | INFO     | Successfully authenticated with Forex.com. Session: 5caf97db...
+2025-06-17 10:13:15 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:13:15 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:13:15 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:13:16 | INFO     | Standardizing data format...
+2025-06-17 10:13:16 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:13:16 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:13:16 | INFO     | Data quality score: 0.90
+2025-06-17 10:13:16 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:13:16 | INFO     | Preparing data for Qlib...
+2025-06-17 10:13:16 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:13:16 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:13:16 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:13:18 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:13:18 | INFO     | --- Running: Build Features ---
+2025-06-17 10:13:21 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:13:21 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:13:21 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:13:21 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:13:21 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:13:21 | INFO     | Creating environment 'default'
+2025-06-17 10:13:21 | INFO     | Creating environment 'default'
+2025-06-17 10:13:21 | INFO     | Environments created successfully.
+2025-06-17 10:13:21 | INFO     | Training PPO agent...
+2025-06-17 10:13:21 | INFO     | Creating agent 'PPO'
+2025-06-17 10:13:21 | INFO     | Creating PPO model...
+2025-06-17 10:13:52 | INFO     | Agent training completed.
+2025-06-17 10:13:52 | INFO     | Saving final model to data/models/PPO/48271bbbcaad4fcd969f505271e6eb0e/final_model.zip...
+2025-06-17 10:13:52 | INFO     | Model saved to data/models/PPO/48271bbbcaad4fcd969f505271e6eb0e/final_model.zip
+2025-06-17 10:13:52 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:14:03 | INFO     | Training run 48271bbbcaad4fcd969f505271e6eb0e complete.
+2025-06-17 10:14:03 | INFO     | Model saved at: data/models/PPO/48271bbbcaad4fcd969f505271e6eb0e/final_model.zip
+2025-06-17 10:14:03 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/48271bbbcaad4fcd969f505271e6eb0e
+2025-06-17 10:14:03 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:17:28 | INFO     | Executing within MLflow Run ID: 07f0d23ee4ee4347ac018e388e072801
+2025-06-17 10:17:28 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:17:28 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:17:28 | INFO     | Running data preparation script...
+2025-06-17 10:17:28 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:17:29 | INFO     | Creating forex_com broker instance
+2025-06-17 10:17:29 | INFO     | Creating forex calendar instance
+2025-06-17 10:17:29 | INFO     | Authenticating with forex_com...
+2025-06-17 10:17:29 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:17:30 | INFO     | Successfully authenticated with Forex.com. Session: c6ea0168...
+2025-06-17 10:17:30 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:17:30 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:17:30 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:17:30 | INFO     | Standardizing data format...
+2025-06-17 10:17:30 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:17:30 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:17:30 | INFO     | Data quality score: 0.90
+2025-06-17 10:17:30 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:17:30 | INFO     | Preparing data for Qlib...
+2025-06-17 10:17:30 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:17:30 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:17:30 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:17:33 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:17:33 | INFO     | --- Running: Build Features ---
+2025-06-17 10:17:35 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:17:35 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:17:35 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:17:35 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:17:35 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:17:35 | INFO     | Creating environment 'default'
+2025-06-17 10:17:35 | INFO     | Creating environment 'default'
+2025-06-17 10:17:35 | INFO     | Environments created successfully.
+2025-06-17 10:17:35 | INFO     | Training PPO agent...
+2025-06-17 10:17:35 | INFO     | Creating agent 'PPO'
+2025-06-17 10:17:35 | INFO     | Creating PPO model...
+2025-06-17 10:18:04 | INFO     | Agent training completed.
+2025-06-17 10:18:04 | INFO     | Saving final model to data/models/PPO/07f0d23ee4ee4347ac018e388e072801/final_model.zip...
+2025-06-17 10:18:04 | INFO     | Model saved to data/models/PPO/07f0d23ee4ee4347ac018e388e072801/final_model.zip
+2025-06-17 10:18:04 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:18:16 | INFO     | Training run 07f0d23ee4ee4347ac018e388e072801 complete.
+2025-06-17 10:18:16 | INFO     | Model saved at: data/models/PPO/07f0d23ee4ee4347ac018e388e072801/final_model.zip
+2025-06-17 10:18:16 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/07f0d23ee4ee4347ac018e388e072801
+2025-06-17 10:18:16 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:21:17 | INFO     | Executing within MLflow Run ID: bd721e8970424f74937a448aebff57d7
+2025-06-17 10:21:17 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:21:17 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:21:17 | INFO     | Running data preparation script...
+2025-06-17 10:21:17 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:21:18 | INFO     | Creating forex_com broker instance
+2025-06-17 10:21:18 | INFO     | Creating forex calendar instance
+2025-06-17 10:21:18 | INFO     | Authenticating with forex_com...
+2025-06-17 10:21:18 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:21:19 | INFO     | Successfully authenticated with Forex.com. Session: b7e5cd13...
+2025-06-17 10:21:19 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:21:19 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:21:19 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:21:19 | INFO     | Standardizing data format...
+2025-06-17 10:21:19 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:21:19 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:21:19 | INFO     | Data quality score: 0.90
+2025-06-17 10:21:19 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:21:19 | INFO     | Preparing data for Qlib...
+2025-06-17 10:21:19 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:21:20 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:21:20 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:21:22 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:21:22 | INFO     | --- Running: Build Features ---
+2025-06-17 10:21:25 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:21:25 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:21:25 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:21:25 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:21:25 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:21:25 | INFO     | Creating environment 'default'
+2025-06-17 10:21:25 | INFO     | Creating environment 'default'
+2025-06-17 10:21:25 | INFO     | Environments created successfully.
+2025-06-17 10:21:25 | INFO     | Training PPO agent...
+2025-06-17 10:21:25 | INFO     | Creating agent 'PPO'
+2025-06-17 10:21:25 | INFO     | Creating PPO model...
+2025-06-17 10:21:54 | INFO     | Agent training completed.
+2025-06-17 10:21:54 | INFO     | Saving final model to data/models/PPO/bd721e8970424f74937a448aebff57d7/final_model.zip...
+2025-06-17 10:21:54 | INFO     | Model saved to data/models/PPO/bd721e8970424f74937a448aebff57d7/final_model.zip
+2025-06-17 10:21:54 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:22:09 | INFO     | Training run bd721e8970424f74937a448aebff57d7 complete.
+2025-06-17 10:22:09 | INFO     | Model saved at: data/models/PPO/bd721e8970424f74937a448aebff57d7/final_model.zip
+2025-06-17 10:22:09 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/bd721e8970424f74937a448aebff57d7
+2025-06-17 10:22:09 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:22:52 | INFO     | Executing within MLflow Run ID: dc28ccac7e634e1f8cd788f74421d85c
+2025-06-17 10:22:52 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:22:52 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:22:52 | INFO     | Running data preparation script...
+2025-06-17 10:22:53 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:22:54 | INFO     | Creating forex_com broker instance
+2025-06-17 10:22:54 | INFO     | Creating forex calendar instance
+2025-06-17 10:22:54 | INFO     | Authenticating with forex_com...
+2025-06-17 10:22:54 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:22:54 | INFO     | Successfully authenticated with Forex.com. Session: 9ec5356a...
+2025-06-17 10:22:54 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:22:54 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:22:54 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:22:55 | INFO     | Standardizing data format...
+2025-06-17 10:22:55 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:22:55 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:22:55 | INFO     | Data quality score: 0.90
+2025-06-17 10:22:55 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:22:55 | INFO     | Preparing data for Qlib...
+2025-06-17 10:22:55 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:22:55 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:22:55 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:22:58 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:22:58 | INFO     | --- Running: Build Features ---
+2025-06-17 10:23:00 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:23:00 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:23:00 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:23:00 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:23:00 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:23:00 | INFO     | Creating environment 'default'
+2025-06-17 10:23:00 | INFO     | Creating environment 'default'
+2025-06-17 10:23:00 | INFO     | Environments created successfully.
+2025-06-17 10:23:00 | INFO     | Training PPO agent...
+2025-06-17 10:23:00 | INFO     | Creating agent 'PPO'
+2025-06-17 10:23:00 | INFO     | Creating PPO model...
+2025-06-17 10:23:30 | INFO     | Agent training completed.
+2025-06-17 10:23:30 | INFO     | Saving final model to data/models/PPO/dc28ccac7e634e1f8cd788f74421d85c/final_model.zip...
+2025-06-17 10:23:30 | INFO     | Model saved to data/models/PPO/dc28ccac7e634e1f8cd788f74421d85c/final_model.zip
+2025-06-17 10:23:30 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:23:44 | INFO     | Training run dc28ccac7e634e1f8cd788f74421d85c complete.
+2025-06-17 10:23:44 | INFO     | Model saved at: data/models/PPO/dc28ccac7e634e1f8cd788f74421d85c/final_model.zip
+2025-06-17 10:23:44 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/dc28ccac7e634e1f8cd788f74421d85c
+2025-06-17 10:23:44 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 10:53:12 | INFO     | Creating agent 'PPO'
+2025-06-17 10:53:12 | INFO     | Creating PPO model...
+2025-06-17 10:53:12 | INFO     | Creating agent 'NON_EXISTENT'
+2025-06-17 10:53:12 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 10:53:12 | INFO     | Creating PPO model...
+2025-06-17 10:53:12 | INFO     | Creating PPO model...
+2025-06-17 10:53:12 | INFO     | Creating PPO model...
+2025-06-17 10:53:12 | WARNING  | No trading accounts found in API response.
+2025-06-17 10:53:12 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 10:53:12 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 10:53:12 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 10:53:13 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 10:53:13 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:53:13 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 10:53:13 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:53:13 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 10:53:13 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:53:13 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 10:53:13 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:53:13 | INFO     | Successfully authenticated with Forex.com. Session: 3ca035d7...
+2025-06-17 10:53:13 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 10:53:14 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:53:15 | INFO     | Order placed successfully: 555
+2025-06-17 10:53:15 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 10:53:15 | INFO     | Order cancelled successfully: 123
+2025-06-17 10:53:15 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 10:53:15 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 10:53:15 | INFO     | Creating environment 'default'
+2025-06-17 10:53:15 | INFO     | Creating environment 'unknown'
+2025-06-17 10:53:15 | ERROR    | Environment 'unknown' not found.
+2025-06-17 10:53:15 | INFO     | Opening LONG position.
+2025-06-17 10:53:15 | INFO     | Opening SHORT position.
+2025-06-17 10:53:15 | INFO     | Closing open position.
+2025-06-17 10:53:15 | INFO     | Starting strategy: RLStrategy
+2025-06-17 10:53:15 | INFO     | Starting strategy: RLStrategy
+2025-06-17 10:53:15 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 10:53:15 | INFO     | Opening LONG position.
+2025-06-17 10:55:28 | INFO     | Executing within MLflow Run ID: c3dcafccbc6b456fba8092711cd087b7
+2025-06-17 10:55:28 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 10:55:28 | INFO     | Starting full data preparation pipeline...
+2025-06-17 10:55:28 | INFO     | Running data preparation script...
+2025-06-17 10:55:29 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 10:55:30 | INFO     | Creating forex_com broker instance
+2025-06-17 10:55:30 | INFO     | Creating forex calendar instance
+2025-06-17 10:55:30 | INFO     | Authenticating with forex_com...
+2025-06-17 10:55:30 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 10:55:30 | INFO     | Successfully authenticated with Forex.com. Session: d1c975cc...
+2025-06-17 10:55:30 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 10:55:30 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 10:55:30 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 10:55:31 | INFO     | Standardizing data format...
+2025-06-17 10:55:31 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 10:55:31 | INFO     | Standardization complete. Final records: 365
+2025-06-17 10:55:31 | INFO     | Data quality score: 0.90
+2025-06-17 10:55:31 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 10:55:31 | INFO     | Preparing data for Qlib...
+2025-06-17 10:55:31 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 10:55:31 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 10:55:31 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 10:55:34 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 10:55:34 | INFO     | --- Running: Build Features ---
+2025-06-17 10:55:37 | INFO     | --- Finished: Build Features ---
+2025-06-17 10:55:37 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 10:55:37 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 10:55:37 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 10:55:37 | INFO     | Creating training and evaluation environments...
+2025-06-17 10:55:37 | INFO     | Creating environment 'default'
+2025-06-17 10:55:37 | INFO     | Creating environment 'default'
+2025-06-17 10:55:37 | INFO     | Environments created successfully.
+2025-06-17 10:55:37 | INFO     | Training PPO agent...
+2025-06-17 10:55:37 | INFO     | Creating agent 'PPO'
+2025-06-17 10:55:37 | INFO     | Creating PPO model...
+2025-06-17 10:56:07 | INFO     | Agent training completed.
+2025-06-17 10:56:07 | INFO     | Saving final model to data/models/PPO/c3dcafccbc6b456fba8092711cd087b7/final_model.zip...
+2025-06-17 10:56:07 | INFO     | Model saved to data/models/PPO/c3dcafccbc6b456fba8092711cd087b7/final_model.zip
+2025-06-17 10:56:07 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 10:56:22 | INFO     | Training run c3dcafccbc6b456fba8092711cd087b7 complete.
+2025-06-17 10:56:22 | INFO     | Model saved at: data/models/PPO/c3dcafccbc6b456fba8092711cd087b7/final_model.zip
+2025-06-17 10:56:22 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/c3dcafccbc6b456fba8092711cd087b7
+2025-06-17 10:56:22 | INFO     | To view MLflow UI, run: mlflow ui

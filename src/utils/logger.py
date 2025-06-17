@@ -1,5 +1,4 @@
-"""
-Logging configuration using loguru
+"""Logging configuration using loguru
 """
 
 import os
@@ -9,75 +8,66 @@ from typing import Optional
 
 from loguru import logger
 
+from src.utils.settings import settings
 
-def setup_logging(
-    log_level: str = None,
-    log_file: Optional[str] = None,
-    enable_console: bool = True
-):
-    """
-    Setup logging configuration
-    
+
+def setup_logging(log_level: Optional[str] = None):
+    """Set up logging configuration.
     Args:
-        log_level: Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-        log_file: Optional log file path
-        enable_console: Whether to enable console logging
+        log_level: Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL).
     """
     # Get log level from environment or default to INFO
     if log_level is None:
-        log_level = os.getenv("LOG_LEVEL", "INFO")
-    
-    # Remove default logger
-    logger.remove()
-    
-    # Console logging
-    if enable_console:
-        logger.add(
-            sys.stdout,
-            level=log_level,
-            format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
-                   "<level>{level: <8}</level> | "
-                   "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | "
-                   "<level>{message}</level>",
-            colorize=True
+        log_level = settings.log_level.upper()
+
+    log_config = {
+        "handlers": [
+            {
+                "sink": "sys.stdout",
+                "format": "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
+                "level": log_level,
+            }
+        ]
+    }
+
+    # Add file handler if logs_path is configured
+    try:
+        log_file = settings.logs_path / "agent.log"
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        log_config["handlers"].append(
+            {
+                "sink": log_file,
+                "level": log_level,
+                "format": (
+                    "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | "
+                    "{name}:{function}:{line} | {message}"
+                ),
+                "rotation": "10 MB",
+                "retention": "30 days",
+                "enqueue": True,  # Make logging non-blocking
+                "backtrace": True,
+                "diagnose": True,
+            }
         )
-    
-    # File logging
-    if log_file:
-        # Ensure log directory exists
-        log_path = Path(log_file)
-        log_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        logger.add(
-            log_file,
-            level=log_level,
-            format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} | {message}",
-            rotation="10 MB",
-            retention="30 days",
-            compression="zip"
-        )
+    except Exception as e:
+        logger.warning(f"Could not configure file logging: {e}")
+
+    logger.configure(**log_config)
 
 
-def get_logger(name: str = None):
-    """
-    Get a logger instance
-    
+def get_logger(name: Optional[str] = None):
+    """Get a logger instance.
     Args:
-        name: Logger name (usually __name__)
-        
+        name: Logger name (usually __name__).
     Returns:
-        Logger instance
+        Logger instance.
     """
     # Setup logging if not already configured
     if not logger._core.handlers:
         setup_logging()
-    
-    if name:
-        return logger.bind(name=name)
-    return logger
+
+    return logger.bind(name=name) if name else logger
 
 
 # Setup default logging
-setup_logging(
-    log_file="logs/system/agentic_trading.log"
-) 
+setup_logging()

@@ -1,15 +1,14 @@
-"""
-Authentication handler for Forex.com broker.
+"""Authentication handler for Forex.com broker.
 """
 
-import os
-from typing import Dict, Any, Optional
 import json
+import os
+from typing import Any, Dict, Optional
 
 import aiohttp
 
-from src.utils.logger import get_logger
 from src.brokers.exceptions import JsonParseError
+from src.utils.logger import get_logger
 
 
 class AuthenticationHandler:
@@ -18,12 +17,12 @@ class AuthenticationHandler:
     AUTH_BASE_URL = "https://ciapi.cityindex.com/v2"
 
     def __init__(self, api_key: str, api_secret: str):
-        """
-        Initialize the authentication handler.
+        """Initialize the authentication handler.
 
         Args:
             api_key: GainCapital username.
             api_secret: GainCapital password.
+
         """
         self.username = api_key
         self.password = api_secret
@@ -42,11 +41,11 @@ class AuthenticationHandler:
         return self._authenticated and self.session_token is not None
 
     async def authenticate(self) -> bool:
-        """
-        Authenticate with GainCapital API v2.
+        """Authenticate with GainCapital API v2.
 
         Returns:
             True if authentication is successful, False otherwise.
+
         """
         try:
             async with aiohttp.ClientSession() as session:
@@ -78,7 +77,7 @@ class AuthenticationHandler:
                         raise JsonParseError(
                             f"Auth endpoint returned non-JSON response. Status: {response.status}"
                         ) from e
-                    
+
                     self.logger.debug(f"Authentication response status: {response.status}")
                     self.logger.debug(f"Authentication response data: {data}")
 
@@ -105,14 +104,14 @@ class AuthenticationHandler:
             return False
 
     def get_headers(self) -> Dict[str, str]:
-        """
-        Get headers with session token for authenticated requests.
+        """Get headers with session token for authenticated requests.
 
         Returns:
             A dictionary of headers for authenticated requests.
 
         Raises:
             Exception: If not authenticated.
+
         """
         if not self.is_authenticated:
             raise Exception("Not authenticated - call authenticate() first")
@@ -122,4 +121,4 @@ class AuthenticationHandler:
             "Accept": "application/json",
             "Session": self.session_token,
             "UserName": self.username
-        } 
+        }

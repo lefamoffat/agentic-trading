@@ -1,5 +1,4 @@
-"""
-Exports for the strategies module.
+"""Exports for the strategies module.
 """
 from .base import BaseStrategy
 from .factory import StrategyFactory, strategy_factory
@@ -10,4 +9,4 @@ __all__ = [
     "RLStrategy",
     "StrategyFactory",
     "strategy_factory",
-] 
+]

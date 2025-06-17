@@ -4,33 +4,22 @@ This document provides guidelines for developers working on the Agentic Trading 
 
 ## Running Tests
 
-The project has a comprehensive test suite using `pytest`. A helper script is provided to run different categories of tests.
+Tests are organised by **module-local `tests/` folders** inside `src/` and a root-level `integration_tests/` directory for heavier checks.
+
+Typical commands:
 
 ```bash
-# Run unit tests (default, fast)
-uv run python scripts/run_tests.py
+# 1️⃣ Fast unit + component tests (CI default)
+uv run pytest -m "not integration"
 
-# Run all tests (unit and integration)
-uv run python scripts/run_tests.py --all
+# 2️⃣ Full suite including integration (nightly / manual)
+uv run pytest -m integration
 
-# Run only integration tests (requires credentials)
-uv run python scripts/run_tests.py --integration
+# 3️⃣ Coverage report for fast suite
+uv run pytest -m "not integration" --cov=src
 
-# Run a specific test by keyword
-uv run python scripts/run_tests.py --integration -k "test_real_get_live_price"
-```
-
-For more granular control, you can also invoke `pytest` directly:
-
-```bash
-# Run all tests
-uv run pytest
-
-# Run with coverage report
-uv run pytest --cov=src
-
-# Run a specific test file
-uv run pytest tests/test_forex_com_broker.py -v
+# 4️⃣ Run a specific integration test (requires creds / services)
+uv run pytest -m integration -k "test_real_get_live_price"
 ```
 
 ## Code Quality

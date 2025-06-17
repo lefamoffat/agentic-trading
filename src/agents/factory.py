@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Factory for creating reinforcement learning agents.
+"""Factory for creating reinforcement learning agents.
 """
 from typing import Dict, Type
 
@@ -11,8 +10,7 @@ from src.utils.logger import get_logger
 
 
 class AgentFactory:
-    """
-    A factory for creating reinforcement learning agents.
+    """A factory for creating reinforcement learning agents.
 
     This factory allows for the creation of different RL agent implementations
     based on a specified name.
@@ -26,12 +24,12 @@ class AgentFactory:
         }
 
     def register_agent(self, name: str, agent_class: Type[BaseAgent]) -> None:
-        """
-        Register a new agent class.
+        """Register a new agent class.
 
         Args:
             name (str): The name to register the agent under.
             agent_class (Type[BaseAgent]): The class of the agent.
+
         """
         self.logger.info(f"Registering agent: {name}")
         self._agents[name] = agent_class
@@ -43,8 +41,7 @@ class AgentFactory:
         hyperparams: Dict = None,
         tensorboard_log_path: str = None,
     ) -> BaseAgent:
-        """
-        Create an instance of an RL agent.
+        """Create an instance of an RL agent.
 
         Args:
             name (str): The name of the agent to create.
@@ -57,6 +54,7 @@ class AgentFactory:
 
         Raises:
             ValueError: If the specified agent name is not registered.
+
         """
         self.logger.info(f"Creating agent '{name}'")
         agent_class = self._agents.get(name)
@@ -73,4 +71,4 @@ class AgentFactory:
 
 
 # Global instance of the factory
-agent_factory = AgentFactory() 
+agent_factory = AgentFactory()

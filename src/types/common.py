@@ -1,11 +1,11 @@
+"""Common, project-wide type aliases.
 """
-Common, project-wide type aliases.
-"""
-from typing import Dict, List, Optional, Union, Any, Tuple, TypeAlias, Callable
-import pandas as pd
 from datetime import datetime
+from typing import Any, Callable, Dict, List, Optional, Tuple, TypeAlias, Union
 
-from .enums import OrderType, OrderSide, SignalType
+import pandas as pd
+
+from .enums import OrderSide, OrderType, SignalType
 
 # Core trading types
 SymbolType: TypeAlias = str
@@ -44,4 +44,4 @@ StrategyFunction: TypeAlias = Callable[[pd.DataFrame], pd.Series]
 # Validation types
 ValidationResult: TypeAlias = Dict[str, Union[bool, List[str]]]
 ErrorContext: TypeAlias = Dict[str, Any]
-ProcessingResult: TypeAlias = Tuple[bool, Optional[pd.DataFrame], Optional[str]] 
+ProcessingResult: TypeAlias = Tuple[bool, Optional[pd.DataFrame], Optional[str]]

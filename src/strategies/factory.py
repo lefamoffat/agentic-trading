@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Factory for creating trading strategies.
+"""Factory for creating trading strategies.
 """
 from typing import Dict, Type
 
@@ -12,8 +11,7 @@ from src.utils.logger import get_logger
 
 
 class StrategyFactory:
-    """
-    A factory for creating trading strategies.
+    """A factory for creating trading strategies.
 
     This factory allows for the creation of different strategy implementations
     based on a specified name.
@@ -27,12 +25,12 @@ class StrategyFactory:
         }
 
     def register_strategy(self, name: str, strategy_class: Type[BaseStrategy]) -> None:
-        """
-        Register a new strategy class.
+        """Register a new strategy class.
 
         Args:
             name (str): The name to register the strategy under.
             strategy_class (Type[BaseStrategy]): The class of the strategy.
+
         """
         self.logger.info(f"Registering strategy: {name}")
         self._strategies[name] = strategy_class
@@ -40,8 +38,7 @@ class StrategyFactory:
     def create_strategy(
         self, name: str, agent: BaseAgent, broker: BaseBroker, **kwargs
     ) -> BaseStrategy:
-        """
-        Create an instance of a trading strategy.
+        """Create an instance of a trading strategy.
 
         Args:
             name (str): The name of the strategy to create.
@@ -54,6 +51,7 @@ class StrategyFactory:
 
         Raises:
             ValueError: If the specified strategy name is not registered.
+
         """
         self.logger.info(f"Creating strategy '{name}'")
         strategy_class = self._strategies.get(name)
@@ -66,4 +64,4 @@ class StrategyFactory:
 
 
 # Global instance of the factory
-strategy_factory = StrategyFactory() 
+strategy_factory = StrategyFactory()

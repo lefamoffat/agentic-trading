@@ -9,7 +9,7 @@ alwaysApply: false
 - [ ] Google-style docstrings
 - [ ] Following dataclass patterns for configs
 - [ ] Appropriate logging usage
-- [ ] Tests included
+- [ ] Tests included and located in module-local `tests/` directory (integration tests belong in `integration_tests/`)
 - [ ] No hardcoded values
 - [ ] No placeholder logic, estimations, or "hacky" code
 - [ ] Follows established naming conventions 

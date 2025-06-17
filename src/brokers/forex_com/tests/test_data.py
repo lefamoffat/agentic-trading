@@ -1,15 +1,16 @@
-"""
-Tests for the Forex.com DataHandler.
+"""Tests for the Forex.com DataHandler.
 """
 
-import pytest
+from unittest.mock import AsyncMock, Mock
+
 import pandas as pd
-from unittest.mock import Mock, AsyncMock
+import pytest
 
-from src.brokers.forex_com.data import DataHandler
 from src.brokers.forex_com.api import ApiClient
+from src.brokers.forex_com.data import DataHandler
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.types import Timeframe
+
 
 @pytest.fixture
 def mock_api_client():
@@ -37,13 +38,13 @@ def mock_history_response():
 async def test_get_historical_data_success(data_handler, mock_api_client, mock_history_response):
     """Test successfully retrieving and parsing historical data."""
     mock_api_client._make_request.return_value = (200, mock_history_response)
-    
+
     df = await data_handler.get_historical_data(
         symbol="EUR/USD", timeframe=Timeframe.H1.value, bars=2
     )
-    
+
     mock_api_client._make_request.assert_called_once()
-    
+
     assert isinstance(df, pd.DataFrame)
     assert len(df) == 2
     assert "open" in df.columns
@@ -55,18 +56,18 @@ async def test_get_live_price_success(data_handler, mock_api_client):
     """Test successfully retrieving a live price."""
     hist_response = {ForexComApiResponseKeys.PRICE_BARS: [{"BarDate": "/Date(1704067200000)/", "Close": 1.25}]}
     info_response = {"MarketInformation": {"MarketSpreads": [{"Spread": 0.0002}]}}
-    
+
     # Mock the two separate API calls made by get_live_price
     mock_api_client._make_request = AsyncMock(side_effect=[
         (200, hist_response),
         (200, info_response)
     ])
-    
+
     price_data = await data_handler.get_live_price("EUR/USD")
-    
+
     mock_api_client.get_market_id.assert_called_once_with("EUR/USD")
     assert mock_api_client._make_request.call_count == 2
-    
+
     assert price_data["symbol"] == "EUR/USD"
     assert price_data["mid"] == 1.25
     assert price_data["spread"] == 0.0002

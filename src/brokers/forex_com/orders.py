@@ -1,35 +1,33 @@
-"""
-Order handler for Forex.com broker.
+"""Order handler for Forex.com broker.
 """
 
 import time
 from typing import List, Optional
 
+from src.brokers.base import Order, OrderSide, OrderStatus, OrderType
 from src.brokers.forex_com.api import ApiClient
-from src.brokers.base import Order, OrderType, OrderSide, OrderStatus
+from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.brokers.symbol_mapper import SymbolMapper
 from src.utils.logger import get_logger
-from src.brokers.forex_com.types import ForexComApiResponseKeys
 
 
 class OrderHandler:
     """Handles order-related operations."""
 
     def __init__(self, api_client: ApiClient, symbol_mapper: SymbolMapper):
-        """
-        Initialize the order handler.
+        """Initialize the order handler.
 
         Args:
             api_client: The API client instance.
             symbol_mapper: The symbol mapper instance.
+
         """
         self.api_client = api_client
         self.symbol_mapper = symbol_mapper
         self.logger = get_logger(__name__)
 
     async def get_orders(self, status: Optional[OrderStatus] = None) -> List[Order]:
-        """
-        Get active orders using GainCapital API v2.
+        """Get active orders using GainCapital API v2.
 
         Note: The API endpoint seems to only return active orders, so the status filter is ignored.
 
@@ -38,6 +36,7 @@ class OrderHandler:
 
         Returns:
             A list of Order objects.
+
         """
         try:
             endpoint = "/order/activeorders"
@@ -86,18 +85,18 @@ class OrderHandler:
             raise
 
     async def place_order(self, order: Order) -> str:
-        """
-        Place an order using GainCapital API v2.
+        """Place an order using GainCapital API v2.
 
         Args:
             order: An Order object with order details.
 
         Returns:
             The order ID string.
+
         """
         try:
             market_id = await self.api_client.get_market_id(order.symbol)
-            
+
             user_account_id = self.api_client.auth_handler.user_account.get("TradingAccountId") if self.api_client.auth_handler.user_account else 0
 
             if order.order_type == OrderType.MARKET:
@@ -131,14 +130,14 @@ class OrderHandler:
             raise
 
     async def cancel_order(self, order_id: str) -> bool:
-        """
-        Cancel an order using GainCapital API v2.
+        """Cancel an order using GainCapital API v2.
 
         Args:
             order_id: The ID of the order to cancel.
 
         Returns:
             True if cancellation was successful, False otherwise.
+
         """
         try:
             user_account_id = self.api_client.auth_handler.user_account.get("TradingAccountId") if self.api_client.auth_handler.user_account else 0

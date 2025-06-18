@@ -1,4 +1,4 @@
-# Agentic Trading - EUR/USD RL Trading System
+# Agentic Trading - RL Trading System
 
 A sophisticated multi-asset reinforcement learning trading system with a broker-agnostic architecture, built with Microsoft Qlib and PyTorch.
 
@@ -39,7 +39,7 @@ For a deeper dive into the system's design, please see the [**Architecture Philo
 
 -   Python 3.11+
 -   [uv](https://github.com/astral-sh/uv) package manager
--   API keys for data providers (forex.com)
+-   API keys for e.g. data providers, broker integrations (e.g. forex.com), etc.
 
 ## 🛠️ Installation
 
@@ -76,25 +76,6 @@ The system uses YAML configuration files in the `config/` directory:
 -   **`data_config.yaml`** - Data sources and API configurations
 -   **`trading_config.yaml`** - Trading parameters and risk management
 -   **`qlib_config.yaml`** - Qlib initialization and setup
-
-### Environment Variables (.env)
-
-```bash
-# API Keys
-FOREX_COM_USERNAME=your_username_here
-FOREX_COM_PASSWORD=your_password_here
-FOREX_COM_APP_KEY=your_app_key_here
-FOREX_COM_SANDBOX=true
-
-# Environment
-ENVIRONMENT=development
-LOG_LEVEL=INFO
-
-# Trading
-POSITION_SIZE=10000
-MAX_DRAWDOWN=0.10
-STOP_LOSS=0.02
-```
 
 ## 📊 Project Structure
 

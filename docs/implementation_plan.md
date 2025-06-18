@@ -110,7 +110,25 @@ This foundational work ensures that as we add more complex features in subsequen
 
 ---
 
-## Phase 3: Cloud Deployment & Automation (AWS)
+## Phase 3: Advanced "Smart" Training
+
+**Goal:** Evolve the HPO system into a meta-learning controller that can reason about past experiments and manage different trading styles autonomously.
+
+### Exploration Paths:
+
+1.  **LLM-Driven HPO:**
+
+    -   Develop a controller that periodically fetches all experiment data from the MLflow server.
+    -   Feed this data into an LLM with a prompt designed to analyze the results and suggest a new, more promising search space for Optuna.
+    -   Example Prompt: _"Given these results, which hyperparameter ranges should we explore next to improve the Sharpe ratio for a day-trading model?"_
+
+2.  **Multi-Model Management:**
+    -   Extend the system to manage separate, independent training pipelines for different "trading styles" (e.g., 1-minute scalping, 4-hour swing trading).
+    -   Each style would have its own set of Optuna studies and MLflow experiments, allowing the system to optimize them independently.
+
+---
+
+## Phase 4: Cloud Deployment & Automation (AWS)
 
 **Goal:** Deploy the entire system to AWS, enabling 24/7 live trading and automated training without relying on a local machine.
 
@@ -150,18 +168,51 @@ This foundational work ensures that as we add more complex features in subsequen
 
 ---
 
-## Phase 4: Future Goal - Advanced "Smart" Training
+## Phase 5: Unified Configuration & End-to-End Dashboard
 
-**Goal:** Evolve the HPO system into a meta-learning controller that can reason about past experiments and manage different trading styles autonomously.
+**Goal:** Remove redundant environment variables, introduce a single YAML-driven configuration system, provide a one-command CLI, and upgrade the Streamlit simulation into a full trading dashboard with real-time controls and session recording.
 
-### Exploration Paths:
+**Key Technologies:**
 
-1.  **LLM-Driven HPO:**
+-   **Pydantic**: Type-safe config loader that merges `config/*.yaml` and allows optional env overrides.
+-   **Typer**: Developer-friendly CLI (`agentic`) that wraps common workflows (init, build-features, train, simulate).
+-   **Streamlit + TradingView component**: Rich dashboard with candlestick chart, play/pause, speed control, and live action markers.
+-   **Parquet / JSONL**: Lightweight format for saving simulation sessions for later behavioural-cloning.
 
-    -   Develop a controller that periodically fetches all experiment data from the MLflow server.
-    -   Feed this data into an LLM with a prompt designed to analyze the results and suggest a new, more promising search space for Optuna.
-    -   Example Prompt: _"Given these results, which hyperparameter ranges should we explore next to improve the Sharpe ratio for a day-trading model?"_
+### Sequential Implementation Steps
 
-2.  **Multi-Model Management:**
-    -   Extend the system to manage separate, independent training pipelines for different "trading styles" (e.g., 1-minute scalping, 4-hour swing trading).
-    -   Each style would have its own set of Optuna studies and MLflow experiments, allowing the system to optimize them independently.
+1. **Unify Configuration**
+
+    - Move `POSITION_SIZE`, `MAX_DRAWDOWN`, `STOP_LOSS` (and similar) from `.env` to `config/trading_config.yaml`.
+    - Create `src/utils/config.py` with a `AppConfig` Pydantic model that loads and validates all YAML files.
+    - Allow explicit env overrides via the pattern `TRADING__POSITION_SIZE`, but keep them optional.
+    - Update existing code to consume `AppConfig` instead of reading `os.getenv` for trading parameters.
+    - Update `README.md` to reflect the new configuration source.
+
+2. **Introduce CLI Wrapper**
+
+    - Add `src/cli.py` using Typer and expose as console-script `agentic`.
+    - Commands: `init`, `build-features`, `train`, `optimize`, `simulate`, `quickstart` (runs init ➜ build ➜ train ➜ simulate with defaults).
+    - Update documentation and examples accordingly.
+
+3. **Refactor Simulation → Dashboard**
+
+    - Embed TradingView (via the open-source `streamlit-tradingview-chart` or a custom lightweight-charts wrapper).
+    - Display live candles and overlay buy/sell markers as the agent steps through the environment.
+    - Add play/pause button and a speed slider (1×, 2×, 5×, MAX).
+    - Use an `asyncio` loop on the backend to throttle step execution according to the selected speed.
+
+4. **Session Recording**
+
+    - Buffer `(state, action, reward, timestamp)` tuples during simulation.
+    - On "Stop & Save", write to `data/sessions/{symbol}_{ts}.parquet`.
+    - Provide a helper script `scripts/training/behavioral_clone.py` that converts one or more sessions into an offline-RL dataset for imitation learning.
+
+5. **Docs & Cleanup**
+    - Remove deprecated keys from `.env.example` and regenerate sample YAML snippet in docs.
+    - Extend `docs/getting-started.md` with a "One-Command Quickstart".
+    - Keep CI green; lint and type-check new modules.
+
+**Status:** 🚧 _Not Started_
+
+---

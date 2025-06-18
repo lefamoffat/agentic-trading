@@ -14,6 +14,7 @@ from .mlflow import (
     start_experiment_run,
 )
 from .settings import Settings
+from .config import app_config
 
 __all__ = [
     "ConfigLoader",
@@ -25,4 +26,5 @@ __all__ = [
     "log_params",
     "log_sb3_model",
     "start_experiment_run",
+    "app_config",
 ]

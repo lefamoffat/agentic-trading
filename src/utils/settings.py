@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
+from .config import app_config
 
 
 class Settings:
@@ -27,12 +28,12 @@ class Settings:
     @property
     def environment(self) -> str:
         """Get environment (development, staging, production)."""
-        return os.getenv("ENVIRONMENT", "development")
+        return app_config.environment
 
     @property
     def log_level(self) -> str:
         """Get log level."""
-        return os.getenv("LOG_LEVEL", "INFO")
+        return app_config.log_level
 
     @property
     def forex_com_username(self) -> Optional[str]:
@@ -57,17 +58,17 @@ class Settings:
     @property
     def position_size(self) -> float:
         """Get default position size."""
-        return float(os.getenv("POSITION_SIZE", "10000"))
+        return app_config.trading.position_size
 
     @property
     def max_drawdown(self) -> float:
         """Get maximum drawdown limit."""
-        return float(os.getenv("MAX_DRAWDOWN", "0.10"))
+        return app_config.trading.max_drawdown
 
     @property
     def stop_loss(self) -> float:
         """Get default stop loss."""
-        return float(os.getenv("STOP_LOSS", "0.02"))
+        return app_config.trading.stop_loss
 
     # Paths
     @property

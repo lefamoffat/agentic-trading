@@ -17,6 +17,14 @@ from mlflow import ActiveRun
 from mlflow.models import infer_signature
 import os
 
+import subprocess
+import sys
+import time
+from pathlib import Path
+from urllib.parse import urljoin
+
+import requests
+
 __all__ = [
     "log_metrics",
     "log_params",
@@ -29,12 +37,93 @@ __all__ = [
 # ---------------------------------------------------------------------------
 
 
+def _tracking_uri() -> str:
+    """Return the effective MLflow tracking URI.
+
+    Defaults to ``http://127.0.0.1:5001`` if the env var is not set.
+    """
+    return os.getenv("MLFLOW_TRACKING_URI", _LOCAL_DEFAULTS[0])
+
+
+def _is_mlflow_reachable() -> bool:  # pragma: no cover
+    """Return True if a server is listening at the tracking URI."""
+    uri_env = os.getenv("MLFLOW_TRACKING_URI")
+    candidate_uris = [uri_env] if uri_env else _LOCAL_DEFAULTS
+
+    for uri in candidate_uris:
+        if uri is None:
+            continue
+        uri = uri.rstrip("/")
+
+        # HTTP ping
+        try:
+            resp = requests.get(urljoin(uri + "/", "api/2.0/mlflow/experiments/list"), timeout=2)
+            if resp.ok:
+                mlflow.set_tracking_uri(uri)
+                return True
+        except Exception:
+            pass
+
+        # Client fallback
+        try:
+            mlflow.tracking.MlflowClient(tracking_uri=uri).list_experiments()
+            mlflow.set_tracking_uri(uri)
+            return True
+        except Exception:
+            continue
+
+    return False
+
+
+def _start_local_mlflow_server(port: int = 5001) -> subprocess.Popen[bytes]:  # pragma: no cover
+    """Spawn a local MLflow server in the background (artifact store = ./mlruns)."""
+
+    # If it's already reachable we don't spawn another instance.
+    if _is_mlflow_reachable():
+        return None  # type: ignore[return-value]
+
+    backend_dir = Path("mlruns").resolve()
+    backend_dir.mkdir(exist_ok=True)
+
+    cmd = [
+        sys.executable,
+        "-m",
+        "mlflow.cli",
+        "server",
+        "--backend-store-uri",
+        str(backend_dir),
+        "--default-artifact-root",
+        str(backend_dir),
+        "--host",
+        "127.0.0.1",
+        "--port",
+        str(port),
+    ]
+
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # noqa: S603,S607
+
+    # Wait briefly for server to start
+    for _ in range(30):  # 15 seconds
+        if _is_mlflow_reachable():
+            mlflow.set_tracking_uri(_tracking_uri())
+            return proc
+        time.sleep(0.5)
+
+    proc.terminate()
+    raise RuntimeError("MLflow server failed to start within timeout.")
+
+
 def ensure_experiment(experiment_name: str) -> str:  # pragma: no cover
     """Return the experiment id, creating the experiment if it doesn't exist.
 
-    We **let MLflow pick the artifact location** so behaviour is consistent
-    with defaults (it will create `<backend-store>/<experiment_id>/artifacts`).
+    If the MLflow tracking URI is unreachable, a **local server is started**
+    automatically (host=127.0.0.1:5001, backend `./mlruns`).
     """
+    # Only auto-start when the user hasn't configured a tracking URI and the
+    # common local defaults aren't reachable.
+    if 'MLFLOW_TRACKING_URI' not in os.environ and not _is_mlflow_reachable():
+        _start_local_mlflow_server()
+
     client = mlflow.tracking.MlflowClient()
     exp = client.get_experiment_by_name(experiment_name)
     if exp is None:
@@ -155,3 +244,12 @@ def log_sb3_model(
         warnings.warn(f"[mlflow] Model registration skipped: {exc}")
 
     return logged_model.model_uri
+
+# ---------------------------------------------------------------------------
+# Helper constants
+# ---------------------------------------------------------------------------
+
+_LOCAL_DEFAULTS = [
+    "http://127.0.0.1:5001",
+    "http://localhost:5001",
+]

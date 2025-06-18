@@ -190,11 +190,13 @@ def train_agent_session(
         name="default",
         data=train_df,
         initial_balance=initial_balance,
+        trade_fee=0.0,
     ))
     eval_env = Monitor(environment_factory.create_environment(
         name="default",
         data=eval_df,
         initial_balance=initial_balance,
+        trade_fee=0.0,
     ))
     logger.info("Environments created successfully.")
 

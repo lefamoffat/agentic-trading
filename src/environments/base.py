@@ -75,22 +75,12 @@ class BaseTradingEnv(gym.Env, ABC):
 
     @abstractmethod
     def _take_action(self, action: Any) -> None:
-        """Execute a trading action.
-
-        Args:
-            action (Any): The action to be taken by the agent.
-
-        """
+        """Execute a trading action (to be optionally overridden by subclasses)."""
         raise NotImplementedError
 
     @abstractmethod
     def _calculate_reward(self) -> float:
-        """Calculate the reward for the current step.
-
-        Returns:
-            float: The reward value.
-
-        """
+        """Calculate the reward for the current step (optional override)."""
         raise NotImplementedError
 
     def step(self, action: Any) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:

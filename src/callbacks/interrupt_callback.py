@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """A callback to handle graceful shutdown on keyboard interrupt.
 """
+# Standard libs
 import signal
+import logging
 
+# Third-party
 from stable_baselines3.common.callbacks import BaseCallback
 
 
@@ -25,12 +28,12 @@ class GracefulShutdownCallback(BaseCallback):
         """
         self.original_handler = signal.getsignal(signal.SIGINT)
         signal.signal(signal.SIGINT, self._signal_handler)
-        self.logger.info("Registered SIGINT handler for graceful shutdown.")
+        logging.getLogger(__name__).info("Registered SIGINT handler for graceful shutdown.")
 
     def _signal_handler(self, signum, frame):
         """The handler that sets the shutdown flag.
         """
-        self.logger.warning("Shutdown signal received! Finishing current step and saving...")
+        logging.getLogger(__name__).warning("Shutdown signal received! Finishing current step and saving...")
         self.shutdown_requested = True
         # Restore original handler to allow force-exit if needed again
         if self.original_handler:
@@ -45,6 +48,6 @@ class GracefulShutdownCallback(BaseCallback):
 
         """
         if self.shutdown_requested:
-            self.logger.info("Stopping training gracefully.")
+            logging.getLogger(__name__).info("Stopping training gracefully.")
             return False
         return True

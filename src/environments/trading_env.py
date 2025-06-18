@@ -22,51 +22,43 @@ class Trade:
 
 
 class TradingEnv(BaseTradingEnv):
-    """A concrete trading environment for reinforcement learning.
+    """Simplified trading environment – explicit CLOSE action and realised PnL reward.
 
-    This environment simulates trading a single asset. It provides a simplified
-    action space (short, flat, long) and an observation space that includes
-    market data and the current portfolio status.
+    Action mapping (``spaces.Discrete(3)``)::
 
-    Attributes:
-        action_space (spaces.Discrete): The action space (Short, Flat, Long).
-        observation_space (spaces.Box): The observation space.
-        trade_fee (float): The fee for executing a trade.
+        0 – OPEN LONG
+        1 – CLOSE (flat)
+        2 – OPEN SHORT
 
+    Reward::
+
+        realised_PnL_pct * 100  (when a position is closed)  −  living_cost
+
+    where ``living_cost`` defaults to ``0.01`` percentage-points per step.
     """
 
     def __init__(
         self,
         data: pd.DataFrame,
-        initial_balance: float = 10000.0,
-        trade_fee: float = 0.001,
-    ):
-        """Initialize the trading environment.
-
-        Args:
-            data (pd.DataFrame): DataFrame containing market data and features.
-            initial_balance (float): The initial account balance.
-            trade_fee (float): The transaction fee as a fraction of the trade amount.
-
-        """
+        initial_balance: float = 10_000.0,
+        trade_fee: float = 0.0,
+        living_cost: float = 0.01,
+    ) -> None:
         super().__init__(data, initial_balance)
         self.trade_fee = trade_fee
+        self.living_cost = living_cost
 
-        # Action space: 0 (Short), 1 (Flat), 2 (Long)
-        self.action_space = spaces.Discrete(len(Position))
+        # 0 = OPEN LONG, 1 = CLOSE, 2 = OPEN SHORT
+        self.action_space = spaces.Discrete(3)
 
-        # Observation space: [current_price, balance, current_position] + market features
-        # The shape is 3 (for price, balance, position) + number of feature columns
         num_features = len(self.data.columns)
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(3 + num_features,), dtype=np.float32
         )
 
-        # Portfolio state
-        self._position = Position.FLAT
-        self._position_entry_price = 0.0
-        self._last_portfolio_value = self.initial_balance
-        self._portfolio_value = self.initial_balance
+        # State
+        self._position: Position = Position.FLAT
+        self._position_entry_price: float = 0.0
         self.trade_history: List[Trade] = []
 
     @property
@@ -100,7 +92,9 @@ class TradingEnv(BaseTradingEnv):
                 [
                     features[self.data.columns.get_loc("close")],
                     normalized_balance,
-                    self._position.value,
+                    {Position.SHORT: -1.0, Position.FLAT: 0.0, Position.LONG: 1.0}[
+                        self._position
+                    ],
                 ],
                 features,
             )
@@ -112,82 +106,59 @@ class TradingEnv(BaseTradingEnv):
         """Get auxiliary information for the current step."""
         return {
             "step": self.current_step,
-            "portfolio_value": self._portfolio_value,
+            "portfolio_value": self.portfolio_value,
             "balance": self.balance,
             "position": self._position.name,
             "entry_price": self._position_entry_price,
             "trade_history": self.trade_history,
         }
 
-    def _take_action(self, action: int) -> None:
-        """Execute a trading action."""
-        current_price = self.data.iloc[self.current_step]["close"]
-        action = Position(action)
+    # ------------------------------------------------------------------
+    # Internal helpers required by BaseTradingEnv.step
+    # ------------------------------------------------------------------
 
-        if action == self._position:
-            # No change in position
-            return
+    def _take_action(self, action: int) -> None:  # type: ignore[override]
+        """Execute the trading action and compute realised PnL if a position is closed."""
+        price = self.data.iloc[self.current_step]["close"]
+        self._realised_reward = 0.0  # reset
 
-        # Close current position before opening a new one
-        if self._position != Position.FLAT:
-            profit = 0
-            if self._position == Position.LONG:
-                profit = (current_price - self._position_entry_price) * (
+        if action == 0:  # OPEN LONG
+            if self._position == Position.FLAT:
+                self._position = Position.LONG
+                self._position_entry_price = price
+
+        elif action == 1:  # CLOSE
+            if self._position != Position.FLAT:
+                multiplier = 1.0 if self._position == Position.LONG else -1.0
+                pnl = (price - self._position_entry_price) * multiplier * (
                     self.balance / self._position_entry_price
                 )
-            elif self._position == Position.SHORT:
-                profit = (self._position_entry_price - current_price) * (
-                    self.balance / self._position_entry_price
+                self._realised_reward = (pnl / self.balance) * 100 if self.balance else 0.0
+
+                fee = self.balance * self.trade_fee
+                self.balance = self.balance + pnl - fee
+
+                self.trade_history.append(
+                    Trade(
+                        entry_price=self._position_entry_price,
+                        exit_price=price,
+                        position=self._position,
+                        profit=pnl,
+                    )
                 )
 
-            # Apply trade fee
-            trade_cost = self.balance * self.trade_fee
-            self.balance -= trade_cost
+                self._position = Position.FLAT
+                self._position_entry_price = 0.0
 
-            # Record the closed trade
-            trade = Trade(
-                entry_price=self._position_entry_price,
-                exit_price=current_price,
-                position=self._position,
-                profit=profit,
-            )
-            self.trade_history.append(trade)
+        elif action == 2:  # OPEN SHORT
+            if self._position == Position.FLAT:
+                self._position = Position.SHORT
+                self._position_entry_price = price
+        else:
+            raise ValueError("Invalid action index")
 
-            self.balance += profit
-            self._position = Position.FLAT
-            self._position_entry_price = 0.0
-
-        # Open new position
-        if action != Position.FLAT:
-            self.balance -= self.balance * self.trade_fee
-            self._position = action
-            self._position_entry_price = current_price
-
-    def _calculate_reward(self) -> float:
-        """Calculate the reward, defined as the change in portfolio value.
-        """
-        self._portfolio_value = self.portfolio_value
-
-        reward = self._portfolio_value - self._last_portfolio_value
-        self._last_portfolio_value = self._portfolio_value
-
-        return reward
-
-    def step(
-        self, action: int
-    ) -> tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
-        """Execute one time step within the environment."""
-        self._take_action(action)
-        self.current_step += 1
-
-        reward = self._calculate_reward()
-        terminated = self._portfolio_value <= 0 or self.current_step >= len(self.data) - 1
-        truncated = False
-
-        observation = self._get_observation()
-        info = self._get_info()
-
-        return observation, reward, terminated, truncated, info
+    def _calculate_reward(self) -> float:  # type: ignore[override]
+        return self._realised_reward - self.living_cost
 
     def reset(
         self, *, seed: int | None = None, options: Dict[str, Any] | None = None
@@ -196,8 +167,8 @@ class TradingEnv(BaseTradingEnv):
         super().reset(seed=seed)
         self._position = Position.FLAT
         self._position_entry_price = 0.0
-        self._last_portfolio_value = self.initial_balance
-        self._portfolio_value = self.initial_balance
+        self.balance = self.initial_balance
         self.trade_history = []
-
-        return self._get_observation(), self._get_info()
+        # Initialize realised reward tracker
+        self._realised_reward = 0.0
+        return self._get_observation(), {}

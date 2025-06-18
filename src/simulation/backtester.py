@@ -124,8 +124,13 @@ class Backtester:
     # Public API
     # ------------------------------------------------------------------
 
-    def run(self) -> SimulationResult:
-        """Execute the back-test and return a :class:`SimulationResult`."""
+    def run(self, *, recorder=None) -> SimulationResult:
+        """Execute the back-test.
+
+        If *recorder* is provided (instance of ``SessionRecorder``) each step
+        will be appended to it so the caller can save the session for offline
+        RL later.
+        """
         model = self._load_model()
         observation, _ = self._env.reset()
 
@@ -138,10 +143,25 @@ class Backtester:
             obs_df = self.data.iloc[current_step : current_step + 1]
 
             action = int(model.predict(obs_df)[0])  # type: ignore[index]
-            _, _, terminated, truncated, _ = self._env.step(action)
+            _, reward, terminated, truncated, _ = self._env.step(action)
             done = terminated or truncated
 
             equity_vals.append(self._env.portfolio_value)
+
+            if recorder is not None:
+                try:
+                    from src.simulation.recorder import SessionRecorder  # local import to avoid cycles
+
+                    if isinstance(recorder, SessionRecorder):
+                        recorder.append(
+                            step=current_step,
+                            observation=obs_df.to_dict(),
+                            action=action,
+                            reward=float(reward),
+                            equity=float(self._env.portfolio_value),
+                        )
+                except Exception:  # pragma: no cover - recorder failures shouldn't kill BT
+                    logger.exception("Recorder append failed; continuing without recording.")
 
         equity_curve = pd.Series(equity_vals, name="equity_curve")
 

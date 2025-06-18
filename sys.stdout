@@ -2448,3 +2448,2117 @@
 2025-06-17 11:48:17 | INFO     | Starting strategy: RLStrategy
 2025-06-17 11:48:17 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
 2025-06-17 11:48:17 | INFO     | Opening LONG position.
+2025-06-17 13:00:48 | WARNING  | No trading accounts found in API response.
+2025-06-17 13:00:48 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 13:00:48 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:00:48 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:00:48 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 13:00:48 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:00:48 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 13:00:48 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:00:48 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 13:00:48 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:00:48 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 13:00:48 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:00:48 | INFO     | Successfully authenticated with Forex.com. Session: fced0ef3...
+2025-06-17 13:00:48 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 13:00:49 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:00:49 | INFO     | Order placed successfully: 555
+2025-06-17 13:00:49 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 13:00:49 | INFO     | Order cancelled successfully: 123
+2025-06-17 13:00:49 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 13:00:49 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 13:00:49 | INFO     | Creating environment 'default'
+2025-06-17 13:00:49 | INFO     | Creating environment 'unknown'
+2025-06-17 13:00:49 | ERROR    | Environment 'unknown' not found.
+2025-06-17 13:00:50 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 13:00:50 | INFO     | Creating environment 'default'
+2025-06-17 13:00:50 | INFO     | Downloading model from MLflow – this might take a moment…
+2025-06-17 13:00:50 | INFO     | Model loaded successfully.
+2025-06-17 13:00:50 | INFO     | Opening LONG position.
+2025-06-17 13:00:50 | INFO     | Opening SHORT position.
+2025-06-17 13:00:51 | INFO     | Closing open position.
+2025-06-17 13:00:51 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:00:51 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:00:51 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 13:00:51 | INFO     | Opening LONG position.
+2025-06-17 13:02:07 | WARNING  | No trading accounts found in API response.
+2025-06-17 13:02:07 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 13:02:07 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:02:07 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:02:07 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 13:02:07 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:02:07 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 13:02:07 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:02:07 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 13:02:07 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:02:07 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 13:02:07 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:02:08 | INFO     | Successfully authenticated with Forex.com. Session: 6092f829...
+2025-06-17 13:02:08 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 13:02:09 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:02:09 | INFO     | Order placed successfully: 555
+2025-06-17 13:02:09 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 13:02:09 | INFO     | Order cancelled successfully: 123
+2025-06-17 13:02:09 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 13:02:09 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 13:02:09 | INFO     | Creating environment 'default'
+2025-06-17 13:02:09 | INFO     | Creating environment 'unknown'
+2025-06-17 13:02:09 | ERROR    | Environment 'unknown' not found.
+2025-06-17 13:02:10 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 13:02:10 | INFO     | Creating environment 'default'
+2025-06-17 13:02:10 | INFO     | Downloading model from MLflow – this might take a moment…
+2025-06-17 13:02:10 | INFO     | Model loaded successfully.
+2025-06-17 13:02:10 | INFO     | Opening LONG position.
+2025-06-17 13:02:10 | INFO     | Opening SHORT position.
+2025-06-17 13:02:10 | INFO     | Closing open position.
+2025-06-17 13:02:10 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:02:10 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:02:10 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 13:02:10 | INFO     | Opening LONG position.
+2025-06-17 13:03:09 | INFO     | Creating environment 'default'
+2025-06-17 13:03:09 | INFO     | Downloading model from MLflow – this might take a moment…
+2025-06-17 13:03:09 | INFO     | Model loaded successfully.
+2025-06-17 13:04:04 | WARNING  | No trading accounts found in API response.
+2025-06-17 13:04:04 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 13:04:04 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:04:04 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:04:04 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 13:04:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:04:04 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 13:04:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:04:04 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 13:04:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:04:04 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 13:04:04 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:04:05 | INFO     | Successfully authenticated with Forex.com. Session: da790f9b...
+2025-06-17 13:04:05 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 13:04:06 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:04:06 | INFO     | Order placed successfully: 555
+2025-06-17 13:04:06 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 13:04:06 | INFO     | Order cancelled successfully: 123
+2025-06-17 13:04:06 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 13:04:06 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 13:04:06 | INFO     | Creating environment 'default'
+2025-06-17 13:04:06 | INFO     | Creating environment 'unknown'
+2025-06-17 13:04:06 | ERROR    | Environment 'unknown' not found.
+2025-06-17 13:04:07 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 13:04:07 | INFO     | Creating environment 'default'
+2025-06-17 13:04:07 | INFO     | Downloading model from MLflow – this might take a moment…
+2025-06-17 13:04:07 | INFO     | Model loaded successfully.
+2025-06-17 13:04:07 | INFO     | Opening LONG position.
+2025-06-17 13:04:07 | INFO     | Opening SHORT position.
+2025-06-17 13:04:07 | INFO     | Closing open position.
+2025-06-17 13:04:07 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:04:07 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:04:07 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 13:04:07 | INFO     | Opening LONG position.
+2025-06-17 13:10:09 | WARNING  | No trading accounts found in API response.
+2025-06-17 13:10:09 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 13:10:09 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:10:09 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 13:10:09 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 13:10:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:10:09 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 13:10:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:10:09 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 13:10:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:10:09 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 13:10:09 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:10:10 | INFO     | Successfully authenticated with Forex.com. Session: 8388bd9b...
+2025-06-17 13:10:10 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 13:10:11 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:10:11 | INFO     | Order placed successfully: 555
+2025-06-17 13:10:11 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 13:10:11 | INFO     | Order cancelled successfully: 123
+2025-06-17 13:10:11 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 13:10:11 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 13:10:11 | INFO     | Creating environment 'default'
+2025-06-17 13:10:11 | INFO     | Creating environment 'unknown'
+2025-06-17 13:10:11 | ERROR    | Environment 'unknown' not found.
+2025-06-17 13:10:12 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 13:10:12 | INFO     | Creating environment 'default'
+2025-06-17 13:10:12 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 13:10:12 | INFO     | Model loaded successfully.
+2025-06-17 13:10:12 | INFO     | Opening LONG position.
+2025-06-17 13:10:12 | INFO     | Opening SHORT position.
+2025-06-17 13:10:12 | INFO     | Closing open position.
+2025-06-17 13:10:12 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:10:12 | INFO     | Starting strategy: RLStrategy
+2025-06-17 13:10:12 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 13:10:12 | INFO     | Opening LONG position.
+2025-06-17 13:33:28 | INFO     | Creating forex_com broker instance
+2025-06-17 13:33:28 | INFO     | Creating forex calendar instance
+2025-06-17 13:33:28 | INFO     | Authenticating with forex_com...
+2025-06-17 13:33:28 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:33:28 | INFO     | Successfully authenticated with Forex.com. Session: a7ed5270...
+2025-06-17 13:33:28 | INFO     | Downloading EUR/USD data from 2011-10-09 to 2025-06-17
+2025-06-17 13:33:28 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 13:33:28 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:33:29 | INFO     | Standardizing data format...
+2025-06-17 13:33:29 | INFO     | Standardizing 4000 records from forex_com
+2025-06-17 13:33:29 | INFO     | Standardization complete. Final records: 4000
+2025-06-17 13:33:29 | INFO     | Data quality score: 0.90
+2025-06-17 13:33:29 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 36']
+2025-06-17 13:33:29 | INFO     | Preparing data for Qlib...
+2025-06-17 13:33:30 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 13:34:46 | INFO     | Executing within MLflow Run ID: 00b3697d43da4b95b30e252dc3e61ac1
+2025-06-17 13:34:46 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 13:34:46 | INFO     | Starting full data preparation pipeline...
+2025-06-17 13:34:46 | INFO     | Running data preparation script...
+2025-06-17 13:34:48 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 13:34:49 | INFO     | Creating forex_com broker instance
+2025-06-17 13:34:49 | INFO     | Creating forex calendar instance
+2025-06-17 13:34:49 | INFO     | Authenticating with forex_com...
+2025-06-17 13:34:49 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:34:50 | INFO     | Successfully authenticated with Forex.com. Session: 74265918...
+2025-06-17 13:34:50 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 13:34:50 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 13:34:50 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:34:51 | INFO     | Standardizing data format...
+2025-06-17 13:34:51 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 13:34:51 | INFO     | Standardization complete. Final records: 365
+2025-06-17 13:34:51 | INFO     | Data quality score: 0.90
+2025-06-17 13:34:51 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 13:34:51 | INFO     | Preparing data for Qlib...
+2025-06-17 13:34:51 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 13:34:51 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 13:34:51 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 13:34:53 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 13:34:53 | INFO     | --- Running: Build Features ---
+2025-06-17 13:34:56 | INFO     | --- Finished: Build Features ---
+2025-06-17 13:34:56 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 13:34:56 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 13:34:56 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 13:34:56 | INFO     | Creating training and evaluation environments...
+2025-06-17 13:34:56 | INFO     | Creating environment 'default'
+2025-06-17 13:34:56 | INFO     | Creating environment 'default'
+2025-06-17 13:34:56 | INFO     | Environments created successfully.
+2025-06-17 13:34:56 | INFO     | Training PPO agent...
+2025-06-17 13:46:50 | INFO     | Executing within MLflow Run ID: b81cdb7b607f443393cb9fdec493c406
+2025-06-17 13:46:50 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 13:46:50 | INFO     | Starting full data preparation pipeline...
+2025-06-17 13:46:50 | INFO     | Running data preparation script...
+2025-06-17 13:46:51 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 13:46:53 | INFO     | Creating forex_com broker instance
+2025-06-17 13:46:53 | INFO     | Creating forex calendar instance
+2025-06-17 13:46:53 | INFO     | Authenticating with forex_com...
+2025-06-17 13:46:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:46:53 | INFO     | Successfully authenticated with Forex.com. Session: 182997fe...
+2025-06-17 13:46:53 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 13:46:53 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 13:46:54 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:46:54 | INFO     | Standardizing data format...
+2025-06-17 13:46:54 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 13:46:54 | INFO     | Standardization complete. Final records: 365
+2025-06-17 13:46:54 | INFO     | Data quality score: 0.90
+2025-06-17 13:46:54 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 13:46:54 | INFO     | Preparing data for Qlib...
+2025-06-17 13:46:54 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 13:46:54 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 13:46:54 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 13:46:57 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 13:46:57 | INFO     | --- Running: Build Features ---
+2025-06-17 13:46:59 | INFO     | --- Finished: Build Features ---
+2025-06-17 13:46:59 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 13:46:59 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 13:46:59 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 13:46:59 | INFO     | Creating training and evaluation environments...
+2025-06-17 13:46:59 | INFO     | Creating environment 'default'
+2025-06-17 13:46:59 | INFO     | Creating environment 'default'
+2025-06-17 13:46:59 | INFO     | Environments created successfully.
+2025-06-17 13:46:59 | INFO     | Training PPO agent...
+2025-06-17 13:46:59 | INFO     | Starting training for 10000 timesteps…
+2025-06-17 13:47:16 | INFO     | Training complete.
+2025-06-17 13:47:16 | INFO     | Agent training completed.
+2025-06-17 13:47:16 | INFO     | Saving final model to data/models/PPO/b81cdb7b607f443393cb9fdec493c406/final_model.zip...
+2025-06-17 13:47:16 | INFO     | Model saved to data/models/PPO/b81cdb7b607f443393cb9fdec493c406/final_model.zip
+2025-06-17 13:47:16 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 13:47:28 | INFO     | Training run b81cdb7b607f443393cb9fdec493c406 complete.
+2025-06-17 13:47:28 | INFO     | Model saved at: data/models/PPO/b81cdb7b607f443393cb9fdec493c406/final_model.zip
+2025-06-17 13:47:28 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/b81cdb7b607f443393cb9fdec493c406
+2025-06-17 13:47:28 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 13:54:44 | INFO     | Executing within MLflow Run ID: 37ddc8ad56774fa3bee713770b541ad8
+2025-06-17 13:54:44 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 13:54:44 | INFO     | Starting full data preparation pipeline...
+2025-06-17 13:54:44 | INFO     | Running data preparation script...
+2025-06-17 13:54:47 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 13:54:49 | INFO     | Creating forex_com broker instance
+2025-06-17 13:54:49 | INFO     | Creating forex calendar instance
+2025-06-17 13:54:49 | INFO     | Authenticating with forex_com...
+2025-06-17 13:54:49 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 13:54:49 | INFO     | Successfully authenticated with Forex.com. Session: a5d1f310...
+2025-06-17 13:54:49 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 13:54:49 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 13:54:49 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 13:54:49 | INFO     | Standardizing data format...
+2025-06-17 13:54:49 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 13:54:49 | INFO     | Standardization complete. Final records: 365
+2025-06-17 13:54:49 | INFO     | Data quality score: 0.90
+2025-06-17 13:54:49 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 13:54:49 | INFO     | Preparing data for Qlib...
+2025-06-17 13:54:49 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 13:54:50 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 13:54:50 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 13:54:53 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 13:54:53 | INFO     | --- Running: Build Features ---
+2025-06-17 13:54:55 | INFO     | --- Finished: Build Features ---
+2025-06-17 13:54:56 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 13:54:56 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 13:54:56 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 13:54:56 | INFO     | Creating training and evaluation environments...
+2025-06-17 13:54:56 | INFO     | Creating environment 'default'
+2025-06-17 13:54:56 | INFO     | Creating environment 'default'
+2025-06-17 13:54:56 | INFO     | Environments created successfully.
+2025-06-17 13:54:56 | INFO     | Training PPO agent...
+2025-06-17 13:54:56 | INFO     | Starting training for 100000 timesteps…
+2025-06-17 13:57:13 | INFO     | Training complete.
+2025-06-17 13:57:13 | INFO     | Agent training completed.
+2025-06-17 13:57:13 | INFO     | Saving final model to data/models/PPO/37ddc8ad56774fa3bee713770b541ad8/final_model.zip...
+2025-06-17 13:57:13 | INFO     | Model saved to data/models/PPO/37ddc8ad56774fa3bee713770b541ad8/final_model.zip
+2025-06-17 13:57:13 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 13:57:29 | INFO     | Training run 37ddc8ad56774fa3bee713770b541ad8 complete.
+2025-06-17 13:57:29 | INFO     | Model saved at: data/models/PPO/37ddc8ad56774fa3bee713770b541ad8/final_model.zip
+2025-06-17 13:57:29 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/37ddc8ad56774fa3bee713770b541ad8
+2025-06-17 13:57:29 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 14:15:49 | WARNING  | Timed-out connecting to MLflow server (>%ss)
+2025-06-17 14:37:07 | WARNING  | Timed-out connecting to MLflow server (>%ss)
+2025-06-17 15:18:06 | INFO     | Executing within MLflow Run ID: dcd3b63e49b44f96a8a910568bb5e1cf
+2025-06-17 15:18:06 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 15:18:06 | INFO     | Starting full data preparation pipeline...
+2025-06-17 15:18:06 | INFO     | Running data preparation script...
+2025-06-17 15:18:09 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 15:18:12 | INFO     | Creating forex_com broker instance
+2025-06-17 15:18:12 | INFO     | Creating forex calendar instance
+2025-06-17 15:18:12 | INFO     | Authenticating with forex_com...
+2025-06-17 15:18:12 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 15:18:12 | INFO     | Successfully authenticated with Forex.com. Session: 70451060...
+2025-06-17 15:18:12 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 15:18:12 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 15:18:12 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 15:18:13 | INFO     | Standardizing data format...
+2025-06-17 15:18:13 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 15:18:13 | INFO     | Standardization complete. Final records: 365
+2025-06-17 15:18:13 | INFO     | Data quality score: 0.90
+2025-06-17 15:18:13 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 15:18:13 | INFO     | Preparing data for Qlib...
+2025-06-17 15:18:13 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 15:18:13 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 15:18:13 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 15:18:17 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 15:18:17 | INFO     | --- Running: Build Features ---
+2025-06-17 15:18:21 | INFO     | --- Finished: Build Features ---
+2025-06-17 15:18:21 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 15:18:21 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 15:18:21 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 15:18:21 | INFO     | Creating training and evaluation environments...
+2025-06-17 15:18:21 | INFO     | Creating environment 'default'
+2025-06-17 15:18:21 | INFO     | Creating environment 'default'
+2025-06-17 15:18:21 | INFO     | Environments created successfully.
+2025-06-17 15:18:21 | INFO     | Training PPO agent...
+2025-06-17 15:18:22 | INFO     | Starting training for 100000 timesteps…
+2025-06-17 15:26:17 | INFO     | Training complete.
+2025-06-17 15:26:17 | INFO     | Agent training completed.
+2025-06-17 15:26:17 | INFO     | Saving final model to data/models/PPO/dcd3b63e49b44f96a8a910568bb5e1cf/final_model.zip...
+2025-06-17 15:26:17 | INFO     | Model saved to data/models/PPO/dcd3b63e49b44f96a8a910568bb5e1cf/final_model.zip
+2025-06-17 15:26:17 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 15:37:55 | INFO     | Executing within MLflow Run ID: d5f5075f1c35405e897270128743170c
+2025-06-17 15:37:55 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 15:37:55 | INFO     | Starting full data preparation pipeline...
+2025-06-17 15:37:55 | INFO     | Running data preparation script...
+2025-06-17 15:37:57 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 15:37:59 | INFO     | Creating forex_com broker instance
+2025-06-17 15:37:59 | INFO     | Creating forex calendar instance
+2025-06-17 15:37:59 | INFO     | Authenticating with forex_com...
+2025-06-17 15:37:59 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 15:38:00 | INFO     | Successfully authenticated with Forex.com. Session: ae8c636c...
+2025-06-17 15:38:00 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 15:38:00 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 15:38:01 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 15:38:02 | INFO     | Standardizing data format...
+2025-06-17 15:38:02 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 15:38:02 | INFO     | Standardization complete. Final records: 365
+2025-06-17 15:38:02 | INFO     | Data quality score: 0.90
+2025-06-17 15:38:02 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 15:38:02 | INFO     | Preparing data for Qlib...
+2025-06-17 15:38:02 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 15:38:02 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 15:38:02 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 15:38:05 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 15:38:05 | INFO     | --- Running: Build Features ---
+2025-06-17 15:38:08 | INFO     | --- Finished: Build Features ---
+2025-06-17 15:38:08 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 15:38:08 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 15:38:08 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 15:38:08 | INFO     | Creating training and evaluation environments...
+2025-06-17 15:38:08 | INFO     | Creating environment 'default'
+2025-06-17 15:38:08 | INFO     | Creating environment 'default'
+2025-06-17 15:38:08 | INFO     | Environments created successfully.
+2025-06-17 15:38:08 | INFO     | Training PPO agent...
+2025-06-17 15:38:09 | INFO     | Starting training for 10000 timesteps…
+2025-06-17 15:38:30 | INFO     | Training complete.
+2025-06-17 15:38:30 | INFO     | Agent training completed.
+2025-06-17 15:38:30 | INFO     | Saving final model to data/models/PPO/d5f5075f1c35405e897270128743170c/final_model.zip...
+2025-06-17 15:38:30 | INFO     | Model saved to data/models/PPO/d5f5075f1c35405e897270128743170c/final_model.zip
+2025-06-17 15:38:30 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 15:40:02 | INFO     | Executing within MLflow Run ID: 2f77e118203f44e08f473d2e456f969f
+2025-06-17 15:40:02 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 15:40:02 | INFO     | Starting full data preparation pipeline...
+2025-06-17 15:40:02 | INFO     | Running data preparation script...
+2025-06-17 15:40:05 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 15:40:06 | INFO     | Creating forex_com broker instance
+2025-06-17 15:40:06 | INFO     | Creating forex calendar instance
+2025-06-17 15:40:06 | INFO     | Authenticating with forex_com...
+2025-06-17 15:40:06 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 15:40:07 | INFO     | Successfully authenticated with Forex.com. Session: 934d5c72...
+2025-06-17 15:40:07 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 15:40:07 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 15:40:08 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 15:40:09 | INFO     | Standardizing data format...
+2025-06-17 15:40:09 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 15:40:09 | INFO     | Standardization complete. Final records: 365
+2025-06-17 15:40:09 | INFO     | Data quality score: 0.90
+2025-06-17 15:40:09 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 15:40:09 | INFO     | Preparing data for Qlib...
+2025-06-17 15:40:09 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 15:40:09 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 15:40:09 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 15:40:13 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 15:40:13 | INFO     | --- Running: Build Features ---
+2025-06-17 15:40:16 | INFO     | --- Finished: Build Features ---
+2025-06-17 15:40:17 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 15:40:17 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 15:40:17 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 15:40:17 | INFO     | Creating training and evaluation environments...
+2025-06-17 15:40:17 | INFO     | Creating environment 'default'
+2025-06-17 15:40:17 | INFO     | Creating environment 'default'
+2025-06-17 15:40:17 | INFO     | Environments created successfully.
+2025-06-17 15:40:17 | INFO     | Training PPO agent...
+2025-06-17 15:40:17 | INFO     | Starting training for 10000 timesteps…
+2025-06-17 15:40:38 | INFO     | Training complete.
+2025-06-17 15:40:38 | INFO     | Agent training completed.
+2025-06-17 15:40:38 | INFO     | Saving final model to data/models/PPO/2f77e118203f44e08f473d2e456f969f/final_model.zip...
+2025-06-17 15:40:38 | INFO     | Model saved to data/models/PPO/2f77e118203f44e08f473d2e456f969f/final_model.zip
+2025-06-17 15:40:38 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 15:51:49 | WARNING  | Timed-out connecting to MLflow server (>%ss)
+2025-06-17 16:00:07 | WARNING  | Timed-out connecting to MLflow server (>%ss)
+2025-06-17 16:15:47 | INFO     | Executing within MLflow Run ID: bdc2d603f0aa49cc9c060b3f7bb67fdb
+2025-06-17 16:15:47 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 16:15:47 | INFO     | Starting full data preparation pipeline...
+2025-06-17 16:15:47 | INFO     | Running data preparation script...
+2025-06-17 16:15:50 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 16:15:51 | INFO     | Creating forex_com broker instance
+2025-06-17 16:15:51 | INFO     | Creating forex calendar instance
+2025-06-17 16:15:51 | INFO     | Authenticating with forex_com...
+2025-06-17 16:15:51 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:15:52 | INFO     | Successfully authenticated with Forex.com. Session: daca6771...
+2025-06-17 16:15:52 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 16:15:52 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 16:15:52 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 16:15:54 | INFO     | Standardizing data format...
+2025-06-17 16:15:54 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 16:15:54 | INFO     | Standardization complete. Final records: 365
+2025-06-17 16:15:54 | INFO     | Data quality score: 0.90
+2025-06-17 16:15:54 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 16:15:54 | INFO     | Preparing data for Qlib...
+2025-06-17 16:15:54 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 16:15:54 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 16:15:54 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 16:15:57 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 16:15:57 | INFO     | --- Running: Build Features ---
+2025-06-17 16:16:00 | INFO     | --- Finished: Build Features ---
+2025-06-17 16:16:00 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 16:16:00 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 16:16:00 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 16:16:00 | INFO     | Creating training and evaluation environments...
+2025-06-17 16:16:00 | INFO     | Creating environment 'default'
+2025-06-17 16:16:00 | INFO     | Creating environment 'default'
+2025-06-17 16:16:00 | INFO     | Environments created successfully.
+2025-06-17 16:16:00 | INFO     | Training PPO agent...
+2025-06-17 16:16:01 | INFO     | Starting training for 10000 timesteps…
+2025-06-17 16:16:18 | INFO     | Training complete.
+2025-06-17 16:16:18 | INFO     | Agent training completed.
+2025-06-17 16:16:18 | INFO     | Saving final model to data/models/PPO/bdc2d603f0aa49cc9c060b3f7bb67fdb/final_model.zip...
+2025-06-17 16:16:18 | INFO     | Model saved to data/models/PPO/bdc2d603f0aa49cc9c060b3f7bb67fdb/final_model.zip
+2025-06-17 16:16:18 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 16:16:33 | INFO     | Training run bdc2d603f0aa49cc9c060b3f7bb67fdb complete.
+2025-06-17 16:16:33 | INFO     | Model saved at: data/models/PPO/bdc2d603f0aa49cc9c060b3f7bb67fdb/final_model.zip
+2025-06-17 16:16:33 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/bdc2d603f0aa49cc9c060b3f7bb67fdb
+2025-06-17 16:16:33 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 16:24:17 | WARNING  | Timed-out connecting to MLflow server (>%ss)
+2025-06-17 16:29:09 | INFO     | Executing within MLflow Run ID: 2aca7c7b762c4c67a31799228af548d2
+2025-06-17 16:29:09 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 16:29:10 | INFO     | Starting full data preparation pipeline...
+2025-06-17 16:29:10 | INFO     | Running data preparation script...
+2025-06-17 16:29:12 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 16:29:14 | INFO     | Creating forex_com broker instance
+2025-06-17 16:29:14 | INFO     | Creating forex calendar instance
+2025-06-17 16:29:14 | INFO     | Authenticating with forex_com...
+2025-06-17 16:29:14 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:29:14 | INFO     | Successfully authenticated with Forex.com. Session: 40e1a447...
+2025-06-17 16:29:14 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 16:29:14 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 16:29:15 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 16:29:15 | INFO     | Standardizing data format...
+2025-06-17 16:29:15 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 16:29:15 | INFO     | Standardization complete. Final records: 365
+2025-06-17 16:29:15 | INFO     | Data quality score: 0.90
+2025-06-17 16:29:15 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 16:29:15 | INFO     | Preparing data for Qlib...
+2025-06-17 16:29:15 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 16:29:15 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 16:29:15 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 16:29:18 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 16:29:18 | INFO     | --- Running: Build Features ---
+2025-06-17 16:29:21 | INFO     | --- Finished: Build Features ---
+2025-06-17 16:29:21 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 16:29:21 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 16:29:21 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 16:29:21 | INFO     | Creating training and evaluation environments...
+2025-06-17 16:29:21 | INFO     | Creating environment 'default'
+2025-06-17 16:29:21 | INFO     | Creating environment 'default'
+2025-06-17 16:29:21 | INFO     | Environments created successfully.
+2025-06-17 16:29:21 | INFO     | Training PPO agent...
+2025-06-17 16:29:22 | INFO     | Starting training for 10000 timesteps…
+2025-06-17 16:29:39 | INFO     | Training complete.
+2025-06-17 16:29:39 | INFO     | Agent training completed.
+2025-06-17 16:29:39 | INFO     | Saving final model to data/models/PPO/2aca7c7b762c4c67a31799228af548d2/final_model.zip...
+2025-06-17 16:29:39 | INFO     | Model saved to data/models/PPO/2aca7c7b762c4c67a31799228af548d2/final_model.zip
+2025-06-17 16:29:39 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 16:29:54 | INFO     | Training run 2aca7c7b762c4c67a31799228af548d2 complete.
+2025-06-17 16:29:54 | INFO     | Model saved at: data/models/PPO/2aca7c7b762c4c67a31799228af548d2/final_model.zip
+2025-06-17 16:29:54 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/2aca7c7b762c4c67a31799228af548d2
+2025-06-17 16:29:54 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 16:30:19 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:30:24 | INFO     | Creating environment 'default'
+2025-06-17 16:30:24 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:30:35 | INFO     | Model loaded successfully.
+2025-06-17 16:30:35 | ERROR    | Simulation failed: %s
+Traceback (most recent call last):
+
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x10f96be20>
+    └ <Thread(ScriptRunner.scriptThread, started 123145476730880)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x10f96bb00>
+    └ <Thread(ScriptRunner.scriptThread, started 123145476730880)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 123145476730880)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 123145476730880)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='cd443a47-85a3-466a-ba04-fa8e9f0012f8', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 123145476730880)>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 371, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x11023d260>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-9f8cf5086eba...
+    │    └ <function ScriptRunner._run_script at 0x110301580>
+    └ ScriptRunner(_session_id='cd443a47-85a3-466a-ba04-fa8e9f0012f8', _main_script_path='scripts/analysis/run_simulation.py', _ses...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 661, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='cd443a47-85a3-466a-ba04-fa8e9f0012f8', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x134b7fec0>
+        └ <function exec_func_with_error_handling at 0x110299e40>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x134b7fec0>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 645, in code_to_exec
+    exec(code, module.__dict__)
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'scripts/analysis/run_simulation.py'>
+         └ <code object <module> at 0x7f81fa84ca00, file "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation...
+
+> File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation.py", line 93, in <module>
+    result = run_simulation(
+             └ <function run_simulation at 0x112385d00>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/backend.py", line 55, in run_simulation
+    return backtester.run()
+           │          └ <function Backtester.run at 0x12624ede0>
+           └ <src.simulation.backtester.Backtester object at 0x124ecc910>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/src/simulation/backtester.py", line 140, in run
+    action = int(model.predict(obs_df)[0])  # type: ignore[index]
+                 │     │       └        open  ...  close_ref_close_10_ref_close_10
+                 │     │         0  1.134885  ...                              NaN
+                 │     │         
+                 │     │         [1 rows x 8 columns]
+                 │     └ <function PyFuncModel.predict at 0x125ff6e80>
+                 └ mlflow.pyfunc.loaded_model:
+                     artifact_path: mlflow-artifacts:/830363863222747895/models/m-f5d8553d8d014c04b6501f87d64bfd15/a...
+
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/__init__.py", line 840, in predict
+    return self._predict(data, params)
+           │    │        │     └ None
+           │    │        └        open  ...  close_ref_close_10_ref_close_10
+           │    │          0  1.134885  ...                              NaN
+           │    │          
+           │    │          [1 rows x 8 columns]
+           │    └ <function PyFuncModel._predict at 0x125ff6f20>
+           └ mlflow.pyfunc.loaded_model:
+               artifact_path: mlflow-artifacts:/830363863222747895/models/m-f5d8553d8d014c04b6501f87d64bfd15/a...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/__init__.py", line 890, in _predict
+    return self._predict_fn(data, params=params)
+           │    │           │            └ None
+           │    │           └        open  ...  close_ref_close_10_ref_close_10
+           │    │             0  1.134885  ...                              NaN
+           │    │             
+           │    │             [1 rows x 8 columns]
+           │    └ <bound method _PythonModelPyfuncWrapper.predict of <mlflow.pyfunc.model._PythonModelPyfuncWrapper object at 0x148d27590>>
+           └ mlflow.pyfunc.loaded_model:
+               artifact_path: mlflow-artifacts:/830363863222747895/models/m-f5d8553d8d014c04b6501f87d64bfd15/a...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/model.py", line 1326, in predict
+    return self.python_model.predict(
+           │    │            └ <function Sb3ModelWrapper.predict at 0x14924f880>
+           │    └ <src.models.sb3.wrapper.Sb3ModelWrapper object at 0x148333550>
+           └ <mlflow.pyfunc.model._PythonModelPyfuncWrapper object at 0x148d27590>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/utils/data_validation.py", line 77, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (<src.models.sb3.wrapper.Sb3ModelWrapper object at 0x148333550>, <mlflow.pyfunc.model.PythonModelContext object at 0x1490377d...
+           └ <function Sb3ModelWrapper.predict at 0x14924f740>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/src/models/sb3/wrapper.py", line 38, in predict
+    actions, _ = self._model.predict(obs, deterministic=True)
+                 │    │      │       └ array([[1.134830e+00, 1.000000e+00, 1.000000e+00, 1.134885e+00,
+                 │    │      │                 1.135810e+00, 1.134485e+00, 1.134830e+00, 6.573000e+0...
+                 │    │      └ <function BaseAlgorithm.predict at 0x14922cae0>
+                 │    └ <stable_baselines3.ppo.ppo.PPO object at 0x149026710>
+                 └ <src.models.sb3.wrapper.Sb3ModelWrapper object at 0x148333550>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/base_class.py", line 556, in predict
+    return self.policy.predict(observation, state, episode_start, deterministic)
+           │    │      │       │            │      │              └ True
+           │    │      │       │            │      └ None
+           │    │      │       │            └ None
+           │    │      │       └ array([[1.134830e+00, 1.000000e+00, 1.000000e+00, 1.134885e+00,
+           │    │      │                 1.135810e+00, 1.134485e+00, 1.134830e+00, 6.573000e+0...
+           │    │      └ <function BasePolicy.predict at 0x149222160>
+           │    └ ActorCriticPolicy(
+           │        (features_extractor): FlattenExtractor(
+           │          (flatten): Flatten(start_dim=1, end_dim=-1)
+           │        )
+           │        (pi_featur...
+           └ <stable_baselines3.ppo.ppo.PPO object at 0x149026710>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 368, in predict
+    actions = self._predict(obs_tensor, deterministic=deterministic)
+              │    │        │                         └ True
+              │    │        └ tensor([[1.1348e+00, 1.0000e+00, 1.0000e+00, 1.1349e+00, 1.1358e+00, 1.1345e+00,
+              │    │                   1.1348e+00, 6.5730e+03, 1.1348e+00,...
+              │    └ <function ActorCriticPolicy._predict at 0x1492228e0>
+              └ ActorCriticPolicy(
+                  (features_extractor): FlattenExtractor(
+                    (flatten): Flatten(start_dim=1, end_dim=-1)
+                  )
+                  (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 717, in _predict
+    return self.get_distribution(observation).get_actions(deterministic=deterministic)
+           │    │                │                                      └ True
+           │    │                └ tensor([[1.1348e+00, 1.0000e+00, 1.0000e+00, 1.1349e+00, 1.1358e+00, 1.1345e+00,
+           │    │                           1.1348e+00, 6.5730e+03, 1.1348e+00,...
+           │    └ <function ActorCriticPolicy.get_distribution at 0x149222a20>
+           └ ActorCriticPolicy(
+               (features_extractor): FlattenExtractor(
+                 (flatten): Flatten(start_dim=1, end_dim=-1)
+               )
+               (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 752, in get_distribution
+    return self._get_action_dist_from_latent(latent_pi)
+           │    │                            └ tensor([[nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, n...
+           │    └ <function ActorCriticPolicy._get_action_dist_from_latent at 0x149222840>
+           └ ActorCriticPolicy(
+               (features_extractor): FlattenExtractor(
+                 (flatten): Flatten(start_dim=1, end_dim=-1)
+               )
+               (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 697, in _get_action_dist_from_latent
+    return self.action_dist.proba_distribution(action_logits=mean_actions)
+           │    │           │                                └ tensor([[nan, nan, nan]])
+           │    │           └ <function CategoricalDistribution.proba_distribution at 0x1491eef20>
+           │    └ <stable_baselines3.common.distributions.CategoricalDistribution object at 0x149034d90>
+           └ ActorCriticPolicy(
+               (features_extractor): FlattenExtractor(
+                 (flatten): Flatten(start_dim=1, end_dim=-1)
+               )
+               (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/distributions.py", line 288, in proba_distribution
+    self.distribution = Categorical(logits=action_logits)
+    │    │              │                  └ tensor([[nan, nan, nan]])
+    │    │              └ <class 'torch.distributions.categorical.Categorical'>
+    │    └ None
+    └ <stable_baselines3.common.distributions.CategoricalDistribution object at 0x149034d90>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/torch/distributions/categorical.py", line 70, in __init__
+    super().__init__(batch_shape, validate_args=validate_args)
+                     │                          └ None
+                     └ torch.Size([1])
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/torch/distributions/distribution.py", line 68, in __init__
+    raise ValueError(
+
+ValueError: Expected parameter logits (Tensor of shape (1, 3)) of distribution Categorical(logits: torch.Size([1, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([[nan, nan, nan]])
+2025-06-17 16:30:58 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:31:00 | INFO     | Creating environment 'default'
+2025-06-17 16:31:00 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:31:00 | INFO     | Model loaded successfully.
+2025-06-17 16:31:00 | ERROR    | Simulation failed: %s
+Traceback (most recent call last):
+
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x10f96be20>
+    └ <Thread(ScriptRunner.scriptThread, started 123145512992768)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x10f96bb00>
+    └ <Thread(ScriptRunner.scriptThread, started 123145512992768)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 123145512992768)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 123145512992768)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='fdf8ecbc-8bcc-4743-9745-e98cf6931709', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 123145512992768)>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 371, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x11023d260>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-9f8cf5086eba...
+    │    └ <function ScriptRunner._run_script at 0x110301580>
+    └ ScriptRunner(_session_id='fdf8ecbc-8bcc-4743-9745-e98cf6931709', _main_script_path='scripts/analysis/run_simulation.py', _ses...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 661, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='fdf8ecbc-8bcc-4743-9745-e98cf6931709', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x1123858a0>
+        └ <function exec_func_with_error_handling at 0x110299e40>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x1123858a0>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 645, in code_to_exec
+    exec(code, module.__dict__)
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'scripts/analysis/run_simulation.py'>
+         └ <code object <module> at 0x7f81f9c05a00, file "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation...
+
+> File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation.py", line 93, in <module>
+    result = run_simulation(
+             └ <function run_simulation at 0x14a078040>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/backend.py", line 55, in run_simulation
+    return backtester.run()
+           │          └ <function Backtester.run at 0x12624ede0>
+           └ <src.simulation.backtester.Backtester object at 0x14908ae10>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/src/simulation/backtester.py", line 140, in run
+    action = int(model.predict(obs_df)[0])  # type: ignore[index]
+                 │     │       └        open  ...  close_ref_close_10_ref_close_10
+                 │     │         0  1.134885  ...                              NaN
+                 │     │         
+                 │     │         [1 rows x 8 columns]
+                 │     └ <function PyFuncModel.predict at 0x125ff6e80>
+                 └ mlflow.pyfunc.loaded_model:
+                     artifact_path: mlflow-artifacts:/830363863222747895/models/m-f5d8553d8d014c04b6501f87d64bfd15/a...
+
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/__init__.py", line 840, in predict
+    return self._predict(data, params)
+           │    │        │     └ None
+           │    │        └        open  ...  close_ref_close_10_ref_close_10
+           │    │          0  1.134885  ...                              NaN
+           │    │          
+           │    │          [1 rows x 8 columns]
+           │    └ <function PyFuncModel._predict at 0x125ff6f20>
+           └ mlflow.pyfunc.loaded_model:
+               artifact_path: mlflow-artifacts:/830363863222747895/models/m-f5d8553d8d014c04b6501f87d64bfd15/a...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/__init__.py", line 890, in _predict
+    return self._predict_fn(data, params=params)
+           │    │           │            └ None
+           │    │           └        open  ...  close_ref_close_10_ref_close_10
+           │    │             0  1.134885  ...                              NaN
+           │    │             
+           │    │             [1 rows x 8 columns]
+           │    └ <bound method _PythonModelPyfuncWrapper.predict of <mlflow.pyfunc.model._PythonModelPyfuncWrapper object at 0x149257510>>
+           └ mlflow.pyfunc.loaded_model:
+               artifact_path: mlflow-artifacts:/830363863222747895/models/m-f5d8553d8d014c04b6501f87d64bfd15/a...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/model.py", line 1326, in predict
+    return self.python_model.predict(
+           │    │            └ <function Sb3ModelWrapper.predict at 0x14924f880>
+           │    └ <src.models.sb3.wrapper.Sb3ModelWrapper object at 0x149f42f10>
+           └ <mlflow.pyfunc.model._PythonModelPyfuncWrapper object at 0x149257510>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/mlflow/pyfunc/utils/data_validation.py", line 77, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (<src.models.sb3.wrapper.Sb3ModelWrapper object at 0x149f42f10>, <mlflow.pyfunc.model.PythonModelContext object at 0x134d4f55...
+           └ <function Sb3ModelWrapper.predict at 0x14924f740>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/src/models/sb3/wrapper.py", line 38, in predict
+    actions, _ = self._model.predict(obs, deterministic=True)
+                 │    │      │       └ array([[1.134830e+00, 1.000000e+00, 1.000000e+00, 1.134885e+00,
+                 │    │      │                 1.135810e+00, 1.134485e+00, 1.134830e+00, 6.573000e+0...
+                 │    │      └ <function BaseAlgorithm.predict at 0x14922cae0>
+                 │    └ <stable_baselines3.ppo.ppo.PPO object at 0x149f78d90>
+                 └ <src.models.sb3.wrapper.Sb3ModelWrapper object at 0x149f42f10>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/base_class.py", line 556, in predict
+    return self.policy.predict(observation, state, episode_start, deterministic)
+           │    │      │       │            │      │              └ True
+           │    │      │       │            │      └ None
+           │    │      │       │            └ None
+           │    │      │       └ array([[1.134830e+00, 1.000000e+00, 1.000000e+00, 1.134885e+00,
+           │    │      │                 1.135810e+00, 1.134485e+00, 1.134830e+00, 6.573000e+0...
+           │    │      └ <function BasePolicy.predict at 0x149222160>
+           │    └ ActorCriticPolicy(
+           │        (features_extractor): FlattenExtractor(
+           │          (flatten): Flatten(start_dim=1, end_dim=-1)
+           │        )
+           │        (pi_featur...
+           └ <stable_baselines3.ppo.ppo.PPO object at 0x149f78d90>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 368, in predict
+    actions = self._predict(obs_tensor, deterministic=deterministic)
+              │    │        │                         └ True
+              │    │        └ tensor([[1.1348e+00, 1.0000e+00, 1.0000e+00, 1.1349e+00, 1.1358e+00, 1.1345e+00,
+              │    │                   1.1348e+00, 6.5730e+03, 1.1348e+00,...
+              │    └ <function ActorCriticPolicy._predict at 0x1492228e0>
+              └ ActorCriticPolicy(
+                  (features_extractor): FlattenExtractor(
+                    (flatten): Flatten(start_dim=1, end_dim=-1)
+                  )
+                  (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 717, in _predict
+    return self.get_distribution(observation).get_actions(deterministic=deterministic)
+           │    │                │                                      └ True
+           │    │                └ tensor([[1.1348e+00, 1.0000e+00, 1.0000e+00, 1.1349e+00, 1.1358e+00, 1.1345e+00,
+           │    │                           1.1348e+00, 6.5730e+03, 1.1348e+00,...
+           │    └ <function ActorCriticPolicy.get_distribution at 0x149222a20>
+           └ ActorCriticPolicy(
+               (features_extractor): FlattenExtractor(
+                 (flatten): Flatten(start_dim=1, end_dim=-1)
+               )
+               (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 752, in get_distribution
+    return self._get_action_dist_from_latent(latent_pi)
+           │    │                            └ tensor([[nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, n...
+           │    └ <function ActorCriticPolicy._get_action_dist_from_latent at 0x149222840>
+           └ ActorCriticPolicy(
+               (features_extractor): FlattenExtractor(
+                 (flatten): Flatten(start_dim=1, end_dim=-1)
+               )
+               (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/policies.py", line 697, in _get_action_dist_from_latent
+    return self.action_dist.proba_distribution(action_logits=mean_actions)
+           │    │           │                                └ tensor([[nan, nan, nan]])
+           │    │           └ <function CategoricalDistribution.proba_distribution at 0x1491eef20>
+           │    └ <stable_baselines3.common.distributions.CategoricalDistribution object at 0x14a0ce3d0>
+           └ ActorCriticPolicy(
+               (features_extractor): FlattenExtractor(
+                 (flatten): Flatten(start_dim=1, end_dim=-1)
+               )
+               (pi_featur...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/stable_baselines3/common/distributions.py", line 288, in proba_distribution
+    self.distribution = Categorical(logits=action_logits)
+    │    │              │                  └ tensor([[nan, nan, nan]])
+    │    │              └ <class 'torch.distributions.categorical.Categorical'>
+    │    └ None
+    └ <stable_baselines3.common.distributions.CategoricalDistribution object at 0x14a0ce3d0>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/torch/distributions/categorical.py", line 70, in __init__
+    super().__init__(batch_shape, validate_args=validate_args)
+                     │                          └ None
+                     └ torch.Size([1])
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/torch/distributions/distribution.py", line 68, in __init__
+    raise ValueError(
+
+ValueError: Expected parameter logits (Tensor of shape (1, 3)) of distribution Categorical(logits: torch.Size([1, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([[nan, nan, nan]])
+2025-06-17 16:33:21 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:33:23 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 16:33:23 | INFO     | Creating environment 'default'
+2025-06-17 16:33:23 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:33:23 | INFO     | Model loaded successfully.
+2025-06-17 16:33:23 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:39:08 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 16:39:08 | INFO     | Creating environment 'default'
+2025-06-17 16:39:08 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:39:08 | INFO     | Model loaded successfully.
+2025-06-17 16:39:09 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:42:15 | INFO     | Creating environment 'default'
+2025-06-17 16:42:15 | INFO     | Creating environment 'unknown'
+2025-06-17 16:42:15 | ERROR    | Environment 'unknown' not found.
+2025-06-17 16:42:16 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 16:42:16 | INFO     | Creating environment 'default'
+2025-06-17 16:42:16 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:42:16 | INFO     | Model loaded successfully.
+2025-06-17 16:45:05 | WARNING  | No trading accounts found in API response.
+2025-06-17 16:45:05 | ERROR    | Error getting account info: API request failed: 500 - Internal Server Error
+2025-06-17 16:45:05 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 16:45:05 | INFO     | Calling POST endpoint: https://ciapi.cityindex.com/TradingAPI/test/endpoint
+2025-06-17 16:45:05 | ERROR    | Error getting market ID for EUR/USD: No market found for symbol: EUR/USD
+2025-06-17 16:45:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:45:05 | INFO     | Successfully authenticated with Forex.com. Session: test_ses...
+2025-06-17 16:45:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:45:05 | ERROR    | Authentication failed with HTTP status: 401
+2025-06-17 16:45:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:45:05 | ERROR    | Authentication failed with API statusCode: 1
+2025-06-17 16:45:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:45:05 | INFO     | Successfully authenticated with Forex.com. Session: 5d823043...
+2025-06-17 16:45:05 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/useraccount/ClientAndTradingAccount
+2025-06-17 16:45:07 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 16:45:07 | INFO     | Order placed successfully: 555
+2025-06-17 16:45:07 | ERROR    | Error placing order for EUR/USD: Stop/Limit orders not yet implemented for Forex.com
+2025-06-17 16:45:07 | INFO     | Order cancelled successfully: 123
+2025-06-17 16:45:07 | ERROR    | Order cancellation failed: 400 - {'Error': 'Bad Request'}
+2025-06-17 16:45:07 | WARNING  | Could not map broker symbol 'UNKNOWN_SYMBOL' to common symbol. Skipping position.
+2025-06-17 16:45:07 | INFO     | Creating environment 'default'
+2025-06-17 16:45:07 | INFO     | Creating environment 'unknown'
+2025-06-17 16:45:07 | ERROR    | Environment 'unknown' not found.
+2025-06-17 16:45:08 | ERROR    | Agent 'NON_EXISTENT' not found.
+2025-06-17 16:45:08 | INFO     | Creating environment 'default'
+2025-06-17 16:45:08 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:45:08 | INFO     | Model loaded successfully.
+2025-06-17 16:45:08 | INFO     | Opening LONG position.
+2025-06-17 16:45:08 | INFO     | Opening SHORT position.
+2025-06-17 16:45:08 | INFO     | Closing open position.
+2025-06-17 16:45:08 | INFO     | Starting strategy: RLStrategy
+2025-06-17 16:45:08 | INFO     | Starting strategy: RLStrategy
+2025-06-17 16:45:08 | INFO     | Executing RL strategy for EUR/USD on 1h timeframe.
+2025-06-17 16:45:08 | INFO     | Opening LONG position.
+2025-06-17 16:46:40 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:46:50 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 16:46:50 | INFO     | Creating environment 'default'
+2025-06-17 16:46:50 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:46:51 | INFO     | Model loaded successfully.
+2025-06-17 16:46:51 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:51:19 | INFO     | Executing within MLflow Run ID: feee30d5643d403681841875ab9b14f8
+2025-06-17 16:51:19 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 16:51:19 | INFO     | Starting full data preparation pipeline...
+2025-06-17 16:51:19 | INFO     | Running data preparation script...
+2025-06-17 16:51:21 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 16:51:23 | INFO     | Creating forex_com broker instance
+2025-06-17 16:51:23 | INFO     | Creating forex calendar instance
+2025-06-17 16:51:23 | INFO     | Authenticating with forex_com...
+2025-06-17 16:51:23 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 16:51:24 | INFO     | Successfully authenticated with Forex.com. Session: bae200e7...
+2025-06-17 16:51:24 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 16:51:24 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 16:51:24 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 16:51:24 | INFO     | Standardizing data format...
+2025-06-17 16:51:24 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 16:51:24 | INFO     | Standardization complete. Final records: 365
+2025-06-17 16:51:24 | INFO     | Data quality score: 0.90
+2025-06-17 16:51:24 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 16:51:24 | INFO     | Preparing data for Qlib...
+2025-06-17 16:51:24 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 16:51:25 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 16:51:25 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 16:51:28 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 16:51:28 | INFO     | --- Running: Build Features ---
+2025-06-17 16:51:31 | INFO     | --- Finished: Build Features ---
+2025-06-17 16:51:31 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 16:51:31 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 16:51:31 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 16:51:31 | INFO     | Creating training and evaluation environments...
+2025-06-17 16:51:31 | INFO     | Creating environment 'default'
+2025-06-17 16:51:31 | INFO     | Creating environment 'default'
+2025-06-17 16:51:31 | INFO     | Environments created successfully.
+2025-06-17 16:51:31 | INFO     | Training PPO agent...
+2025-06-17 16:51:31 | INFO     | Starting training for 100000 timesteps…
+2025-06-17 16:51:35 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 16:51:35 | INFO     | Creating environment 'default'
+2025-06-17 16:51:35 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:51:35 | INFO     | Model loaded successfully.
+2025-06-17 16:51:36 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:51:43 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 16:51:43 | INFO     | Creating environment 'default'
+2025-06-17 16:51:43 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:51:43 | INFO     | Model loaded successfully.
+2025-06-17 16:51:44 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:53:32 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:55:30 | INFO     | Training complete.
+2025-06-17 16:55:30 | INFO     | Agent training completed.
+2025-06-17 16:55:30 | INFO     | Saving final model to data/models/PPO/feee30d5643d403681841875ab9b14f8/final_model.zip...
+2025-06-17 16:55:30 | INFO     | Model saved to data/models/PPO/feee30d5643d403681841875ab9b14f8/final_model.zip
+2025-06-17 16:55:30 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 16:55:47 | INFO     | Training run feee30d5643d403681841875ab9b14f8 complete.
+2025-06-17 16:55:47 | INFO     | Model saved at: data/models/PPO/feee30d5643d403681841875ab9b14f8/final_model.zip
+2025-06-17 16:55:47 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/feee30d5643d403681841875ab9b14f8
+2025-06-17 16:55:47 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 16:57:03 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 16:57:06 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 16:57:06 | INFO     | Creating environment 'default'
+2025-06-17 16:57:06 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 16:57:06 | INFO     | Model loaded successfully.
+2025-06-17 16:57:06 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 17:05:41 | INFO     | Executing within MLflow Run ID: c0766cb171844565ab98e944c8b22278
+2025-06-17 17:05:41 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 17:05:41 | INFO     | Starting full data preparation pipeline...
+2025-06-17 17:05:41 | INFO     | Running data preparation script...
+2025-06-17 17:05:43 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 17:05:45 | INFO     | Creating forex_com broker instance
+2025-06-17 17:05:45 | INFO     | Creating forex calendar instance
+2025-06-17 17:05:45 | INFO     | Authenticating with forex_com...
+2025-06-17 17:05:45 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 17:05:45 | INFO     | Successfully authenticated with Forex.com. Session: 146bb39c...
+2025-06-17 17:05:45 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 17:05:45 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 17:05:46 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 17:05:46 | INFO     | Standardizing data format...
+2025-06-17 17:05:46 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 17:05:46 | INFO     | Standardization complete. Final records: 365
+2025-06-17 17:05:46 | INFO     | Data quality score: 0.90
+2025-06-17 17:05:46 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 17:05:46 | INFO     | Preparing data for Qlib...
+2025-06-17 17:05:46 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 17:05:46 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 17:05:46 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 17:05:49 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 17:05:49 | INFO     | --- Running: Build Features ---
+2025-06-17 17:05:52 | INFO     | --- Finished: Build Features ---
+2025-06-17 17:05:52 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 17:05:52 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 17:05:52 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 17:05:52 | INFO     | Creating training and evaluation environments...
+2025-06-17 17:05:52 | INFO     | Creating environment 'default'
+2025-06-17 17:05:52 | INFO     | Creating environment 'default'
+2025-06-17 17:05:52 | INFO     | Environments created successfully.
+2025-06-17 17:05:52 | INFO     | Training PPO agent...
+2025-06-17 17:05:52 | INFO     | Starting training for 10000 timesteps…
+2025-06-17 17:06:11 | INFO     | Training complete.
+2025-06-17 17:06:11 | INFO     | Agent training completed.
+2025-06-17 17:06:11 | INFO     | Saving final model to data/models/PPO/c0766cb171844565ab98e944c8b22278/final_model.zip...
+2025-06-17 17:06:11 | INFO     | Model saved to data/models/PPO/c0766cb171844565ab98e944c8b22278/final_model.zip
+2025-06-17 17:06:11 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 17:06:28 | INFO     | Training run c0766cb171844565ab98e944c8b22278 complete.
+2025-06-17 17:06:28 | INFO     | Model saved at: data/models/PPO/c0766cb171844565ab98e944c8b22278/final_model.zip
+2025-06-17 17:06:28 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/c0766cb171844565ab98e944c8b22278
+2025-06-17 17:06:28 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 17:08:31 | INFO     | Executing within MLflow Run ID: c0766cb171844565ab98e944c8b22278
+2025-06-17 17:08:31 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 17:40:25 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 17:41:36 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 17:41:39 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 17:41:55 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 17:48:57 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 17:52:36 | INFO     | Executing within MLflow Run ID: 2d4ae4661cd14558992d25ce4ed8f8b3
+2025-06-17 17:52:36 | INFO     | Starting training session for PPO on EUR/USD (1h)...
+2025-06-17 17:52:36 | INFO     | Starting full data preparation pipeline...
+2025-06-17 17:52:36 | INFO     | Running data preparation script...
+2025-06-17 17:52:39 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 17:52:40 | INFO     | Creating forex_com broker instance
+2025-06-17 17:52:40 | INFO     | Creating forex calendar instance
+2025-06-17 17:52:40 | INFO     | Authenticating with forex_com...
+2025-06-17 17:52:40 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 17:52:41 | INFO     | Successfully authenticated with Forex.com. Session: 7c6a0e04...
+2025-06-17 17:52:41 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 17:52:41 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 17:52:41 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 17:52:41 | INFO     | Standardizing data format...
+2025-06-17 17:52:41 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 17:52:41 | INFO     | Standardization complete. Final records: 365
+2025-06-17 17:52:41 | INFO     | Data quality score: 0.90
+2025-06-17 17:52:41 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 17:52:41 | INFO     | Preparing data for Qlib...
+2025-06-17 17:52:41 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 17:52:42 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 17:52:42 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 17:52:44 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 17:52:44 | INFO     | --- Running: Build Features ---
+2025-06-17 17:52:47 | INFO     | --- Finished: Build Features ---
+2025-06-17 17:52:47 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 17:52:47 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 17:52:47 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 17:52:47 | INFO     | Creating training and evaluation environments...
+2025-06-17 17:52:47 | INFO     | Creating environment 'default'
+2025-06-17 17:52:47 | INFO     | Creating environment 'default'
+2025-06-17 17:52:47 | INFO     | Environments created successfully.
+2025-06-17 17:52:47 | INFO     | Training PPO agent...
+2025-06-17 17:52:48 | INFO     | Starting training for 3000000 timesteps…
+2025-06-17 18:34:45 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 18:36:34 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 18:36:34 | INFO     | Creating environment 'default'
+2025-06-17 18:36:34 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 18:36:34 | INFO     | Model loaded successfully.
+2025-06-17 18:36:35 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 19:13:50 | INFO     | Training complete.
+2025-06-17 19:13:50 | INFO     | Agent training completed.
+2025-06-17 19:13:50 | INFO     | Saving final model to data/models/PPO/2d4ae4661cd14558992d25ce4ed8f8b3/final_model.zip...
+2025-06-17 19:13:50 | INFO     | Model saved to data/models/PPO/2d4ae4661cd14558992d25ce4ed8f8b3/final_model.zip
+2025-06-17 19:13:50 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 19:14:08 | INFO     | Training run 2d4ae4661cd14558992d25ce4ed8f8b3 complete.
+2025-06-17 19:14:08 | INFO     | Model saved at: data/models/PPO/2d4ae4661cd14558992d25ce4ed8f8b3/final_model.zip
+2025-06-17 19:14:08 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/PPO/2d4ae4661cd14558992d25ce4ed8f8b3
+2025-06-17 19:14:08 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 20:07:32 | INFO     | Initializing agentic-trading project...
+2025-06-17 20:07:32 | INFO     | Creating project directories...
+2025-06-17 20:07:32 | INFO     | Project directories created successfully
+2025-06-17 20:07:32 | INFO     | Testing configuration loading...
+2025-06-17 20:07:32 | INFO     | ✅ Agent config loaded successfully
+2025-06-17 20:07:32 | INFO     | ✅ Data config loaded successfully
+2025-06-17 20:07:32 | INFO     | ✅ Trading config loaded successfully
+2025-06-17 20:07:32 | INFO     | ✅ Qlib config loaded successfully
+2025-06-17 20:07:32 | INFO     | Checking environment variables...
+2025-06-17 20:07:32 | INFO     | ✅ All API keys are configured
+2025-06-17 20:07:32 | INFO     | 🎉 Project initialization completed successfully!
+2025-06-17 20:07:32 | INFO     | Next steps:
+2025-06-17 20:07:32 | INFO     | 1. Set up your API keys in .env file
+2025-06-17 20:07:32 | INFO     | 2. Install dependencies: uv sync
+2025-06-17 20:07:32 | INFO     | 3. Download historical data: python scripts/data/download_historical.py
+2025-06-17 20:26:40 | INFO     | Initializing agentic-trading project...
+2025-06-17 20:26:40 | INFO     | Creating project directories...
+2025-06-17 20:26:40 | INFO     | Project directories created successfully
+2025-06-17 20:26:40 | INFO     | Testing configuration loading...
+2025-06-17 20:26:40 | INFO     | ✅ Agent config loaded successfully
+2025-06-17 20:26:40 | INFO     | ✅ Data config loaded successfully
+2025-06-17 20:26:40 | INFO     | ✅ Trading config loaded successfully
+2025-06-17 20:26:40 | INFO     | ✅ Qlib config loaded successfully
+2025-06-17 20:26:40 | INFO     | Checking environment variables...
+2025-06-17 20:26:40 | INFO     | ✅ All API keys are configured
+2025-06-17 20:26:40 | INFO     | 🎉 Project initialization completed successfully!
+2025-06-17 20:26:40 | INFO     | Next steps:
+2025-06-17 20:26:40 | INFO     | 1. Set up your API keys in .env file
+2025-06-17 20:26:40 | INFO     | 2. Install dependencies: uv sync
+2025-06-17 20:26:40 | INFO     | 3. Download historical data: python scripts/data/download_historical.py
+2025-06-17 20:26:58 | INFO     | Executing within MLflow Run ID: 9e975a1e03164f17bc29a8c29636987d
+2025-06-17 20:26:58 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-17 20:26:58 | INFO     | Starting full data preparation pipeline...
+2025-06-17 20:26:58 | INFO     | Running data preparation script...
+2025-06-17 20:27:00 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 20:27:02 | INFO     | Creating forex_com broker instance
+2025-06-17 20:27:02 | INFO     | Creating forex calendar instance
+2025-06-17 20:27:02 | INFO     | Authenticating with forex_com...
+2025-06-17 20:27:02 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 20:27:03 | INFO     | Successfully authenticated with Forex.com. Session: 32435e13...
+2025-06-17 20:27:03 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 20:27:03 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 20:27:03 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 20:27:03 | INFO     | Standardizing data format...
+2025-06-17 20:27:03 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 20:27:03 | INFO     | Standardization complete. Final records: 365
+2025-06-17 20:27:03 | INFO     | Data quality score: 0.90
+2025-06-17 20:27:03 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 20:27:03 | INFO     | Preparing data for Qlib...
+2025-06-17 20:27:03 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 20:27:03 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 20:27:03 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 20:27:06 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 20:27:06 | INFO     | --- Running: Build Features ---
+2025-06-17 20:27:09 | INFO     | --- Finished: Build Features ---
+2025-06-17 20:27:09 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 20:27:09 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 20:27:09 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 20:27:09 | INFO     | Creating training and evaluation environments...
+2025-06-17 20:27:09 | INFO     | Creating environment 'default'
+2025-06-17 20:27:09 | INFO     | Creating environment 'default'
+2025-06-17 20:27:09 | INFO     | Environments created successfully.
+2025-06-17 20:27:09 | INFO     | Training ppo agent...
+2025-06-17 20:27:09 | ERROR    | Agent 'ppo' not found.
+2025-06-17 20:28:11 | INFO     | Initializing agentic-trading project...
+2025-06-17 20:28:11 | INFO     | Creating project directories...
+2025-06-17 20:28:11 | INFO     | Project directories created successfully
+2025-06-17 20:28:11 | INFO     | Testing configuration loading...
+2025-06-17 20:28:11 | INFO     | ✅ Agent config loaded successfully
+2025-06-17 20:28:11 | INFO     | ✅ Data config loaded successfully
+2025-06-17 20:28:11 | INFO     | ✅ Trading config loaded successfully
+2025-06-17 20:28:11 | INFO     | ✅ Qlib config loaded successfully
+2025-06-17 20:28:11 | INFO     | Checking environment variables...
+2025-06-17 20:28:11 | INFO     | ✅ All API keys are configured
+2025-06-17 20:28:11 | INFO     | 🎉 Project initialization completed successfully!
+2025-06-17 20:28:11 | INFO     | Next steps:
+2025-06-17 20:28:11 | INFO     | 1. Set up your API keys in .env file
+2025-06-17 20:28:11 | INFO     | 2. Install dependencies: uv sync
+2025-06-17 20:28:11 | INFO     | 3. Download historical data: python scripts/data/download_historical.py
+2025-06-17 20:28:25 | INFO     | Executing within MLflow Run ID: 4f4288bff9964896a79049b9c2829a4f
+2025-06-17 20:28:25 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-17 20:28:25 | INFO     | Starting full data preparation pipeline...
+2025-06-17 20:28:25 | INFO     | Running data preparation script...
+2025-06-17 20:28:27 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 20:28:29 | INFO     | Creating forex_com broker instance
+2025-06-17 20:28:29 | INFO     | Creating forex calendar instance
+2025-06-17 20:28:29 | INFO     | Authenticating with forex_com...
+2025-06-17 20:28:29 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 20:28:29 | INFO     | Successfully authenticated with Forex.com. Session: dd81755f...
+2025-06-17 20:28:29 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 20:28:29 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 20:28:29 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 20:28:30 | INFO     | Standardizing data format...
+2025-06-17 20:28:30 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 20:28:30 | INFO     | Standardization complete. Final records: 365
+2025-06-17 20:28:30 | INFO     | Data quality score: 0.90
+2025-06-17 20:28:30 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 20:28:30 | INFO     | Preparing data for Qlib...
+2025-06-17 20:28:30 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 20:28:30 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 20:28:30 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 20:28:32 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 20:28:32 | INFO     | --- Running: Build Features ---
+2025-06-17 20:28:35 | INFO     | --- Finished: Build Features ---
+2025-06-17 20:28:35 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 20:28:35 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 20:28:35 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 20:28:35 | INFO     | Creating training and evaluation environments...
+2025-06-17 20:28:35 | INFO     | Creating environment 'default'
+2025-06-17 20:28:35 | INFO     | Creating environment 'default'
+2025-06-17 20:28:35 | INFO     | Environments created successfully.
+2025-06-17 20:28:35 | INFO     | Training ppo agent...
+2025-06-17 20:28:36 | INFO     | Starting training for 20000 timesteps…
+2025-06-17 20:29:05 | INFO     | Training complete.
+2025-06-17 20:29:05 | INFO     | Agent training completed.
+2025-06-17 20:29:05 | INFO     | Saving final model to data/models/ppo/4f4288bff9964896a79049b9c2829a4f/final_model.zip...
+2025-06-17 20:29:05 | INFO     | Model saved to data/models/ppo/4f4288bff9964896a79049b9c2829a4f/final_model.zip
+2025-06-17 20:29:05 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 20:30:15 | INFO     | Initializing agentic-trading project...
+2025-06-17 20:30:15 | INFO     | Creating project directories...
+2025-06-17 20:30:15 | INFO     | Project directories created successfully
+2025-06-17 20:30:15 | INFO     | Testing configuration loading...
+2025-06-17 20:30:15 | INFO     | ✅ Agent config loaded successfully
+2025-06-17 20:30:15 | INFO     | ✅ Data config loaded successfully
+2025-06-17 20:30:15 | INFO     | ✅ Trading config loaded successfully
+2025-06-17 20:30:15 | INFO     | ✅ Qlib config loaded successfully
+2025-06-17 20:30:15 | INFO     | Checking environment variables...
+2025-06-17 20:30:15 | INFO     | ✅ All API keys are configured
+2025-06-17 20:30:15 | INFO     | 🎉 Project initialization completed successfully!
+2025-06-17 20:30:15 | INFO     | Next steps:
+2025-06-17 20:30:15 | INFO     | 1. Set up your API keys in .env file
+2025-06-17 20:30:15 | INFO     | 2. Install dependencies: uv sync
+2025-06-17 20:30:15 | INFO     | 3. Download historical data: python scripts/data/download_historical.py
+2025-06-17 20:30:28 | INFO     | Executing within MLflow Run ID: c6b6137399ea44ed9a6aabba00d49888
+2025-06-17 20:30:28 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-17 20:30:28 | INFO     | Starting full data preparation pipeline...
+2025-06-17 20:30:28 | INFO     | Running data preparation script...
+2025-06-17 20:30:30 | INFO     | --- Running: Download Historical Data ---
+2025-06-17 20:30:32 | INFO     | Creating forex_com broker instance
+2025-06-17 20:30:32 | INFO     | Creating forex calendar instance
+2025-06-17 20:30:32 | INFO     | Authenticating with forex_com...
+2025-06-17 20:30:32 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-17 20:30:32 | INFO     | Successfully authenticated with Forex.com. Session: 494a81eb...
+2025-06-17 20:30:32 | INFO     | Downloading EUR/USD data from 2024-06-17 to 2025-06-17
+2025-06-17 20:30:32 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-17 20:30:32 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-17 20:30:33 | INFO     | Standardizing data format...
+2025-06-17 20:30:33 | INFO     | Standardizing 365 records from forex_com
+2025-06-17 20:30:33 | INFO     | Standardization complete. Final records: 365
+2025-06-17 20:30:33 | INFO     | Data quality score: 0.90
+2025-06-17 20:30:33 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-17 20:30:33 | INFO     | Preparing data for Qlib...
+2025-06-17 20:30:33 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-17 20:30:33 | INFO     | --- Finished: Download Historical Data ---
+2025-06-17 20:30:33 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-17 20:30:35 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-17 20:30:35 | INFO     | --- Running: Build Features ---
+2025-06-17 20:30:38 | INFO     | --- Finished: Build Features ---
+2025-06-17 20:30:38 | INFO     | Data preparation pipeline completed successfully.
+2025-06-17 20:30:38 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-17 20:30:38 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-17 20:30:38 | INFO     | Creating training and evaluation environments...
+2025-06-17 20:30:38 | INFO     | Creating environment 'default'
+2025-06-17 20:30:38 | INFO     | Creating environment 'default'
+2025-06-17 20:30:38 | INFO     | Environments created successfully.
+2025-06-17 20:30:38 | INFO     | Training ppo agent...
+2025-06-17 20:30:39 | INFO     | Starting training for 20000 timesteps…
+2025-06-17 20:31:09 | INFO     | Training complete.
+2025-06-17 20:31:09 | INFO     | Agent training completed.
+2025-06-17 20:31:09 | INFO     | Saving final model to data/models/ppo/c6b6137399ea44ed9a6aabba00d49888/final_model.zip...
+2025-06-17 20:31:09 | INFO     | Model saved to data/models/ppo/c6b6137399ea44ed9a6aabba00d49888/final_model.zip
+2025-06-17 20:31:09 | INFO     | Logging and registering the model with MLflow...
+2025-06-17 20:31:24 | INFO     | Training run c6b6137399ea44ed9a6aabba00d49888 complete.
+2025-06-17 20:31:24 | INFO     | Model saved at: data/models/ppo/c6b6137399ea44ed9a6aabba00d49888/final_model.zip
+2025-06-17 20:31:24 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/c6b6137399ea44ed9a6aabba00d49888
+2025-06-17 20:31:24 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-17 20:31:30 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 20:31:38 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 20:31:38 | INFO     | Creating environment 'default'
+2025-06-17 20:31:38 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 20:31:48 | INFO     | Model loaded successfully.
+2025-06-17 20:31:49 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 20:45:04 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 20:45:07 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 20:45:07 | INFO     | Creating environment 'default'
+2025-06-17 20:45:07 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 20:45:21 | INFO     | Model loaded successfully.
+2025-06-17 20:48:26 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 20:49:06 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 20:49:06 | INFO     | Creating environment 'default'
+2025-06-17 20:49:06 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 20:49:17 | INFO     | Model loaded successfully.
+2025-06-17 20:49:18 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:01:47 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:01:50 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:01:50 | INFO     | Creating environment 'default'
+2025-06-17 21:01:50 | ERROR    | Simulation failed: %s
+Traceback (most recent call last):
+
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x10100fe20>
+    └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x10100fb00>
+    └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='99995be5-0cdf-431f-9442-cafd51ffafd9', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 371, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x1018e4630>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-9f8cf5086eba...
+    │    └ <function ScriptRunner._run_script at 0x10199d580>
+    └ ScriptRunner(_session_id='99995be5-0cdf-431f-9442-cafd51ffafd9', _main_script_path='scripts/analysis/run_simulation.py', _ses...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 661, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='99995be5-0cdf-431f-9442-cafd51ffafd9', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x13bbe6d40>
+        └ <function exec_func_with_error_handling at 0x101939e40>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x13bbe6d40>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 645, in code_to_exec
+    exec(code, module.__dict__)
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'scripts/analysis/run_simulation.py'>
+         └ <code object <module> at 0x7f8fd57aaa00, file "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation...
+
+> File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation.py", line 97, in <module>
+    result = run_simulation(
+             └ <function run_simulation at 0x13bcccae0>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/backend.py", line 70, in run_simulation
+
+TypeError: Backtester.run() got an unexpected keyword argument 'recorder'
+2025-06-17 21:03:37 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:03:41 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:03:41 | INFO     | Creating environment 'default'
+2025-06-17 21:03:41 | ERROR    | Simulation failed: %s
+Traceback (most recent call last):
+
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x10100fe20>
+    └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x10100fb00>
+    └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+  File "/Users/lefa/.local/share/uv/python/cpython-3.11.12-macos-x86_64-none/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='07ebd56e-741d-47fe-9042-0568c68cd9ca', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 123145477320704)>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 371, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x1018e4630>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-9f8cf5086eba...
+    │    └ <function ScriptRunner._run_script at 0x10199d580>
+    └ ScriptRunner(_session_id='07ebd56e-741d-47fe-9042-0568c68cd9ca', _main_script_path='scripts/analysis/run_simulation.py', _ses...
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 661, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='07ebd56e-741d-47fe-9042-0568c68cd9ca', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x13ba0bec0>
+        └ <function exec_func_with_error_handling at 0x101939e40>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x13ba0bec0>
+  File "/Users/lefa/Documents/projects/agentic-trading/.venv/lib/python3.11/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 645, in code_to_exec
+    exec(code, module.__dict__)
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'scripts/analysis/run_simulation.py'>
+         └ <code object <module> at 0x7f8fd57aaa00, file "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation...
+
+> File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/run_simulation.py", line 97, in <module>
+    result = run_simulation(
+             └ <function run_simulation at 0x13bcccae0>
+
+  File "/Users/lefa/Documents/projects/agentic-trading/scripts/analysis/backend.py", line 70, in run_simulation
+
+TypeError: Backtester.run() got an unexpected keyword argument 'recorder'
+2025-06-17 21:03:56 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:03:58 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:03:58 | INFO     | Creating environment 'default'
+2025-06-17 21:03:58 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:04:09 | INFO     | Model loaded successfully.
+2025-06-17 21:04:10 | INFO     | Session recorded to %s
+2025-06-17 21:04:15 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:04:18 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:04:25 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:04:25 | INFO     | Creating environment 'default'
+2025-06-17 21:04:25 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:04:25 | INFO     | Model loaded successfully.
+2025-06-17 21:04:26 | INFO     | Session recorded to %s
+2025-06-17 21:04:26 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:04:30 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:14:45 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:14:47 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:14:47 | INFO     | Creating environment 'default'
+2025-06-17 21:14:47 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:15:01 | INFO     | Model loaded successfully.
+2025-06-17 21:15:01 | INFO     | Session recorded to %s
+2025-06-17 21:15:02 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:16:32 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:17:32 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:17:40 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:17:40 | INFO     | Creating environment 'default'
+2025-06-17 21:17:40 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:17:53 | INFO     | Model loaded successfully.
+2025-06-17 21:17:53 | INFO     | Session recorded to %s
+2025-06-17 21:17:53 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:17:59 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:18:19 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:18:19 | INFO     | Creating environment 'default'
+2025-06-17 21:18:19 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:18:19 | INFO     | Model loaded successfully.
+2025-06-17 21:18:20 | INFO     | Session recorded to %s
+2025-06-17 21:18:20 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:18:23 | INFO     | Streamlit UI: %s models fetched from registry
+2025-06-17 21:26:16 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:26:16 | INFO     | Creating environment 'default'
+2025-06-17 21:26:16 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:26:31 | INFO     | Model loaded successfully.
+2025-06-17 21:26:31 | INFO     | Session recorded to %s
+2025-06-17 21:29:00 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:29:00 | INFO     | Creating environment 'default'
+2025-06-17 21:29:00 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:29:00 | INFO     | Model loaded successfully.
+2025-06-17 21:29:00 | INFO     | Session recorded to %s
+2025-06-17 21:33:40 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:33:40 | INFO     | Creating environment 'default'
+2025-06-17 21:33:40 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:33:50 | INFO     | Model loaded successfully.
+2025-06-17 21:33:50 | INFO     | Session recorded to %s
+2025-06-17 21:40:36 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:40:36 | INFO     | Creating environment 'default'
+2025-06-17 21:40:36 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:40:50 | INFO     | Model loaded successfully.
+2025-06-17 21:40:50 | INFO     | Session recorded to %s
+2025-06-17 21:48:34 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 21:48:34 | INFO     | Creating environment 'default'
+2025-06-17 21:48:34 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 21:48:45 | INFO     | Model loaded successfully.
+2025-06-17 21:48:45 | INFO     | Session recorded to %s
+2025-06-17 22:00:02 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:00:02 | INFO     | Creating environment 'default'
+2025-06-17 22:00:02 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:00:15 | INFO     | Model loaded successfully.
+2025-06-17 22:00:16 | INFO     | Session recorded to %s
+2025-06-17 22:06:49 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:06:49 | INFO     | Creating environment 'default'
+2025-06-17 22:06:49 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:07:02 | INFO     | Model loaded successfully.
+2025-06-17 22:07:02 | INFO     | Session recorded to %s
+2025-06-17 22:10:53 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:10:53 | INFO     | Creating environment 'default'
+2025-06-17 22:10:53 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:11:05 | INFO     | Model loaded successfully.
+2025-06-17 22:11:05 | INFO     | Session recorded to %s
+2025-06-17 22:13:06 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:13:06 | INFO     | Creating environment 'default'
+2025-06-17 22:13:06 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:13:17 | INFO     | Model loaded successfully.
+2025-06-17 22:13:17 | INFO     | Session recorded to %s
+2025-06-17 22:23:58 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:23:58 | INFO     | Creating environment 'default'
+2025-06-17 22:23:58 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:24:10 | INFO     | Model loaded successfully.
+2025-06-17 22:24:11 | INFO     | Session recorded to %s
+2025-06-17 22:25:39 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:25:39 | INFO     | Creating environment 'default'
+2025-06-17 22:25:39 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:25:52 | INFO     | Model loaded successfully.
+2025-06-17 22:25:52 | INFO     | Session recorded to %s
+2025-06-17 22:32:08 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:32:08 | INFO     | Creating environment 'default'
+2025-06-17 22:32:08 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:32:21 | INFO     | Model loaded successfully.
+2025-06-17 22:32:22 | INFO     | Session recorded to %s
+2025-06-17 22:37:57 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:37:57 | INFO     | Creating environment 'default'
+2025-06-17 22:37:57 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:37:58 | INFO     | Model loaded successfully.
+2025-06-17 22:37:58 | INFO     | Session recorded to %s
+2025-06-17 22:45:43 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:45:43 | INFO     | Creating environment 'default'
+2025-06-17 22:45:43 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:45:55 | INFO     | Model loaded successfully.
+2025-06-17 22:45:56 | INFO     | Session recorded to %s
+2025-06-17 22:48:59 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:48:59 | INFO     | Creating environment 'default'
+2025-06-17 22:48:59 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:49:13 | INFO     | Model loaded successfully.
+2025-06-17 22:49:13 | INFO     | Session recorded to %s
+2025-06-17 22:49:32 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:49:32 | INFO     | Creating environment 'default'
+2025-06-17 22:49:32 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:49:32 | INFO     | Model loaded successfully.
+2025-06-17 22:49:33 | INFO     | Session recorded to %s
+2025-06-17 22:53:27 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 22:53:27 | INFO     | Creating environment 'default'
+2025-06-17 22:53:27 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 22:53:38 | INFO     | Model loaded successfully.
+2025-06-17 22:53:39 | INFO     | Session recorded to %s
+2025-06-17 23:01:08 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-17 23:01:08 | INFO     | Creating environment 'default'
+2025-06-17 23:01:08 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-17 23:01:21 | INFO     | Model loaded successfully.
+2025-06-17 23:01:22 | INFO     | Session recorded to %s
+2025-06-18 08:42:08 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-18 08:42:08 | INFO     | Creating environment 'default'
+2025-06-18 08:42:08 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-18 08:42:22 | INFO     | Model loaded successfully.
+2025-06-18 08:42:23 | INFO     | Session recorded to %s
+2025-06-18 09:16:28 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-18 09:16:28 | INFO     | Creating environment 'default'
+2025-06-18 09:16:28 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-18 09:16:29 | INFO     | Model loaded successfully.
+2025-06-18 09:16:29 | INFO     | Session recorded to %s
+2025-06-18 10:16:41 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-18 10:16:41 | INFO     | Creating environment 'default'
+2025-06-18 10:16:41 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-18 10:16:56 | INFO     | Model loaded successfully.
+2025-06-18 10:16:56 | INFO     | Session recorded to %s
+2025-06-18 10:19:33 | WARNING  | Dropped %d rows with NaNs from features file.
+2025-06-18 10:19:33 | INFO     | Creating environment 'default'
+2025-06-18 10:19:33 | INFO     | Downloading model from MLflow - this might take a moment…
+2025-06-18 10:24:56 | INFO     | Creating environment 'default'
+2025-06-18 10:36:29 | INFO     | Initializing agentic-trading project...
+2025-06-18 10:36:29 | INFO     | Creating project directories...
+2025-06-18 10:36:29 | INFO     | Project directories created successfully
+2025-06-18 10:36:29 | INFO     | Testing configuration loading...
+2025-06-18 10:36:29 | INFO     | ✅ Agent config loaded successfully
+2025-06-18 10:36:29 | INFO     | ✅ Data config loaded successfully
+2025-06-18 10:36:29 | INFO     | ✅ Trading config loaded successfully
+2025-06-18 10:36:29 | INFO     | ✅ Qlib config loaded successfully
+2025-06-18 10:36:29 | INFO     | Checking environment variables...
+2025-06-18 10:36:29 | INFO     | ✅ All API keys are configured
+2025-06-18 10:36:29 | INFO     | 🎉 Project initialization completed successfully!
+2025-06-18 10:36:29 | INFO     | Next steps:
+2025-06-18 10:36:29 | INFO     | 1. Set up your API keys in .env file
+2025-06-18 10:36:29 | INFO     | 2. Install dependencies: uv sync
+2025-06-18 10:36:29 | INFO     | 3. Download historical data: python scripts/data/download_historical.py
+2025-06-18 10:37:54 | INFO     | Creating forex_com broker instance
+2025-06-18 10:37:54 | INFO     | Creating forex calendar instance
+2025-06-18 10:37:54 | INFO     | Authenticating with forex_com...
+2025-06-18 10:37:54 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 10:37:54 | INFO     | Successfully authenticated with Forex.com. Session: 489f3e61...
+2025-06-18 10:37:54 | INFO     | Downloading EUR/USD data from 2011-10-10 to 2025-06-18
+2025-06-18 10:37:54 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 10:37:55 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 10:37:56 | INFO     | Standardizing data format...
+2025-06-18 10:37:56 | INFO     | Standardizing 4000 records from forex_com
+2025-06-18 10:37:56 | INFO     | Standardization complete. Final records: 4000
+2025-06-18 10:37:56 | INFO     | Data quality score: 0.90
+2025-06-18 10:37:56 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 36']
+2025-06-18 10:37:56 | INFO     | Preparing data for Qlib...
+2025-06-18 10:37:56 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 11:26:51 | INFO     | Executing within MLflow Run ID: 707e0dfe9daf46d494a77620021e538c
+2025-06-18 11:26:51 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 11:26:52 | INFO     | Starting full data preparation pipeline...
+2025-06-18 11:26:52 | INFO     | Running data preparation script...
+2025-06-18 11:26:54 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 11:26:56 | INFO     | Creating forex_com broker instance
+2025-06-18 11:26:56 | INFO     | Creating forex calendar instance
+2025-06-18 11:26:56 | INFO     | Authenticating with forex_com...
+2025-06-18 11:26:56 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 11:26:56 | INFO     | Successfully authenticated with Forex.com. Session: c1ed208a...
+2025-06-18 11:26:56 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 11:26:56 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 11:26:57 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 11:26:57 | INFO     | Standardizing data format...
+2025-06-18 11:26:57 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 11:26:57 | INFO     | Standardization complete. Final records: 365
+2025-06-18 11:26:57 | INFO     | Data quality score: 0.90
+2025-06-18 11:26:57 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 11:26:57 | INFO     | Preparing data for Qlib...
+2025-06-18 11:26:57 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 11:26:57 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 11:26:57 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 11:27:01 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 11:27:01 | INFO     | --- Running: Build Features ---
+2025-06-18 11:27:04 | INFO     | --- Finished: Build Features ---
+2025-06-18 11:27:04 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 11:27:04 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 11:27:04 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 11:27:04 | INFO     | Creating training and evaluation environments...
+2025-06-18 11:27:04 | INFO     | Creating environment 'default'
+2025-06-18 11:27:04 | INFO     | Creating environment 'default'
+2025-06-18 11:27:04 | INFO     | Environments created successfully.
+2025-06-18 11:27:04 | INFO     | Training ppo agent...
+2025-06-18 11:27:05 | INFO     | Starting training for 3000000 timesteps…
+2025-06-18 12:30:33 | INFO     | Executing within MLflow Run ID: adfd4c65f48b49939fa924df7da15233
+2025-06-18 12:30:33 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 12:30:33 | INFO     | Starting full data preparation pipeline...
+2025-06-18 12:30:33 | INFO     | Running data preparation script...
+2025-06-18 12:30:35 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 12:30:36 | INFO     | Creating forex_com broker instance
+2025-06-18 12:30:36 | INFO     | Creating forex calendar instance
+2025-06-18 12:30:36 | INFO     | Authenticating with forex_com...
+2025-06-18 12:30:36 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 12:30:37 | INFO     | Successfully authenticated with Forex.com. Session: c4876c42...
+2025-06-18 12:30:37 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 12:30:37 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 12:30:37 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 12:30:38 | INFO     | Standardizing data format...
+2025-06-18 12:30:38 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 12:30:38 | INFO     | Standardization complete. Final records: 365
+2025-06-18 12:30:38 | INFO     | Data quality score: 0.90
+2025-06-18 12:30:38 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 12:30:38 | INFO     | Preparing data for Qlib...
+2025-06-18 12:30:38 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 12:30:39 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 12:30:39 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 12:30:42 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 12:30:42 | INFO     | --- Running: Build Features ---
+2025-06-18 12:30:45 | INFO     | --- Finished: Build Features ---
+2025-06-18 12:30:45 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 12:30:45 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 12:30:45 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 12:30:45 | INFO     | Creating training and evaluation environments...
+2025-06-18 12:30:45 | INFO     | Creating environment 'default'
+2025-06-18 12:30:45 | INFO     | Creating environment 'default'
+2025-06-18 12:30:45 | INFO     | Environments created successfully.
+2025-06-18 12:30:45 | INFO     | Training ppo agent...
+2025-06-18 12:30:45 | INFO     | Starting training for 3000000 timesteps…
+2025-06-18 12:33:07 | INFO     | Training complete.
+2025-06-18 12:33:07 | INFO     | Agent training completed.
+2025-06-18 12:33:07 | INFO     | Saving final model to data/models/ppo/adfd4c65f48b49939fa924df7da15233/final_model.zip...
+2025-06-18 12:33:07 | INFO     | Model saved to data/models/ppo/adfd4c65f48b49939fa924df7da15233/final_model.zip
+2025-06-18 12:33:07 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 12:33:23 | INFO     | Training run adfd4c65f48b49939fa924df7da15233 complete.
+2025-06-18 12:33:23 | INFO     | Model saved at: data/models/ppo/adfd4c65f48b49939fa924df7da15233/final_model.zip
+2025-06-18 12:33:23 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/adfd4c65f48b49939fa924df7da15233
+2025-06-18 12:33:23 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 12:42:12 | INFO     | Executing within MLflow Run ID: 3b13d20e23ec4bad9c984c2d57c97dce
+2025-06-18 12:42:12 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 12:42:13 | INFO     | Starting full data preparation pipeline...
+2025-06-18 12:42:13 | INFO     | Running data preparation script...
+2025-06-18 12:42:15 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 12:42:16 | INFO     | Creating forex_com broker instance
+2025-06-18 12:42:16 | INFO     | Creating forex calendar instance
+2025-06-18 12:42:16 | INFO     | Authenticating with forex_com...
+2025-06-18 12:42:16 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 12:42:17 | INFO     | Successfully authenticated with Forex.com. Session: c6fbdd48...
+2025-06-18 12:42:17 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 12:42:17 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 12:42:17 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 12:42:18 | INFO     | Standardizing data format...
+2025-06-18 12:42:18 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 12:42:18 | INFO     | Standardization complete. Final records: 365
+2025-06-18 12:42:18 | INFO     | Data quality score: 0.90
+2025-06-18 12:42:18 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 12:42:18 | INFO     | Preparing data for Qlib...
+2025-06-18 12:42:18 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 12:42:18 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 12:42:18 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 12:42:21 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 12:42:21 | INFO     | --- Running: Build Features ---
+2025-06-18 12:42:24 | INFO     | --- Finished: Build Features ---
+2025-06-18 12:42:24 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 12:42:24 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 12:42:24 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 12:42:24 | INFO     | Creating training and evaluation environments...
+2025-06-18 12:42:24 | INFO     | Creating environment 'default'
+2025-06-18 12:42:24 | INFO     | Creating environment 'default'
+2025-06-18 12:42:24 | INFO     | Environments created successfully.
+2025-06-18 12:42:24 | INFO     | Training ppo agent...
+2025-06-18 12:42:24 | INFO     | Starting training for 100000 timesteps…
+2025-06-18 12:44:50 | INFO     | Training complete.
+2025-06-18 12:44:50 | INFO     | Agent training completed.
+2025-06-18 12:44:50 | INFO     | Saving final model to data/models/ppo/3b13d20e23ec4bad9c984c2d57c97dce/final_model.zip...
+2025-06-18 12:44:50 | INFO     | Model saved to data/models/ppo/3b13d20e23ec4bad9c984c2d57c97dce/final_model.zip
+2025-06-18 12:44:50 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 12:45:06 | INFO     | Training run 3b13d20e23ec4bad9c984c2d57c97dce complete.
+2025-06-18 12:45:06 | INFO     | Model saved at: data/models/ppo/3b13d20e23ec4bad9c984c2d57c97dce/final_model.zip
+2025-06-18 12:45:06 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/3b13d20e23ec4bad9c984c2d57c97dce
+2025-06-18 12:45:06 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 12:47:33 | INFO     | Executing within MLflow Run ID: f0a52af69a1645d183a868b0f02f0aed
+2025-06-18 12:47:33 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 12:47:33 | INFO     | Starting full data preparation pipeline...
+2025-06-18 12:47:33 | INFO     | Running data preparation script...
+2025-06-18 12:47:35 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 12:47:37 | INFO     | Creating forex_com broker instance
+2025-06-18 12:47:37 | INFO     | Creating forex calendar instance
+2025-06-18 12:47:37 | INFO     | Authenticating with forex_com...
+2025-06-18 12:47:37 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 12:47:37 | INFO     | Successfully authenticated with Forex.com. Session: 92c05879...
+2025-06-18 12:47:37 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 12:47:37 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 12:47:38 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 12:47:38 | INFO     | Standardizing data format...
+2025-06-18 12:47:38 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 12:47:38 | INFO     | Standardization complete. Final records: 365
+2025-06-18 12:47:38 | INFO     | Data quality score: 0.90
+2025-06-18 12:47:38 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 12:47:38 | INFO     | Preparing data for Qlib...
+2025-06-18 12:47:38 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 12:47:39 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 12:47:39 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 12:47:42 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 12:47:42 | INFO     | --- Running: Build Features ---
+2025-06-18 12:47:45 | INFO     | --- Finished: Build Features ---
+2025-06-18 12:47:45 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 12:47:45 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 12:47:45 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 12:47:45 | INFO     | Creating training and evaluation environments...
+2025-06-18 12:47:45 | INFO     | Creating environment 'default'
+2025-06-18 12:47:45 | INFO     | Creating environment 'default'
+2025-06-18 12:47:45 | INFO     | Environments created successfully.
+2025-06-18 12:47:45 | INFO     | Training ppo agent...
+2025-06-18 12:47:45 | INFO     | Starting training for 100000 timesteps…
+2025-06-18 12:50:08 | INFO     | Training complete.
+2025-06-18 12:50:09 | INFO     | Agent training completed.
+2025-06-18 12:50:09 | INFO     | Saving final model to data/models/ppo/f0a52af69a1645d183a868b0f02f0aed/final_model.zip...
+2025-06-18 12:50:09 | INFO     | Model saved to data/models/ppo/f0a52af69a1645d183a868b0f02f0aed/final_model.zip
+2025-06-18 12:50:09 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 12:50:26 | INFO     | Training run f0a52af69a1645d183a868b0f02f0aed complete.
+2025-06-18 12:50:26 | INFO     | Model saved at: data/models/ppo/f0a52af69a1645d183a868b0f02f0aed/final_model.zip
+2025-06-18 12:50:26 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/f0a52af69a1645d183a868b0f02f0aed
+2025-06-18 12:50:26 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 13:07:01 | INFO     | Executing within MLflow Run ID: 5cc9b8b2bf424873b967fcba43cbf3d7
+2025-06-18 13:07:01 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 13:07:01 | INFO     | Starting full data preparation pipeline...
+2025-06-18 13:07:01 | INFO     | Running data preparation script...
+2025-06-18 13:07:03 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 13:07:05 | INFO     | Creating forex_com broker instance
+2025-06-18 13:07:05 | INFO     | Creating forex calendar instance
+2025-06-18 13:07:05 | INFO     | Authenticating with forex_com...
+2025-06-18 13:07:05 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 13:07:05 | INFO     | Successfully authenticated with Forex.com. Session: bdeb61b1...
+2025-06-18 13:07:05 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 13:07:05 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 13:07:06 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 13:07:06 | INFO     | Standardizing data format...
+2025-06-18 13:07:06 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 13:07:06 | INFO     | Standardization complete. Final records: 365
+2025-06-18 13:07:06 | INFO     | Data quality score: 0.90
+2025-06-18 13:07:06 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 13:07:06 | INFO     | Preparing data for Qlib...
+2025-06-18 13:07:06 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 13:07:06 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 13:07:06 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 13:07:09 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 13:07:09 | INFO     | --- Running: Build Features ---
+2025-06-18 13:07:12 | INFO     | --- Finished: Build Features ---
+2025-06-18 13:07:12 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 13:07:12 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 13:07:12 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 13:07:12 | INFO     | Creating training and evaluation environments...
+2025-06-18 13:07:12 | INFO     | Creating environment 'default'
+2025-06-18 13:07:12 | INFO     | Creating environment 'default'
+2025-06-18 13:07:12 | INFO     | Environments created successfully.
+2025-06-18 13:07:12 | INFO     | Training ppo agent...
+2025-06-18 13:07:13 | INFO     | Starting training for 100000 timesteps…
+2025-06-18 13:10:29 | INFO     | Training complete.
+2025-06-18 13:10:29 | INFO     | Agent training completed.
+2025-06-18 13:10:29 | INFO     | Saving final model to data/models/ppo/5cc9b8b2bf424873b967fcba43cbf3d7/final_model.zip...
+2025-06-18 13:10:29 | INFO     | Model saved to data/models/ppo/5cc9b8b2bf424873b967fcba43cbf3d7/final_model.zip
+2025-06-18 13:10:29 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 13:10:47 | INFO     | Training run 5cc9b8b2bf424873b967fcba43cbf3d7 complete.
+2025-06-18 13:10:47 | INFO     | Model saved at: data/models/ppo/5cc9b8b2bf424873b967fcba43cbf3d7/final_model.zip
+2025-06-18 13:10:47 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/5cc9b8b2bf424873b967fcba43cbf3d7
+2025-06-18 13:10:47 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 13:45:40 | INFO     | Executing within MLflow Run ID: 1121764c4ee4424f8c58cdc45ee483e3
+2025-06-18 13:45:40 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 13:45:41 | INFO     | Starting full data preparation pipeline...
+2025-06-18 13:45:41 | INFO     | Running data preparation script...
+2025-06-18 13:45:43 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 13:45:45 | INFO     | Creating forex_com broker instance
+2025-06-18 13:45:45 | INFO     | Creating forex calendar instance
+2025-06-18 13:45:45 | INFO     | Authenticating with forex_com...
+2025-06-18 13:45:45 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 13:45:45 | INFO     | Successfully authenticated with Forex.com. Session: a6371933...
+2025-06-18 13:45:45 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 13:45:45 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 13:45:46 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 13:45:46 | INFO     | Standardizing data format...
+2025-06-18 13:45:46 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 13:45:46 | INFO     | Standardization complete. Final records: 365
+2025-06-18 13:45:46 | INFO     | Data quality score: 0.90
+2025-06-18 13:45:46 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 13:45:46 | INFO     | Preparing data for Qlib...
+2025-06-18 13:45:46 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 13:45:46 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 13:45:46 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 13:45:49 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 13:45:49 | INFO     | --- Running: Build Features ---
+2025-06-18 13:45:52 | INFO     | --- Finished: Build Features ---
+2025-06-18 13:45:52 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 13:45:52 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 13:45:52 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 13:45:52 | INFO     | Creating training and evaluation environments...
+2025-06-18 13:45:52 | INFO     | Creating environment 'default'
+2025-06-18 13:45:52 | INFO     | Creating environment 'default'
+2025-06-18 13:45:52 | INFO     | Environments created successfully.
+2025-06-18 13:45:52 | INFO     | Training ppo agent...
+2025-06-18 13:45:53 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 13:46:30 | INFO     | Training complete.
+2025-06-18 13:46:30 | INFO     | Agent training completed.
+2025-06-18 13:46:30 | INFO     | Saving final model to data/models/ppo/1121764c4ee4424f8c58cdc45ee483e3/final_model.zip...
+2025-06-18 13:46:30 | INFO     | Model saved to data/models/ppo/1121764c4ee4424f8c58cdc45ee483e3/final_model.zip
+2025-06-18 13:46:30 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 13:46:48 | INFO     | Training run 1121764c4ee4424f8c58cdc45ee483e3 complete.
+2025-06-18 13:46:48 | INFO     | Model saved at: data/models/ppo/1121764c4ee4424f8c58cdc45ee483e3/final_model.zip
+2025-06-18 13:46:48 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/1121764c4ee4424f8c58cdc45ee483e3
+2025-06-18 13:46:48 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 13:49:50 | INFO     | Executing within MLflow Run ID: de6d89262bf842dfaa00a11c5dc9f4ab
+2025-06-18 13:49:50 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 13:49:51 | INFO     | Starting full data preparation pipeline...
+2025-06-18 13:49:51 | INFO     | Running data preparation script...
+2025-06-18 13:49:53 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 13:49:54 | INFO     | Creating forex_com broker instance
+2025-06-18 13:49:54 | INFO     | Creating forex calendar instance
+2025-06-18 13:49:54 | INFO     | Authenticating with forex_com...
+2025-06-18 13:49:54 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 13:49:55 | INFO     | Successfully authenticated with Forex.com. Session: 13299f1d...
+2025-06-18 13:49:55 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 13:49:55 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 13:49:55 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 13:49:55 | INFO     | Standardizing data format...
+2025-06-18 13:49:55 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 13:49:55 | INFO     | Standardization complete. Final records: 365
+2025-06-18 13:49:55 | INFO     | Data quality score: 0.90
+2025-06-18 13:49:55 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 13:49:55 | INFO     | Preparing data for Qlib...
+2025-06-18 13:49:55 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 13:49:55 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 13:49:55 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 13:49:58 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 13:49:58 | INFO     | --- Running: Build Features ---
+2025-06-18 13:50:01 | INFO     | --- Finished: Build Features ---
+2025-06-18 13:50:02 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 13:50:02 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 13:50:02 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 13:50:02 | INFO     | Creating training and evaluation environments...
+2025-06-18 13:50:02 | INFO     | Creating environment 'default'
+2025-06-18 13:50:02 | INFO     | Creating environment 'default'
+2025-06-18 13:50:02 | INFO     | Environments created successfully.
+2025-06-18 13:50:02 | INFO     | Training ppo agent...
+2025-06-18 13:50:02 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 13:50:39 | INFO     | Training complete.
+2025-06-18 13:50:39 | INFO     | Agent training completed.
+2025-06-18 13:50:39 | INFO     | Saving final model to data/models/ppo/de6d89262bf842dfaa00a11c5dc9f4ab/final_model.zip...
+2025-06-18 13:50:39 | INFO     | Model saved to data/models/ppo/de6d89262bf842dfaa00a11c5dc9f4ab/final_model.zip
+2025-06-18 13:50:39 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 13:50:55 | INFO     | Training run de6d89262bf842dfaa00a11c5dc9f4ab complete.
+2025-06-18 13:50:55 | INFO     | Model saved at: data/models/ppo/de6d89262bf842dfaa00a11c5dc9f4ab/final_model.zip
+2025-06-18 13:50:55 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/de6d89262bf842dfaa00a11c5dc9f4ab
+2025-06-18 13:50:55 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 13:57:33 | INFO     | Executing within MLflow Run ID: 5b7a7878b0274cafa065438d42bd18dc
+2025-06-18 13:57:33 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 13:57:33 | INFO     | Starting full data preparation pipeline...
+2025-06-18 13:57:33 | INFO     | Running data preparation script...
+2025-06-18 13:57:35 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 13:57:37 | INFO     | Creating forex_com broker instance
+2025-06-18 13:57:37 | INFO     | Creating forex calendar instance
+2025-06-18 13:57:37 | INFO     | Authenticating with forex_com...
+2025-06-18 13:57:37 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 13:57:37 | INFO     | Successfully authenticated with Forex.com. Session: c4f80b64...
+2025-06-18 13:57:37 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 13:57:37 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 13:57:38 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 13:57:38 | INFO     | Standardizing data format...
+2025-06-18 13:57:38 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 13:57:38 | INFO     | Standardization complete. Final records: 365
+2025-06-18 13:57:38 | INFO     | Data quality score: 0.90
+2025-06-18 13:57:38 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 13:57:38 | INFO     | Preparing data for Qlib...
+2025-06-18 13:57:38 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 13:57:38 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 13:57:38 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 13:57:41 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 13:57:41 | INFO     | --- Running: Build Features ---
+2025-06-18 13:57:44 | INFO     | --- Finished: Build Features ---
+2025-06-18 13:57:44 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 13:57:44 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 13:57:44 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 13:57:44 | INFO     | Creating training and evaluation environments...
+2025-06-18 13:57:44 | INFO     | Creating environment 'default'
+2025-06-18 13:57:44 | INFO     | Creating environment 'default'
+2025-06-18 13:57:44 | INFO     | Environments created successfully.
+2025-06-18 13:57:44 | INFO     | Training ppo agent...
+2025-06-18 13:57:45 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 13:58:26 | INFO     | Training complete.
+2025-06-18 13:58:26 | INFO     | Agent training completed.
+2025-06-18 13:58:26 | INFO     | Saving final model to data/models/ppo/5b7a7878b0274cafa065438d42bd18dc/final_model.zip...
+2025-06-18 13:58:26 | INFO     | Model saved to data/models/ppo/5b7a7878b0274cafa065438d42bd18dc/final_model.zip
+2025-06-18 13:58:26 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 13:58:44 | INFO     | Training run 5b7a7878b0274cafa065438d42bd18dc complete.
+2025-06-18 13:58:44 | INFO     | Model saved at: data/models/ppo/5b7a7878b0274cafa065438d42bd18dc/final_model.zip
+2025-06-18 13:58:44 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/5b7a7878b0274cafa065438d42bd18dc
+2025-06-18 13:58:44 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 14:06:50 | INFO     | Executing within MLflow Run ID: e9c431755af9485cb7ad233258b95c1d
+2025-06-18 14:06:50 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 14:06:50 | INFO     | Starting full data preparation pipeline...
+2025-06-18 14:06:50 | INFO     | Running data preparation script...
+2025-06-18 14:06:52 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 14:06:54 | INFO     | Creating forex_com broker instance
+2025-06-18 14:06:54 | INFO     | Creating forex calendar instance
+2025-06-18 14:06:54 | INFO     | Authenticating with forex_com...
+2025-06-18 14:06:54 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 14:06:54 | INFO     | Successfully authenticated with Forex.com. Session: fd38dc04...
+2025-06-18 14:06:54 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 14:06:54 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 14:06:54 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 14:06:55 | INFO     | Standardizing data format...
+2025-06-18 14:06:55 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 14:06:55 | INFO     | Standardization complete. Final records: 365
+2025-06-18 14:06:55 | INFO     | Data quality score: 0.90
+2025-06-18 14:06:55 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 14:06:55 | INFO     | Preparing data for Qlib...
+2025-06-18 14:06:55 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 14:06:55 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 14:06:55 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 14:06:58 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 14:06:58 | INFO     | --- Running: Build Features ---
+2025-06-18 14:07:01 | INFO     | --- Finished: Build Features ---
+2025-06-18 14:07:01 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 14:07:01 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 14:07:01 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 14:07:01 | INFO     | Creating training and evaluation environments...
+2025-06-18 14:07:01 | INFO     | Creating environment 'default'
+2025-06-18 14:07:01 | INFO     | Creating environment 'default'
+2025-06-18 14:07:01 | INFO     | Environments created successfully.
+2025-06-18 14:07:01 | INFO     | Training ppo agent...
+2025-06-18 14:07:01 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 14:07:39 | INFO     | Training complete.
+2025-06-18 14:07:39 | INFO     | Agent training completed.
+2025-06-18 14:07:39 | INFO     | Saving final model to data/models/ppo/e9c431755af9485cb7ad233258b95c1d/final_model.zip...
+2025-06-18 14:07:39 | INFO     | Model saved to data/models/ppo/e9c431755af9485cb7ad233258b95c1d/final_model.zip
+2025-06-18 14:07:39 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 14:07:55 | INFO     | Training run e9c431755af9485cb7ad233258b95c1d complete.
+2025-06-18 14:07:55 | INFO     | Model saved at: data/models/ppo/e9c431755af9485cb7ad233258b95c1d/final_model.zip
+2025-06-18 14:07:55 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/e9c431755af9485cb7ad233258b95c1d
+2025-06-18 14:07:55 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 14:08:47 | INFO     | Executing within MLflow Run ID: 44b19c3a023b4f6792a31fb2227e28c6
+2025-06-18 14:08:47 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 14:08:47 | INFO     | Starting full data preparation pipeline...
+2025-06-18 14:08:47 | INFO     | Running data preparation script...
+2025-06-18 14:08:49 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 14:08:51 | INFO     | Creating forex_com broker instance
+2025-06-18 14:08:51 | INFO     | Creating forex calendar instance
+2025-06-18 14:08:51 | INFO     | Authenticating with forex_com...
+2025-06-18 14:08:51 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 14:08:51 | INFO     | Successfully authenticated with Forex.com. Session: cc861672...
+2025-06-18 14:08:51 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 14:08:51 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 14:08:51 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 14:08:52 | INFO     | Standardizing data format...
+2025-06-18 14:08:52 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 14:08:52 | INFO     | Standardization complete. Final records: 365
+2025-06-18 14:08:52 | INFO     | Data quality score: 0.90
+2025-06-18 14:08:52 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 14:08:52 | INFO     | Preparing data for Qlib...
+2025-06-18 14:08:52 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 14:08:52 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 14:08:52 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 14:08:55 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 14:08:55 | INFO     | --- Running: Build Features ---
+2025-06-18 14:08:58 | INFO     | --- Finished: Build Features ---
+2025-06-18 14:08:58 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 14:08:58 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 14:08:58 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 14:08:58 | INFO     | Creating training and evaluation environments...
+2025-06-18 14:08:58 | INFO     | Creating environment 'default'
+2025-06-18 14:08:58 | INFO     | Creating environment 'default'
+2025-06-18 14:08:58 | INFO     | Environments created successfully.
+2025-06-18 14:08:58 | INFO     | Training ppo agent...
+2025-06-18 14:08:59 | INFO     | Starting training for 100000 timesteps…
+2025-06-18 14:12:07 | INFO     | Training complete.
+2025-06-18 14:12:07 | INFO     | Agent training completed.
+2025-06-18 14:12:07 | INFO     | Saving final model to data/models/ppo/44b19c3a023b4f6792a31fb2227e28c6/final_model.zip...
+2025-06-18 14:12:07 | INFO     | Model saved to data/models/ppo/44b19c3a023b4f6792a31fb2227e28c6/final_model.zip
+2025-06-18 14:12:07 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 14:12:24 | INFO     | Training run 44b19c3a023b4f6792a31fb2227e28c6 complete.
+2025-06-18 14:12:24 | INFO     | Model saved at: data/models/ppo/44b19c3a023b4f6792a31fb2227e28c6/final_model.zip
+2025-06-18 14:12:24 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/44b19c3a023b4f6792a31fb2227e28c6
+2025-06-18 14:12:24 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 14:17:52 | INFO     | Executing within MLflow Run ID: c4d57916dcdc4e9281e24eff4bc646a7
+2025-06-18 14:17:52 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 14:17:52 | INFO     | Starting full data preparation pipeline...
+2025-06-18 14:17:52 | INFO     | Running data preparation script...
+2025-06-18 14:17:54 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 14:17:56 | INFO     | Creating forex_com broker instance
+2025-06-18 14:17:56 | INFO     | Creating forex calendar instance
+2025-06-18 14:17:56 | INFO     | Authenticating with forex_com...
+2025-06-18 14:17:56 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 14:17:56 | INFO     | Successfully authenticated with Forex.com. Session: 6f24f153...
+2025-06-18 14:17:56 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 14:17:56 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 14:17:56 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 14:17:57 | INFO     | Standardizing data format...
+2025-06-18 14:17:57 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 14:17:57 | INFO     | Standardization complete. Final records: 365
+2025-06-18 14:17:57 | INFO     | Data quality score: 0.90
+2025-06-18 14:17:57 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 14:17:57 | INFO     | Preparing data for Qlib...
+2025-06-18 14:17:57 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 14:17:57 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 14:17:57 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 14:18:00 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 14:18:00 | INFO     | --- Running: Build Features ---
+2025-06-18 14:18:02 | INFO     | --- Finished: Build Features ---
+2025-06-18 14:18:03 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 14:18:03 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 14:18:03 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 14:18:03 | INFO     | Creating training and evaluation environments...
+2025-06-18 14:18:03 | INFO     | Creating environment 'default'
+2025-06-18 14:18:03 | INFO     | Creating environment 'default'
+2025-06-18 14:18:03 | INFO     | Environments created successfully.
+2025-06-18 14:18:03 | INFO     | Training ppo agent...
+2025-06-18 14:18:03 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 14:18:40 | INFO     | Training complete.
+2025-06-18 14:18:40 | INFO     | Agent training completed.
+2025-06-18 14:18:40 | INFO     | Saving final model to data/models/ppo/c4d57916dcdc4e9281e24eff4bc646a7/final_model.zip...
+2025-06-18 14:18:40 | INFO     | Model saved to data/models/ppo/c4d57916dcdc4e9281e24eff4bc646a7/final_model.zip
+2025-06-18 14:18:40 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 14:18:55 | INFO     | Training run c4d57916dcdc4e9281e24eff4bc646a7 complete.
+2025-06-18 14:18:55 | INFO     | Model saved at: data/models/ppo/c4d57916dcdc4e9281e24eff4bc646a7/final_model.zip
+2025-06-18 14:18:55 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/c4d57916dcdc4e9281e24eff4bc646a7
+2025-06-18 14:18:55 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 14:22:57 | INFO     | Executing within MLflow Run ID: 49be06f15bb7490db908aa5e598f7821
+2025-06-18 14:22:57 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 14:22:57 | INFO     | Starting full data preparation pipeline...
+2025-06-18 14:22:57 | INFO     | Running data preparation script...
+2025-06-18 14:22:59 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 14:23:01 | INFO     | Creating forex_com broker instance
+2025-06-18 14:23:01 | INFO     | Creating forex calendar instance
+2025-06-18 14:23:01 | INFO     | Authenticating with forex_com...
+2025-06-18 14:23:01 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 14:23:01 | INFO     | Successfully authenticated with Forex.com. Session: 9cc7ab50...
+2025-06-18 14:23:01 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 14:23:01 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 14:23:01 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 14:23:02 | INFO     | Standardizing data format...
+2025-06-18 14:23:02 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 14:23:02 | INFO     | Standardization complete. Final records: 365
+2025-06-18 14:23:02 | INFO     | Data quality score: 0.90
+2025-06-18 14:23:02 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 14:23:02 | INFO     | Preparing data for Qlib...
+2025-06-18 14:23:02 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 14:23:02 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 14:23:02 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 14:23:05 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 14:23:05 | INFO     | --- Running: Build Features ---
+2025-06-18 14:23:07 | INFO     | --- Finished: Build Features ---
+2025-06-18 14:23:08 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 14:23:08 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 14:23:08 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 14:23:08 | INFO     | Creating training and evaluation environments...
+2025-06-18 14:23:08 | INFO     | Creating environment 'default'
+2025-06-18 14:23:08 | INFO     | Creating environment 'default'
+2025-06-18 14:23:08 | INFO     | Environments created successfully.
+2025-06-18 14:23:08 | INFO     | Training ppo agent...
+2025-06-18 14:23:08 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 14:23:45 | INFO     | Training complete.
+2025-06-18 14:23:45 | INFO     | Agent training completed.
+2025-06-18 14:23:45 | INFO     | Saving final model to data/models/ppo/49be06f15bb7490db908aa5e598f7821/final_model.zip...
+2025-06-18 14:23:45 | INFO     | Model saved to data/models/ppo/49be06f15bb7490db908aa5e598f7821/final_model.zip
+2025-06-18 14:23:45 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 14:24:01 | INFO     | Training run 49be06f15bb7490db908aa5e598f7821 complete.
+2025-06-18 14:24:01 | INFO     | Model saved at: data/models/ppo/49be06f15bb7490db908aa5e598f7821/final_model.zip
+2025-06-18 14:24:01 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/49be06f15bb7490db908aa5e598f7821
+2025-06-18 14:24:01 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 14:26:59 | INFO     | Executing within MLflow Run ID: e89b4f2214614020b0e6aa8b15befa24
+2025-06-18 14:26:59 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 14:26:59 | INFO     | Starting full data preparation pipeline...
+2025-06-18 14:26:59 | INFO     | Running data preparation script...
+2025-06-18 14:27:01 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 14:27:03 | INFO     | Creating forex_com broker instance
+2025-06-18 14:27:03 | INFO     | Creating forex calendar instance
+2025-06-18 14:27:03 | INFO     | Authenticating with forex_com...
+2025-06-18 14:27:03 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 14:27:03 | INFO     | Successfully authenticated with Forex.com. Session: e310eba5...
+2025-06-18 14:27:03 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 14:27:03 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 14:27:04 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 14:27:04 | INFO     | Standardizing data format...
+2025-06-18 14:27:04 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 14:27:04 | INFO     | Standardization complete. Final records: 365
+2025-06-18 14:27:04 | INFO     | Data quality score: 0.90
+2025-06-18 14:27:04 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 14:27:04 | INFO     | Preparing data for Qlib...
+2025-06-18 14:27:04 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 14:27:04 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 14:27:04 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 14:27:07 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 14:27:07 | INFO     | --- Running: Build Features ---
+2025-06-18 14:27:10 | INFO     | --- Finished: Build Features ---
+2025-06-18 14:27:10 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 14:27:10 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 14:27:10 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 14:27:10 | INFO     | Creating training and evaluation environments...
+2025-06-18 14:27:10 | INFO     | Creating environment 'default'
+2025-06-18 14:27:10 | INFO     | Creating environment 'default'
+2025-06-18 14:27:10 | INFO     | Environments created successfully.
+2025-06-18 14:27:10 | INFO     | Training ppo agent...
+2025-06-18 14:27:10 | INFO     | Starting training for 20000 timesteps…
+2025-06-18 14:27:46 | INFO     | Training complete.
+2025-06-18 14:27:46 | INFO     | Agent training completed.
+2025-06-18 14:27:46 | INFO     | Saving final model to data/models/ppo/e89b4f2214614020b0e6aa8b15befa24/final_model.zip...
+2025-06-18 14:27:46 | INFO     | Model saved to data/models/ppo/e89b4f2214614020b0e6aa8b15befa24/final_model.zip
+2025-06-18 14:27:46 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 14:28:01 | INFO     | Training run e89b4f2214614020b0e6aa8b15befa24 complete.
+2025-06-18 14:28:01 | INFO     | Model saved at: data/models/ppo/e89b4f2214614020b0e6aa8b15befa24/final_model.zip
+2025-06-18 14:28:01 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/e89b4f2214614020b0e6aa8b15befa24
+2025-06-18 14:28:01 | INFO     | To view MLflow UI, run: mlflow ui
+2025-06-18 14:39:45 | INFO     | Creating environment 'default'
+2025-06-18 14:44:23 | INFO     | Creating environment 'default'
+2025-06-18 14:44:23 | INFO     | Creating environment 'v2'
+2025-06-18 14:47:21 | INFO     | Creating environment 'default'
+2025-06-18 14:47:21 | INFO     | Creating environment 'v2'
+2025-06-18 15:00:03 | INFO     | Creating environment 'default'
+2025-06-18 15:00:03 | INFO     | Creating environment 'default'
+2025-06-18 15:07:35 | INFO     | Creating environment 'default'
+2025-06-18 15:07:35 | INFO     | Creating environment 'default'
+2025-06-18 15:14:48 | INFO     | Executing within MLflow Run ID: 9e472b7f7efd4405aad38bfe4bd69658
+2025-06-18 15:14:48 | INFO     | Starting training session for ppo on EUR/USD (1h)...
+2025-06-18 15:14:48 | INFO     | Starting full data preparation pipeline...
+2025-06-18 15:14:48 | INFO     | Running data preparation script...
+2025-06-18 15:14:51 | INFO     | --- Running: Download Historical Data ---
+2025-06-18 15:14:53 | INFO     | Creating forex_com broker instance
+2025-06-18 15:14:53 | INFO     | Creating forex calendar instance
+2025-06-18 15:14:53 | INFO     | Authenticating with forex_com...
+2025-06-18 15:14:53 | INFO     | Authenticating to endpoint: https://ciapi.cityindex.com/v2/Session
+2025-06-18 15:14:53 | INFO     | Successfully authenticated with Forex.com. Session: 78c1ef85...
+2025-06-18 15:14:53 | INFO     | Downloading EUR/USD data from 2024-06-18 to 2025-06-18
+2025-06-18 15:14:53 | INFO     | Timeframe: 1h, Broker: forex_com
+2025-06-18 15:14:53 | INFO     | Calling GET endpoint: https://ciapi.cityindex.com/TradingAPI/market/402044081/barhistory
+2025-06-18 15:14:54 | INFO     | Standardizing data format...
+2025-06-18 15:14:54 | INFO     | Standardizing 365 records from forex_com
+2025-06-18 15:14:54 | INFO     | Standardization complete. Final records: 365
+2025-06-18 15:14:54 | INFO     | Data quality score: 0.90
+2025-06-18 15:14:54 | WARNING  | Data quality issues: ['Large time gaps (>3x median): 3']
+2025-06-18 15:14:54 | INFO     | Preparing data for Qlib...
+2025-06-18 15:14:54 | INFO     | Successfully saved Qlib-ready data to data/qlib_source/1h/EURUSD.csv
+2025-06-18 15:14:54 | INFO     | --- Finished: Download Historical Data ---
+2025-06-18 15:14:54 | INFO     | --- Running: Dump to Qlib Binary ---
+2025-06-18 15:14:57 | INFO     | --- Finished: Dump to Qlib Binary ---
+2025-06-18 15:14:57 | INFO     | --- Running: Build Features ---
+2025-06-18 15:15:00 | INFO     | --- Finished: Build Features ---
+2025-06-18 15:15:00 | INFO     | Data preparation pipeline completed successfully.
+2025-06-18 15:15:00 | INFO     | Loading data from data/processed/features/EURUSD_1h_features.csv...
+2025-06-18 15:15:00 | INFO     | Training data: 284 samples, Evaluation data: 71 samples
+2025-06-18 15:15:00 | INFO     | Creating training and evaluation environments...
+2025-06-18 15:15:00 | INFO     | Creating environment 'default'
+2025-06-18 15:15:00 | INFO     | Creating environment 'default'
+2025-06-18 15:15:00 | INFO     | Environments created successfully.
+2025-06-18 15:15:00 | INFO     | Training ppo agent...
+2025-06-18 15:15:01 | INFO     | Starting training for 100000 timesteps…
+2025-06-18 15:17:35 | INFO     | Training complete.
+2025-06-18 15:17:35 | INFO     | Agent training completed.
+2025-06-18 15:17:35 | INFO     | Saving final model to data/models/ppo/9e472b7f7efd4405aad38bfe4bd69658/final_model.zip...
+2025-06-18 15:17:35 | INFO     | Model saved to data/models/ppo/9e472b7f7efd4405aad38bfe4bd69658/final_model.zip
+2025-06-18 15:17:35 | INFO     | Logging and registering the model with MLflow...
+2025-06-18 15:17:52 | INFO     | Training run 9e472b7f7efd4405aad38bfe4bd69658 complete.
+2025-06-18 15:17:52 | INFO     | Model saved at: data/models/ppo/9e472b7f7efd4405aad38bfe4bd69658/final_model.zip
+2025-06-18 15:17:52 | INFO     | To view logs, run: tensorboard --logdir logs/tensorboard/ppo/9e472b7f7efd4405aad38bfe4bd69658
+2025-06-18 15:17:52 | INFO     | To view MLflow UI, run: mlflow ui

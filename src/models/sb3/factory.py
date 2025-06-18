@@ -31,7 +31,7 @@ class AgentFactory:
         hyperparams: Optional[Dict[str, Any]] = None,
         tensorboard_log_path: Optional[str] = None,
     ) -> BaseAgent:
-        agent_cls = self._agents.get(name)
+        agent_cls = self._agents.get(name.upper())
         if agent_cls is None:
             self.logger.error(f"Agent '{name}' not found.")
             raise ValueError(f"Agent '{name}' not found.")

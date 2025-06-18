@@ -23,7 +23,16 @@ class Sb3ModelWrapper(mlflow.pyfunc.PythonModel):
     # ------------------------------------------------------------------
 
     def load_context(self, context: mlflow.pyfunc.PythonModelContext) -> None:
-        policy_cls = getattr(stable_baselines3, self._policy_name)
+        # `stable_baselines3` exposes algorithm classes at the top level using
+        # uppercase names (``PPO``, ``A2C``, etc.).  The run metadata may pass
+        # them in lowercase, so we normalise here.
+
+        try:
+            policy_cls = getattr(stable_baselines3, self._policy_name.upper())
+        except AttributeError as exc:
+            raise AttributeError(
+                f"SB3 algorithm '{self._policy_name}' not found in stable_baselines3 package."
+            ) from exc
         self._model = policy_cls.load(context.artifacts["model_path"])
 
     # ------------------------------------------------------------------

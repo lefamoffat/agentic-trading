@@ -30,8 +30,38 @@ class EvaluationWrapper(gym.Wrapper):
             self.portfolio_values.append(info["portfolio_value"])
 
         done = terminated or truncated
-        if done and "trade_history" in info:
-            self.trade_history = info["trade_history"]
+        if done:
+            # Copy trade history recorded so far
+            self.trade_history = info.get("trade_history", [])
+
+            # If an open position is still active, synthesise a closing trade so
+            # metrics like `total_trades` and `profit_factor` are meaningful.
+            env = self.env.unwrapped  # Original TradingEnv
+            try:
+                from src.environments.types import Position  # avoid top-level import
+
+                if getattr(env, "_position", Position.FLAT) != Position.FLAT:
+                    current_price = env.data.iloc[env.current_step]["close"]
+                    entry_price = getattr(env, "_position_entry_price", current_price)
+                    position = getattr(env, "_position")
+
+                    profit = (
+                        (current_price - entry_price)
+                        if position == Position.LONG
+                        else (entry_price - current_price)
+                    ) * (env.balance / entry_price)
+
+                    from src.environments.trading_env import Trade
+
+                    synthetic_trade = Trade(
+                        entry_price=entry_price,
+                        exit_price=current_price,
+                        position=position,
+                        profit=profit,
+                    )
+                    self.trade_history.append(synthetic_trade)
+            except Exception:  # pragma: no cover – safety; shouldn't break eval
+                pass
 
         return obs, reward, terminated, truncated, info
 

@@ -136,9 +136,7 @@ Thumbs.db
 
 # MLflow
 mlflow_data/
+mlruns/
 
 # Qlib
 data/qlib_data/
-
-# Streamlit
-sys.stdout

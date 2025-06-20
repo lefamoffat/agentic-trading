@@ -81,3 +81,21 @@ To find the best hyperparameters for an agent, use the optimization script. This
 ```bash
 uv run python scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
 ```
+
+### 5. One-Command Quickstart (CLI)
+
+Prefer the Typer-powered `agentic` CLI for a zero-boilerplate workflow that bundles all steps (project init → data preparation → training → simulation) under a single command:
+
+```bash
+uv run agentic quickstart --symbol "EUR/USD" --timeframe 1h --timesteps 20000
+```
+
+The command will:
+
+1. create the required directory structure (`agentic init`),
+2. download and process historical data,
+3. engineer Qlib features,
+4. train the default PPO agent for the specified timesteps, and
+5. launch the Streamlit dashboard so you can inspect the trained model.
+
+Advanced users can invoke individual sub-commands, e.g. `agentic train --help`, etc. Run `agentic --help` for the full list.

@@ -3,12 +3,12 @@ from __future__ import annotations
 """Unified application configuration loader.
 
 This module provides a single source of truth (``app_config``) that merges
-all YAML files located in the ``config/`` directory and applies optional
+all YAML files located in the ``configs/`` directory and applies optional
 environment-variable overrides.
 
 * API keys and other secrets continue to live in environment variables / ``.env``.
 * Trading-specific runtime parameters (position size, risk limits, etc.) now
-  live in ``config/trading_config.yaml`` instead of ``.env``.
+  live in ``configs/trading_config.yaml`` instead of ``.env``.
 * Users can still override individual trading parameters by exporting an env
   var that follows the pattern ``TRADING__<PARAM_NAME>``, e.g.::
 
@@ -55,7 +55,7 @@ class AppConfig(BaseModel):
         extra = "allow"
 
     @classmethod
-    def load(cls, config_dir: str | Path = "config") -> "AppConfig":
+    def load(cls, config_dir: str | Path = "configs") -> "AppConfig":
         """Load YAML files, apply env overrides, and return a validated ``AppConfig`` instance."""
 
         loader = ConfigLoader(str(config_dir))

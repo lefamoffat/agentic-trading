@@ -28,7 +28,7 @@ Do not re-implement data processing or feature calculation logic that can be han
 
 Custom code written in the `src/` directory should primarily serve as the **"glue"** that connects the two core libraries and adapts them to our specific use case. The primary example of this is:
 
--   **`src/environments`**: This module is a custom implementation of a `gymnasium`-compatible environment. It is necessary because Qlib does not provide a step-by-step, interactive environment suitable for RL agent training. This module acts as the bridge between Qlib's data output and Stable-Baselines3's agent input.
+-   **`src/environment`**: This module is a custom implementation of a `gymnasium`-compatible environment. It is necessary because Qlib does not provide a step-by-step, interactive environment suitable for RL agent training. This module acts as the bridge between Qlib's data output and Stable-Baselines3's agent input.
 -   **`src/brokers`**: The broker-agnostic layer for connecting to live trading APIs.
 
 ## Development Golden Rule

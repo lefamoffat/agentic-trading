@@ -1,7 +1,7 @@
 [project]
 name = "agentic-trading"
 version = "0.1.0"
-description = "EUR/USD Reinforcement Learning Trading System using Microsoft Qlib"
+description = "Reinforcement Learning Trading System"
 authors = [
     { name = "Zima Blue", email = "lefa@zimablue.io" }
 ]
@@ -9,42 +9,26 @@ requires-python = ">=3.11"
 dependencies = [
     # Qlib for quantitative trading
     "pyqlib>=0.9.6",
-    # Core ML/RL Libraries
-    "torch==2.1.2",
+    # Core ML/RL Libraries (torch auto-installed by stable-baselines3)
     "stable-baselines3>=2.2.0",
     "gymnasium>=0.29.0",
     # MLOps and HPO
     "mlflow>=3.1.0",
     "optuna>=4.2.0",
-    "joblib==1.2.0",
     # Data & Finance
     "pandas>=2.0.0",
     "numpy<2.0",
-    "yfinance>=0.2.18",
-    "alpha-vantage>=2.3.1",
-    # Technical Analysis
-    # "ta-lib>=0.4.0",  # TA-Lib might also need manual installation
-    "pandas-ta>=0.3.14b",
     # Configuration & Utilities
-    "pyyaml>=6.0",
     "python-dotenv>=1.0.0",
     "loguru>=0.7.0",
     "pydantic>=1.10,<2.0",
     # API Clients
     "requests>=2.31.0",
-    "websocket-client>=1.6.0",
-    # Visualization & Analysis
-    "matplotlib>=3.7.0",
-    "seaborn>=0.12.0",
-    "plotly>=5.15.0",
-    "streamlit>=1.35.0",
-    "streamlit-lightweight-charts>=0.7.20",
-    "tensorflow==2.13.0",
-    "fire>=0.7.0",
-    "PyYAML>=6.0.1",
-    "optuna-integration>=3.2.0",
-    "watchdog>=6.0.0",
+    "aiohttp>=3.12.13",
+    # Intelligence & CLI
+    "openai>=1.88.0",
     "typer[all]>=0.12.0",
+    "fire>=0.7.0",
 ]
 
 [project.optional-dependencies]
@@ -63,7 +47,6 @@ database = [
 ]
 ml = [
     # Add ML dependencies separately for easier troubleshooting
-    "torch",
     "stable-baselines3",
 ]
 
@@ -140,6 +123,12 @@ module = [
     "optuna.*"
 ]
 ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-mock>=3.14.1",
+]
 
 [project.scripts]
 agentic = "apps.cli:app"

@@ -12,7 +12,7 @@ import yaml
 class ConfigLoader:
     """Load and manage YAML configuration files with environment variable substitution"""
 
-    def __init__(self, config_dir: str = "config"):
+    def __init__(self, config_dir: str = "configs"):
         """Initialize the config loader
 
         Args:

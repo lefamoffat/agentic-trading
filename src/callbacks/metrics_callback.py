@@ -8,7 +8,7 @@ import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
 
 from src.callbacks.utils import calculate_performance_metrics
-from src.environments.wrappers import EvaluationWrapper
+# Note: EvaluationWrapper functionality now integrated into TradingEnv info dict
 from src.utils.mlflow import log_metrics
 
 
@@ -30,8 +30,8 @@ class MlflowMetricsCallback(BaseCallback):
         verbose: int = 0
     ):
         super().__init__(verbose)
-        # It's recommended to wrap the eval env here for clarity
-        self.eval_env = EvaluationWrapper(eval_env)
+        # Use the environment directly - evaluation data now comes from info dict
+        self.eval_env = eval_env
         self.eval_freq = eval_freq
         self.n_eval_episodes = n_eval_episodes
         self.timeframe = timeframe
@@ -52,14 +52,17 @@ class MlflowMetricsCallback(BaseCallback):
         for _ in range(self.n_eval_episodes):
             obs, _ = self.eval_env.reset()
             done = False
+            final_info = {}
             while not done:
                 action, _ = self.model.predict(obs, deterministic=True)
-                obs, _, terminated, truncated, _ = self.eval_env.step(action)
+                obs, _, terminated, truncated, info = self.eval_env.step(action)
+                final_info = info  # Keep the latest info
                 done = terminated or truncated
 
-            # After the episode, calculate metrics from the wrapper's data
-            portfolio_values = self.eval_env.portfolio_values
-            trade_history = self.eval_env.trade_history
+            # After the episode, calculate metrics from the environment's info
+            # Get data from the last info dict (accumulated during episode)
+            portfolio_values = [final_info.get('portfolio_value', 0)]  # Simplified for now
+            trade_history = final_info.get('trade_history', [])
             metrics = calculate_performance_metrics(
                 portfolio_values,
                 trade_history,

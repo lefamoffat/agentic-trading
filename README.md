@@ -8,32 +8,34 @@ A sophisticated multi-asset reinforcement learning trading system with a broker-
 
 This project implements a reinforcement learning-based trading system with a modular, broker-agnostic architecture supporting multiple asset classes. It leverages a powerful combination of institutional-grade quantitative tools and cutting-edge machine learning libraries to create a robust, end-to-end solution for algorithmic trading.
 
+The system features a **fully dynamic, model-agnostic environment** that can adapt to any ML framework and trading configuration through YAML-based configuration.
+
 For a deeper dive into the system's design, please see the [**Architecture Philosophy**](docs/architecture.md) and the [**Implementation Plan**](docs/implementation_plan.md).
 
 ## 🚀 Features
 
--   ✅ **Broker-Agnostic Architecture**: Modular design supporting multiple brokers.
--   ✅ **Qlib-Powered Feature Engineering**: Leverages Qlib's alpha libraries for advanced feature creation.
--   ✅ **Standardized Data Pipeline**: Consistent data processing across all sources.
--   ✅ **Gymnasium-based RL Environments**: Standardized environments for agent training.
--   ✅ **Live Trading Integration**: Production-ready broker integrations.
--   ✅ **Comprehensive Backtesting**: Rigorous performance analysis via Qlib.
--   ✅ **Experiment Tracking**: Integrated with MLflow for logging runs, metrics, and models.
--   ✅ **Interactive Simulation UI**: Streamlit-powered back-testing dashboard.
--   ✅ **Hyperparameter Optimization**: Built-in Optuna script for automated HPO.
--   ✅ **100% Test Coverage**: Comprehensive validation for all core components.
+-   ✅ **Dynamic Model-Agnostic Environment**: Accepts actions from any ML framework (SB3, PyTorch, LLMs, human input)
+-   ✅ **Configurable Observations**: Dynamic feature selection, time-aware trading, portfolio state tracking
+-   ✅ **Broker-Agnostic Architecture**: Modular design supporting multiple brokers
+-   ✅ **Qlib-Powered Feature Engineering**: Leverages Qlib's alpha libraries for advanced feature creation
+-   ✅ **Standardized Data Pipeline**: Consistent data processing across all sources
+-   ✅ **Live Trading Integration**: Production-ready broker integrations
+-   ✅ **Comprehensive Backtesting**: Rigorous performance analysis via Qlib
+-   ✅ **Experiment Tracking**: Integrated with MLflow for logging runs, metrics, and models
+-   ✅ **Hyperparameter Optimization**: Built-in Optuna script for automated HPO
+-   ✅ **Comprehensive Test Coverage**: 134/134 tests passing with robust validation
 
 ## 📚 Documentation
 
 | Document                                               | Description                                                                |
 | ------------------------------------------------------ | -------------------------------------------------------------------------- |
 | [**Getting Started**](docs/getting-started.md)         | A step-by-step guide to install, configure, and run the project.           |
+| [**Dynamic Environment**](docs/dynamic_environment.md) | Guide to the model-agnostic, configurable trading environment system.      |
 | [**Configuration**](docs/configuration.md)             | Detailed reference for all configuration files and environment variables.  |
 | [**Technical Overview**](docs/technical-overview.md)   | An overview of the project structure, feature engineering, and monitoring. |
 | [**Development Guide**](docs/development.md)           | Guidelines for testing, code quality, and contributing to the project.     |
 | [**Architecture Philosophy**](docs/architecture.md)    | Core principles guiding the project's design and library usage.            |
 | [**Implementation Plan**](docs/implementation_plan.md) | The phased roadmap for the project's evolution.                            |
-| [**Simulation Mode**](docs/simulation_mode.md)         | Guide to the interactive Streamlit back-testing UI.                        |
 
 ## 📋 Prerequisites
 
@@ -70,7 +72,7 @@ For a deeper dive into the system's design, please see the [**Architecture Philo
 
 ## 🔧 Configuration
 
-The system uses YAML configuration files in the `config/` directory:
+The system uses YAML configuration files in the `configs/` directory:
 
 -   **`agent_config.yaml`** - RL hyperparameters and training settings
 -   **`data_config.yaml`** - Data sources and API configurations
@@ -81,25 +83,52 @@ The system uses YAML configuration files in the `config/` directory:
 
 ```
 agentic-trading/
-├── config/                 # YAML configuration files
-├── src/                    # Main source code
-│   ├── models/            # RL agent implementations (Stable-Baselines3)
-│   ├── brokers/           # Broker integrations (forex.com working)
-│   ├── data/              # Data handling & market calendars
-│   ├── environments/      # Gymnasium-based RL environments
-│   ├── strategies/        # Trading strategy implementations
-│   ├── utils/             # Core utilities
-│   ├── types/             # Centralized type definitions
-│   └── exceptions.py      # Custom exception hierarchy
-├── scripts/               # Executable scripts
-│   ├── features/          # Qlib-based feature generation
-│   ├── training/          # RL agent training scripts
-│   └── setup/             # Project initialization
-├── data/                  # Data storage (raw, processed, qlib, models)
-├── logs/                  # Log files (system and tensorboard)
-├── results/               # Results and reports
-└── tests/                 # Unit and integration tests
+├── configs/                 # YAML configuration files
+├── src/                     # Main source code
+│   ├── environment/         # Dynamic, model-agnostic RL environment
+│   ├── intelligence/        # LLM-based configuration intelligence
+│   ├── models/              # RL agent implementations (Stable-Baselines3)
+│   ├── brokers/             # Broker integrations (forex.com working)
+│   ├── data/                # Data handling & market calendars
+│   ├── strategies/          # Trading strategy implementations
+│   ├── callbacks/           # Training callbacks
+│   ├── utils/               # Core utilities
+│   └── types/               # Centralized type definitions
+├── scripts/                 # Executable scripts
+│   ├── features/            # Qlib-based feature generation
+│   ├── data/                # Data processing scripts
+│   ├── analysis/            # Analysis and debugging tools
+│   ├── training/            # RL agent training scripts
+│   └── setup/               # Project initialization
+├── data/                    # Data storage (raw, processed, qlib, models)
+├── integration_tests/       # Integration tests
+└── docs/                    # Documentation
 ```
+
+## 🔄 Dynamic Environment System
+
+The trading environment is **fully dynamic and model-agnostic**:
+
+### Model-Agnostic Actions
+
+```python
+# Works with ANY ML framework:
+env.step(np.array([1]))          # Stable-Baselines3
+env.step(torch.tensor([0]))      # PyTorch
+env.step("buy")                  # LLM string commands
+env.step(2)                      # Human input
+```
+
+### Dynamic Observations
+
+```python
+# Configure any features via YAML:
+observation_features: ['close', 'volume', 'rsi', 'custom_indicator']
+include_time_features: true      # Market hours, day of week
+include_portfolio_state: true    # Balance, positions, PnL
+```
+
+See [**Dynamic Environment Guide**](docs/dynamic_environment.md) for complete details.
 
 ## 🎮 Quick Start
 
@@ -130,17 +159,7 @@ Now you can run the training pipeline. This will use the features generated in t
 uv run scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
 ```
 
-### 4. Interactive Simulation
-
-Once you have at least one registered model and the corresponding features file, launch the Streamlit app:
-
-```bash
-uv run streamlit run scripts/analysis/run_simulation.py
-```
-
-Then open your browser at http://localhost:8501 and pick a model to simulate.
-
-### 5. Optimize Hyperparameters
+### 4. Optimize Hyperparameters
 
 To find the best hyperparameters for an agent, use the optimization script. This will run multiple training trials and log them as nested runs in MLflow.
 
@@ -148,7 +167,7 @@ To find the best hyperparameters for an agent, use the optimization script. This
 uv run scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
 ```
 
-### 6. Run Tests
+### 5. Run Tests
 
 ```bash
 # Run unit tests (default, fast)
@@ -161,7 +180,7 @@ uv run scripts/run_tests.py --all
 uv run scripts/run_tests.py --integration
 ```
 
-### 7. Test Broker Integration
+### 6. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)

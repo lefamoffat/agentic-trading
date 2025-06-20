@@ -75,4 +75,3 @@ def _load_config(_path: Path | None = None):  # noqa: D401, ANN001
 from apps.cli.commands import core as _core  # noqa: F401  pylint: disable=wrong-import-position
 from apps.cli.commands import data as _data  # noqa: F401  pylint: disable=wrong-import-position
 from apps.cli.commands import training as _training  # noqa: F401  pylint: disable=wrong-import-position
-from apps.cli.commands import simulate as _simulate  # noqa: F401  pylint: disable=wrong-import-position 

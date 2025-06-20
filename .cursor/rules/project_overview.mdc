@@ -1,6 +1,0 @@
----
-description: Project Overview
-globs: 
-alwaysApply: false
----
-This is a professional algorithmic trading system with broker-agnostic architecture, featuring data processing, feature engineering, and automated trading strategies for the financial markets (e.g. forex, stocks, etc.).

@@ -1,0 +1,46 @@
+---
+description: Testing Patterns
+globs: 
+alwaysApply: false
+---
+# Testing Patterns
+
+## ⚠️ CRITICAL: Testing Philosophy
+**TESTS MUST NEVER DRIVE ARCHITECTURE CHANGES**
+
+- ❌ NEVER change application architecture to make tests pass
+- ❌ NEVER add config fields just because tests expect them
+- ❌ NEVER modify interfaces to satisfy test requirements
+- ✅ Tests validate that architecture works as designed
+- ✅ Fix test expectations, not the architecture
+
+## Testing Structure
+
+### Location & Naming
+- Unit/component tests: `src/module/tests/test_filename.py`
+- Integration tests: `integration_tests/test_feature.py`  
+- Mirror production files: `api.py` → `test_api.py`
+
+### Test Markers
+- `@pytest.mark.unit` - Pure logic, < 50ms
+- `@pytest.mark.component` - Uses mocks, < 1s
+- `@pytest.mark.integration` - Real dependencies, skipped in CI
+
+### Configuration-First Testing
+- Use realistic configurations, not hardcoded values
+- Mock configurations should mirror real config structure
+- Component interfaces derived from config, not test needs
+
+### Guidelines
+- Descriptive test method names
+- Include positive, negative, and edge cases
+- All new features MUST include corresponding tests
+- One test file per module
+
+## Test Failure Protocol
+1. Understand why test is failing
+2. Determine if failure indicates:
+   - Bug in implementation (fix code)
+   - Wrong test expectations (fix test)
+   - Missing setup/mocking (fix test environment)
+3. NEVER change architecture for test convenience

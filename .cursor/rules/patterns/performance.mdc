@@ -1,0 +1,51 @@
+---
+description: Performance Guidelines
+globs: 
+alwaysApply: false
+---
+# Performance Guidelines
+
+## Data Processing
+- Use vectorized pandas operations over loops
+- Leverage numpy for numerical computations
+- Batch operations when possible
+
+```python
+# ✅ Vectorized
+df['sma'] = df['close'].rolling(window=20).mean()
+
+# ❌ Loop-based
+for i in range(len(df)):
+    df.loc[i, 'sma'] = df['close'][i-19:i+1].mean()
+```
+
+## Caching Strategies
+- Use `@lru_cache` for pure functions
+- Cache expensive computations
+- Consider TTL for time-sensitive data
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def calculate_indicator(symbol: str, period: int) -> float:
+    # Expensive calculation
+    return result
+```
+
+## Memory Management
+- Use generators for large datasets
+- Process data in chunks for memory efficiency
+- Clean up temporary objects explicitly
+
+## API Optimization
+- Implement rate limiting for external APIs
+- Use connection pooling for HTTP clients
+- Batch API requests when supported
+- Handle backpressure appropriately
+
+## Profiling
+- Profile performance-critical code paths
+- Use `cProfile` for identifying bottlenecks
+- Monitor memory usage with `memory_profiler`
+- Set performance benchmarks for critical functions

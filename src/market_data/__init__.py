@@ -172,6 +172,10 @@ def is_source_available(source: DataSource) -> bool:
     return source_factory.is_source_available(source)
 
 
+# Import components from the consolidated data modules
+from src.market_data.calendars import BaseCalendar, ForexCalendar, CalendarFactory, calendar_factory
+from src.market_data.processing import DataProcessor
+
 # Export key components for direct access if needed
 __all__ = [
     # Main functions
@@ -191,5 +195,14 @@ __all__ = [
     # Exceptions
     "DataSourceError",
     "DataRangeError", 
-    "StorageError"
+    "StorageError",
+    
+    # Calendars (migrated from src.data)
+    "BaseCalendar",
+    "ForexCalendar",
+    "CalendarFactory",
+    "calendar_factory",
+    
+    # Processing (migrated from src.data)
+    "DataProcessor"
 ] 

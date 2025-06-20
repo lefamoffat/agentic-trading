@@ -144,4 +144,4 @@ class BaseCalendar(ABC):
             Filtered list containing only trading hour timestamps
 
         """
-        return [ts for ts in timestamps if self.is_market_open(ts)]
+        return [ts for ts in timestamps if self.is_market_open(ts)] 

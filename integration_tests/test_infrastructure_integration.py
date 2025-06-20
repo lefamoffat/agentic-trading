@@ -14,7 +14,7 @@ from unittest.mock import patch
 
 from src.utils import mlflow as mlflow_utils
 from src.utils.config_loader import ConfigLoader
-from src.data.processor import DataProcessor
+from src.market_data import DataProcessor
 from src.environment.config import TradingEnvironmentConfig, FeeStructure
 from src.environment import load_trading_config
 

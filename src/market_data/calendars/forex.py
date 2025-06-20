@@ -10,7 +10,7 @@ from typing import ClassVar, List, Tuple
 import pytz
 
 from src.types import MarketSession
-from src.data.calendars.base import BaseCalendar
+from src.market_data.calendars.base import BaseCalendar
 
 
 class ForexCalendar(BaseCalendar):
@@ -261,4 +261,4 @@ class ForexCalendar(BaseCalendar):
             True if during overlap period, False otherwise
 
         """
-        return self.get_market_session(timestamp) == MarketSession.OVERLAP
+        return self.get_market_session(timestamp) == MarketSession.OVERLAP 

@@ -10,6 +10,20 @@ class BrokerType(Enum):
     FOREX_COM = "forex_com"
     GENERIC = "generic"
 
+class DataSource(Enum):
+    """Market data source providers.
+    
+    Extends broker types to avoid key duplication.
+    Only includes actually implemented sources.
+    """
+    
+    # Broker-based sources (currently only forex.com is implemented)
+    FOREX_COM = BrokerType.FOREX_COM.value
+    
+    # Future sources will be added here as they're implemented
+    # YFINANCE = "yfinance"
+    # ALPACA = "alpaca"
+
 class AssetClass(Enum):
     """Asset class classifications."""
 

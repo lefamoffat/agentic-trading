@@ -10,15 +10,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from src.utils.logger import get_logger
+from openai import OpenAI
 
-# Optional OpenAI import
-try:
-    from openai import OpenAI
-    OPENAI_AVAILABLE = True
-except ImportError:
-    OPENAI_AVAILABLE = False
-    OpenAI = None
+from src.utils.exceptions import ConfigurationError
+from src.utils.logger import get_logger
 
 
 class LLMAdvisor:
@@ -30,21 +25,21 @@ class LLMAdvisor:
         Args:
             model: OpenAI model to use
             api_key: OpenAI API key (defaults to environment variable)
+            
+        Raises:
+            ConfigurationError: If OpenAI API key is not available
         """
         self.logger = get_logger(self.__class__.__name__)
         self.model = model
         
         # Initialize OpenAI client
-        if not OPENAI_AVAILABLE:
-            self.logger.warning("OpenAI not installed. LLM features will use fallbacks.")
-            self.client = None
-        else:
-            api_key = api_key or os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                self.logger.warning("OpenAI API key not found. LLM features will use fallbacks.")
-                self.client = None
-            else:
-                self.client = OpenAI(api_key=api_key)
+        api_key = api_key or os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ConfigurationError(
+                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
+            )
+        
+        self.client = OpenAI(api_key=api_key)
     
     def get_recommendations(
         self,
@@ -63,10 +58,10 @@ class LLMAdvisor:
             
         Returns:
             LLM recommendations with reasoning
+            
+        Raises:
+            ConfigurationError: If LLM request fails
         """
-        if self.client is None:
-            return self._get_fallback_recommendations(action, symbol)
-        
         try:
             # Create prompt based on action type
             prompt = self._create_prompt(action, experiment_data, symbol)
@@ -94,7 +89,9 @@ class LLMAdvisor:
             
         except Exception as e:
             self.logger.error(f"LLM recommendation failed: {e}")
-            return self._get_fallback_recommendations(action, symbol)
+            raise ConfigurationError(
+                f"Failed to get LLM recommendations for {action} action: {e}"
+            ) from e
     
     def _create_prompt(self, action: str, experiment_data: Dict[str, Any], symbol: str) -> str:
         """Create prompt for LLM based on action type."""
@@ -153,7 +150,11 @@ Provide JSON response with:
 """
     
     def _parse_llm_response(self, response: str) -> Dict[str, Any]:
-        """Parse and validate LLM response."""
+        """Parse and validate LLM response.
+        
+        Raises:
+            ConfigurationError: If response cannot be parsed
+        """
         try:
             # Extract JSON from response
             json_start = response.find('{')
@@ -174,33 +175,6 @@ Provide JSON response with:
                 
         except Exception as e:
             self.logger.error(f"Failed to parse LLM response: {e}")
-            return {
-                "reasoning": "Failed to parse LLM response",
-                "confidence_score": 0.1,
-                "recommended_changes": {},
-                "parse_error": str(e)
-            }
-    
-    def _get_fallback_recommendations(self, action: str, symbol: str) -> Dict[str, Any]:
-        """Get fallback recommendations when LLM fails."""
-        fallback = {
-            "reasoning": f"Using fallback recommendations for {action} action. LLM unavailable.",
-            "confidence_score": 0.3,
-            "recommended_changes": {},
-            "fallback_used": True,
-        }
-        
-        if action == "start":
-            fallback["recommended_changes"] = {
-                "learning_rate": {"value": 0.0003, "reason": "Standard default"},
-                "initial_balance": {"value": 100000.0, "reason": "Standard starting capital"},
-            }
-        elif action == "continue":
-            fallback["action_recommendation"] = "continue"
-        elif action == "optimize":
-            fallback["optimization_strategy"] = "conservative"
-            fallback["recommended_changes"] = {
-                "learning_rate": {"value": 0.0001, "reason": "Conservative fine-tuning"},
-            }
-        
-        return fallback 
+            raise ConfigurationError(
+                f"Failed to parse LLM response: {e}"
+            ) from e 

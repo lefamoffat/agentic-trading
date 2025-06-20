@@ -78,8 +78,6 @@ class AppConfig(BaseModel):
             )
 
         agent_dict: Dict[str, Any] = loader.get_agent_config() or {}
-        data_dict: Dict[str, Any] = loader.get_data_config() or {}
-        qlib_dict: Dict[str, Any] = loader.get_qlib_config() or {}
 
         # --- Environment-variable overrides -------------------------------
         # e.g. ``TRADING__POSITION_SIZE`` overrides ``position_size``
@@ -93,8 +91,8 @@ class AppConfig(BaseModel):
         return cls(
             trading=trading,
             agent=agent_dict,
-            data=data_dict,
-            qlib=qlib_dict,
+            data={},  # Empty dict - no data config needed
+            qlib={},  # Empty dict - no qlib config needed
         )
 
 

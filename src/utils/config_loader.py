@@ -76,17 +76,9 @@ class ConfigLoader:
         """Get agent configuration"""
         return self.load_config("agent_config")
 
-    def get_data_config(self) -> Dict[str, Any]:
-        """Get data configuration"""
-        return self.load_config("data_config")
-
     def get_trading_config(self) -> Dict[str, Any]:
         """Get trading configuration"""
         return self.load_config("trading_config")
-
-    def get_qlib_config(self) -> Dict[str, Any]:
-        """Get Qlib configuration"""
-        return self.load_config("qlib_config")
 
     def reload_config(self, config_name: str) -> Dict[str, Any]:
         """Reload a configuration file (clears cache)

@@ -5,6 +5,14 @@ alwaysApply: false
 ---
 # Essential Coding Requirements
 
+## Development Process
+- **PLANNING FIRST**: Always outline implementation plan before making code changes
+- **EXPLICIT CONFIRMATION**: Wait for user's explicit "go ahead" before creating/modifying files
+- **NO ASSUMPTIONS**: Never proceed with implementation based on implied approval
+- **NON-PRODUCTION SYSTEM**: This is a development system, not production. No "legacy migration" or "deprecation" phases needed
+- **EXISTING PATTERNS**: Always reference actual config files in @/configs before making claims about configuration structure
+- **CONVERSATION CONTEXT**: Read entire conversation history before making implementation plans
+
 ## Python Execution
 - ALWAYS use `uv run` instead of `python` for all commands
 - Example: `uv run main.py` not `python main.py`
@@ -17,8 +25,8 @@ from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 
 # Project imports - ALWAYS absolute from src root
-from utils.logger import get_logger
-from types import SymbolType, BrokerType
+from src.utils.logger import get_logger
+from src.types import SymbolType, BrokerType
 # NEVER use relative imports like: from ...utils.logger
 ```
 
@@ -28,7 +36,7 @@ from types import SymbolType, BrokerType
 - Create project types in `src/types.py`
 
 ## Error Handling
-- Create custom exceptions in `src/exceptions.py`
+- Create custom exceptions in `src/utils/exceptions.py`
 - Always include descriptive error messages
 - Log errors with context:
 ```python

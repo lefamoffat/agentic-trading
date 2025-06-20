@@ -9,7 +9,9 @@ Usage:
     python -m scripts.training.train_agent [options]
 """
 import argparse
+import asyncio
 import os
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -22,8 +24,8 @@ from stable_baselines3.common.monitor import Monitor
 from src.agents import agent_factory, Sb3ModelWrapper
 from src.callbacks.interrupt_callback import GracefulShutdownCallback
 from src.callbacks.metrics_callback import MlflowMetricsCallback
-from src.data.pipelines import run_data_preparation_pipeline
 from src.environment import TradingEnv, load_trading_config
+from src.types import Timeframe, DataSource
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
 from src.utils.mlflow import (
@@ -41,25 +43,66 @@ os.environ.setdefault("SETUPTOOLS_USE_DISTUTILS", "stdlib")
 EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "AgenticTrading")
 ensure_experiment(EXPERIMENT_NAME)
 
-def load_and_preprocess_data(symbol: str, timeframe: str) -> (pd.DataFrame, pd.DataFrame):
-    """Load and preprocess the feature data, splitting it into train and eval sets."""
-    sanitized_symbol = symbol.replace("/", "")
-    features_path = Path(f"data/processed/features/{sanitized_symbol}_{timeframe}_features.csv")
 
-    logger.info(f"Loading data from {features_path}...")
+async def prepare_training_data(symbol: str, timeframe: str, days: int = 365) -> pd.DataFrame:
+    """Prepare training data using the new market_data module.
+    
+    Args:
+        symbol: Trading symbol (e.g., "EUR/USD")
+        timeframe: Timeframe string (e.g., "1h", "1d")
+        days: Number of days of historical data to fetch
+        
+    Returns:
+        DataFrame with market data ready for training
+    """
+    logger.info("Preparing training data using market_data module...")
+    
     try:
-        data_df = pd.read_csv(features_path)
-        # The timestamp column is loaded as a string, convert it to datetime
-        data_df["timestamp"] = pd.to_datetime(data_df["timestamp"])
-        data_df.set_index("timestamp", inplace=True)
-        data_df.dropna(inplace=True)
-        data_df.reset_index(drop=True, inplace=True)
-    except FileNotFoundError:
-        logger.error(f"Feature file not found at {features_path}. Please run the data preparation pipeline.")
-        return None, None
+        # Convert string timeframe to enum
+        timeframe_enum = Timeframe.from_standard(timeframe)
+        source = DataSource.FOREX_COM  # Only supported source currently
+        
+        # Calculate date range
+        end_date = datetime.now(timezone.utc)
+        start_date = end_date - timedelta(days=days)
+        
+        # Use the new centralized market_data module
+        from src.market_data import prepare_training_data as fetch_data
+        
+        df = await fetch_data(
+            symbol=symbol,
+            source=source,
+            timeframe=timeframe_enum,
+            start_date=start_date,
+            end_date=end_date,
+            force_refresh=False  # Use cache if available
+        )
+        
+        logger.info(f"✅ Successfully prepared {len(df)} bars of training data")
+        logger.info(f"Data range: {df['timestamp'].min()} to {df['timestamp'].max()}")
+        
+        return df
+        
+    except Exception as e:
+        logger.error(f"❌ Data preparation failed: {e}")
+        raise
 
-    train_size = int(len(data_df) * 0.8)
-    train_df, eval_df = data_df.iloc[:train_size], data_df.iloc[train_size:]
+
+def load_and_preprocess_data(df: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame):
+    """Load and preprocess the feature data, splitting it into train and eval sets."""
+    logger.info(f"Preprocessing data: {len(df)} samples")
+    
+    # Ensure timestamp is datetime and drop NaN values
+    if 'timestamp' in df.columns:
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
+        df.set_index("timestamp", inplace=True)
+    
+    df.dropna(inplace=True)
+    df.reset_index(drop=True, inplace=True)
+
+    # Split into train/eval
+    train_size = int(len(df) * 0.8)
+    train_df, eval_df = df.iloc[:train_size], df.iloc[train_size:]
     logger.info(f"Training data: {len(train_df)} samples, Evaluation data: {len(eval_df)} samples")
     return train_df, eval_df
 
@@ -117,12 +160,13 @@ def train_agent(
     return model, callback_list
 
 
-def train_agent_session(
+async def train_agent_session(
     agent_name: str,
     symbol: str,
     timeframe: str,
     timesteps: int,
     initial_balance: int,
+    days: int = 365,
     run_id: Optional[str] = None,
     agent_params: Optional[Dict[str, Any]] = None,
 ):
@@ -134,6 +178,7 @@ def train_agent_session(
         timeframe (str): Timeframe for the data (e.g., '1d').
         timesteps (int): Total number of timesteps for training.
         initial_balance (int): The initial balance for the trading environment.
+        days (int): Number of days of historical data to use.
         run_id: Optional existing MLflow run ID to resume.
         agent_params: Optional dictionary of agent parameters to override config.
 
@@ -167,17 +212,21 @@ def train_agent_session(
     mlflow.log_param("symbol", symbol)
     mlflow.log_param("timeframe", timeframe)
     mlflow.log_param("timesteps", timesteps)
+    mlflow.log_param("days", days)
 
-    # 2. Data Preparation
-    logger.info("Starting full data preparation pipeline...")
-    if not run_data_preparation_pipeline(symbol, timeframe):
-        logger.error("Data preparation pipeline failed.")
+    # 2. Data Preparation using new market_data module
+    logger.info("Preparing training data using market_data module...")
+    try:
+        df = await prepare_training_data(symbol, timeframe, days)
+    except Exception as e:
+        logger.error(f"Data preparation failed: {e}")
         mlflow.end_run(status="FAILED")
         return
 
-    # 3. Load Data
-    train_df, eval_df = load_and_preprocess_data(symbol, timeframe)
-    if train_df is None or eval_df is None:
+    # 3. Load and preprocess data
+    train_df, eval_df = load_and_preprocess_data(df)
+    if train_df is None or eval_df is None or train_df.empty or eval_df.empty:
+        logger.error("Training or evaluation data is empty")
         mlflow.end_run(status="FAILED")
         return
 
@@ -185,7 +234,6 @@ def train_agent_session(
     logger.info("Creating training and evaluation environments...")
     
     # Load trading configuration
-    from pathlib import Path
     config_path = Path("configs/trading_config.yaml")
     env_config = load_trading_config(config_path)
     
@@ -231,7 +279,7 @@ def train_agent_session(
     logger.info("To view logs and metrics, run: mlflow ui")
 
 
-def main():
+async def main():
     """Main entry point for the training script."""
     parser = argparse.ArgumentParser(description="Train an RL trading agent")
     parser.add_argument("--agent", type=str, default="PPO", help="Agent to train (e.g., PPO)")
@@ -239,6 +287,7 @@ def main():
     parser.add_argument("--timeframe", type=str, default="1d", help="Timeframe of the data")
     parser.add_argument("--timesteps", type=int, default=10000, help="Number of timesteps to train for")
     parser.add_argument("--balance", type=float, default=10000, help="Initial account balance")
+    parser.add_argument("--days", type=int, default=365, help="Number of days of historical data to use")
     args = parser.parse_args()
 
     print("🚀 Starting Agent Training")
@@ -249,21 +298,23 @@ def main():
     print(f"Timeframe: {args.timeframe}")
     print(f"Timesteps: {args.timesteps}")
     print(f"Initial Balance: {args.balance}")
+    print(f"Historical Days: {args.days}")
     print("========================================")
 
     run_name = f"{args.agent}_{args.symbol.replace('/', '')}_{args.timeframe}_{args.timesteps}"
 
     with mlflow.start_run(run_name=run_name) as run:
-        train_agent_session(
+        await train_agent_session(
             agent_name=args.agent,
             symbol=args.symbol,
             timeframe=args.timeframe,
             timesteps=args.timesteps,
             initial_balance=args.balance,
+            days=args.days,
             run_id=run.info.run_id,
             agent_params=None,
         )
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

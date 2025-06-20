@@ -11,22 +11,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import mlflow
+import pandas as pd
+
 from src.utils.logger import get_logger
-
-# Optional imports
-try:
-    import mlflow
-    MLFLOW_AVAILABLE = True
-except ImportError:
-    MLFLOW_AVAILABLE = False
-    mlflow = None
-
-try:
-    import pandas as pd
-    PANDAS_AVAILABLE = True
-except ImportError:
-    PANDAS_AVAILABLE = False
-    pd = None
 
 
 @dataclass
@@ -191,10 +179,6 @@ class ReasoningTracker:
         Args:
             reasoning_log: The reasoning log to store
         """
-        if not MLFLOW_AVAILABLE:
-            self.logger.debug("MLflow not available, skipping MLflow storage")
-            return
-            
         try:
             # Store as tags for searchability
             mlflow.set_tags({
@@ -258,12 +242,12 @@ class ReasoningTracker:
             symbol: Trading symbol to analyze
             
         Returns:
-            Performance analysis data
+            Performance analysis data with reasoning statistics
         """
-        # This would integrate with MLflow to correlate reasoning with actual performance
-        # For now, return a placeholder structure
-        
         recent_logs = self.get_recent_reasoning(days=30)
+        
+        if not recent_logs:
+            return {"message": "No reasoning logs found for analysis"}
         
         analysis_data = []
         for log in recent_logs:
@@ -274,14 +258,20 @@ class ReasoningTracker:
                 "changes_count": len(log.recommended_changes),
                 "execution_time": log.execution_time_ms,
                 "fallback_used": log.fallback_used,
-                # TODO: Add actual performance metrics from MLflow
-                "performance_improvement": None  # Placeholder
             })
         
-        if PANDAS_AVAILABLE:
-            return pd.DataFrame(analysis_data).to_dict()
-        else:
-            return {"raw_data": analysis_data, "note": "pandas not available"}
+        df = pd.DataFrame(analysis_data)
+        
+        # Calculate aggregate statistics
+        return {
+            "total_decisions": len(recent_logs),
+            "average_confidence": df["confidence"].mean(),
+            "fallback_rate": df["fallback_used"].mean(),
+            "average_execution_time": df["execution_time"].mean(),
+            "actions_breakdown": df["action"].value_counts().to_dict(),
+            "confidence_by_action": df.groupby("action")["confidence"].mean().to_dict(),
+            "recent_decisions": analysis_data[-10:] if len(analysis_data) > 10 else analysis_data
+        }
     
     def export_reasoning_summary(self, file_path: Path) -> None:
         """Export reasoning summary for analysis.

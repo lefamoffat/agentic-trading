@@ -87,17 +87,17 @@ agentic-trading/
 ├── src/                     # Main source code
 │   ├── environment/         # Dynamic, model-agnostic RL environment
 │   ├── intelligence/        # LLM-based configuration intelligence
-│   ├── models/              # RL agent implementations (Stable-Baselines3)
+│   ├── agents/              # RL agent implementations (Stable-Baselines3)
 │   ├── brokers/             # Broker integrations (forex.com working)
-│   ├── data/                # Data handling & market calendars
+│   ├── market_data/         # Centralized market data handling
+│   ├── data/                # Data utilities & market calendars
 │   ├── strategies/          # Trading strategy implementations
 │   ├── callbacks/           # Training callbacks
 │   ├── utils/               # Core utilities
 │   └── types/               # Centralized type definitions
 ├── scripts/                 # Executable scripts
 │   ├── features/            # Qlib-based feature generation
-│   ├── data/                # Data processing scripts
-│   ├── analysis/            # Analysis and debugging tools
+│   ├── data/                # Data preparation scripts
 │   ├── training/            # RL agent training scripts
 │   └── setup/               # Project initialization
 ├── data/                    # Data storage (raw, processed, qlib, models)
@@ -142,21 +142,22 @@ uv run scripts/setup/launch_mlflow.sh
 
 Access the UI at [http://localhost:5001](http://localhost:5001).
 
-### 2. Build Features with Qlib
+### 2. Prepare Training Data
 
-Before training, you must generate features from the raw data using Qlib.
+Prepare market data using the centralized market_data module. This replaces the old multi-step process with a single command:
 
 ```bash
-uv run scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
+# Prepare data using the new market_data module
+uv run scripts/data/prepare_data.py --symbol "EUR/USD" --timeframe 1h --days 365
 ```
 
 ### 3. Train an RL Agent
 
-Now you can run the training pipeline. This will use the features generated in the previous step and log the run to MLflow if the server is active.
+Now you can run the training pipeline. This will automatically prepare data using the market_data module and log the run to MLflow if the server is active.
 
 ```bash
-# Start a new training run
-uv run scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
+# Start a new training run (includes automatic data preparation)
+uv run scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000 --days 365
 ```
 
 ### 4. Optimize Hyperparameters
@@ -166,6 +167,8 @@ To find the best hyperparameters for an agent, use the optimization script. This
 ```bash
 uv run scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
 ```
+
+**Note:** The optimization script will be updated in a future version to use the new market_data module.
 
 ### 5. Run Tests
 

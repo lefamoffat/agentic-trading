@@ -11,13 +11,13 @@ import numpy as np
 import pandas as pd
 from gymnasium import spaces
 
-from .actions.base import BaseActionHandler
-from .actions.discrete import DiscreteActionSpace, TradingAction
-from .config import TradingEnvironmentConfig
-from .observations.composite import CompositeObservation
-from .reward_system.composite import CompositeReward
-from .state.position import PositionManager
-from .state.portfolio import PortfolioTracker
+from src.environment.actions.base import BaseActionHandler
+from src.environment.actions.discrete import DiscreteActionSpace, TradingAction
+from src.environment.config import TradingEnvironmentConfig
+from src.environment.observations.composite import CompositeObservation
+from src.environment.reward_system.composite import CompositeReward
+from src.environment.state.position import PositionManager
+from src.environment.state.portfolio import PortfolioTracker
 
 
 class TradingEnv(gym.Env):

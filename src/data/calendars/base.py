@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List, Tuple
 
-from ...types import MarketSession
+from src.types import MarketSession
 
 
 class BaseCalendar(ABC):

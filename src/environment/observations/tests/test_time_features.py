@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
-from ..time_features import TimeObservation
+from src.environment.observations.time_features import TimeObservation
 
 
 class TestTimeObservation:

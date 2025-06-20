@@ -9,7 +9,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from ..config import ActionType
+from src.environment.config import ActionType
 
 
 class BaseActionHandler(ABC):

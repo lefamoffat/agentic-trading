@@ -7,11 +7,11 @@ import numpy as np
 import pandas as pd
 import gymnasium as gym
 
-from ..core import TradingEnv
-from ..config import TradingEnvironmentConfig, FeeStructure
-from ..actions.discrete import DiscreteActionSpace
-from ..state.portfolio import PortfolioTracker
-from ..state.position import PositionManager
+from src.environment.core import TradingEnv
+from src.environment.config import TradingEnvironmentConfig, FeeStructure
+from src.environment.actions.discrete import DiscreteActionSpace
+from src.environment.state.portfolio import PortfolioTracker
+from src.environment.state.position import PositionManager
 
 
 class TestTradingEnv:

@@ -5,8 +5,8 @@ This module allows combining different reward calculations with configurable wei
 """
 from typing import Dict, List, Optional
 
-from .pnl_based import PnLBasedReward
-from ..state.position import Trade
+from src.environment.reward_system.pnl_based import PnLBasedReward
+from src.environment.state.position import Trade
 
 
 class CompositeReward:

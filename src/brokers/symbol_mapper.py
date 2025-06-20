@@ -6,7 +6,7 @@ and broker-specific naming conventions.
 
 from typing import ClassVar
 
-from ..types import BrokerType
+from src.types import BrokerType
 
 
 class SymbolMapper:

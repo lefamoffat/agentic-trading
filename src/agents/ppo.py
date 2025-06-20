@@ -10,7 +10,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from src.environment import TradingEnv
 from src.utils.config_loader import ConfigLoader
 
-from .base import BaseAgent
+from src.agents.base import BaseAgent
 
 __all__ = ["PPOAgent"]
 

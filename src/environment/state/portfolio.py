@@ -5,7 +5,7 @@ This module handles portfolio state tracking including balance, trades, and PnL.
 """
 from typing import List
 
-from ..config import FeeStructure
+from src.environment.config import FeeStructure
 
 
 class PortfolioTracker:

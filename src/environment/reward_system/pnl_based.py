@@ -5,7 +5,7 @@ This module implements clean profit/loss based rewards.
 """
 from typing import Optional
 
-from ..state.position import Trade
+from src.environment.state.position import Trade
 
 
 class PnLBasedReward:

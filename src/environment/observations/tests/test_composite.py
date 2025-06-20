@@ -5,10 +5,10 @@ import pandas as pd
 import pytest
 from unittest.mock import Mock
 
-from ..composite import CompositeObservation
-from ...config import TradingEnvironmentConfig, FeeStructure, ActionType, RewardSystem
-from ...state.position import PositionManager, Position
-from ...state.portfolio import PortfolioTracker
+from src.environment.observations.composite import CompositeObservation
+from src.environment.config import TradingEnvironmentConfig, FeeStructure, ActionType, RewardSystem
+from src.environment.state.position import PositionManager, Position
+from src.environment.state.portfolio import PortfolioTracker
 
 
 @pytest.fixture

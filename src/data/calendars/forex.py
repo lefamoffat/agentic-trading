@@ -9,8 +9,8 @@ from typing import ClassVar, List, Tuple
 
 import pytz
 
-from ...types import MarketSession
-from .base import BaseCalendar
+from src.types import MarketSession
+from src.data.calendars.base import BaseCalendar
 
 
 class ForexCalendar(BaseCalendar):

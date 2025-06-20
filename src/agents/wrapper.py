@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import stable_baselines3
 
-from .helpers import build_observation
+from src.agents.helpers import build_observation
 
 __all__ = ["Sb3ModelWrapper"]
 

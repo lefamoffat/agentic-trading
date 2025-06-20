@@ -7,8 +7,8 @@ from typing import Any, Dict, Optional, Type
 from src.environment import TradingEnv
 from src.utils.logger import get_logger
 
-from .base import BaseAgent
-from .ppo import PPOAgent
+from src.agents.base import BaseAgent
+from src.agents.ppo import PPOAgent
 
 __all__ = ["AgentFactory", "agent_factory"]
 

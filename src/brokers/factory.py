@@ -6,10 +6,10 @@ making it easy to add new brokers without changing existing code.
 
 from typing import ClassVar, Dict, Type
 
-from ..types import BrokerType
-from ..utils.logger import get_logger
-from .base import BaseBroker
-from .forex_com import ForexComBroker
+from src.types import BrokerType
+from src.utils.logger import get_logger
+from src.brokers.base import BaseBroker
+from src.brokers.forex_com import ForexComBroker
 
 
 class BrokerFactory:

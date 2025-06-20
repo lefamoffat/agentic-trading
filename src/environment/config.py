@@ -21,7 +21,7 @@ __all__ = [
 
 class ActionType(Enum):
     """Available action types for the trading environment."""
-    DISCRETE = "discrete"
+    DISCRETE_THREE = "discrete_3"
 
 
 class FeeStructure(Enum):
@@ -34,6 +34,7 @@ class FeeStructure(Enum):
 class RewardSystem(Enum):
     """Reward calculation systems."""
     PNL_BASED = "pnl"             # Profit/loss based rewards
+    REALIZED_PNL = "realized_pnl"  # Realized profit/loss based rewards
 
 
 @dataclass
@@ -52,14 +53,20 @@ class TradingEnvironmentConfig:
     pip_value: float = 0.0001      # Value of 1 pip (for forex)
     
     # Action configuration
-    action_type: ActionType = ActionType.DISCRETE
+    action_type: ActionType = ActionType.DISCRETE_THREE
     
-    # Observation configuration
+    # Observation configuration - ALL fields needed by CompositeObservation
     observation_features: List[str] = None
     include_time_features: bool = True
+    include_portfolio_state: bool = True
+    include_position_state: bool = True
+    normalization_method: str = "robust_zscore"
+    
+    # Position management - ALL fields needed by PortfolioTracker
+    position_sizing_method: str = "fixed"
     
     # Reward system
-    reward_system: RewardSystem = RewardSystem.PNL_BASED
+    reward_system: RewardSystem = RewardSystem.REALIZED_PNL
     
     # Risk management
     max_drawdown: float = 0.20
@@ -68,7 +75,7 @@ class TradingEnvironmentConfig:
     max_daily_loss: Optional[float] = None
     max_risk_per_trade: Optional[float] = None
     
-    # Trading hours configuration
+    # Trading hours configuration - ALL fields needed by TimeObservation
     trading_start_hour: int = 0
     trading_end_hour: int = 24
     trading_timezone: str = "UTC"
@@ -79,6 +86,11 @@ class TradingEnvironmentConfig:
     max_orders_per_day: Optional[int] = None
     cooldown_period: Optional[int] = None
     emergency_stop_loss: Optional[float] = None
+    
+    def __post_init__(self):
+        """Set default observation features if not provided."""
+        if self.observation_features is None:
+            self.observation_features = ["close", "volume"]
 
 
 def load_trading_config(config_path: Path) -> TradingEnvironmentConfig:
@@ -110,15 +122,11 @@ def load_trading_config(config_path: Path) -> TradingEnvironmentConfig:
     trading_hours = config_data.get('trading_hours', {})
     live_trading = config_data.get('live_trading', {})
     
-    # Parse trading hours
-    start_hour = 7  # Default
-    end_hour = 17   # Default
-    if 'start' in trading_hours:
-        start_hour = int(trading_hours['start'].split(':')[0])
-    if 'end' in trading_hours:
-        end_hour = int(trading_hours['end'].split(':')[0])
+    # Parse trading hours with correct field names
+    start_hour = trading_hours.get('trading_start_hour', 7)
+    end_hour = trading_hours.get('trading_end_hour', 17)
     
-    # Map to clean configuration
+    # Map to complete configuration with ALL required fields
     return TradingEnvironmentConfig(
         # Core settings from backtesting section
         initial_balance=float(backtesting.get('initial_cash', 100000)),
@@ -127,37 +135,40 @@ def load_trading_config(config_path: Path) -> TradingEnvironmentConfig:
         fee_structure=FeeStructure.SPREAD_BASED,
         spread=float(instrument.get('spread', 0.0001)),
         commission_rate=float(broker.get('commission', 0.0)),
-        slippage_pips=float(broker.get('slippage', 0.5)),
         pip_value=float(instrument.get('pip_value', 0.0001)),
         
         # Action space based on config
-        action_type=ActionType.DISCRETE,  # Current implementation
+        action_type=ActionType.DISCRETE_THREE,
+        
+        # Observation configuration - provide defaults for ALL fields
+        observation_features=["close", "volume"],  # Default features
+        include_time_features=True,
+        include_portfolio_state=True,
+        include_position_state=True,
+        normalization_method="robust_zscore",
         
         # Position management
         position_sizing_method=position.get('sizing_method', 'fixed'),
-        max_positions=int(position.get('max_positions', 1)),
-        min_trade_size=float(instrument.get('min_trade_size', 1000.0)),
-        max_trade_size=float(instrument.get('max_trade_size', 100000.0)),
+        
+        # Reward system
+        reward_system=RewardSystem.REALIZED_PNL,
         
         # Risk management
         max_drawdown=float(risk.get('max_drawdown', 0.10)),
-        stop_loss=float(risk.get('stop_loss', 0.02)),
-        take_profit=float(risk.get('take_profit', 0.04)),
-        max_daily_loss=float(risk.get('max_daily_loss', 0.05)),
-        max_risk_per_trade=float(risk.get('max_risk_per_trade', 0.02)),
+        stop_loss=risk.get('stop_loss'),
+        take_profit=risk.get('take_profit'),
+        max_daily_loss=risk.get('max_daily_loss'),
+        max_risk_per_trade=risk.get('max_risk_per_trade'),
         
-        # Trading hours
+        # Trading hours - ALL fields needed by TimeObservation
         trading_start_hour=start_hour,
         trading_end_hour=end_hour,
-        trading_timezone=trading_hours.get('timezone', 'UTC'),
+        trading_timezone=trading_hours.get('trading_timezone', 'UTC'),
         exclude_weekends=trading_hours.get('exclude_weekends', True),
         exclude_holidays=trading_hours.get('exclude_holidays', True),
         
         # Trading frequency controls
-        max_orders_per_day=int(live_trading.get('max_orders_per_day', 50)),
-        cooldown_period=int(live_trading.get('cooldown_period', 300)),
-        emergency_stop_loss=float(live_trading.get('emergency_stop_loss', 0.20)),
-        
-        # Defaults for other settings
-        reward_system=RewardSystem.PNL_BASED,
+        max_orders_per_day=live_trading.get('max_orders_per_day'),
+        cooldown_period=live_trading.get('cooldown_period'),
+        emergency_stop_loss=live_trading.get('emergency_stop_loss'),
     ) 

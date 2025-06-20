@@ -8,7 +8,7 @@ The codebase is organized into several key directories:
 
 ```
 agentic-trading/
-├── config/                 # YAML configuration files
+├── configs/                 # YAML configuration files
 ├── src/                    # Main source code
 │   ├── models/            # RL agent implementations
 │   ├── brokers/           # Broker integrations
@@ -35,7 +35,6 @@ The primary script for this process is `scripts/features/build_features.py`. It 
 
 -   **Structured Logging**: We use `loguru` for structured and configurable logging.
 -   **Log Separation**: The system generates separate logs for different processes like training, backtesting, and live trading, which are stored in the `logs/` directory.
--   **TensorBoard**: During training, detailed logs are written to `logs/tensorboard`, which can be visualized to monitor the agent's learning progress (e.g., loss, reward).
 
 ### Experiment Tracking with MLflow
 

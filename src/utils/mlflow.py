@@ -121,8 +121,8 @@ def ensure_experiment(experiment_name: str) -> str:  # pragma: no cover
     """
     # Only auto-start when the user hasn't configured a tracking URI and the
     # common local defaults aren't reachable.
-    if 'MLFLOW_TRACKING_URI' not in os.environ and not _is_mlflow_reachable():
-        _start_local_mlflow_server()
+    # if 'MLFLOW_TRACKING_URI' not in os.environ and not _is_mlflow_reachable():
+    #     _start_local_mlflow_server()
 
     client = mlflow.tracking.MlflowClient()
     exp = client.get_experiment_by_name(experiment_name)

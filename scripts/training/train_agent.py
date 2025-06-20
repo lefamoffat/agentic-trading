@@ -22,7 +22,7 @@ from stable_baselines3.common.monitor import Monitor
 from src.callbacks.interrupt_callback import GracefulShutdownCallback
 from src.callbacks.metrics_callback import MlflowMetricsCallback
 from src.data.pipelines import run_data_preparation_pipeline
-from src.environments.factory import environment_factory
+from src.environment import TradingEnv, load_trading_config
 from src.models.sb3.factory import agent_factory
 from src.models.sb3.wrapper import Sb3ModelWrapper
 from src.utils.config_loader import ConfigLoader
@@ -91,7 +91,6 @@ def train_agent(
     active_run = mlflow.active_run()
     run_id = active_run.info.run_id if active_run else "no_run"
     model_dir = Path("data/models") / agent_name / run_id
-    log_dir = Path("logs/tensorboard") / agent_name / run_id
 
     # 1. Create Callbacks
     metrics_callback = MlflowMetricsCallback(
@@ -108,7 +107,6 @@ def train_agent(
         name=agent_name,
         env=train_env,
         hyperparams=agent_config,
-        tensorboard_log_path=str(log_dir),
     )
 
     # 3. Train Agent
@@ -186,18 +184,17 @@ def train_agent_session(
 
     # 4. Create Environments
     logger.info("Creating training and evaluation environments...")
-    train_env = Monitor(environment_factory.create_environment(
-        name="default",
-        data=train_df,
-        initial_balance=initial_balance,
-        trade_fee=0.0,
-    ))
-    eval_env = Monitor(environment_factory.create_environment(
-        name="default",
-        data=eval_df,
-        initial_balance=initial_balance,
-        trade_fee=0.0,
-    ))
+    
+    # Load trading configuration
+    from pathlib import Path
+    config_path = Path("configs/trading_config.yaml")
+    env_config = load_trading_config(config_path)
+    
+    # Override initial balance from parameter
+    env_config.initial_balance = initial_balance
+    
+    train_env = Monitor(TradingEnv(data=train_df, config=env_config))
+    eval_env = Monitor(TradingEnv(data=eval_df, config=env_config))
     logger.info("Environments created successfully.")
 
     # 5. Agent Training
@@ -232,8 +229,7 @@ def train_agent_session(
 
     logger.info(f"Training run {current_run_id} complete.")
     logger.info(f"Model saved at: {final_model_path}")
-    logger.info(f"To view logs, run: tensorboard --logdir {Path('logs/tensorboard') / agent_name / current_run_id}")
-    logger.info("To view MLflow UI, run: mlflow ui")
+    logger.info("To view logs and metrics, run: mlflow ui")
 
 
 def main():

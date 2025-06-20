@@ -4,7 +4,7 @@ The system uses a combination of YAML files and environment variables for config
 
 ## YAML Configuration Files
 
-All YAML configuration files are located in the `config/` directory.
+All YAML configuration files are located in the `configs/` directory.
 
 -   **`agent_config.yaml`**: Contains settings for the reinforcement learning agent, including the algorithm's hyperparameters (e.g., learning rate, batch size for PPO) and training-specific parameters like evaluation frequency.
 

@@ -6,7 +6,7 @@ from typing import Dict, List
 import numpy as np
 import pandas as pd
 
-from src.environments.trading_env import Trade
+from src.environment.state.position import Trade
 from src.types.enums import Timeframe
 
 

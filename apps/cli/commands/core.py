@@ -60,7 +60,7 @@ def doctor() -> None:
 
     # MLflow availability
     try:
-        MlflowClient().list_registered_models()
+        MlflowClient().search_registered_models()
         typer.secho("✅ MLflow reachable", fg=typer.colors.GREEN)
     except Exception as exc:  # noqa: BLE001
         typer.secho(f"❌ MLflow not reachable: {exc}", fg=typer.colors.RED)

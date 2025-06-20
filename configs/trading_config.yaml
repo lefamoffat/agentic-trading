@@ -10,7 +10,7 @@ instrument:
 
 # Position Management
 position:
-    size: 10000 # USD amount per trade
+    size: 10000
     sizing_method: "fixed" # fixed, percentage, volatility_based
     max_positions: 1 # Only one position at a time for EUR/USD
 
@@ -24,9 +24,9 @@ risk:
 
 # Trading Hours (EUR/USD is most active during these hours)
 trading_hours:
-    start: "07:00" # UTC
-    end: "17:00" # UTC
-    timezone: "UTC"
+    trading_start_hour: 7
+    trading_end_hour: 17
+    trading_timezone: "UTC"
     exclude_weekends: true
     exclude_holidays: true
 
@@ -40,7 +40,6 @@ actions:
 
 # Broker Settings
 broker:
-    default: "forex_com" # Start with paper trading
     commission: 0.0 # Forex typically has spreads instead of commissions
     slippage: 0.5 # 0.5 pips average slippage
 
@@ -52,7 +51,6 @@ backtesting:
 
 # Live Trading Safety
 live_trading:
-    paper_trading: true # Start with paper trading
     max_orders_per_day: 50
     cooldown_period: 300 # 5 minutes between trades
     emergency_stop_loss: 0.20 # 20% emergency stop

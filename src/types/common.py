@@ -5,7 +5,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, TypeAlias, Union
 
 import pandas as pd
 
-from .enums import OrderSide, OrderType, SignalType
+from src.types.enums import OrderSide, OrderType, SignalType
 
 # Core trading types
 SymbolType: TypeAlias = str

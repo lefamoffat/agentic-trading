@@ -7,9 +7,9 @@ This package contains:
 - Data validation and quality checks
 """
 
-from .calendars import BaseCalendar, ForexCalendar
-from .calendars.factory import CalendarFactory, calendar_factory
-from .processor import DataProcessor
+from src.data.calendars import BaseCalendar, ForexCalendar
+from src.data.calendars.factory import CalendarFactory, calendar_factory
+from src.data.processor import DataProcessor
 
 __all__ = [
     'BaseCalendar',

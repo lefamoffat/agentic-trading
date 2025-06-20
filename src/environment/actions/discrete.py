@@ -9,8 +9,8 @@ from typing import Any, Dict, Union
 import numpy as np
 from gymnasium import spaces
 
-from .base import BaseActionHandler
-from ..config import ActionType
+from src.environment.actions.base import BaseActionHandler
+from src.environment.config import ActionType
 
 
 class TradingAction(Enum):

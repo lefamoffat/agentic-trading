@@ -14,10 +14,10 @@ from typing import Any, Dict, Optional
 import mlflow
 
 from src.utils.logger import get_logger
-from .experiment_analyzer import ExperimentAnalyzer
-from .llm_advisor import LLMAdvisor
-from .config_generator import ConfigGenerator
-from .reasoning_tracker import ReasoningTracker
+from src.intelligence.experiment_analyzer import ExperimentAnalyzer
+from src.intelligence.llm_advisor import LLMAdvisor
+from src.intelligence.config_generator import ConfigGenerator
+from src.intelligence.reasoning_tracker import ReasoningTracker
 
 
 class IntelligentOrchestrator:

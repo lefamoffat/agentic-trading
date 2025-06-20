@@ -1,4 +1,4 @@
-from .broker import ForexComBroker
+from src.brokers.forex_com.broker import ForexComBroker
 
 __all__ = ['ForexComBroker']
 

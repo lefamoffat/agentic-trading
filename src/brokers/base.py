@@ -7,7 +7,7 @@ from typing import Dict, List, Optional
 
 import pandas as pd
 
-from ..types import OrderSide, OrderStatus, OrderType
+from src.types import OrderSide, OrderStatus, OrderType
 
 
 class Position:

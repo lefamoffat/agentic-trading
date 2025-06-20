@@ -6,8 +6,8 @@ from unittest.mock import Mock
 import numpy as np
 import torch
 
-from ..discrete import DiscreteActionSpace, TradingAction
-from ..base import BaseActionHandler
+from src.environment.actions.discrete import DiscreteActionSpace, TradingAction
+from src.environment.actions.base import BaseActionHandler
 
 
 class TestDiscreteActionSpace:

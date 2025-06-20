@@ -3,11 +3,11 @@
 This module provides production-ready RL agents.
 """
 
-from .base import BaseAgent
-from .factory import AgentFactory, agent_factory
-from .helpers import build_observation
-from .ppo import PPOAgent
-from .wrapper import Sb3ModelWrapper
+from src.agents.base import BaseAgent
+from src.agents.factory import AgentFactory, agent_factory
+from src.agents.helpers import build_observation
+from src.agents.ppo import PPOAgent
+from src.agents.wrapper import Sb3ModelWrapper
 
 __all__ = [
     "BaseAgent",

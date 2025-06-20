@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
-from .config import app_config
+from src.utils.config import app_config
 
 
 class Settings:

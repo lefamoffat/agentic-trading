@@ -27,7 +27,7 @@ import os
 
 from pydantic import BaseModel, Field
 
-from .config_loader import ConfigLoader
+from src.utils.config_loader import ConfigLoader
 
 
 class TradingConfig(BaseModel):

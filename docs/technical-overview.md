@@ -19,10 +19,13 @@ agentic-trading/
 │   ├── callbacks/         # Training callbacks
 │   ├── utils/             # Core utilities
 │   └── types/             # Centralized type definitions
+├── apps/                  # Web applications
+│   └── dashboard/         # Multi-page Dash dashboard
 ├── scripts/               # Executable scripts
 │   ├── features/          # Qlib-based feature generation
 │   ├── data/              # Data preparation scripts
 │   ├── training/          # RL agent training scripts
+│   ├── dashboard/         # Dashboard launch scripts
 │   └── setup/             # Project initialization
 ├── data/                  # Data storage (raw, processed, qlib, models)
 ├── integration_tests/     # Integration tests
@@ -86,3 +89,32 @@ The data pipeline includes checks to ensure the quality and integrity of market 
 -   Gap detection and analysis
 -   Outlier identification
 -   Consistency validation
+
+## Dashboard & Monitoring
+
+### Multi-Page Dashboard
+
+The system includes a comprehensive web dashboard built with Dash and Plotly:
+
+-   **Overview Page**: System status, recent experiments, performance metrics, and top model leaderboard
+-   **Experiments Page**: Browse and filter all training runs with comparison charts
+-   **Single Experiment**: Detailed analysis of individual training runs with metrics and parameters
+-   **Single Model**: Model management with live trading controls and backtesting interface
+-   **Data Pipeline**: Real-time monitoring of data sources, quality metrics, and cache status
+
+### Real-time Features
+
+-   Auto-refresh intervals (15-30 seconds) for live data updates
+-   Interactive Plotly charts with filtering and sorting
+-   Bootstrap-based responsive design
+-   MLflow integration with graceful fallback to mock data
+-   Error handling and graceful degradation
+
+### Launch Dashboard
+
+```bash
+# Launch the dashboard
+uv run python scripts/dashboard/launch_dashboard.py
+
+# Access at http://localhost:8050
+```

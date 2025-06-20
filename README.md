@@ -24,6 +24,7 @@ For a deeper dive into the system's design, please see the [**Architecture Philo
 -   ✅ **Experiment Tracking**: Integrated with MLflow for logging runs, metrics, and models
 -   ✅ **Hyperparameter Optimization**: Built-in Optuna script for automated HPO
 -   ✅ **Comprehensive Test Coverage**: 134/134 tests passing with robust validation
+-   ✅ **Multi-Page Dashboard**: Real-time monitoring and experiment management with Dash/Plotly
 
 ## 📚 Documentation
 
@@ -95,10 +96,13 @@ agentic-trading/
 │   ├── callbacks/           # Training callbacks
 │   ├── utils/               # Core utilities
 │   └── types/               # Centralized type definitions
+├── apps/                    # Web applications
+│   └── dashboard/           # Multi-page Dash dashboard
 ├── scripts/                 # Executable scripts
 │   ├── features/            # Qlib-based feature generation
 │   ├── data/                # Data preparation scripts
 │   ├── training/            # RL agent training scripts
+│   ├── dashboard/           # Dashboard launch scripts
 │   └── setup/               # Project initialization
 ├── data/                    # Data storage (raw, processed, qlib, models)
 ├── integration_tests/       # Integration tests
@@ -183,7 +187,19 @@ uv run scripts/run_tests.py --all
 uv run scripts/run_tests.py --integration
 ```
 
-### 6. Test Broker Integration
+### 6. Launch Dashboard
+
+```bash
+# Launch the multi-page dashboard
+uv run python scripts/dashboard/launch_dashboard.py
+
+# Or with custom settings
+uv run python scripts/dashboard/launch_dashboard.py --host 0.0.0.0 --port 8080 --debug
+```
+
+Access the dashboard at [http://localhost:8050](http://localhost:8050).
+
+### 7. Test Broker Integration
 
 ```bash
 # Test forex.com broker integration (requires credentials)

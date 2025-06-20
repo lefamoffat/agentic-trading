@@ -85,7 +85,28 @@ uv run python scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 
 
 **Note:** The optimization script will be updated in a future version to use the new market_data module.
 
-### 5. One-Command Quickstart (CLI)
+### 5. Monitor with Dashboard
+
+Launch the multi-page dashboard to monitor your experiments and models:
+
+```bash
+# Launch the dashboard
+uv run python scripts/dashboard/launch_dashboard.py
+
+# Or with custom settings
+uv run python scripts/dashboard/launch_dashboard.py --host 0.0.0.0 --port 8080 --debug
+```
+
+Access the dashboard at [http://localhost:8050](http://localhost:8050).
+
+The dashboard provides:
+
+-   **Overview**: System status and performance metrics
+-   **Experiments**: Browse and compare training runs
+-   **Models**: Manage trained models and trigger live trading
+-   **Data Pipeline**: Monitor data quality and sources
+
+### 6. One-Command Quickstart (CLI)
 
 Prefer the Typer-powered `agentic` CLI for a zero-boilerplate workflow that bundles all steps (project init → data preparation → training → simulation) under a single command:
 

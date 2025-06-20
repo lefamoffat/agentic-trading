@@ -1,0 +1,68 @@
+---
+description: Essential Coding Requirements
+globs: 
+alwaysApply: false
+---
+# Essential Coding Requirements
+
+## Python Execution
+- ALWAYS use `uv run` instead of `python` for all commands
+- Example: `uv run main.py` not `python main.py`
+
+## Import Standards
+```python
+# Standard library first
+import pandas as pd
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass, field
+
+# Project imports - ALWAYS absolute from src root
+from utils.logger import get_logger
+from types import SymbolType, BrokerType
+# NEVER use relative imports like: from ...utils.logger
+```
+
+## Type Annotations
+- REQUIRED for all public methods and class attributes
+- Use `Optional[T]` instead of `Union[T, None]`
+- Create project types in `src/types.py`
+
+## Error Handling
+- Create custom exceptions in `src/exceptions.py`
+- Always include descriptive error messages
+- Log errors with context:
+```python
+try:
+    result = process_data(data)
+except ValidationError as e:
+    self.logger.error(f"Data validation failed: {e}")
+    raise
+```
+
+## Documentation (Google Style)
+```python
+def calculate_features(self, data: pd.DataFrame, symbol: Optional[str] = None) -> pd.DataFrame:
+    """
+    Calculate technical indicators and features.
+    
+    Args:
+        data: OHLCV price data with required columns
+        symbol: Trading symbol for context (optional)
+        
+    Returns:
+        DataFrame with calculated features
+        
+    Raises:
+        ValidationError: If data format is invalid
+    """
+```
+
+## Code Completeness
+- NO placeholders (`TODO`, `FIXME`)
+- NO temporary workarounds or "hacky" solutions
+- NO estimations where exact values can be computed
+- NO hardcoded values (use config/params/env vars)
+
+## Comments
+- Must add long-term value and provide context-free understanding
+- NEVER use comments to indicate recent changes: `# added new import`

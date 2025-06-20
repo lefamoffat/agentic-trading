@@ -1,0 +1,93 @@
+---
+description: Code Style & Patterns
+globs: 
+alwaysApply: false
+---
+# Code Style & Patterns
+
+## Configuration Classes
+Always use `@dataclass` for configuration objects:
+```python
+@dataclass
+class IndicatorConfig:
+    name: str
+    parameters: Dict[str, Any] = field(default_factory=dict)
+    min_periods: int = 1
+    
+    def __post_init__(self):
+        if self.min_periods < 1:
+            raise ValidationError("min_periods must be >= 1")
+```
+
+## Base Classes & Inheritance
+```python
+class BaseIndicator(ABC):
+    def __init__(self, config: IndicatorConfig):
+        self.config = config
+        self.logger = get_logger(self.__class__.__name__)
+    
+    @abstractmethod
+    def calculate(self, data: pd.DataFrame) -> pd.DataFrame:
+        pass
+```
+
+## Factory Patterns
+```python
+class ComponentFactory:
+    def __init__(self):
+        self.registry: Dict[ComponentType, Type] = {}
+        self.logger = get_logger(self.__class__.__name__)
+    
+    def create(self, component_type: ComponentType, **kwargs) -> BaseComponent:
+        if component_type not in self.registry:
+            raise ValidationError(f"Unknown component type: {component_type}")
+        return self.registry[component_type](mdc:**kwargs)
+```
+
+## Logging Patterns
+```python
+class MyClass:
+    def __init__(self):
+        self.logger = get_logger(self.__class__.__name__)
+    
+    def process(self, data):
+        self.logger.info(f"Processing {len(data)} records")
+        try:
+            # processing logic
+            self.logger.debug("Processing completed successfully")
+        except Exception as e:
+            self.logger.error(f"Processing failed: {e}")
+            raise
+```
+
+## Module Structure
+```
+src/module_name/
+├── __init__.py          # Exports all public interfaces
+├── base.py              # Abstract base classes
+├── types.py             # Module-specific types
+├── factory.py           # Factory classes
+├── implementation.py    # Concrete implementations
+├── utils.py             # Module utilities
+└── tests/               # Unit/component tests
+```
+
+## Import Organization in __init__.py
+```python
+# Base classes first
+from .base import BaseClass
+
+# Main implementations
+from .implementation import ConcreteClass1, ConcreteClass2
+
+# Factory and utilities
+from .factory import ComponentFactory
+from .utils import utility_function
+
+__all__ = [
+    'BaseClass',
+    'ConcreteClass1', 'ConcreteClass2', 
+    'ComponentFactory',
+    'utility_function',
+]
+```

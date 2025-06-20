@@ -1,0 +1,57 @@
+---
+description: Broker Composition Patter
+globs: 
+alwaysApply: false
+---
+# Broker Composition Pattern
+
+## Module Structure
+Each broker organized as:
+- `broker.py` - Main orchestrator class
+- `auth.py` - Authentication handler
+- `api.py` - HTTP client operations
+- `orders.py` - Order management
+- `positions.py` - Position management  
+- `data.py` - Data fetching
+- `tests/` - Mirrored test files
+
+## Composition Rules
+
+### Main Broker Class
+- Inherits from `BaseBroker`
+- Uses composition, NOT inheritance for handlers
+- Delegates all functionality to handlers
+- Keep under 200 lines
+
+```python
+class BrokerName(BaseBroker):
+    def __init__(self, api_key: str, api_secret: str, sandbox: bool = True):
+        super().__init__(api_key, api_secret, sandbox)
+        
+        # Composition: broker "has-a" handlers
+        self.auth = AuthenticationHandler(api_key, api_secret)
+        self.api = ApiClient(self.auth)
+        self.orders = OrderHandler(self.api)
+        self.positions = PositionHandler(self.api)
+        self.data = DataHandler(self.api)
+    
+    async def authenticate(self) -> bool:
+        return await self.auth.authenticate()
+```
+
+### Handler Classes
+- Single responsibility per handler
+- Dependencies via constructor injection
+- No circular dependencies
+- Keep under 150 lines each
+
+### Dependency Injection
+- `ApiClient` depends on `AuthenticationHandler`
+- Business handlers depend on `ApiClient`
+- Dependencies passed via constructor
+
+## What to Avoid
+- ❌ Multiple inheritance (mixins)
+- ❌ Large monolithic files (>300 lines)
+- ❌ Handlers directly importing each other
+- ❌ Business logic in main broker class

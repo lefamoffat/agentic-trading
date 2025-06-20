@@ -10,24 +10,60 @@ The codebase is organized into several key directories:
 agentic-trading/
 ├── configs/                 # YAML configuration files
 ├── src/                    # Main source code
-│   ├── models/            # RL agent implementations
-│   ├── brokers/           # Broker integrations
-│   ├── data/              # Data handling & market calendars
-│   ├── environments/      # Gymnasium-based RL environments
-│   └── utils/             # Core utilities
-├── scripts/               # Executable scripts for training, features, etc.
+│   ├── agents/            # RL agent implementations (Stable-Baselines3)
+│   ├── brokers/           # Broker integrations (forex.com working)
+│   ├── market_data/       # Centralized market data handling
+│   ├── data/              # Data utilities & market calendars
+│   ├── environment/       # Dynamic, model-agnostic RL environment
+│   ├── intelligence/      # LLM-based configuration intelligence
+│   ├── callbacks/         # Training callbacks
+│   ├── utils/             # Core utilities
+│   └── types/             # Centralized type definitions
+├── scripts/               # Executable scripts
+│   ├── features/          # Qlib-based feature generation
+│   ├── data/              # Data preparation scripts
+│   ├── training/          # RL agent training scripts
+│   └── setup/             # Project initialization
 ├── data/                  # Data storage (raw, processed, qlib, models)
-├── logs/                  # Log files
-└── tests/                 # Unit and integration tests
+├── integration_tests/     # Integration tests
+└── docs/                  # Documentation
 ```
 
 For a more detailed breakdown, refer to the [Architecture Guide](architecture.md).
 
-## Feature Engineering
+## Market Data & Feature Engineering
 
-Feature engineering is handled exclusively by **Microsoft Qlib**. This library provides access to a vast collection of technical indicators and alpha factors, including the renowned `Alpha158` and `Alpha360` collections.
+### Centralized Market Data Module
 
-The primary script for this process is `scripts/features/build_features.py`. It downloads the latest market data and uses Qlib to generate a rich feature set, which is then stored and used for training the RL agent. The process is configurable and can be extended to include custom features.
+The system uses a centralized `src/market_data/` module that provides:
+
+-   **Source-agnostic data fetching** from brokers, APIs, and other providers
+-   **Intelligent caching** to avoid re-downloading data
+-   **Qlib binary format integration** for efficient feature engineering
+-   **Type-safe data contracts** using Pydantic models
+-   **Date range based data retrieval** inspired by Alpaca's API
+
+### Feature Engineering with Qlib
+
+Feature engineering is handled exclusively by **Microsoft Qlib**, providing access to a vast collection of technical indicators and alpha factors, including the renowned `Alpha158` and `Alpha360` collections.
+
+The system integrates Qlib through the market_data module, which automatically handles:
+
+-   Data format conversion to Qlib's binary format
+-   Feature calculation using Qlib's alpha libraries
+-   Seamless integration with the training pipeline
+
+### Simplified Data Preparation
+
+The old multi-step process has been replaced with a single command:
+
+```bash
+# Old approach (deprecated)
+scripts/data/download_historical.py → scripts/data/dump_bin.py → scripts/features/build_features.py
+
+# New approach (current)
+scripts/data/prepare_data.py  # Uses market_data module internally
+```
 
 ## Monitoring & Analysis
 

@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from typing import Any, Dict, Generator, Optional
+import subprocess
+import time
 
 import mlflow
 import pandas as pd
@@ -17,19 +19,21 @@ from mlflow import ActiveRun
 from mlflow.models import infer_signature
 import os
 
-import subprocess
-import sys
-import time
-from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
+
+from src.utils.exceptions import ConfigurationError, TradingSystemError
+from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 __all__ = [
     "log_metrics",
     "log_params",
     "log_sb3_model",
     "start_experiment_run",
+    "ensure_mlflow_running",
 ]
 
 # ---------------------------------------------------------------------------
@@ -42,87 +46,101 @@ def _tracking_uri() -> str:
 
     Defaults to ``http://127.0.0.1:5001`` if the env var is not set.
     """
-    return os.getenv("MLFLOW_TRACKING_URI", _LOCAL_DEFAULTS[0])
+    return os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5001")
 
 
 def _is_mlflow_reachable() -> bool:  # pragma: no cover
     """Return True if a server is listening at the tracking URI."""
-    uri_env = os.getenv("MLFLOW_TRACKING_URI")
-    candidate_uris = [uri_env] if uri_env else _LOCAL_DEFAULTS
+    uri = _tracking_uri()
 
-    for uri in candidate_uris:
-        if uri is None:
-            continue
-        uri = uri.rstrip("/")
-
-        # HTTP ping
-        try:
-            resp = requests.get(urljoin(uri + "/", "api/2.0/mlflow/experiments/list"), timeout=2)
-            if resp.ok:
-                mlflow.set_tracking_uri(uri)
-                return True
-        except Exception:
-            pass
-
-        # Client fallback
-        try:
-            mlflow.tracking.MlflowClient(tracking_uri=uri).list_experiments()
+    try:
+        resp = requests.get(urljoin(uri + "/", "api/2.0/mlflow/experiments/list"), timeout=5)
+        if resp.ok:
             mlflow.set_tracking_uri(uri)
-            return True
-        except Exception:
-            continue
+        return True
+    except (requests.RequestException, requests.Timeout):
+        pass
 
     return False
 
 
-def _start_local_mlflow_server(port: int = 5001) -> subprocess.Popen[bytes]:  # pragma: no cover
-    """Spawn a local MLflow server in the background (artifact store = ./mlruns)."""
+def _start_mlflow_server() -> bool:
+    """Start MLflow server using Docker if not already running.
+    
+    Returns:
+        True if server started successfully, False otherwise
+    """
+    try:
+        # Get project root (assuming we're in src/utils/)
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        launch_script = os.path.join(project_root, "scripts", "setup", "launch_mlflow.sh")
+        
+        if not os.path.exists(launch_script):
+            logger.error(f"MLflow launch script not found: {launch_script}")
+            return False
+        
+        logger.info("Starting MLflow server via Docker...")
+        
+        # Run the launch script
+        result = subprocess.run(
+            ["/bin/bash", launch_script],
+            cwd=project_root,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        
+        if result.returncode != 0:
+            logger.error(f"Failed to start MLflow server: {result.stderr}")
+            return False
+        
+        # Wait for server to be ready (up to 30 seconds)
+        for i in range(30):
+            time.sleep(1)
+            if _is_mlflow_reachable():
+                logger.info(f"MLflow server started successfully on {_tracking_uri()}")
+                return True
+            if i % 5 == 0:  # Log every 5 seconds
+                logger.info(f"Waiting for MLflow server to be ready... ({i+1}s)")
+            
+        logger.error("MLflow server failed to become ready within 30 seconds")
+        return False
+        
+    except subprocess.TimeoutExpired:
+        logger.error("MLflow server startup timed out")
+        return False
+    except Exception as e:
+        logger.error(f"Error starting MLflow server: {e}")
+        return False
 
-    # If it's already reachable we don't spawn another instance.
+
+def ensure_mlflow_running() -> None:
+    """Ensure MLflow server is running, auto-starting if necessary.
+    
+    Raises:
+        ConfigurationError: If MLflow cannot be started or reached
+    """
     if _is_mlflow_reachable():
-        return None  # type: ignore[return-value]
-
-    backend_dir = Path("mlruns").resolve()
-    backend_dir.mkdir(exist_ok=True)
-
-    cmd = [
-        sys.executable,
-        "-m",
-        "mlflow.cli",
-        "server",
-        "--backend-store-uri",
-        str(backend_dir),
-        "--default-artifact-root",
-        str(backend_dir),
-        "--host",
-        "127.0.0.1",
-        "--port",
-        str(port),
-    ]
-
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # noqa: S603,S607
-
-    # Wait briefly for server to start
-    for _ in range(30):  # 15 seconds
-        if _is_mlflow_reachable():
-            mlflow.set_tracking_uri(_tracking_uri())
-            return proc
-        time.sleep(0.5)
-
-    proc.terminate()
-    raise RuntimeError("MLflow server failed to start within timeout.")
+        logger.debug("MLflow server is already running")
+        return
+    
+    logger.info("MLflow server not reachable, attempting to start...")
+    
+    if not _start_mlflow_server():
+        raise ConfigurationError(
+            f"Failed to start MLflow server. Please ensure Docker is running and try again. "
+            f"Alternatively, start MLflow manually or set MLFLOW_TRACKING_URI to a running instance."
+        )
 
 
 def ensure_experiment(experiment_name: str) -> str:  # pragma: no cover
     """Return the experiment id, creating the experiment if it doesn't exist.
 
-    If the MLflow tracking URI is unreachable, a **local server is started**
-    automatically (host=127.0.0.1:5001, backend `./mlruns`).
+    Raises:
+        ConfigurationError: If MLflow tracking URI is unreachable
     """
-    # Only auto-start when the user hasn't configured a tracking URI and the
-    # common local defaults aren't reachable.
-    # if 'MLFLOW_TRACKING_URI' not in os.environ and not _is_mlflow_reachable():
-    #     _start_local_mlflow_server()
+    # Auto-start MLflow if needed
+    ensure_mlflow_running()
 
     client = mlflow.tracking.MlflowClient()
     exp = client.get_experiment_by_name(experiment_name)
@@ -237,7 +255,7 @@ def log_sb3_model(
     # Explicitly register the model so it shows up in the Model Registry.
     try:
         mlflow.register_model(model_uri=logged_model.model_uri, name=name)
-    except Exception as exc:  # pragma: no cover
+    except mlflow.MlflowException as exc:  # pragma: no cover
         # Registration may fail if the model already exists or registry not configured.
         import warnings
 
@@ -248,8 +266,3 @@ def log_sb3_model(
 # ---------------------------------------------------------------------------
 # Helper constants
 # ---------------------------------------------------------------------------
-
-_LOCAL_DEFAULTS = [
-    "http://127.0.0.1:5001",
-    "http://localhost:5001",
-]

@@ -3,11 +3,13 @@ from __future__ import annotations
 """Core / miscellaneous CLI commands (project init, validation, diagnostics)."""
 
 import platform
+import subprocess
 import sys
 from pathlib import Path
 
 import typer
 from mlflow.tracking import MlflowClient
+import mlflow
 
 from apps.cli import app, _run, _load_config, PROJECT_ROOT, SCRIPTS_DIR
 
@@ -22,6 +24,84 @@ def init() -> None:
 
     script = SCRIPTS_DIR / "setup" / "init_project.py"
     _run([sys.executable, str(script)])
+
+
+# ---------------------------------------------------------------------------
+# MLflow server management
+# ---------------------------------------------------------------------------
+
+
+@app.command("mlflow-start")
+def mlflow_start(port: int = typer.Option(5001, help="Port to run MLflow server on")) -> None:
+    """Start MLflow tracking server in Docker."""
+    
+    launch_script = SCRIPTS_DIR / "setup" / "launch_mlflow.sh"
+    if not launch_script.exists():
+        typer.secho(f"❌ Launch script not found: {launch_script}", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    
+    typer.echo(f"🚀 Starting MLflow server on port {port}...")
+    _run(["/bin/bash", str(launch_script), str(port)])
+    typer.secho(f"✅ MLflow server started on http://localhost:{port}", fg=typer.colors.GREEN)
+
+
+@app.command("mlflow-stop")
+def mlflow_stop() -> None:
+    """Stop MLflow tracking server."""
+    
+    try:
+        result = subprocess.run(
+            ["docker", "stop", "mlflow_server"],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        
+        if result.returncode == 0:
+            typer.secho("✅ MLflow server stopped", fg=typer.colors.GREEN)
+        else:
+            typer.secho("⚠️  No MLflow server container found or already stopped", fg=typer.colors.YELLOW)
+            
+    except subprocess.TimeoutExpired:
+        typer.secho("❌ Timeout stopping MLflow server", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    except Exception as e:
+        typer.secho(f"❌ Error stopping MLflow server: {e}", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+
+
+@app.command("mlflow-status")
+def mlflow_status() -> None:
+    """Check MLflow server status."""
+    
+    # Check if container is running
+    try:
+        result = subprocess.run(
+            ["docker", "ps", "--filter", "name=mlflow_server", "--format", "table {{.Names}}\t{{.Status}}"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        
+        if "mlflow_server" in result.stdout:
+            typer.secho("🐳 MLflow Docker container: RUNNING", fg=typer.colors.GREEN)
+        else:
+            typer.secho("🐳 MLflow Docker container: NOT RUNNING", fg=typer.colors.YELLOW)
+            
+    except Exception as e:
+        typer.secho(f"❌ Error checking Docker status: {e}", fg=typer.colors.RED)
+    
+    # Check if MLflow API is reachable
+    try:
+        from src.utils.mlflow import _is_mlflow_reachable, _tracking_uri
+        
+        if _is_mlflow_reachable():
+            typer.secho(f"🌐 MLflow API: REACHABLE at {_tracking_uri()}", fg=typer.colors.GREEN)
+        else:
+            typer.secho(f"🌐 MLflow API: NOT REACHABLE at {_tracking_uri()}", fg=typer.colors.RED)
+            
+    except Exception as e:
+        typer.secho(f"❌ Error checking MLflow API: {e}", fg=typer.colors.RED)
 
 
 # ---------------------------------------------------------------------------
@@ -62,6 +142,6 @@ def doctor() -> None:
     try:
         MlflowClient().search_registered_models()
         typer.secho("✅ MLflow reachable", fg=typer.colors.GREEN)
-    except Exception as exc:  # noqa: BLE001
+    except (mlflow.MlflowException, ConnectionError) as exc:
         typer.secho(f"❌ MLflow not reachable: {exc}", fg=typer.colors.RED)
         raise typer.Exit(code=2) from exc 

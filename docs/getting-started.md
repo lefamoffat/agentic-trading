@@ -57,21 +57,22 @@ bash scripts/setup/launch_mlflow.sh
 
 You can access the MLflow UI at [http://localhost:5001](http://localhost:5001).
 
-### 2. Build Features with Qlib
+### 2. Prepare Training Data
 
-Before training, you must generate features from the raw data using Qlib. This script downloads the latest data and calculates a predefined set of technical indicators.
+Prepare market data using the centralized market_data module. This replaces the old multi-step process with a single, streamlined command:
 
 ```bash
-uv run python scripts/features/build_features.py --symbol "EUR/USD" --timeframe 1h
+# Prepare data using the new market_data module
+uv run python scripts/data/prepare_data.py --symbol "EUR/USD" --timeframe 1h --days 365
 ```
 
 ### 3. Train an RL Agent
 
-Now you can run the training pipeline. This will use the features generated in the previous step and log the run to MLflow if the server is active.
+Now you can run the training pipeline. This will automatically prepare data using the market_data module and log the run to MLflow if the server is active.
 
 ```bash
-# Start a new training run
-uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000
+# Start a new training run (includes automatic data preparation)
+uv run python scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000 --days 365
 ```
 
 ### 4. Optimize Hyperparameters
@@ -81,6 +82,8 @@ To find the best hyperparameters for an agent, use the optimization script. This
 ```bash
 uv run python scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
 ```
+
+**Note:** The optimization script will be updated in a future version to use the new market_data module.
 
 ### 5. One-Command Quickstart (CLI)
 

@@ -9,43 +9,61 @@ __all__ = ["build_observation"]
 
 
 def build_observation(model_input: pd.DataFrame) -> np.ndarray:
-    """Convert feature dataframe into observation tensor for SB3 policies.
-
-    Dynamically builds observations to match the environment's CompositeObservation:
-    - Dynamic market features (any columns in input DataFrame)
-    - Portfolio features (4): [balance_norm, position_type, entry_price_norm, unrealized_pnl_pct]  
-    - Time features (9): [market_open, time_of_day_normalized, day_monday, ..., day_sunday]
-
+    """Transform MLflow PyFunc DataFrame input to SB3 observation format.
+    
+    This function is part of the MLflow model serving pipeline that converts
+    pandas DataFrame input (MLflow's standard serving format) into numpy
+    observation arrays that Stable-Baselines3 models expect.
+    
     Args:
-        model_input: DataFrame from feature pipeline.
-
+        model_input: DataFrame with market data containing any market features
+        
     Returns:
-        NumPy array with shape (batch, n_features) and dtype float32.
+        Observation array matching TradingEnv observation space format
+        Shape: (batch_size, N) for batch input or (N,) for single observation
+        where N = market_features + 4 portfolio + 9 time features
+        
+    Raises:
+        ValueError: If input data is invalid
     """
+    # Get batch size
     batch_size = len(model_input)
     observations = []
     
-    # Market features (dynamic from DataFrame columns)
-    market_columns = [col for col in model_input.columns 
-                     if col not in ['timestamp', 'symbol', 'date']]
+    # Define metadata columns to exclude from market features
+    metadata_columns = {'timestamp', 'symbol', 'date'}
     
-    if market_columns:
-        market_obs = model_input[market_columns].to_numpy(dtype=np.float32)
-        observations.append(market_obs)
-    else:
-        # Fallback: basic OHLCV
-        basic_features = ["close", "volume", "high", "low", "open"]
+    # Get market feature columns (exclude metadata)
+    market_columns = [col for col in model_input.columns if col not in metadata_columns]
+    
+    # If no market columns, use OHLCV fallback
+    if not market_columns:
+        ohlcv_columns = ['open', 'high', 'low', 'close', 'volume']
         market_features = []
-        for col in basic_features:
+        for col in ohlcv_columns:
             if col in model_input.columns:
-                values = model_input[col].to_numpy(dtype=np.float32)
+                market_features.append(model_input[col].values.astype(np.float32))
             else:
-                values = np.zeros(batch_size, dtype=np.float32)
+                # Missing OHLCV column, fill with zeros
+                market_features.append(np.zeros(batch_size, dtype=np.float32))
+        
+        if market_features:
+            market_obs = np.column_stack(market_features)
+        else:
+            # No market data at all, create zero features
+            market_obs = np.zeros((batch_size, 5), dtype=np.float32)
+    else:
+        # Use available market columns as features
+        market_features = []
+        for col in market_columns:
+            values = model_input[col].values.astype(np.float32)
             market_features.append(values)
+        
         market_obs = np.column_stack(market_features)
-        observations.append(market_obs)
     
-    # Portfolio features (4 features) - serving defaults
+    observations.append(market_obs)
+    
+    # Portfolio features (4 features) - serving defaults for inference
     portfolio_obs = np.column_stack([
         np.ones(batch_size, dtype=np.float32),    # balance_normalized = 1.0
         np.ones(batch_size, dtype=np.float32),    # position_type = 1 (FLAT)
@@ -54,18 +72,17 @@ def build_observation(model_input: pd.DataFrame) -> np.ndarray:
     ])
     observations.append(portfolio_obs)
     
-    # Time features (9 features) - serving defaults
+    # Time features (9 features) - serving defaults for inference
     time_obs = np.column_stack([
         np.ones(batch_size, dtype=np.float32),    # market_open = 1.0
-        np.full(batch_size, 0.5, dtype=np.float32),  # time_of_day_normalized = 0.5
-        # Day encoding (assume Monday)
-        np.ones(batch_size, dtype=np.float32),   # day_monday = 1.0
-        np.zeros(batch_size, dtype=np.float32),  # day_tuesday = 0.0
-        np.zeros(batch_size, dtype=np.float32),  # day_wednesday = 0.0
-        np.zeros(batch_size, dtype=np.float32),  # day_thursday = 0.0
-        np.zeros(batch_size, dtype=np.float32),  # day_friday = 0.0
-        np.zeros(batch_size, dtype=np.float32),  # day_saturday = 0.0
-        np.zeros(batch_size, dtype=np.float32)   # day_sunday = 0.0
+        np.ones(batch_size, dtype=np.float32) * 0.5,  # time_of_day_normalized = 0.5
+        np.ones(batch_size, dtype=np.float32),    # day_monday = 1.0
+        np.zeros(batch_size, dtype=np.float32),   # day_tuesday = 0.0
+        np.zeros(batch_size, dtype=np.float32),   # day_wednesday = 0.0
+        np.zeros(batch_size, dtype=np.float32),   # day_thursday = 0.0
+        np.zeros(batch_size, dtype=np.float32),   # day_friday = 0.0
+        np.zeros(batch_size, dtype=np.float32),   # day_saturday = 0.0
+        np.zeros(batch_size, dtype=np.float32),   # day_sunday = 0.0
     ])
     observations.append(time_obs)
     

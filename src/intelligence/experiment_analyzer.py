@@ -9,6 +9,12 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+import mlflow
+import numpy as np
+import pandas as pd
+from mlflow.entities import Experiment, Run
+
+from src.utils.exceptions import ConfigurationError
 from src.utils.logger import get_logger
 
 # Optional imports
@@ -104,12 +110,7 @@ class ExperimentAnalyzer:
         """
         self.logger = get_logger(self.__class__.__name__)
         self.experiment_name = experiment_name
-        
-        if MLFLOW_AVAILABLE:
-            self.client = mlflow.tracking.MlflowClient()
-        else:
-            self.client = None
-            self.logger.warning("MLflow not available. Experiment analysis will use fallbacks.")
+        self.client = mlflow.tracking.MlflowClient()
     
     def get_experiment_by_name(self, name: str) -> Optional[Experiment]:
         """Get experiment by name.
@@ -120,10 +121,6 @@ class ExperimentAnalyzer:
         Returns:
             Experiment object or None if not found
         """
-        if not self.client:
-            self.logger.warning("MLflow client not available")
-            return None
-            
         try:
             return self.client.get_experiment_by_name(name)
         except Exception as e:

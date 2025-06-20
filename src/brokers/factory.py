@@ -4,6 +4,7 @@ This factory provides a central point for creating broker instances,
 making it easy to add new brokers without changing existing code.
 """
 
+import os
 from typing import ClassVar, Dict, Type
 
 from src.types import BrokerType
@@ -91,6 +92,50 @@ class BrokerFactory:
         except Exception as e:
             self.logger.error(f"Failed to create {broker_name} broker: {e}")
             raise
+
+    def create_broker_with_env_credentials(
+        self,
+        broker_type: BrokerType,
+        sandbox: bool = True,
+        **kwargs
+    ) -> BaseBroker:
+        """Create a broker instance using environment variables for credentials.
+        
+        This method handles credential loading internally, keeping authentication
+        logic within the broker layer.
+
+        Args:
+            broker_type: Type of broker to create
+            sandbox: Whether to use sandbox/demo environment
+            **kwargs: Additional broker-specific parameters
+
+        Returns:
+            Configured broker instance
+
+        Raises:
+            ValueError: If broker is not supported or credentials are missing
+
+        """
+        # Load credentials based on broker type
+        if broker_type == BrokerType.FOREX_COM:
+            api_key = os.getenv("FOREX_COM_USERNAME")
+            api_secret = os.getenv("FOREX_COM_PASSWORD")
+            
+            if not api_key or not api_secret:
+                raise ValueError(
+                    "Missing forex.com credentials. Set FOREX_COM_USERNAME and FOREX_COM_PASSWORD environment variables."
+                )
+        else:
+            raise ValueError(f"Unsupported broker type: {broker_type}")
+
+        # Use the existing create_broker method with loaded credentials
+        return self.create_broker(
+            broker_name=broker_type.value,
+            api_key=api_key,
+            api_secret=api_secret,
+            sandbox=sandbox,
+            **kwargs
+        )
 
     def is_broker_supported(self, broker_name: str) -> bool:
         """Check if a broker is supported.

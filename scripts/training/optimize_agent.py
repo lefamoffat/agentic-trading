@@ -8,6 +8,7 @@ Usage:
     python -m scripts.training.optimize_agent [options]
 """
 import argparse
+import asyncio
 import os
 from typing import Any, Dict
 
@@ -39,13 +40,14 @@ def suggest_hyperparameters(trial: optuna.Trial, hpo_config: Dict[str, Any]) -> 
             params[param_name] = trial.suggest_float(param_name, config["low"], config["high"], log=True)
     return params
 
-def objective(
+async def objective(
     trial: optuna.Trial,
     agent_name: str,
     symbol: str,
     timeframe: str,
     timesteps: int,
     initial_balance: float,
+    days: int,
     parent_run_id: str,
 ) -> float:
     """The objective function for Optuna to optimize."""
@@ -61,12 +63,13 @@ def objective(
 
         # 3. Run the training session with the suggested hyperparameters
         try:
-            train_agent_session(
+            await train_agent_session(
                 agent_name=agent_name,
                 symbol=symbol,
                 timeframe=timeframe,
                 timesteps=timesteps,
                 initial_balance=initial_balance,
+                days=days,
                 agent_params=hyperparams,
             )
         except Exception as e:
@@ -85,7 +88,7 @@ def objective(
         logger.info(f"--- Trial {trial.number} Finished. Sharpe Ratio: {final_sharpe:.4f} ---")
         return final_sharpe
 
-def main():
+async def main():
     """Main entry point for the optimization script."""
     parser = argparse.ArgumentParser(description="Optimize an RL trading agent's hyperparameters.")
     parser.add_argument("--agent", type=str, default="PPO", help="Agent to optimize")
@@ -94,6 +97,7 @@ def main():
     parser.add_argument("--timesteps", type=int, default=5000, help="Number of timesteps per trial")
     parser.add_argument("--trials", type=int, default=20, help="Number of optimization trials to run")
     parser.add_argument("--balance", type=float, default=10000, help="Initial account balance")
+    parser.add_argument("--days", type=int, default=365, help="Number of days of historical data to use")
     args = parser.parse_args()
 
     print("🚀 Starting Hyperparameter Optimization")
@@ -103,6 +107,7 @@ def main():
     print(f"Timeframe: {args.timeframe}")
     print(f"Timesteps per trial: {args.timesteps}")
     print(f"Number of trials: {args.trials}")
+    print(f"Historical Days: {args.days}")
     print("========================================")
 
     # 1. Create a parent MLflow run for the entire optimization study
@@ -114,18 +119,23 @@ def main():
         study = optuna.create_study(direction="maximize")
 
         # 3. Run the optimization
-        study.optimize(
-            lambda trial: objective(
+        # Note: We need to use a sync wrapper for optuna since it doesn't support async directly
+        def sync_objective(trial):
+            return asyncio.run(objective(
                 trial,
                 agent_name=args.agent,
                 symbol=args.symbol,
                 timeframe=args.timeframe,
                 timesteps=args.timesteps,
                 initial_balance=args.balance,
+                days=args.days,
                 parent_run_id=parent_run.info.run_id
-            ),
+            ))
+
+        study.optimize(
+            sync_objective,
             n_trials=args.trials,
-            n_jobs=1 # Run trials sequentially
+            n_jobs=1  # Run trials sequentially
         )
 
         # 4. Log the best trial's results to the parent run
@@ -141,4 +151,4 @@ def main():
             logger.info(f"    {key}: {value}")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

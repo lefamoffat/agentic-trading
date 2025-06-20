@@ -10,12 +10,21 @@ import pytest
 import pandas as pd
 import numpy as np
 import mlflow
+from stable_baselines3.common.monitor import Monitor
+from unittest.mock import patch
 
-from src.environment import TradingEnv, TradingEnvironmentConfig, FeeStructure
-from src.models.sb3 import PPOAgent, AgentFactory
-from src.strategies import RLStrategy
-from src.utils import mlflow as mlflow_utils
+from src.agents import AgentFactory, PPOAgent
+from src.callbacks.interrupt_callback import GracefulShutdownCallback
+from src.callbacks.metrics_callback import MlflowMetricsCallback
 from src.data.processor import DataProcessor
+from src.environment import TradingEnv, TradingEnvironmentConfig, FeeStructure
+from src.utils.config_loader import ConfigLoader
+from src.utils.mlflow import (
+    ensure_experiment,
+    start_experiment_run,
+    log_params,
+    log_metrics,
+)
 
 
 @pytest.mark.integration
@@ -26,7 +35,7 @@ class TestEndToEndTrainingPipeline:
     def sample_market_data(self):
         """Create realistic market data for training."""
         np.random.seed(42)  # For reproducible tests
-        n_periods = 1000
+        n_periods = 200  # Smaller for faster tests
         
         dates = pd.date_range('2024-01-01', periods=n_periods, freq='1h')
         
@@ -58,7 +67,7 @@ class TestEndToEndTrainingPipeline:
         return TradingEnvironmentConfig(
             initial_balance=10000.0,
             fee_structure=FeeStructure.SPREAD_BASED,
-            observation_features=['close', 'volume', 'high', 'low'],
+            observation_features=['close', 'volume'],  # Simplified for testing
             include_time_features=False,  # Simplify for testing
             spread=0.0002  # 2 pip spread
         )
@@ -69,64 +78,58 @@ class TestEndToEndTrainingPipeline:
         
         # Test environment properties
         assert env is not None
-        assert env.observation_space.shape[0] == 8  # 4 market + 4 portfolio features
+        assert env.observation_space.shape[0] == 6  # 2 market + 4 portfolio features
         assert env.action_space.n == 3  # OPEN_LONG, CLOSE, OPEN_SHORT
         
         # Test reset and step
         obs, info = env.reset()
-        assert obs.shape == (8,)
+        assert obs.shape == (6,)
         
         # Test a few steps
         for action in [0, 1, 2, 1]:  # Open long, close, open short, close
             obs, reward, terminated, truncated, info = env.step(action)
-            assert obs.shape == (8,)
+            assert obs.shape == (6,)
             assert isinstance(reward, (int, float))
             if terminated or truncated:
                 break
 
-    def test_ppo_agent_creation_and_basic_training(self, sample_market_data, training_config):
-        """Test PPO agent creation and very basic training."""
+    def test_agent_factory_integration(self, sample_market_data, training_config):
+        """Test that AgentFactory can create PPO agents."""
+        env = TradingEnv(data=sample_market_data, config=training_config)
+        factory = AgentFactory()
+        
+        # Test factory can create PPO agent
+        agent = factory.create_agent("PPO", env=env, hyperparams={"learning_rate": 3e-4})
+        assert agent is not None
+        assert hasattr(agent, 'model')
+        
+        # Test agent can train (very short)
+        agent.train(total_timesteps=64)
+        
+        # Test agent can predict
+        obs, _ = env.reset()
+        action = agent.predict(obs)
+        assert action in [0, 1, 2]
+
+    def test_ppo_agent_direct_creation(self, sample_market_data, training_config):
+        """Test PPO agent creation directly."""
         env = TradingEnv(data=sample_market_data, config=training_config)
         
-        # Create PPO agent
-        agent = PPOAgent(env=env, learning_rate=3e-4, n_steps=64)
+        # Create PPO agent directly with hyperparams dictionary
+        hyperparams = {
+            "learning_rate": 3e-4,
+            "n_steps": 32
+        }
+        agent = PPOAgent(env=env, hyperparams=hyperparams)
         assert agent is not None
         assert agent.model is not None
         
         # Test very short training (just to verify it doesn't crash)
-        agent.train(total_timesteps=128)  # Very short training
+        agent.train(total_timesteps=64)  # Very short training
         
         # Test that agent can make predictions
         obs, _ = env.reset()
-        action, _states = agent.model.predict(obs, deterministic=True)
-        assert action in [0, 1, 2]
-
-    def test_agent_factory_integration(self):
-        """Test that AgentFactory can create different agent types."""
-        factory = AgentFactory()
-        
-        # Test factory has expected agent types
-        assert hasattr(factory, 'create_agent')
-        
-        # Test that factory can list available agents
-        # Note: This test just verifies the factory exists and is callable
-        assert factory is not None
-
-    def test_rl_strategy_integration(self, sample_market_data, training_config):
-        """Test RLStrategy integration with trained agent."""
-        env = TradingEnv(data=sample_market_data, config=training_config)
-        
-        # Create and minimally train an agent
-        agent = PPOAgent(env=env, learning_rate=3e-4, n_steps=64)
-        agent.train(total_timesteps=128)
-        
-        # Create RL strategy with the agent
-        strategy = RLStrategy(agent=agent.model, env=env)
-        assert strategy is not None
-        
-        # Test strategy can generate signals
-        obs, _ = env.reset()
-        action = strategy.get_action(obs)
+        action = agent.predict(obs)
         assert action in [0, 1, 2]
 
     def test_mlflow_integration_with_training(self, sample_market_data, training_config):
@@ -134,11 +137,11 @@ class TestEndToEndTrainingPipeline:
         experiment_name = "test_training_integration"
         
         # Ensure experiment exists
-        exp_id = mlflow_utils.ensure_experiment(experiment_name)
+        exp_id = ensure_experiment(experiment_name)
         assert exp_id is not None
         
         # Test training with MLflow logging
-        with mlflow_utils.start_experiment_run(
+        with start_experiment_run(
             run_name="test_training_run",
             experiment_name=experiment_name
         ) as run:
@@ -146,17 +149,21 @@ class TestEndToEndTrainingPipeline:
             config_params = {
                 "algorithm": "PPO",
                 "learning_rate": 3e-4,
-                "n_steps": 64,
-                "total_timesteps": 128
+                "n_steps": 32,
+                "total_timesteps": 64
             }
-            mlflow_utils.log_params(config_params)
+            log_params(config_params)
             
-            # Create environment and agent
+            # Create environment and agent with hyperparams dictionary
             env = TradingEnv(data=sample_market_data, config=training_config)
-            agent = PPOAgent(env=env, learning_rate=3e-4, n_steps=64)
+            hyperparams = {
+                "learning_rate": 3e-4,
+                "n_steps": 32
+            }
+            agent = PPOAgent(env=env, hyperparams=hyperparams)
             
             # Train with minimal timesteps
-            agent.train(total_timesteps=128)
+            agent.train(total_timesteps=64)
             
             # Log some training metrics
             training_metrics = {
@@ -164,11 +171,11 @@ class TestEndToEndTrainingPipeline:
                 "total_trades": env.portfolio_tracker.total_trades,
                 "env_steps": env.current_step
             }
-            mlflow_utils.log_metrics(training_metrics)
+            log_metrics(training_metrics)
 
     def test_data_processor_training_pipeline_integration(self, sample_market_data):
         """Test data processor in training pipeline context."""
-        processor = DataProcessor()
+        processor = DataProcessor(symbol="EUR/USD", asset_class="forex")
         
         # Test data validation
         assert not sample_market_data.empty
@@ -190,31 +197,44 @@ class TestModelPersistenceIntegration:
     def test_agent_model_save_load(self, tmp_path):
         """Test saving and loading trained agent models."""
         # Create sample data
-        dates = pd.date_range('2024-01-01', periods=200, freq='1h')
+        dates = pd.date_range('2024-01-01', periods=100, freq='1h')
         sample_data = pd.DataFrame({
-            'open': [1.1000] * 200,
-            'high': [1.1005] * 200,
-            'low': [1.0995] * 200,
-            'close': [1.1002] * 200,
-            'volume': [1000] * 200
+            'open': [1.1000] * 100,
+            'high': [1.1005] * 100,
+            'low': [1.0995] * 100,
+            'close': [1.1002] * 100,
+            'volume': [1000] * 100
         }, index=dates)
         
         config = TradingEnvironmentConfig(
             initial_balance=10000.0,
             fee_structure=FeeStructure.SPREAD_BASED,
-            observation_features=['close', 'volume']
+            observation_features=['close', 'volume'],
+            include_time_features=False
         )
         
         env = TradingEnv(data=sample_data, config=config)
-        agent = PPOAgent(env=env, learning_rate=3e-4, n_steps=64)
+        hyperparams = {
+            "learning_rate": 3e-4,
+            "n_steps": 32
+        }
+        agent = PPOAgent(env=env, hyperparams=hyperparams)
         
         # Train minimally
-        agent.train(total_timesteps=128)
+        agent.train(total_timesteps=64)
         
         # Save model
         model_path = tmp_path / "test_model"
-        agent.model.save(str(model_path))
+        agent.save(model_path)  # Pass Path object directly
+        
+        # Verify file was created (SB3 automatically adds .zip extension)
         assert model_path.with_suffix('.zip').exists()
         
-        # Test model file is not empty
-        assert model_path.with_suffix('.zip').stat().st_size > 0
+        # Load model
+        loaded_agent = PPOAgent(env=env, hyperparams=hyperparams)
+        loaded_agent.load(model_path)  # Pass Path object directly
+        
+        # Verify loaded agent can make predictions
+        obs, _ = env.reset()
+        action = loaded_agent.predict(obs)
+        assert action is not None

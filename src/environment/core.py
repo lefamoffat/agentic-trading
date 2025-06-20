@@ -92,17 +92,7 @@ class TradingEnv(gym.Env):
     
     def _init_observation_system(self) -> None:
         """Initialize observation system."""
-        self.observation_handler = CompositeObservation(
-            market_features=self.config.observation_features,
-            include_portfolio_state=self.config.include_portfolio_state,
-            include_position_state=self.config.include_position_state,
-            include_time_features=self.config.include_time_features,
-            normalization_method=self.config.normalization_method,
-            trading_start_hour=self.config.trading_start_hour,
-            trading_end_hour=self.config.trading_end_hour,
-            trading_timezone=self.config.trading_timezone,
-            exclude_weekends=self.config.exclude_weekends
-        )
+        self.observation_handler = CompositeObservation(config=self.config)
     
     def _init_reward_system(self) -> None:
         """Initialize reward system based on configuration."""

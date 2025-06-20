@@ -126,10 +126,12 @@ class TestDataProcessingIntegration:
 
     def test_data_processor_initialization(self, sample_market_data):
         """Test DataProcessor can be initialized and process data."""
-        processor = DataProcessor()
+        processor = DataProcessor(symbol="EUR/USD", asset_class="forex")
         
         # Test that the processor can handle basic data operations
         assert processor is not None
+        assert processor.symbol == "EUR/USD"
+        assert processor.asset_class == "forex"
         
         # Test basic data validation
         assert not sample_market_data.empty
@@ -142,7 +144,8 @@ class TestDataProcessingIntegration:
         config = TradingEnvironmentConfig(
             initial_balance=10000.0,
             fee_structure=FeeStructure.SPREAD_BASED,
-            observation_features=['close', 'volume']
+            observation_features=['close', 'volume'],
+            include_time_features=False  # Disable time features for simpler test
         )
         
         # Test environment can be created with processed data
@@ -152,7 +155,7 @@ class TestDataProcessingIntegration:
         # Test basic environment operations
         obs, info = env.reset()
         assert obs is not None
-        assert len(obs) == 6  # 2 market features + 4 portfolio features
+        assert len(obs) == 6  # 2 market features + 4 portfolio features (no time features)
         
         # Test environment step
         obs, reward, terminated, truncated, info = env.step(0)  # No-op action

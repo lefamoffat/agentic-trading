@@ -19,12 +19,11 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.callbacks import BaseCallback, CallbackList
 from stable_baselines3.common.monitor import Monitor
 
+from src.agents import agent_factory, Sb3ModelWrapper
 from src.callbacks.interrupt_callback import GracefulShutdownCallback
 from src.callbacks.metrics_callback import MlflowMetricsCallback
 from src.data.pipelines import run_data_preparation_pipeline
 from src.environment import TradingEnv, load_trading_config
-from src.models.sb3.factory import agent_factory
-from src.models.sb3.wrapper import Sb3ModelWrapper
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
 from src.utils.mlflow import (

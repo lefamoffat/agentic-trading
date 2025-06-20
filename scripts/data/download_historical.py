@@ -16,7 +16,7 @@ from pathlib import Path
 import pandas as pd
 
 from src.brokers.factory import broker_factory
-from src.data.processor import DataProcessor
+from src.market_data import DataProcessor
 from src.types import BrokerType, Timeframe
 from src.utils.logger import get_logger
 from src.utils.settings import Settings

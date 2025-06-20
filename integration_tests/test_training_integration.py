@@ -16,7 +16,7 @@ from unittest.mock import patch
 from src.agents import AgentFactory, PPOAgent
 from src.callbacks.interrupt_callback import GracefulShutdownCallback
 from src.callbacks.metrics_callback import MlflowMetricsCallback
-from src.data.processor import DataProcessor
+from src.market_data import DataProcessor
 from src.environment import TradingEnv, TradingEnvironmentConfig, FeeStructure
 from src.utils.config_loader import ConfigLoader
 from src.utils.mlflow import (

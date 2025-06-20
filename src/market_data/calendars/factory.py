@@ -8,8 +8,8 @@ from typing import ClassVar, Dict, Type
 
 from src.types import AssetClass
 from src.utils.logger import get_logger
-from src.data.calendars.base import BaseCalendar
-from src.data.calendars.forex import ForexCalendar
+from src.market_data.calendars.base import BaseCalendar
+from src.market_data.calendars.forex import ForexCalendar
 
 
 class CalendarFactory:
@@ -135,4 +135,4 @@ class CalendarFactory:
 
 
 # Global factory instance
-calendar_factory = CalendarFactory()
+calendar_factory = CalendarFactory() 

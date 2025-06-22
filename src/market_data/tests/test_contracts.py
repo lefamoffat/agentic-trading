@@ -286,7 +286,33 @@ class TestQlibDataSpec:
         )
         
         symbol_dir = spec.get_qlib_symbol_dir()
-        assert symbol_dir == "/path/to/qlib/EUR/USD"
+        assert symbol_dir == "/path/to/qlib/EUR_USD"  # Fixed: should use underscore
         
         file_path = spec.get_qlib_file_path()
-        assert file_path == "/path/to/qlib/EUR/USD/1h.bin" 
+        assert file_path == "/path/to/qlib/EUR_USD/1h.bin"  # Fixed: should use underscore
+    
+    def test_path_generation_various_symbols(self):
+        """Test qlib path generation for various symbol formats."""
+        test_cases = [
+            ("EUR/USD", "/path/to/qlib/EUR_USD"),
+            ("GBP/JPY", "/path/to/qlib/GBP_JPY"),
+            ("BTC/USD", "/path/to/qlib/BTC_USD"),
+            ("AAPL", "/path/to/qlib/AAPL"),  # No slash to replace
+            ("NASDAQ:GOOGL", "/path/to/qlib/NASDAQ:GOOGL"),  # Different separator
+        ]
+        
+        for symbol, expected_dir in test_cases:
+            spec = QlibDataSpec(
+                symbol=symbol,
+                start_date=datetime(2024, 1, 1, tzinfo=timezone.utc),
+                end_date=datetime(2024, 1, 2, tzinfo=timezone.utc),
+                timeframe=Timeframe.H1,
+                qlib_dir="/path/to/qlib"
+            )
+            
+            symbol_dir = spec.get_qlib_symbol_dir()
+            assert symbol_dir == expected_dir, f"Failed for symbol {symbol}"
+            
+            expected_file = f"{expected_dir}/1h.bin"
+            file_path = spec.get_qlib_file_path()
+            assert file_path == expected_file, f"Failed file path for symbol {symbol}" 

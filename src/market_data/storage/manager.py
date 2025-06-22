@@ -18,7 +18,7 @@ logger = get_logger(__name__)
 class StorageManager:
     """Manages data storage, caching, and qlib integration."""
     
-    def __init__(self, storage_dir: str = "data/market_data"):
+    def __init__(self, storage_dir: str = "data/cache"):
         """
         Initialize storage manager.
         
@@ -26,16 +26,16 @@ class StorageManager:
             storage_dir: Base directory for market data storage
         """
         self.storage_dir = Path(storage_dir)
-        self.cache_dir = self.storage_dir / "cache"
-        self.qlib_dir = self.storage_dir / "qlib"
+        self.cache_dir = self.storage_dir  # Use storage_dir directly for cache
         
-        # Ensure directories exist
+        # Ensure cache directory exists
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self.qlib_dir.mkdir(parents=True, exist_ok=True)
         
-        # Initialize components
+        # Initialize cache manager
         self.cache_manager = CacheManager(str(self.cache_dir))
-        self.qlib_converter = QlibConverter(str(self.qlib_dir))
+        
+        # Note: qlib conversion is handled by separate dump_bin script
+        self.qlib_converter = None
         
         logger.info(f"Initialized StorageManager with storage_dir: {self.storage_dir}")
     
@@ -79,6 +79,8 @@ class StorageManager:
         """
         Convert market data to qlib binary format.
         
+        Note: This functionality is now handled by the separate dump_bin script.
+        
         Args:
             response: Market data response to convert
             
@@ -88,17 +90,13 @@ class StorageManager:
         Raises:
             StorageError: If conversion fails
         """
-        try:
-            qlib_path = await self.qlib_converter.convert_data(response)
-            logger.info(f"Converted {response.bars_count} bars to qlib format: {qlib_path}")
-            return qlib_path
-        except Exception as e:
-            logger.error(f"Error converting to qlib: {e}")
-            raise StorageError(f"Failed to convert to qlib: {e}") from e
+        raise StorageError("Qlib conversion is handled by the separate dump_bin script. Use the CLI prepare-data command instead.")
     
     async def prepare_for_qlib(self, request: MarketDataRequest) -> str:
         """
         Ensure data is available in qlib format, fetching if necessary.
+        
+        Note: This functionality is now handled by the separate dump_bin script.
         
         Args:
             request: Market data request
@@ -109,22 +107,7 @@ class StorageManager:
         Raises:
             StorageError: If preparation fails
         """
-        try:
-            # Check if qlib data already exists
-            qlib_path = self.qlib_converter.get_qlib_path(request)
-            if os.path.exists(qlib_path):
-                logger.info(f"Qlib data already exists: {qlib_path}")
-                return qlib_path
-            
-            # Need to fetch and convert data
-            logger.info(f"Qlib data not found, will need to fetch: {request.symbol}")
-            raise StorageError(f"Qlib data not available for {request.symbol}. Use prepare_training_data() first.")
-            
-        except Exception as e:
-            if isinstance(e, StorageError):
-                raise
-            logger.error(f"Error preparing qlib data: {e}")
-            raise StorageError(f"Failed to prepare qlib data: {e}") from e
+        raise StorageError("Qlib preparation is handled by the separate dump_bin script. Use the CLI prepare-data command instead.")
     
     def get_cache_stats(self) -> dict:
         """
@@ -167,15 +150,11 @@ class StorageManager:
             
             # Calculate directory sizes
             cache_size = sum(f.stat().st_size for f in self.cache_dir.rglob('*') if f.is_file())
-            qlib_size = sum(f.stat().st_size for f in self.qlib_dir.rglob('*') if f.is_file())
             
             return {
                 "storage_dir": str(self.storage_dir),
                 "cache_dir": str(self.cache_dir),
-                "qlib_dir": str(self.qlib_dir),
                 "cache_size_mb": round(cache_size / (1024 * 1024), 2),
-                "qlib_size_mb": round(qlib_size / (1024 * 1024), 2),
-                "total_size_mb": round((cache_size + qlib_size) / (1024 * 1024), 2),
                 "cache_stats": cache_stats
             }
         except Exception as e:

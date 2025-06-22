@@ -256,6 +256,10 @@ class TestQlibConverter:
         assert "EUR_USD" in path  # Symbol with slash replaced
         assert "1h.bin" in path
         assert str(qlib_converter.qlib_dir) in path
+        
+        # Verify exact path structure
+        expected_path = str(qlib_converter.qlib_dir / "EUR_USD" / "1h.bin")
+        assert path == expected_path
     
     @pytest.mark.asyncio
     async def test_convert_data_success(self, qlib_converter, sample_response):
@@ -323,6 +327,8 @@ class TestQlibConverter:
         
         assert info["exists"] is False
         assert info["symbol"] == "NONEXISTENT"
+    
+
 
 
 @pytest.mark.unit

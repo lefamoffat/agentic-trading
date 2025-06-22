@@ -175,6 +175,8 @@ def is_source_available(source: DataSource) -> bool:
 # Import components from the consolidated data modules
 from src.market_data.calendars import BaseCalendar, ForexCalendar, CalendarFactory, calendar_factory
 from src.market_data.processing import DataProcessor
+from src.market_data.download import prepare_for_qlib, download_historical_data, download_and_save_qlib_data
+from src.market_data.features import build_features
 
 # Export key components for direct access if needed
 __all__ = [
@@ -204,5 +206,13 @@ __all__ = [
     "calendar_factory",
     
     # Processing (migrated from src.data)
-    "DataProcessor"
+    "DataProcessor",
+    
+    # Download functionality (migrated from scripts)
+    "prepare_for_qlib",
+    "download_historical_data", 
+    "download_and_save_qlib_data",
+    
+    # Features functionality (migrated from scripts)
+    "build_features"
 ] 

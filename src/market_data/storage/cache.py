@@ -52,6 +52,14 @@ class CacheManager:
                             if date_field in data:
                                 data[date_field] = datetime.fromisoformat(data[date_field])
                         
+                        # Convert enum strings back to enums
+                        if 'source' in data and isinstance(data['source'], str):
+                            from src.types import DataSource
+                            data['source'] = DataSource(data['source'])
+                        if 'timeframe' in data and isinstance(data['timeframe'], str):
+                            from src.types import Timeframe
+                            data['timeframe'] = Timeframe(data['timeframe'])
+                        
                         self._metadata_cache[key] = CacheMetadata(**data)
                     except Exception as e:
                         logger.warning(f"Failed to load metadata for {key}: {e}")
@@ -75,6 +83,13 @@ class CacheManager:
                 for date_field in ['start_date', 'end_date', 'cached_at']:
                     if date_field in data and data[date_field]:
                         data[date_field] = data[date_field].isoformat()
+                
+                # Convert enums to strings
+                if 'source' in data and hasattr(data['source'], 'value'):
+                    data['source'] = data['source'].value
+                if 'timeframe' in data and hasattr(data['timeframe'], 'value'):
+                    data['timeframe'] = data['timeframe'].value
+                    
                 metadata_dict[key] = data
             
             with open(self.metadata_file, 'w') as f:

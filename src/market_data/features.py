@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Build features using Qlib.
 
-This script initializes Qlib using the pre-existing binary data source,
+This module initializes Qlib using the pre-existing binary data source,
 calculates a defined set of alpha factors, and saves the resulting
 feature set to a CSV file in the processed data directory.
 
 It assumes that the Qlib binary data has already been created by the
-`scripts/data/dump_bin.py` script.
+market_data qlib functionality.
 
 Usage:
-    python -m scripts.features.build_features --symbol EUR/USD --timeframe 1h
+    python -m src.market_data.features --symbol EUR/USD --timeframe 1h
 """
 import argparse
 import re
@@ -154,4 +154,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() 

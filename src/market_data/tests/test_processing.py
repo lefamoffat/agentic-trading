@@ -5,7 +5,7 @@ import pytest
 from datetime import datetime, timezone
 
 from src.market_data.processing import DataProcessor
-from scripts.data.download_historical import _prepare_for_qlib
+from src.market_data.download import prepare_for_qlib
 
 
 @pytest.mark.unit
@@ -78,7 +78,7 @@ class TestDataProcessor:
 
 @pytest.mark.unit
 def test_prepare_for_qlib():
-    """Tests that the _prepare_for_qlib function correctly formats a DataFrame."""
+    """Tests that the prepare_for_qlib function correctly formats a DataFrame."""
     data = {
         "timestamp": pd.to_datetime([
             "2024-01-01 10:00:00", "2024-01-01 11:00:00"
@@ -91,7 +91,7 @@ def test_prepare_for_qlib():
     }
     input_df = pd.DataFrame(data)
 
-    qlib_df = _prepare_for_qlib(input_df)
+    qlib_df = prepare_for_qlib(input_df)
 
     assert isinstance(qlib_df.index, pd.DatetimeIndex)
     assert qlib_df.index.name == "date"

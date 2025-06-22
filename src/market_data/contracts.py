@@ -246,7 +246,7 @@ class QlibDataSpec(BaseModel):
     
     def get_qlib_symbol_dir(self) -> str:
         """Get qlib symbol directory path."""
-        return f"{self.qlib_dir}/{self.symbol}"
+        return f"{self.qlib_dir}/{self.symbol.replace('/', '_')}"
     
     def get_qlib_file_path(self) -> str:
         """Get qlib binary file path."""

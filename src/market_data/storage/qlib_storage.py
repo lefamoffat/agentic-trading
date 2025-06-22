@@ -1,6 +1,5 @@
 """Qlib storage wrapper for binary data format."""
 import subprocess
-import tempfile
 from pathlib import Path
 from typing import List
 import pandas as pd
@@ -97,7 +96,7 @@ class QlibStorage:
         symbol: str
     ) -> None:
         """
-        Use existing dump_bin.py script to convert CSV to qlib binary format.
+        Use internal qlib dump function to convert CSV to qlib binary format.
         
         Args:
             csv_path: Path to CSV files directory
@@ -106,25 +105,24 @@ class QlibStorage:
             symbol: Symbol being processed
         """
         try:
-            # Use the existing dump_bin.py script
+            # Use the existing dump_bin.py script, now in market_data module
             dump_command = [
-                "uv", "run", "python", "-m", "scripts.data.dump_bin", "dump_all",
+                "uv", "run", "python", "-m", "src.market_data.qlib.dump_bin", "dump_all",
                 "--csv_path", str(csv_path),
                 "--qlib_dir", str(qlib_dir),
                 "--freq", timeframe.qlib_name,
                 "--date_field_name", "date",
                 "--symbol_field_name", "symbol",
-                "--max_workers", "4"
+                "--max_workers", "4",
+                "--include_fields", "open,high,low,close,volume,factor"
             ]
             
             logger.info(f"Running qlib dump: {' '.join(dump_command)}")
-            
             result = subprocess.run(
                 dump_command,
-                check=True,
                 capture_output=True,
                 text=True,
-                cwd=Path.cwd()
+                check=True
             )
             
             logger.info("Qlib binary dump completed successfully")

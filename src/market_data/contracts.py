@@ -11,7 +11,6 @@ from pydantic import BaseModel, validator, Field
 
 from src.types import Timeframe, DataSource
 
-
 class DateRange(BaseModel):
     """Date range specification for historical data requests."""
     
@@ -32,7 +31,6 @@ class DateRange(BaseModel):
             raise ValueError('end_date must be after start_date')
         return v
 
-
 class QlibMarketData(BaseModel):
     """Market data formatted for Qlib storage."""
     
@@ -50,7 +48,6 @@ class QlibMarketData(BaseModel):
         if v.tzinfo is not None:
             return v.replace(tzinfo=None)
         return v
-
 
 class DataSpanInfo(BaseModel):
     """Information about stored data span."""
@@ -70,7 +67,6 @@ class DataSpanInfo(BaseModel):
             return v.replace(tzinfo=timezone.utc)
         return v.astimezone(timezone.utc)
 
-
 class DataRequestParams(BaseModel):
     """Parameters for market data requests."""
     symbol: str = Field(..., description="Trading symbol (e.g., 'EUR/USD')")
@@ -84,7 +80,6 @@ class DataRequestParams(BaseModel):
         if not v or not v.strip():
             raise ValueError("Symbol cannot be empty")
         return v.strip().upper()
-
 
 class MarketDataRequest(BaseModel):
     """Request for historical market data."""
@@ -122,7 +117,6 @@ class MarketDataRequest(BaseModel):
             f"{self.symbol}_{self.source.value}_{self.timeframe.value}_"
             f"{self.start_date.isoformat()}_{self.end_date.isoformat()}"
         )
-
 
 class MarketDataResponse(BaseModel):
     """Response containing market data and metadata."""
@@ -194,7 +188,6 @@ class MarketDataResponse(BaseModel):
         """Pydantic config."""
         arbitrary_types_allowed = True  # Allow pandas DataFrame
 
-
 class CacheMetadata(BaseModel):
     """Metadata for cached market data."""
     
@@ -234,7 +227,6 @@ class CacheMetadata(BaseModel):
         """Pydantic config."""
         arbitrary_types_allowed = True  # Allow pandas DataFrame
 
-
 class QlibDataSpec(BaseModel):
     """Specification for qlib data conversion."""
     
@@ -255,6 +247,5 @@ class QlibDataSpec(BaseModel):
     class Config:
         """Pydantic config."""
         arbitrary_types_allowed = True  # Allow pandas DataFrame
-
 
  

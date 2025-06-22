@@ -10,7 +10,6 @@ from typing import List, Tuple
 
 from src.types import MarketSession
 
-
 class BaseCalendar(ABC):
     """Abstract base class for market calendars."""
 

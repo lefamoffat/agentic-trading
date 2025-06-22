@@ -4,7 +4,6 @@
 import json
 from unittest.mock import AsyncMock, MagicMock
 
-
 def create_async_session_mock(response_data, status_code=200):
     """Helper to create a properly mocked aiohttp.ClientSession that
     handles nested async context managers, as required by the aiohttp library.

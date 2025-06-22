@@ -19,7 +19,6 @@ from src.environment.reward_system.composite import CompositeReward
 from src.environment.state.position import PositionManager
 from src.environment.state.portfolio import PortfolioTracker
 
-
 class TradingEnv(gym.Env):
     """Clean trading environment implementation using modular components.
     

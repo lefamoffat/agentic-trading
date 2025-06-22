@@ -10,7 +10,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class QlibStorage:
     """Wrapper for existing qlib dump_bin.py functionality."""
     

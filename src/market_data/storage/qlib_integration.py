@@ -14,7 +14,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class QlibConverter:
     """Converts market data to qlib binary format."""
     

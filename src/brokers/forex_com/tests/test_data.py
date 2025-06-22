@@ -11,7 +11,6 @@ from src.brokers.forex_com.data import DataHandler
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.types import Timeframe
 
-
 @pytest.fixture
 def mock_api_client():
     """Fixture to create a mock ApiClient."""

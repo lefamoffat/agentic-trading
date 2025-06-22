@@ -10,7 +10,6 @@ from src.environment.config import TradingEnvironmentConfig, FeeStructure, Actio
 from src.environment.state.position import PositionManager, Position
 from src.environment.state.portfolio import PortfolioTracker
 
-
 @pytest.fixture
 def sample_data():
     """Create sample market data for testing."""
@@ -21,7 +20,6 @@ def sample_data():
         'close': [1.02, 1.12, 1.22, 1.32, 1.42],
         'volume': [100, 200, 300, 400, 500]
     })
-
 
 @pytest.fixture
 def position_manager():
@@ -34,7 +32,6 @@ def position_manager():
     manager.calculate_unrealized_pnl.return_value = 0.0
     return manager
 
-
 @pytest.fixture
 def portfolio_tracker():
     """Create a properly configured mock portfolio tracker."""
@@ -44,7 +41,6 @@ def portfolio_tracker():
     tracker.total_profit = 0.0
     tracker.calculate_position_size.return_value = 1000.0
     return tracker
-
 
 class TestCompositeObservation:
     """Test cases for CompositeObservation class."""

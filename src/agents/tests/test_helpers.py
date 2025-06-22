@@ -6,7 +6,6 @@ import pandas as pd
 
 from src.agents.helpers import build_observation
 
-
 @pytest.mark.unit
 class TestBuildObservation:
     """Unit tests for build_observation function."""

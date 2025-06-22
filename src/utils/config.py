@@ -29,14 +29,12 @@ from pydantic import BaseModel, Field
 
 from src.utils.config_loader import ConfigLoader
 
-
 class TradingConfig(BaseModel):
     """Schema for values inside ``trading_config.yaml``."""
 
     position_size: float = Field(..., gt=0, description="Default position size in notional currency units")
     max_drawdown: float = Field(..., ge=0, le=1, description="Maximum portfolio drawdown represented as a fraction (0-1)")
     stop_loss: float = Field(..., ge=0, le=1, description="Stop-loss threshold represented as a fraction (0-1)")
-
 
 class AppConfig(BaseModel):
     """Top-level application configuration."""
@@ -94,7 +92,6 @@ class AppConfig(BaseModel):
             data={},  # Empty dict - no data config needed
             qlib={},  # Empty dict - no qlib config needed
         )
-
 
 # ---------------------------------------------------------------------------
 # Public singleton – imported by other modules

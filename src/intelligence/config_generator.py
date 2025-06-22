@@ -7,7 +7,6 @@ from typing import Any, Dict, List, Optional
 from src.environment import TradingEnvironmentConfig, ActionType, FeeStructure, RewardSystem, load_trading_config
 from src.utils.logger import get_logger
 
-
 class ConfigGenerator:
     """Converts LLM recommendations into valid trading configurations."""
     

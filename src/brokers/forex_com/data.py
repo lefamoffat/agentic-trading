@@ -12,7 +12,6 @@ from src.brokers.symbol_mapper import SymbolMapper
 from src.types import BrokerType
 from src.utils.logger import get_logger
 
-
 class DataHandler:
     """Handles historical and live price data operations."""
 

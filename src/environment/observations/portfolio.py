@@ -10,7 +10,6 @@ import numpy as np
 from src.environment.state.position import Position, PositionManager
 from src.environment.state.portfolio import PortfolioTracker
 
-
 class PortfolioObservation:
     """Handles portfolio state observations.
     

@@ -7,13 +7,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-
 class Position(Enum):
     """Trading position types."""
     SHORT = 0
     FLAT = 1  
     LONG = 2
-
 
 @dataclass
 class Trade:
@@ -24,7 +22,6 @@ class Trade:
     profit: float
     entry_step: int
     exit_step: int
-
 
 class PositionManager:
     """Manages trading positions with proper validation.

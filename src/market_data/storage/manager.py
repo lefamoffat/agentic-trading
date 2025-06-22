@@ -14,7 +14,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class StorageManager:
     """Manages data storage, caching, and qlib integration."""
     
@@ -160,7 +159,6 @@ class StorageManager:
         except Exception as e:
             logger.error(f"Error getting storage info: {e}")
             return {"error": str(e)}
-
 
 # Global storage manager instance
 storage_manager = StorageManager() 

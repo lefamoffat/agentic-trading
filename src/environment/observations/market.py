@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import RobustScaler
 
-
 class MarketObservation:
     """Handles market data observations with proper normalization.
     

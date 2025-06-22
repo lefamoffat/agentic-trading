@@ -13,7 +13,6 @@ from src.market_data.contracts import (
 )
 from src.types import DataSource, Timeframe
 
-
 @pytest.mark.unit
 class TestMarketDataRequest:
     """Test MarketDataRequest Pydantic model."""
@@ -95,7 +94,6 @@ class TestMarketDataRequest:
         assert "1h" in cache_key  # This uses .value from the enum
         assert "2024-01-01" in cache_key
         assert "2024-01-02" in cache_key
-
 
 @pytest.mark.unit
 class TestMarketDataResponse:
@@ -207,7 +205,6 @@ class TestMarketDataResponse:
         
         assert not response_incomplete.is_complete_coverage(tolerance_hours=1.0)
 
-
 @pytest.mark.unit
 class TestCacheMetadata:
     """Test CacheMetadata Pydantic model."""
@@ -256,7 +253,6 @@ class TestCacheMetadata:
         
         # Should be expired with 1 hour max age
         assert metadata.is_expired(max_age_hours=1.0)
-
 
 @pytest.mark.unit
 class TestQlibDataSpec:

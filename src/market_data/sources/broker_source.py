@@ -11,7 +11,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class BrokerSource(MarketDataSource):
     """Market data source that wraps existing broker functionality."""
     

@@ -14,7 +14,6 @@ from src.agents.base import BaseAgent
 
 __all__ = ["PPOAgent"]
 
-
 class PPOAgent(BaseAgent):
     """PPO agent implementation with clean configuration management."""
 

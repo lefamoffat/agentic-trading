@@ -16,7 +16,6 @@ import pytest_asyncio
 from src.brokers.forex_com.broker import ForexComBroker
 from src.types import Timeframe
 
-
 @pytest.mark.integration
 class TestForexComBrokerIntegration:
     """Integration tests for the Forex.com broker, requiring real credentials."""

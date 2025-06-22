@@ -17,7 +17,6 @@ from src.utils.settings import settings  # noqa: E402
 
 logger = get_logger(__name__)
 
-
 def init_project():
     """Initialize the agentic-trading project"""
     logger.info("Initializing agentic-trading project...")
@@ -68,7 +67,6 @@ def init_project():
     logger.info("3. Download historical data: python scripts/data/download_historical.py")
 
     return True
-
 
 if __name__ == "__main__":
     success = init_project()

@@ -7,7 +7,6 @@ import numpy as np
 from src.agents.ppo import PPOAgent
 from src.environment import TradingEnv, TradingEnvironmentConfig, FeeStructure
 
-
 @pytest.mark.unit
 class TestPPOAgent:
     """Unit tests for PPOAgent."""

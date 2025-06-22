@@ -21,7 +21,6 @@ from loguru import logger
 from qlib.utils import code_to_fname, fname_to_code
 from tqdm import tqdm
 
-
 class DumpDataBase:
     INSTRUMENTS_START_FIELD = "start_datetime"
     INSTRUMENTS_END_FIELD = "end_datetime"
@@ -271,7 +270,6 @@ class DumpDataBase:
     def __call__(self, *args, **kwargs):
         self.dump()
 
-
 class DumpDataAll(DumpDataBase):
     def _get_all_date(self):
         logger.info("start get all date......")
@@ -322,7 +320,6 @@ class DumpDataAll(DumpDataBase):
         self._dump_instruments()
         self._dump_features()
 
-
 class DumpDataFix(DumpDataAll):
     def _dump_instruments(self):
         logger.info("start dump instruments......")
@@ -358,7 +355,6 @@ class DumpDataFix(DumpDataAll):
         )  # type: dict
         self._dump_instruments()
         self._dump_features()
-
 
 class DumpDataUpdate(DumpDataBase):
     def __init__(
@@ -502,7 +498,6 @@ class DumpDataUpdate(DumpDataBase):
         df = pd.DataFrame.from_dict(self._update_instruments, orient="index")
         df.index.names = [self.symbol_field_name]
         self.save_instruments(df.reset_index())
-
 
 if __name__ == "__main__":
     fire.Fire({"dump_all": DumpDataAll, "dump_fix": DumpDataFix, "dump_update": DumpDataUpdate})

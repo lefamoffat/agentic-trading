@@ -10,7 +10,6 @@ from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.brokers.symbol_mapper import SymbolMapper
 from src.utils.logger import get_logger
 
-
 class OrderHandler:
     """Handles order-related operations."""
 

@@ -18,11 +18,9 @@ __all__ = [
     "load_trading_config"
 ]
 
-
 class ActionType(Enum):
     """Available action types for the trading environment."""
     DISCRETE_THREE = "discrete_3"
-
 
 class FeeStructure(Enum):
     """Fee structure types."""
@@ -30,12 +28,10 @@ class FeeStructure(Enum):
     COMMISSION = "commission"      # Stocks: flat or percentage
     COMBINED = "combined"          # Both spread + commission
 
-
 class RewardSystem(Enum):
     """Reward calculation systems."""
     PNL_BASED = "pnl"             # Profit/loss based rewards
     REALIZED_PNL = "realized_pnl"  # Realized profit/loss based rewards
-
 
 @dataclass
 class TradingEnvironmentConfig:
@@ -91,7 +87,6 @@ class TradingEnvironmentConfig:
         """Set default observation features if not provided."""
         if self.observation_features is None:
             self.observation_features = ["close", "volume"]
-
 
 def load_trading_config(config_path: Path) -> TradingEnvironmentConfig:
     """Load trading configuration from specified path.

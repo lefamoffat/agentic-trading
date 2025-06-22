@@ -3,11 +3,9 @@ This provides a middle layer to map between common symbol formats
 and broker-specific naming conventions.
 """
 
-
 from typing import ClassVar
 
 from src.types import BrokerType
-
 
 class SymbolMapper:
     """Maps between common symbol formats and broker-specific formats.

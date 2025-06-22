@@ -7,7 +7,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class MarketDataSourceFactory:
     """Creates market data sources using enum dispatch."""
     
@@ -43,7 +42,6 @@ class MarketDataSourceFactory:
     def is_source_available(self, source: DataSource) -> bool:
         """Check if a data source is implemented and available."""
         return source in self.get_available_sources()
-
 
 # Global factory instance
 source_factory = MarketDataSourceFactory() 

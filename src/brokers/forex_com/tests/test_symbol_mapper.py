@@ -4,7 +4,6 @@ import pytest
 
 from src.brokers.symbol_mapper import BrokerType, SymbolMapper
 
-
 @pytest.mark.unit
 class TestForexComSymbolMapper:
     def setup_class(self):

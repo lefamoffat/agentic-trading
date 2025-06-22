@@ -22,7 +22,6 @@ from src.utils.settings import Settings
 
 logger = get_logger(__name__)
 
-
 def prepare_for_qlib(df: pd.DataFrame) -> pd.DataFrame:
     """Prepare a DataFrame for Qlib's data format.
 
@@ -61,7 +60,6 @@ def prepare_for_qlib(df: pd.DataFrame) -> pd.DataFrame:
     df["factor"] = 1.0
     df.set_index("date", inplace=True)
     return df
-
 
 async def download_historical_data(
     bars: int = 365,
@@ -182,7 +180,6 @@ async def download_historical_data(
         logger.error(f"Error downloading data: {e}")
         return None
 
-
 async def download_and_save_qlib_data(
     bars: int = 365,
     symbol: str = "EUR/USD", 
@@ -220,7 +217,6 @@ async def download_and_save_qlib_data(
     logger.info(f"Successfully saved Qlib-ready data to {filepath}")
     
     return filepath
-
 
 def main():
     """Main function for CLI usage."""
@@ -266,7 +262,6 @@ def main():
         asyncio.run(download_and_save_qlib_data(args.bars, args.symbol, args.timeframe, args.broker))
     else:
         logger.error(f"Broker '{args.broker}' not yet implemented")
-
 
 if __name__ == "__main__":
     main() 

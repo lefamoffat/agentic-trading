@@ -11,7 +11,6 @@ from src.market_data.sources.base import MarketDataSource
 from src.market_data.exceptions import DataSourceError, DataRangeError
 from src.types import DataSource, BrokerType, Timeframe
 
-
 @pytest.mark.unit
 class TestMarketDataSourceFactory:
     """Test MarketDataSourceFactory."""
@@ -70,7 +69,6 @@ class TestMarketDataSourceFactory:
         # Test it can create sources
         source = source_factory.create_source(DataSource.FOREX_COM)
         assert isinstance(source, BrokerSource)
-
 
 @pytest.mark.unit
 class TestBrokerSource:
@@ -217,7 +215,6 @@ class TestBrokerSource:
         with patch('src.brokers.symbol_mapper.SymbolMapper', side_effect=Exception("Mapper error")):
             # Should return False on error, not raise
             assert not broker_source.supports_symbol("EUR/USD")
-
 
 @pytest.mark.unit
 class TestMarketDataSourceBase:

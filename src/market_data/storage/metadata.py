@@ -10,7 +10,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class DataSpanTracker:
     """Track what data ranges we have stored for intelligent caching."""
     

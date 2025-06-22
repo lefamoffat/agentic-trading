@@ -3,7 +3,6 @@ import pytest
 
 from src.utils.config_loader import ConfigLoader
 
-
 @pytest.mark.unit
 class TestConfigLoader:
     def test_load_and_cache(self, tmp_path, monkeypatch):

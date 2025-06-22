@@ -7,7 +7,6 @@ from typing import List
 
 from src.environment.config import FeeStructure
 
-
 class PortfolioTracker:
     """Tracks portfolio state including balance and transaction costs.
     

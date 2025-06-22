@@ -12,7 +12,6 @@ from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.utils.logger import get_logger
 
-
 class ApiClient:
     """Handles HTTP requests to the GainCapital API."""
 

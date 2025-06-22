@@ -8,7 +8,6 @@ import numpy as np
 from src.agents.base import BaseAgent
 from src.environment import TradingEnv, TradingEnvironmentConfig, FeeStructure
 
-
 class ConcreteAgent(BaseAgent):
     """Concrete implementation of BaseAgent for testing."""
     
@@ -23,7 +22,6 @@ class ConcreteAgent(BaseAgent):
     def _get_model_class(self):
         """Return mock model class."""
         return Mock
-
 
 @pytest.mark.unit
 class TestBaseAgent:

@@ -8,7 +8,6 @@ import pytest
 from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.tests.conftest import create_async_session_mock
 
-
 @pytest.fixture
 def auth_handler():
     """Fixture to create an AuthenticationHandler instance."""

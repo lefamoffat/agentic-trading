@@ -12,7 +12,6 @@ from src.market_data.exceptions import (
 )
 from src.utils.exceptions import DataError
 
-
 @pytest.mark.unit
 class TestMarketDataExceptions:
     """Test market data exception hierarchy."""

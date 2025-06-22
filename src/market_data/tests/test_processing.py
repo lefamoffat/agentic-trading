@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 from src.market_data.processing import DataProcessor
 from src.market_data.download import prepare_for_qlib
 
-
 @pytest.mark.unit
 class TestDataProcessor:
     """Test DataProcessor functionality."""
@@ -74,7 +73,6 @@ class TestDataProcessor:
         assert "issues" in quality
         assert quality["total_records"] == 24
         assert quality["quality_score"] >= 0.0
-
 
 @pytest.mark.unit
 def test_prepare_for_qlib():

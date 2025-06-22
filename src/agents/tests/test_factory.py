@@ -10,7 +10,6 @@ from src.agents.base import BaseAgent
 from src.agents.ppo import PPOAgent
 from src.environment import TradingEnv, TradingEnvironmentConfig, FeeStructure
 
-
 class MockAgent(BaseAgent):
     """Mock agent class for testing."""
     
@@ -24,7 +23,6 @@ class MockAgent(BaseAgent):
     
     def _get_model_class(self):
         return Mock
-
 
 @pytest.mark.unit
 class TestAgentFactory:
@@ -160,7 +158,6 @@ class TestAgentFactory:
         assert "AGENT2" in factory._agents
         assert factory._agents["AGENT1"] == MockAgent
         assert factory._agents["AGENT2"] == MockAgent
-
 
 @pytest.mark.unit
 class TestGlobalAgentFactory:

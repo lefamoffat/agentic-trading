@@ -7,7 +7,6 @@ from typing import Optional
 from dotenv import load_dotenv
 from src.utils.config import app_config
 
-
 class Settings:
     """Application settings and environment variables."""
 
@@ -127,7 +126,6 @@ class Settings:
             self.forex_com_app_key,
         ]
         return all(required_keys)
-
 
 # Global settings instance
 settings = Settings()

@@ -11,7 +11,6 @@ from src.brokers.forex_com.orders import OrderHandler
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.brokers.symbol_mapper import BrokerType, SymbolMapper
 
-
 @pytest.fixture
 def mock_api_client():
     mock = Mock(spec=ApiClient)

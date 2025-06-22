@@ -15,7 +15,6 @@ from openai import OpenAI
 from src.utils.exceptions import ConfigurationError
 from src.utils.logger import get_logger
 
-
 class LLMAdvisor:
     """Provides LLM-powered recommendations for trading experiments."""
     

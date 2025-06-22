@@ -13,7 +13,6 @@ from src.utils.exceptions import (
     format_validation_error,
 )
 
-
 def validate_positive_number(
     value: Union[int, float], name: str = "value", allow_zero: bool = False
 ) -> Union[int, float]:
@@ -43,7 +42,6 @@ def validate_positive_number(
 
     return value
 
-
 def validate_non_negative_number(
     value: Union[int, float], name: str = "value"
 ) -> Union[int, float]:
@@ -66,7 +64,6 @@ def validate_non_negative_number(
         raise ValidationError(f"{name} must be non-negative, got {value}")
     return value
 
-
 def validate_positive_integer(value: int, name: str = "value") -> int:
     """Validate that a value is a positive integer.
 
@@ -86,7 +83,6 @@ def validate_positive_integer(value: int, name: str = "value") -> int:
     if value <= 0:
         raise ValidationError(f"{name} must be a positive integer, got {value}")
     return value
-
 
 def validate_range(
     value: Union[int, float],
@@ -119,7 +115,6 @@ def validate_range(
 
     return value
 
-
 def validate_integer_range(
     value: int, name: str, min_val: Optional[int] = None, max_val: Optional[int] = None
 ) -> None:
@@ -150,7 +145,6 @@ def validate_integer_range(
             format_validation_error(name, value, f"at most {max_val}"),
             context=create_context(parameter=name, value=value, max_val=max_val)
         )
-
 
 def validate_percentage(
     value: float, name: str, allow_negative: bool = False

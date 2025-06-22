@@ -10,7 +10,6 @@ from src.brokers.forex_com.positions import PositionHandler
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 from src.brokers.symbol_mapper import BrokerType, SymbolMapper
 
-
 @pytest.fixture
 def mock_api_client():
     """Fixture to create a mock ApiClient."""

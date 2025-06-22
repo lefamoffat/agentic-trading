@@ -9,7 +9,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 async def prepare_for_training(
     symbol: str,
     timeframe: Timeframe,
@@ -50,7 +49,6 @@ async def prepare_for_training(
         "This is the API placeholder - full implementation in Phases 2-4. "
         f"Would prepare {symbol} {timeframe.value} data from {start_date} to {end_date}"
     )
-
 
 def _get_features_path(symbol: str, timeframe: Timeframe, source: DataSource) -> Path:
     """Get path to features file."""

@@ -9,7 +9,6 @@ import pandas as pd
 
 from src.types import OrderSide, OrderStatus, OrderType
 
-
 class Position:
     """Represents a trading position."""
 
@@ -34,7 +33,6 @@ class Position:
 
     def __repr__(self) -> str:
         return f"Position(symbol={self.symbol}, qty={self.quantity}, avg_price={self.avg_price})"
-
 
 class Order:
     """Represents a trading order."""
@@ -62,7 +60,6 @@ class Order:
 
     def __repr__(self) -> str:
         return f"Order(id={self.order_id}, symbol={self.symbol}, {self.side.value} {self.quantity} @ {self.price})"
-
 
 class BaseBroker(ABC):
     """Abstract base class for broker integrations."""

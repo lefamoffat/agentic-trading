@@ -8,7 +8,6 @@ import pandas as pd
 
 from src.environment.observations.time_features import TimeObservation
 
-
 class TestTimeObservation:
     """Test suite for TimeObservation component."""
     

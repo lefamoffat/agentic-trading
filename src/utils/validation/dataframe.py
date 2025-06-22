@@ -10,7 +10,6 @@ import pandas as pd
 
 from src.utils.exceptions import MissingDataError, ValidationError, create_context
 
-
 def validate_columns_exist(df: pd.DataFrame,
                            required_columns: List[str],
                            name: str = "DataFrame") -> pd.DataFrame:
@@ -35,7 +34,6 @@ def validate_columns_exist(df: pd.DataFrame,
             ),
         )
     return df
-
 
 def validate_numeric_series(series: pd.Series,
                             allow_nan: bool = False,
@@ -63,7 +61,6 @@ def validate_numeric_series(series: pd.Series,
             context=create_context(parameter=name)
         )
     return series
-
 
 def validate_ohlcv_data(
     data: pd.DataFrame, required_columns: Optional[List[str]] = None
@@ -123,7 +120,6 @@ def validate_ohlcv_data(
 
     return data
 
-
 def validate_ohlcv_consistency(data: pd.DataFrame) -> pd.DataFrame:
     """Validate OHLCV data consistency (relationships between OHLC values).
 
@@ -173,7 +169,6 @@ def validate_ohlcv_consistency(data: pd.DataFrame) -> pd.DataFrame:
 
     return data
 
-
 def validate_data_completeness(data: pd.DataFrame,
                                min_rows: int = 100,
                                max_gap_percentage: float = 5.0) -> pd.DataFrame:
@@ -207,7 +202,6 @@ def validate_data_completeness(data: pd.DataFrame,
         )
     return data
 
-
 def validate_data_quality(
     data: pd.DataFrame, min_quality_score: float = 0.8
 ) -> pd.DataFrame:
@@ -234,7 +228,6 @@ def validate_data_quality(
         )
 
     return data
-
 
 def calculate_data_quality_score(
     data: pd.DataFrame, weights: Optional[Dict[str, float]] = None
@@ -294,7 +287,6 @@ def calculate_data_quality_score(
         volume_health_score * current_weights['volume']
     )
     return max(0.0, min(1.0, final_score))
-
 
 def check_data_gaps(
     data: pd.DataFrame, timestamp_column: str = 'timestamp'

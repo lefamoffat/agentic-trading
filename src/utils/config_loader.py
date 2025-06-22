@@ -8,7 +8,6 @@ from typing import Any, Dict
 
 import yaml
 
-
 class ConfigLoader:
     """Load and manage YAML configuration files with environment variable substitution"""
 

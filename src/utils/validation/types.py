@@ -14,7 +14,6 @@ from src.utils.exceptions import (
     format_validation_error,
 )
 
-
 def validate_type(value: Any, expected_type: Type, name: str = "value") -> Any:
     """Validate that a value is of the expected type.
 
@@ -37,7 +36,6 @@ def validate_type(value: Any, expected_type: Type, name: str = "value") -> Any:
         )
 
     return value
-
 
 def validate_enum_value(value: Any, enum_class: Type, name: str = "value") -> Any:
     """Validate that a value is a valid enum member or can be converted to one.
@@ -74,7 +72,6 @@ def validate_enum_value(value: Any, enum_class: Type, name: str = "value") -> An
         f"got {type(value).__name__}"
     )
 
-
 def validate_string_choice(
     value: str, name: str, valid_values: List[str], case_sensitive: bool = True
 ) -> None:
@@ -109,7 +106,6 @@ def validate_string_choice(
             ),
         )
 
-
 def validate_symbol(symbol: str) -> None:
     """Validate symbol format.
 
@@ -125,7 +121,6 @@ def validate_symbol(symbol: str) -> None:
             f"Invalid symbol format: '{symbol}'. "
             "Expected 3-12 uppercase alphanumeric characters, e.g., 'EUR/USD'."
         )
-
 
 def sanitize_string(
     value: str,

@@ -8,7 +8,6 @@ from typing import Dict, List, Optional
 from src.environment.reward_system.pnl_based import PnLBasedReward
 from src.environment.state.position import Trade
 
-
 class CompositeReward:
     """Combines multiple reward sources with configurable weights.
     

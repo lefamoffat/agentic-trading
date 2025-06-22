@@ -29,14 +29,12 @@ ALPHA_FACTORS = [
     "($close - Ref($close, 10)) / Ref($close, 10)",  # 10-day Rate of Change (Momentum)
 ]
 
-
 def _get_qlib_freq(timeframe: str) -> str:
     """Converts a standard timeframe string to a Qlib-compatible frequency
     by looking it up in the centralized Timeframe enum.
     """
     timeframe_enum = Timeframe.from_standard(timeframe)
     return timeframe_enum.qlib_name
-
 
 def sanitize_column_names(df: pd.DataFrame) -> pd.DataFrame:
     """Sanitize the column names of a DataFrame.
@@ -66,7 +64,6 @@ def sanitize_column_names(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.rename(columns=sanitized_columns)
     return df
-
 
 def build_features(symbol: str, timeframe: str) -> None:
     """Build daily features for a given symbol using Qlib's binary data source.
@@ -125,7 +122,6 @@ def build_features(symbol: str, timeframe: str) -> None:
     print("✅ Features built successfully!")
     print(f"Saved {len(final_df.columns)} features for {len(final_df)} timesteps to {output_path}")
 
-
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(description="Build features using Qlib")
@@ -151,7 +147,6 @@ def main():
     print("=" * 40)
 
     build_features(symbol=args.symbol, timeframe=args.timeframe)
-
 
 if __name__ == "__main__":
     main() 

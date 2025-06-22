@@ -12,13 +12,11 @@ from gymnasium import spaces
 from src.environment.actions.base import BaseActionHandler
 from src.environment.config import ActionType
 
-
 class TradingAction(Enum):
     """Enumeration of available trading actions."""
     OPEN_LONG = 0   # Open a long position
     CLOSE = 1       # Close current position (regardless of direction)
     OPEN_SHORT = 2  # Open a short position
-
 
 class DiscreteActionSpace(BaseActionHandler):
     """Handles discrete trading actions with model-agnostic input support.

@@ -9,7 +9,6 @@ from src.brokers.forex_com.account import AccountHandler
 from src.brokers.forex_com.api import ApiClient
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 
-
 @pytest.fixture
 def mock_api_client():
     """Fixture to create a mock ApiClient."""

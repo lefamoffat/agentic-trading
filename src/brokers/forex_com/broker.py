@@ -21,7 +21,6 @@ from src.brokers.symbol_mapper import BrokerType as BrokerTypeEnum
 from src.brokers.symbol_mapper import SymbolMapper
 from src.utils.logger import get_logger
 
-
 class ForexComBroker(BaseBroker):
     """Forex.com broker implementation using the composition pattern.
     This class orchestrates the different handlers for auth, data, orders, etc.

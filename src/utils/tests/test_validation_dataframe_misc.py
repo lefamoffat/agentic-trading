@@ -8,7 +8,6 @@ from src.utils.validation.dataframe import (
     validate_ohlcv_data,
 )
 
-
 @pytest.fixture
 def ohlcv_df():
     return pd.DataFrame({
@@ -18,7 +17,6 @@ def ohlcv_df():
         "close": [1.05, 1.15, 1.25],
         "volume": [100, 110, 120],
     })
-
 
 @pytest.mark.unit
 class TestValidateOhlcv:
@@ -36,7 +34,6 @@ class TestValidateOhlcv:
         bad.loc[0, "high"] = 0.5  # high < low
         with pytest.raises(ValidationError):
             validate_ohlcv_consistency(bad)
-
 
 @pytest.mark.unit
 def test_check_data_gaps():

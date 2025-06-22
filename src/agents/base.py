@@ -14,7 +14,6 @@ from src.utils.logger import get_logger
 
 __all__ = ["BaseAgent"]
 
-
 class BaseAgent(ABC):
     """Abstract base class for RL agents with clean interfaces."""
 

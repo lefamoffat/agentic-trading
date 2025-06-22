@@ -11,7 +11,6 @@ from src.utils.logger import get_logger
 from src.market_data.calendars.base import BaseCalendar
 from src.market_data.calendars.forex import ForexCalendar
 
-
 class CalendarFactory:
     """Factory for creating calendar instances based on asset class."""
 
@@ -132,7 +131,6 @@ class CalendarFactory:
         self.logger.info(f"Detected asset class '{asset_class}' for symbol '{symbol}'")
 
         return self.create_calendar(asset_class, timezone)
-
 
 # Global factory instance
 calendar_factory = CalendarFactory() 

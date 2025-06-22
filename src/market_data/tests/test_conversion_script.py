@@ -6,7 +6,6 @@ import pytest
 from src.market_data.contracts import QlibDataSpec, MarketDataRequest
 from src.types import DataSource, Timeframe
 
-
 @pytest.mark.unit 
 class TestQlibPathValidation:
     """Unit tests specifically for qlib path validation logic."""

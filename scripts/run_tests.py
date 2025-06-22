@@ -8,7 +8,6 @@ from pathlib import Path
 
 import pytest
 
-
 def main():
     """Run tests using pytest.
 

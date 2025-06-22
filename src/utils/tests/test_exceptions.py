@@ -22,7 +22,6 @@ from src.utils.exceptions import (
     ValidationError,
 )
 
-
 @pytest.mark.unit
 class TestExceptionSystem(unittest.TestCase):
     def test_base_exception_inheritance(self):

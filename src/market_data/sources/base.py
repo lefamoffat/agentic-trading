@@ -5,7 +5,6 @@ import pandas as pd
 
 from src.types import Timeframe
 
-
 class MarketDataSource(ABC):
     """Abstract base class for all market data sources."""
     

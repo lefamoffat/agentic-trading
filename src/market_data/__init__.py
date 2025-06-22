@@ -38,7 +38,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 async def prepare_training_data(
     symbol: str,
     source: DataSource,
@@ -131,7 +130,6 @@ async def prepare_training_data(
             logger.error(f"Unexpected error preparing training data: {e}")
             raise DataSourceError(f"Failed to prepare training data: {e}") from e
 
-
 async def get_available_symbols(source: DataSource) -> list[str]:
     """
     Get list of symbols supported by a data source.
@@ -161,16 +159,13 @@ async def get_available_symbols(source: DataSource) -> list[str]:
         logger.error(f"Failed to get symbols for {source.value}: {e}")
         raise DataSourceError(f"Cannot get symbols for {source.value}: {e}") from e
 
-
 def get_available_sources() -> list[DataSource]:
     """Get list of available data sources."""
     return source_factory.get_available_sources()
 
-
 def is_source_available(source: DataSource) -> bool:
     """Check if a data source is available."""
     return source_factory.is_source_available(source)
-
 
 # Import components from the consolidated data modules
 from src.market_data.calendars import BaseCalendar, ForexCalendar, CalendarFactory, calendar_factory

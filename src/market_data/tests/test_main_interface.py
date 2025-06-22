@@ -14,7 +14,6 @@ from src.market_data import (
 from src.market_data.exceptions import DataSourceError, DataRangeError, StorageError
 from src.types import DataSource, Timeframe
 
-
 @pytest.mark.unit
 class TestMainInterface:
     """Test main market_data interface functions."""
@@ -231,7 +230,6 @@ class TestMainInterface:
         
         assert result is True
         mock_source_factory.is_source_available.assert_called_once_with(DataSource.FOREX_COM)
-
 
 @pytest.mark.integration
 class TestMarketDataIntegration:

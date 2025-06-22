@@ -3,7 +3,6 @@
 
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class ForexComApiResponseKeys:
     """Stores constant keys found in Forex.com API responses.
@@ -17,7 +16,6 @@ class ForexComApiResponseKeys:
     ACTIVE_ORDERS = "ActiveOrders"
     OPEN_POSITIONS = "OpenPositions"
     TRADING_ACCOUNTS = "TradingAccounts"
-
 
 @dataclass(frozen=True)
 class ForexComApiParams:

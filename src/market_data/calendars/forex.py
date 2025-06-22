@@ -12,7 +12,6 @@ import pytz
 from src.types import MarketSession
 from src.market_data.calendars.base import BaseCalendar
 
-
 class ForexCalendar(BaseCalendar):
     """Forex market calendar implementation.
 

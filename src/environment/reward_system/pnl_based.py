@@ -7,7 +7,6 @@ from typing import Optional
 
 from src.environment.state.position import Trade
 
-
 class PnLBasedReward:
     """Calculates rewards based on realized profit and loss.
     

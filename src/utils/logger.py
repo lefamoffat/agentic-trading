@@ -7,7 +7,6 @@ from loguru import logger
 
 from src.utils.settings import settings
 
-
 def setup_logging(log_level: Optional[str] = None):
     """Set up logging configuration.
 
@@ -53,7 +52,6 @@ def setup_logging(log_level: Optional[str] = None):
 
     logger.configure(**log_config)
 
-
 def get_logger(name: Optional[str] = None):
     """Get a logger instance.
 
@@ -69,7 +67,6 @@ def get_logger(name: Optional[str] = None):
         setup_logging()
 
     return logger.bind(name=name) if name else logger
-
 
 # Setup default logging
 setup_logging()

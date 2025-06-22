@@ -12,7 +12,6 @@ import pandas as pd
 from src.utils.logger import get_logger
 from src.market_data.calendars.factory import calendar_factory
 
-
 class DataProcessor:
     """Data processor for standardizing and validating trading data.
 

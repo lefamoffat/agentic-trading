@@ -13,7 +13,6 @@ from src.environment.config import TradingEnvironmentConfig
 from src.environment.state.position import PositionManager
 from src.environment.state.portfolio import PortfolioTracker
 
-
 class CompositeObservation:
     """Combines market, portfolio, and time observations into a unified observation.
     

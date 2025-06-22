@@ -10,7 +10,6 @@ from src.brokers.forex_com.auth import AuthenticationHandler
 from src.brokers.forex_com.tests.conftest import create_async_session_mock
 from src.brokers.forex_com.types import ForexComApiResponseKeys
 
-
 @pytest.fixture
 def mock_auth_handler():
     """Fixture to create a mock AuthenticationHandler."""

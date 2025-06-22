@@ -2,7 +2,6 @@
 """
 from enum import Enum
 
-
 # Broker-related enums
 class BrokerType(Enum):
     """Supported broker types."""

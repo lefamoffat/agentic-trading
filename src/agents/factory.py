@@ -12,7 +12,6 @@ from src.agents.ppo import PPOAgent
 
 __all__ = ["AgentFactory", "agent_factory"]
 
-
 class AgentFactory:
     """Factory for creating RL agents with clean interfaces."""
 
@@ -39,7 +38,6 @@ class AgentFactory:
             self.logger.error(f"Agent '{name}' not found.")
             raise ValueError(f"Agent '{name}' not found.")
         return agent_cls(env=env, hyperparams=hyperparams)
-
 
 # Global factory instance
 agent_factory = AgentFactory() 

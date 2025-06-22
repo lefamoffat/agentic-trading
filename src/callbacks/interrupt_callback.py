@@ -8,7 +8,6 @@ import logging
 # Third-party
 from stable_baselines3.common.callbacks import BaseCallback
 
-
 class GracefulShutdownCallback(BaseCallback):
     """A custom callback to save the model and exit gracefully on SIGINT (Ctrl+C).
 

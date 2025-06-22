@@ -4,7 +4,6 @@ import pytest
 
 from src.utils.validation.dataframe import calculate_data_quality_score
 
-
 @pytest.mark.unit
 class TestDataQualityScore:
     def test_perfect_quality_data(self):

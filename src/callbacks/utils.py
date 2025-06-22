@@ -9,7 +9,6 @@ import pandas as pd
 from src.environment.state.position import Trade
 from src.types.enums import Timeframe
 
-
 def get_annualization_factor(timeframe: str) -> int:
     """Get the annualization factor based on the data timeframe.
     Assumes 252 trading days per year.
@@ -49,7 +48,6 @@ def calculate_trade_metrics(trade_history: List[Trade]) -> Dict[str, float]:
         "profit_factor": profit_factor,
         "total_trades": float(total_trades),
     }
-
 
 def calculate_performance_metrics(
     portfolio_values: List[float],

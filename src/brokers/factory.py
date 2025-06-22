@@ -12,7 +12,6 @@ from src.utils.logger import get_logger
 from src.brokers.base import BaseBroker
 from src.brokers.forex_com import ForexComBroker
 
-
 class BrokerFactory:
     """Factory for creating broker instances."""
 
@@ -152,7 +151,6 @@ class BrokerFactory:
             return True
         except ValueError:
             return False
-
 
 # Global factory instance
 broker_factory = BrokerFactory()

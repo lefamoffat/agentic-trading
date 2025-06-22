@@ -14,7 +14,6 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class CacheManager:
     """Manages caching of market data with metadata tracking."""
     

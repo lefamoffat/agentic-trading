@@ -16,7 +16,6 @@ from src.market_data.contracts import MarketDataRequest, MarketDataResponse, Cac
 from src.market_data.exceptions import StorageError
 from src.types import DataSource, Timeframe
 
-
 @pytest.mark.unit
 class TestCacheManager:
     """Test CacheManager functionality."""
@@ -200,7 +199,6 @@ class TestCacheManager:
         assert len(cache_manager._metadata_cache) == 0
         assert not cache_file.exists()
 
-
 @pytest.mark.unit
 class TestQlibConverter:
     """Test QlibConverter functionality."""
@@ -327,9 +325,6 @@ class TestQlibConverter:
         
         assert info["exists"] is False
         assert info["symbol"] == "NONEXISTENT"
-    
-
-
 
 @pytest.mark.unit
 class TestStorageManager:

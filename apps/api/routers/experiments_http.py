@@ -38,7 +38,7 @@ async def experiment_detail(experiment_id: str, svc=Depends(experiments_service_
 # ------------------------------------------------------------------
 
 
-@router.post("/", response_model=ExperimentLaunchResponse, status_code=202)
+@router.post("", response_model=ExperimentLaunchResponse, status_code=202)
 async def launch_experiment(body: ExperimentLaunchRequest, background: BackgroundTasks):
     """Launch a new training experiment (detached worker)."""
 

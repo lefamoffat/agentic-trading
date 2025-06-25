@@ -3,31 +3,18 @@ from __future__ import annotations
 """Training-related commands using the background training service."""
 
 import asyncio
-import uuid
-from datetime import datetime
 from typing import Optional
-import subprocess
 import json
-import sys
-import os
-import time
 
 import typer
 
 from apps.cli import app
-from src.training import get_training_service
-from src.messaging import TrainingStatus
+from apps.cli.api_client import post, get as http_get, ws as ws_connect
 from src.utils.logger import get_logger
 
 # Rich progress bar for nicer live output
 from rich.console import Console
-from rich.progress import (
-    Progress,
-    BarColumn,
-    TextColumn,
-    TimeElapsedColumn,
-    TimeRemainingColumn,
-)
+from rich.progress import Progress, BarColumn, TextColumn, TimeElapsedColumn, TimeRemainingColumn
 
 logger = get_logger(__name__)
 
@@ -46,7 +33,6 @@ def train(
     ),
 ) -> None:
     """Start a new training experiment and optionally attach to live progress."""
-    experiment_id = f"train_{symbol.replace('/', '')}_{timeframe}_{uuid.uuid4().hex[:8]}"
     config = {
         "agent_type": agent_type,
         "symbol": symbol,
@@ -55,23 +41,24 @@ def train(
         "learning_rate": learning_rate,
         "initial_balance": initial_balance,
     }
-    typer.echo(f"🚀 Starting training experiment: {experiment_id}")
-    typer.echo(f"📊 Symbol: {symbol}, Timeframe: {timeframe}")
-    typer.echo(f"🤖 Agent: {agent_type}, Timesteps: {timesteps:,}")
-    
-    # Launch the worker as a background process
-    log_dir = os.path.join(os.getcwd(), "logs")
-    os.makedirs(log_dir, exist_ok=True)
-    log_path = os.path.join(log_dir, "worker.log")
-    log_file = open(log_path, "a")
-    config_json = json.dumps(config)
-    subprocess.Popen(
-        [sys.executable, "scripts/training/run_training_worker.py", experiment_id, config_json],
-        stdout=log_file,
-        stderr=log_file,
-        close_fds=True,
-    )
-    typer.echo("✅ Training process launched in background!")
+
+    typer.echo(f"🚀 Launching training via API: {symbol} {timeframe} » {agent_type}")
+
+    async def _launch():
+        resp = await post("/experiments", json=config)
+        if resp.status_code not in (202, 200):
+            typer.echo(f"❌ Failed to launch experiment: {resp.text}", err=True)
+            raise typer.Exit(1)
+        data = resp.json()
+        return data["experiment_id"]
+
+    try:
+        experiment_id = asyncio.run(_launch())
+    except Exception as exc:
+        typer.echo(f"❌ Error communicating with API: {exc}", err=True)
+        raise typer.Exit(1)
+
+    typer.echo("✅ Training request accepted by API!")
     typer.echo(f"📝 Experiment ID: {experiment_id}")
 
     if watch:
@@ -89,64 +76,58 @@ def status(
 ) -> None:
     """Check the status of training experiments."""
     async def _check_status():
-        try:
-            training_service = await get_training_service()
-            
-            if experiment_id:
-                # Show specific experiment status
-                result = await training_service.get_experiment_status(experiment_id)
-                
-                if result["status"] == "not_found":
-                    typer.echo(f"❌ Experiment not found: {experiment_id}")
-                    return
-                
-                # Display detailed status
-                typer.echo(f"📊 Experiment Status: {experiment_id}")
-                typer.echo(f"🔄 Status: {result['status']}")
-                typer.echo(f"📈 Progress: {result['current_step']:,} / {result['total_steps']:,} ({result['progress']:.1%})")
-                typer.echo(f"⏱️  Duration: {result['duration']:.1f} seconds")
-                
-                if result.get('metrics'):
-                    typer.echo("📊 Latest Metrics:")
-                    for key, value in result['metrics'].items():
-                        if isinstance(value, float):
-                            typer.echo(f"   {key}: {value:.4f}")
-                        else:
-                            typer.echo(f"   {key}: {value}")
-            else:
-                # List all experiments
-                experiments = await training_service.list_experiments()
-                
-                if not experiments:
-                    typer.echo("📭 No training experiments found")
-                    return
-                
-                typer.echo(f"📋 Training Experiments ({len(experiments)} total):")
-                typer.echo("")
-                
-                for exp in experiments[-10:]:  # Show last 10
-                    exp_id = exp.get("experiment_id", "unknown")
-                    status = exp.get("status", "unknown")
-                    config = exp.get("config", {})
-                    symbol = config.get("symbol", "N/A")
-                    agent = config.get("agent_type", "N/A")
-                    
-                    # Status emoji
-                    status_emoji = {
-                        "running": "🔄",
-                        "completed": "✅", 
-                        "failed": "❌",
-                        "cancelled": "⏹️",
-                        "starting": "🚀"
-                    }.get(status, "❓")
-                    
-                    typer.echo(f"{status_emoji} {exp_id[:16]}... | {symbol} | {agent} | {status}")
-                
-        except Exception as e:
-            typer.echo(f"❌ Failed to check status: {e}", err=True)
-            raise typer.Exit(1)
-    
-    asyncio.run(_check_status())
+        if experiment_id:
+            resp = await http_get(f"/experiments/{experiment_id}")
+            if resp.status_code == 404:
+                typer.echo(f"❌ Experiment not found: {experiment_id}")
+                return
+            resp.raise_for_status()
+            result = resp.json()
+
+            typer.echo(f"📊 Experiment Status: {experiment_id}")
+            typer.echo(f"🔄 Status: {result['status']}")
+            typer.echo(
+                f"📈 Progress: {result['current_step']:,} / {result['total_steps']:,} "
+                f"({result['progress']:.1%})",
+            )
+
+            if result.get("metrics"):
+                typer.echo("📊 Latest Metrics:")
+                for key, value in result["metrics"].items():
+                    if isinstance(value, float):
+                        typer.echo(f"   {key}: {value:.4f}")
+                    else:
+                        typer.echo(f"   {key}: {value}")
+        else:
+            resp = await http_get("/experiments", params={"limit": 100})
+            resp.raise_for_status()
+            experiments = resp.json()
+
+            if not experiments:
+                typer.echo("📭 No training experiments found")
+                return
+
+            typer.echo(f"📋 Training Experiments ({len(experiments)} total):\n")
+            for exp in experiments:
+                exp_id = exp.get("experiment_id", "unknown")
+                status = exp.get("status", "unknown")
+                symbol = exp.get("symbol", exp.get("config", {}).get("symbol", "N/A"))
+                agent = exp.get("agent_type", exp.get("config", {}).get("agent_type", "N/A"))
+
+                status_emoji = {
+                    "running": "🔄",
+                    "completed": "✅",
+                    "failed": "❌",
+                    "cancelled": "⏹️",
+                    "starting": "🚀",
+                }.get(status, "❓")
+                typer.echo(f"{status_emoji} {exp_id[:16]}... | {symbol} | {agent} | {status}")
+
+    try:
+        asyncio.run(_check_status())
+    except Exception as exc:
+        typer.echo(f"❌ Failed to check status: {exc}", err=True)
+        raise typer.Exit(1)
 
 @app.command()
 def stop(
@@ -155,16 +136,13 @@ def stop(
     """Stop a running training experiment."""
     async def _stop_training():
         try:
-            training_service = await get_training_service()
-            result = await training_service.stop_experiment(experiment_id)
-            
-            if result["status"] == "not_found":
+            resp = await post(f"/experiments/{experiment_id}/stop")
+            if resp.status_code == 404:
                 typer.echo(f"❌ Experiment not found: {experiment_id}")
                 return
-            
-            typer.echo(f"⏹️  Stopped experiment: {experiment_id}")
-            typer.echo(f"📈 Status: {result['status']}")
-            
+            resp.raise_for_status()
+            typer.echo(f"⏹️  Stop requested: {experiment_id}")
+            typer.echo(f"📈 Status: {resp.json().get('status')}")
         except Exception as e:
             typer.echo(f"❌ Failed to stop experiment: {e}", err=True)
             raise typer.Exit(1)
@@ -176,8 +154,9 @@ def list_experiments() -> None:
     """List all training experiments."""
     async def _list_experiments():
         try:
-            training_service = await get_training_service()
-            experiments = await training_service.list_experiments()
+            resp = await http_get("/experiments", params={"limit": 1000})
+            resp.raise_for_status()
+            experiments = resp.json()
             
             if not experiments:
                 typer.echo("📭 No training experiments found")
@@ -208,77 +187,51 @@ def list_experiments() -> None:
     asyncio.run(_list_experiments())
 
 async def _watch_experiment(experiment_id: str, interval: int = 5) -> None:
-    """Monitor experiment progress in real-time."""
-    training_service = await get_training_service()
-    
+    """Watch experiment progress in real-time via WebSocket."""
     console = Console()
-    console.rule(f"[bold blue]Watching {experiment_id}")
-    
-    # Wait briefly for experiment registration (handles race right after launch)
-    start_wait = time.monotonic()
-    first = await training_service.get_experiment_status(experiment_id)
-    while first["status"] == "not_found" and (time.monotonic() - start_wait) < 15:
-        console.print("Waiting for experiment registration…", style="yellow")
-        await asyncio.sleep(2)
-        first = await training_service.get_experiment_status(experiment_id)
 
-    if first["status"] == "not_found":
-        typer.echo(f"❌ Experiment not found: {experiment_id} (after waiting 15s)")
-        return
-
-    total_steps: int | None = first.get("total_steps")
-    if not total_steps or total_steps <= 0:
-        # Fallback to percentage-based bar (0-100)
-        total_steps = 100
-        percentage_mode = True
-    else:
-        percentage_mode = False
-
-    progress_display = Progress(
-        TextColumn("{task.description}"),
+    progress = Progress(
+        TextColumn("[bold blue]Training:"),
         BarColumn(),
-        TextColumn("{task.percentage:>3.1f}%"),
+        TextColumn("{task.percentage:>3.0f}%"),
+        TextColumn("Step {task.fields[step]}/{task.fields[total_steps]}", justify="right"),
         TimeElapsedColumn(),
         TimeRemainingColumn(),
+        TextColumn("{task.fields[metrics]}", justify="left"),
         console=console,
-        refresh_per_second=4,
+        transient=True,
     )
 
-    with progress_display:
-        task_id = progress_display.add_task("Training", total=total_steps)
+    task_id = progress.add_task("", total=100, step=0, total_steps=0, metrics="")
 
-        try:
-            while True:
-                result = await training_service.get_experiment_status(experiment_id)
+    with progress:
+        async with ws_connect(f"/ws/experiments/{experiment_id}") as websocket:
+            async for raw in websocket:
+                try:
+                    msg = json.loads(raw)
+                except json.JSONDecodeError:
+                    continue
 
-                if result["status"] == "not_found":
-                    console.print(f"[red]❌ Experiment not found: {experiment_id}")
-                    break
+                if msg.get("topic") == "training.progress":
+                    data = msg["data"]
+                    current = data.get("current_step", 0)
+                    total = data.get("total_steps", 1)
+                    percent = current / total * 100 if total else 0
+                    progress.update(task_id, completed=percent, step=current, total_steps=total)
 
-                # Determine completion value
-                if percentage_mode:
-                    completed = min(100, max(0, result["progress"] * 100))
-                else:
-                    completed = result.get("current_step", 0)
-                progress_display.update(task_id, completed=completed)
-
-                # Show key metrics below the progress bar
-                metrics = result.get("metrics", {})
-                if metrics:
+                elif msg.get("topic") == "training.metrics":
+                    metrics = msg["data"].get("metrics", {})
                     metrics_str = " | ".join(
                         f"{k}: {v:.4f}" if isinstance(v, float) else f"{k}: {v}"
-                        for k, v in list(metrics.items())[:5]
+                        for k, v in list(metrics.items())[:3]
                     )
-                    console.print(f"[cyan]{metrics_str}", justify="left")
+                    progress.update(task_id, metrics=metrics_str)
 
-                if result["status"] in ["completed", "failed", "cancelled"]:
-                    console.print(f"\n🏁 Training finished with status: [bold]{result['status']}[/bold]")
-                    break
-
-                await asyncio.sleep(interval)
-
-        except KeyboardInterrupt:
-            console.print("\n⏹️  Detached from experiment – it keeps running in the background.")
+                elif msg.get("topic") == "training.status":
+                    status = msg["data"].get("status")
+                    if status in ("completed", "failed", "cancelled"):
+                        progress.update(task_id, metrics=f"status: {status}")
+                        break
 
 @app.command("watch")
 def watch(

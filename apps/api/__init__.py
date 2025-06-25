@@ -22,6 +22,13 @@ def create_app() -> FastAPI:
     app.include_router(experiments_http.router, prefix="/experiments", tags=["experiments"])
     app.include_router(experiments_ws.router, tags=["experiments-ws"])
 
+    @app.on_event("shutdown")
+    async def _shutdown() -> None:  # noqa: WPS430
+        from apps.api.core.dependencies import get_stream_manager  # local import to avoid cycles
+        mgr = await get_stream_manager()
+        if hasattr(mgr, "stop"):
+            await mgr.stop()
+
     @app.get("/", include_in_schema=False)
     async def _root():  # noqa: WPS430
         """Health-check root endpoint."""

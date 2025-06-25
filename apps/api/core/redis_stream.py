@@ -58,4 +58,22 @@ class StreamManager:
         return q
 
     def unregister(self, queue: asyncio.Queue) -> None:
-        self._queues.discard(queue) 
+        self._queues.discard(queue)
+
+    async def stop(self) -> None:
+        """Gracefully stop listening task and close Redis connections."""
+        if self._task and not self._task.done():
+            self._task.cancel()
+            try:
+                await self._task
+            except asyncio.CancelledError:
+                pass
+
+        if self._pubsub:
+            await self._pubsub.aclose()
+            self._pubsub = None
+
+        if self._redis:
+            await self._redis.aclose()
+            self._redis = None
+        logger.info("StreamManager stopped") 

@@ -40,7 +40,14 @@ async def ws_experiment_detail(ws: WebSocket, experiment_id: str, stream=Depends
     try:
         while True:
             msg = await queue.get()
-            if msg.get("experiment_id") == experiment_id:
+            exp_id = None
+            if isinstance(msg, dict):
+                if "experiment_id" in msg:
+                    exp_id = msg["experiment_id"]
+                elif isinstance(msg.get("data"), dict):
+                    exp_id = msg["data"].get("experiment_id")
+
+            if exp_id == experiment_id:
                 await ws.send_json(msg)
     except WebSocketDisconnect:
         stream.unregister(queue) 

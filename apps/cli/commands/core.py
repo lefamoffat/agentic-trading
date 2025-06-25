@@ -5,18 +5,25 @@ from __future__ import annotations
 import platform
 import subprocess
 import sys
+import signal
+import os
 from pathlib import Path
+from typing import Optional
 
 import typer
-from mlflow.tracking import MlflowClient
-import mlflow
 
 from apps.cli import app, _run, _load_config, PROJECT_ROOT, SCRIPTS_DIR
+
+# ML tracking integration
+try:
+    from src.tracking import get_ml_tracker, get_experiment_repository
+    TRACKING_AVAILABLE = True
+except ImportError:
+    TRACKING_AVAILABLE = False
 
 # ---------------------------------------------------------------------------
 # Project initialisation
 # ---------------------------------------------------------------------------
-
 
 @app.command()
 def init() -> None:
@@ -25,89 +32,43 @@ def init() -> None:
     script = SCRIPTS_DIR / "setup" / "init_project.py"
     _run([sys.executable, str(script)])
 
-
 # ---------------------------------------------------------------------------
-# MLflow server management
+# ML tracking backend management
 # ---------------------------------------------------------------------------
 
-
-@app.command("mlflow-start")
-def mlflow_start(port: int = typer.Option(5001, help="Port to run MLflow server on")) -> None:
-    """Start MLflow tracking server in Docker."""
-    
-    launch_script = SCRIPTS_DIR / "setup" / "launch_mlflow.sh"
-    if not launch_script.exists():
-        typer.secho(f"❌ Launch script not found: {launch_script}", fg=typer.colors.RED)
-        raise typer.Exit(code=1)
-    
-    typer.echo(f"🚀 Starting MLflow server on port {port}...")
-    _run(["/bin/bash", str(launch_script), str(port)])
-    typer.secho(f"✅ MLflow server started on http://localhost:{port}", fg=typer.colors.GREEN)
-
-
-@app.command("mlflow-stop")
-def mlflow_stop() -> None:
-    """Stop MLflow tracking server."""
+@app.command("tracking-status")
+def tracking_status():
+    """Check ML tracking backend status."""
+    if not TRACKING_AVAILABLE:
+        typer.echo("❌ ML tracking not available")
+        return
     
     try:
-        result = subprocess.run(
-            ["docker", "stop", "mlflow_server"],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
+        import asyncio
         
-        if result.returncode == 0:
-            typer.secho("✅ MLflow server stopped", fg=typer.colors.GREEN)
-        else:
-            typer.secho("⚠️  No MLflow server container found or already stopped", fg=typer.colors.YELLOW)
+        async def check_status():
+            tracker = await get_ml_tracker()
+            repository = await get_experiment_repository()
+            health = await repository.get_system_health()
             
-    except subprocess.TimeoutExpired:
-        typer.secho("❌ Timeout stopping MLflow server", fg=typer.colors.RED)
-        raise typer.Exit(code=1)
-    except Exception as e:
-        typer.secho(f"❌ Error stopping MLflow server: {e}", fg=typer.colors.RED)
-        raise typer.Exit(code=1)
-
-
-@app.command("mlflow-status")
-def mlflow_status() -> None:
-    """Check MLflow server status."""
-    
-    # Check if container is running
-    try:
-        result = subprocess.run(
-            ["docker", "ps", "--filter", "name=mlflow_server", "--format", "table {{.Names}}\t{{.Status}}"],
-            capture_output=True,
-            text=True,
-            timeout=5
-        )
+            if health.is_healthy:
+                typer.echo(f"✅ ML tracking backend is healthy")
+                typer.echo(f"📊 Total experiments: {health.total_experiments}")
+                typer.echo(f"🏃 Active experiments: {health.active_experiments}")
+                typer.echo(f"📈 Total runs: {health.total_runs}")
+            else:
+                typer.echo(f"❌ ML tracking backend is unhealthy")
+                if health.error_message:
+                    typer.echo(f"Error: {health.error_message}")
         
-        if "mlflow_server" in result.stdout:
-            typer.secho("🐳 MLflow Docker container: RUNNING", fg=typer.colors.GREEN)
-        else:
-            typer.secho("🐳 MLflow Docker container: NOT RUNNING", fg=typer.colors.YELLOW)
-            
-    except Exception as e:
-        typer.secho(f"❌ Error checking Docker status: {e}", fg=typer.colors.RED)
-    
-    # Check if MLflow API is reachable
-    try:
-        from src.utils.mlflow import _is_mlflow_reachable, _tracking_uri
+        asyncio.run(check_status())
         
-        if _is_mlflow_reachable():
-            typer.secho(f"🌐 MLflow API: REACHABLE at {_tracking_uri()}", fg=typer.colors.GREEN)
-        else:
-            typer.secho(f"🌐 MLflow API: NOT REACHABLE at {_tracking_uri()}", fg=typer.colors.RED)
-            
     except Exception as e:
-        typer.secho(f"❌ Error checking MLflow API: {e}", fg=typer.colors.RED)
-
+        typer.echo(f"❌ Failed to check ML tracking status: {e}")
 
 # ---------------------------------------------------------------------------
 # Config validation & diagnostics
 # ---------------------------------------------------------------------------
-
 
 @app.command("validate-config")
 def validate_config() -> None:  # noqa: D401
@@ -116,10 +77,9 @@ def validate_config() -> None:  # noqa: D401
     _load_config()
     typer.secho("✅ Configuration is valid", fg=typer.colors.GREEN)
 
-
 @app.command()
 def doctor() -> None:
-    """Run environment diagnostics (Python, uv, MLflow, config)."""
+    """Run environment diagnostics (Python, uv, ML tracking, config)."""
 
     typer.echo("ℹ️  Environment diagnostics\n----------------------")
     typer.echo(f"Python:     {platform.python_version()}")
@@ -138,10 +98,80 @@ def doctor() -> None:
     except typer.Exit:
         return
 
-    # MLflow availability
+    # ML tracking availability
     try:
-        MlflowClient().search_registered_models()
-        typer.secho("✅ MLflow reachable", fg=typer.colors.GREEN)
-    except (mlflow.MlflowException, ConnectionError) as exc:
-        typer.secho(f"❌ MLflow not reachable: {exc}", fg=typer.colors.RED)
-        raise typer.Exit(code=2) from exc 
+        import asyncio
+
+        async def check_health():
+            from src.tracking import get_experiment_repository
+            repository = await get_experiment_repository()
+            health = await repository.get_system_health()
+            return health.is_healthy, health.error_message
+
+        healthy, error_msg = asyncio.run(check_health())
+        if healthy:
+            typer.secho("✅ ML tracking reachable", fg=typer.colors.GREEN)
+        else:
+            typer.secho("❌ ML tracking backend unhealthy", fg=typer.colors.RED)
+            if error_msg:
+                typer.echo(f"Error: {error_msg}")
+            raise typer.Exit(code=2)
+
+    except Exception as exc:
+        typer.secho(f"❌ ML tracking not reachable: {exc}", fg=typer.colors.RED)
+        raise typer.Exit(code=2) from exc
+
+    # All checks passed
+    typer.secho("🎉 All diagnostics passed", fg=typer.colors.GREEN)
+    raise typer.Exit(code=0)
+
+# System status commands
+@app.command("status")
+def system_status():
+    """Check overall system status."""
+    typer.echo("🔍 Checking system status...")
+    
+    # Check Python environment
+    typer.echo(f"🐍 Python: {sys.version.split()[0]}")
+    
+    # Check ML tracking
+    if TRACKING_AVAILABLE:
+        try:
+            import asyncio
+            
+            async def check_tracking():
+                repository = await get_experiment_repository()
+                health = await repository.get_system_health()
+                
+                if health.is_healthy:
+                    typer.echo(f"✅ ML tracking: healthy ({health.total_experiments} experiments)")
+                else:
+                    typer.echo(f"❌ ML tracking: unhealthy")
+            
+            asyncio.run(check_tracking())
+        except Exception as e:
+            typer.echo(f"❌ ML tracking: error - {e}")
+    else:
+        typer.echo("❌ ML tracking not available")
+    
+    # Check if in project directory
+    if Path("pyproject.toml").exists():
+        typer.echo("✅ Project environment detected")
+    else:
+        typer.echo("❌ Not in project root directory")
+
+@app.command("version")
+def version():
+    """Show version information."""
+    try:
+        # Try to get version from pyproject.toml
+        import tomllib
+        with open("pyproject.toml", "rb") as f:
+            data = tomllib.load(f)
+            version = data.get("project", {}).get("version", "unknown")
+            typer.echo(f"Agentic Trading System v{version}")
+    except Exception:
+        typer.echo("Agentic Trading System (version unknown)")
+
+if __name__ == "__main__":
+    app() 

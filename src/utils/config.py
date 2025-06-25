@@ -49,7 +49,6 @@ class AppConfig(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
-        allow_mutation = False  # Treat as immutable after creation
         extra = "allow"
 
     @classmethod

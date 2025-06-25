@@ -7,7 +7,8 @@ from src.agents.base import BaseAgent
 from src.agents.factory import AgentFactory, agent_factory
 from src.agents.helpers import build_observation
 from src.agents.ppo import PPOAgent
-from src.agents.wrapper import Sb3ModelWrapper
+from src.agents.wrapper import Sb3AimWrapper
+from src.agents.callbacks import GracefulShutdownCallback
 
 __all__ = [
     "BaseAgent",
@@ -15,5 +16,6 @@ __all__ = [
     "AgentFactory",
     "agent_factory",
     "build_observation",
-    "Sb3ModelWrapper",
+    "Sb3AimWrapper",
+    "GracefulShutdownCallback",
 ]

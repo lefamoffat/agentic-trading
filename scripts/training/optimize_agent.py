@@ -1,154 +1,151 @@
 #!/usr/bin/env python3
-"""Hyperparameter optimization for an RL agent using Optuna and MLflow.
-
-This script runs multiple training trials to find the best hyperparameters
-for a given agent and environment.
-
-Usage:
-    python -m scripts.training.optimize_agent [options]
 """
-import argparse
-import asyncio
+Hyperparameter optimization script using Optuna.
+"""
+
 import os
-from typing import Any, Dict
-
-import mlflow
+import sys
+import argparse
 import optuna
+from pathlib import Path
 
-from scripts.training.train_agent import train_agent_session
-from src.utils.config_loader import ConfigLoader
-from src.utils.logger import get_logger
-from src.utils.mlflow import log_params, ensure_experiment
+# Add the project root to the Python path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
 
-logger = get_logger(__name__)
+from src.training.train import train_agent
+from src.config.config import load_config
 
-# Ensure experiment exists for HPO runs
-EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "AgenticTrading")
-ensure_experiment(EXPERIMENT_NAME)
-
-def suggest_hyperparameters(trial: optuna.Trial, hpo_config: Dict[str, Any]) -> Dict[str, Any]:
-    """Suggest hyperparameters for a given trial based on the HPO config."""
-    params = {}
-    for param_name, config in hpo_config.items():
-        if config["type"] == "categorical":
-            params[param_name] = trial.suggest_categorical(param_name, config["choices"])
-        elif config["type"] == "int":
-            params[param_name] = trial.suggest_int(param_name, config["low"], config["high"])
-        elif config["type"] == "float":
-            params[param_name] = trial.suggest_float(param_name, config["low"], config["high"])
-        elif config["type"] == "log_float":
-            params[param_name] = trial.suggest_float(param_name, config["low"], config["high"], log=True)
-    return params
-
-async def objective(
-    trial: optuna.Trial,
-    agent_name: str,
-    symbol: str,
-    timeframe: str,
-    timesteps: int,
-    initial_balance: float,
-    days: int,
-    parent_run_id: str,
-) -> float:
-    """The objective function for Optuna to optimize."""
-    # 1. Start a nested MLflow run for this trial
-    with mlflow.start_run(run_name=f"trial_{trial.number}", nested=True) as run:
-        logger.info(f"--- Starting Trial {trial.number} (Run ID: {run.info.run_id}) ---")
-
-        # 2. Suggest hyperparameters
-        config_loader = ConfigLoader()
-        hpo_config = config_loader.load_config("agent_config")["hpo_params"][agent_name.lower()]
-        hyperparams = suggest_hyperparameters(trial, hpo_config)
-        log_params(hyperparams)
-
-        # 3. Run the training session with the suggested hyperparameters
-        try:
-            await train_agent_session(
-                agent_name=agent_name,
-                symbol=symbol,
-                timeframe=timeframe,
-                timesteps=timesteps,
-                initial_balance=initial_balance,
-                days=days,
-                agent_params=hyperparams,
-            )
-        except Exception as e:
-            logger.error(f"Trial {trial.number} failed with error: {e}", exc_info=True)
-            # Report failure to Optuna so it doesn't try this again
-            raise optuna.exceptions.TrialPruned() from e
-
-        # 4. Fetch the primary metric to optimize (e.g., Sharpe ratio)
-        # We assume the last recorded value is from the final evaluation.
-        metric_history = mlflow.tracking.MlflowClient().get_metric_history(run.info.run_id, "eval/sharpe_ratio")
-        if not metric_history:
-            logger.warning("Could not find 'eval/sharpe_ratio' metric for trial. Returning -1.0")
-            return -1.0
-
-        final_sharpe = metric_history[-1].value
-        logger.info(f"--- Trial {trial.number} Finished. Sharpe Ratio: {final_sharpe:.4f} ---")
-        return final_sharpe
-
-async def main():
-    """Main entry point for the optimization script."""
-    parser = argparse.ArgumentParser(description="Optimize an RL trading agent's hyperparameters.")
-    parser.add_argument("--agent", type=str, default="PPO", help="Agent to optimize")
-    parser.add_argument("--symbol", type=str, default="EUR/USD", help="Symbol to train on")
-    parser.add_argument("--timeframe", type=str, default="1d", help="Timeframe of the data")
-    parser.add_argument("--timesteps", type=int, default=5000, help="Number of timesteps per trial")
-    parser.add_argument("--trials", type=int, default=20, help="Number of optimization trials to run")
-    parser.add_argument("--balance", type=float, default=10000, help="Initial account balance")
-    parser.add_argument("--days", type=int, default=365, help="Number of days of historical data to use")
-    args = parser.parse_args()
-
-    print("🚀 Starting Hyperparameter Optimization")
-    print("========================================")
-    print(f"Agent: {args.agent}")
-    print(f"Symbol: {args.symbol}")
-    print(f"Timeframe: {args.timeframe}")
-    print(f"Timesteps per trial: {args.timesteps}")
-    print(f"Number of trials: {args.trials}")
-    print(f"Historical Days: {args.days}")
-    print("========================================")
-
-    # 1. Create a parent MLflow run for the entire optimization study
-    run_name = f"HPO_{args.agent}_{args.symbol.replace('/', '')}_{args.timeframe}"
-    with mlflow.start_run(run_name=run_name) as parent_run:
-        logger.info(f"Parent MLflow Run ID for HPO Study: {parent_run.info.run_id}")
-
-        # 2. Create the Optuna study
-        study = optuna.create_study(direction="maximize")
-
-        # 3. Run the optimization
-        # Note: We need to use a sync wrapper for optuna since it doesn't support async directly
-        def sync_objective(trial):
-            return asyncio.run(objective(
-                trial,
-                agent_name=args.agent,
-                symbol=args.symbol,
-                timeframe=args.timeframe,
-                timesteps=args.timesteps,
-                initial_balance=args.balance,
-                days=args.days,
-                parent_run_id=parent_run.info.run_id
-            ))
-
-        study.optimize(
-            sync_objective,
-            n_trials=args.trials,
-            n_jobs=1  # Run trials sequentially
+def objective(trial, symbol, timeframe, timesteps, agent_name):
+    """Objective function for Optuna optimization."""
+    
+    # Suggest hyperparameters based on agent type
+    if agent_name.lower() == 'ppo':
+        params = {
+            'learning_rate': trial.suggest_float('learning_rate', 1e-5, 1e-2, log=True),
+            'n_steps': trial.suggest_int('n_steps', 512, 4096, step=512),
+            'batch_size': trial.suggest_int('batch_size', 32, 256, step=32),
+            'n_epochs': trial.suggest_int('n_epochs', 3, 20),
+            'gamma': trial.suggest_float('gamma', 0.9, 0.999),
+            'gae_lambda': trial.suggest_float('gae_lambda', 0.8, 1.0),
+            'clip_range': trial.suggest_float('clip_range', 0.1, 0.4),
+            'ent_coef': trial.suggest_float('ent_coef', 1e-8, 1e-2, log=True),
+            'vf_coef': trial.suggest_float('vf_coef', 0.1, 1.0),
+        }
+    elif agent_name.lower() == 'dqn':
+        params = {
+            'learning_rate': trial.suggest_float('learning_rate', 1e-5, 1e-2, log=True),
+            'buffer_size': trial.suggest_int('buffer_size', 10000, 1000000, step=10000),
+            'learning_starts': trial.suggest_int('learning_starts', 1000, 10000),
+            'batch_size': trial.suggest_int('batch_size', 32, 256, step=32),
+            'tau': trial.suggest_float('tau', 0.001, 0.1, log=True),
+            'gamma': trial.suggest_float('gamma', 0.9, 0.999),
+            'train_freq': trial.suggest_int('train_freq', 1, 16),
+            'gradient_steps': trial.suggest_int('gradient_steps', 1, 8),
+            'target_update_interval': trial.suggest_int('target_update_interval', 1000, 10000),
+            'exploration_fraction': trial.suggest_float('exploration_fraction', 0.1, 0.5),
+            'exploration_initial_eps': trial.suggest_float('exploration_initial_eps', 0.5, 1.0),
+            'exploration_final_eps': trial.suggest_float('exploration_final_eps', 0.01, 0.2),
+        }
+    elif agent_name.lower() == 'a2c':
+        params = {
+            'learning_rate': trial.suggest_float('learning_rate', 1e-5, 1e-2, log=True),
+            'n_steps': trial.suggest_int('n_steps', 5, 100),
+            'gamma': trial.suggest_float('gamma', 0.9, 0.999),
+            'gae_lambda': trial.suggest_float('gae_lambda', 0.8, 1.0),
+            'ent_coef': trial.suggest_float('ent_coef', 1e-8, 1e-2, log=True),
+            'vf_coef': trial.suggest_float('vf_coef', 0.1, 1.0),
+            'max_grad_norm': trial.suggest_float('max_grad_norm', 0.1, 2.0),
+        }
+    else:
+        raise ValueError(f"Unsupported agent type: {agent_name}")
+    
+    try:
+        # Train the agent with suggested hyperparameters
+        result = train_agent(
+            symbol=symbol,
+            timeframe=timeframe,
+            timesteps=timesteps,
+            agent_name=agent_name,
+            hyperparams=params,
+            experiment_name=f"optuna_trial_{trial.number}",
+            verbose=False
         )
+        
+        # Return the final reward (or another metric you want to optimize)
+        return result.get('final_reward', -float('inf'))
+        
+    except Exception as e:
+        print(f"Trial {trial.number} failed: {e}")
+        return -float('inf')
 
-        # 4. Log the best trial's results to the parent run
-        mlflow.set_tag("best_trial_number", study.best_trial.number)
-        mlflow.log_params(study.best_trial.params)
-        mlflow.log_metric("best_sharpe_ratio", study.best_value)
-
-        logger.info("\n🎉 Optimization Finished!")
-        logger.info(f"Best Trial: {study.best_trial.number}")
-        logger.info(f"  Sharpe Ratio: {study.best_value:.4f}")
-        logger.info("  Hyperparameters:")
-        for key, value in study.best_trial.params.items():
-            logger.info(f"    {key}: {value}")
+def main():
+    """Main optimization function."""
+    parser = argparse.ArgumentParser(description='Optimize agent hyperparameters using Optuna')
+    parser.add_argument('--symbol', default='EUR/USD', help='Trading symbol')
+    parser.add_argument('--timeframe', default='1h', help='Timeframe')
+    parser.add_argument('--timesteps', type=int, default=5000, help='Timesteps per trial')
+    parser.add_argument('--trials', type=int, default=20, help='Number of Optuna trials')
+    parser.add_argument('--agent', default='ppo', help='Agent name')
+    parser.add_argument('--study-name', help='Optuna study name (defaults to agent_symbol_timeframe)')
+    parser.add_argument('--storage', help='Optuna storage URL (for distributed optimization)')
+    
+    args = parser.parse_args()
+    
+    # Create study name if not provided
+    study_name = args.study_name or f"{args.agent}_{args.symbol.replace('/', '')}_{args.timeframe}"
+    
+    print(f"🔬 Starting hyperparameter optimization")
+    print(f"   Agent: {args.agent}")
+    print(f"   Symbol: {args.symbol}")
+    print(f"   Timeframe: {args.timeframe}")
+    print(f"   Timesteps per trial: {args.timesteps:,}")
+    print(f"   Number of trials: {args.trials}")
+    print(f"   Study name: {study_name}")
+    print()
+    
+    # Create or load study
+    if args.storage:
+        study = optuna.create_study(
+            study_name=study_name,
+            storage=args.storage,
+            direction='maximize',
+            load_if_exists=True
+        )
+    else:
+        study = optuna.create_study(direction='maximize')
+    
+    # Run optimization
+    try:
+        study.optimize(
+            lambda trial: objective(trial, args.symbol, args.timeframe, args.timesteps, args.agent),
+            n_trials=args.trials
+        )
+        
+        print("\n🎉 Optimization completed!")
+        print(f"Best trial: {study.best_trial.number}")
+        print(f"Best value: {study.best_value:.4f}")
+        print("\nBest parameters:")
+        for key, value in study.best_params.items():
+            print(f"  {key}: {value}")
+            
+        # Save best parameters to a file
+        best_params_file = f"best_params_{study_name}.json"
+        import json
+        with open(best_params_file, 'w') as f:
+            json.dump(study.best_params, f, indent=2)
+        print(f"\n💾 Best parameters saved to: {best_params_file}")
+        
+    except KeyboardInterrupt:
+        print("\n⏹️  Optimization interrupted by user")
+        if study.trials:
+            print(f"Best trial so far: {study.best_trial.number}")
+            print(f"Best value so far: {study.best_value:.4f}")
+    except Exception as e:
+        print(f"\n❌ Optimization failed: {e}")
+        return 1
+    
+    return 0
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    sys.exit(main()) 

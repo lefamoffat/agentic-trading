@@ -37,6 +37,7 @@ class BaseAgent(ABC):
         """Train the agent for specified timesteps."""
         if self.model is None:
             raise ValueError("Model must be created in the agent's constructor.")
+        self.logger.debug(f"Training with callback id={id(callback)}")
         self.logger.info(f"Starting training for {total_timesteps} timesteps...")
         self.model.learn(total_timesteps=total_timesteps, callback=callback, reset_num_timesteps=False)
         self.logger.info("Training complete.")

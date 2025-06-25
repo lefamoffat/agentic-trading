@@ -1,241 +1,356 @@
-# Agentic Trading - RL Trading System
+# 🤖 Agentic Trading System
 
-A sophisticated multi-asset reinforcement learning trading system with a broker-agnostic architecture, built with Microsoft Qlib and PyTorch.
+A sophisticated reinforcement learning-based trading system that combines market data ingestion, feature engineering, agent training, and live trading execution. Built with modern Python tools and designed for flexibility and production deployment.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## ✨ Features
 
-## 🎯 Project Overview
+### 🧠 **Intelligent Trading Agents**
 
-This project implements a reinforcement learning-based trading system with a modular, broker-agnostic architecture supporting multiple asset classes. It leverages a powerful combination of institutional-grade quantitative tools and cutting-edge machine learning libraries to create a robust, end-to-end solution for algorithmic trading.
+-   ✅ **Multiple RL Algorithms**: PPO, A2C, SAC with Stable-Baselines3
+-   ✅ **Custom Trading Environment**: Realistic market simulation with configurable parameters
+-   ✅ **Advanced Reward Systems**: PnL-based, risk-adjusted, and composite reward functions
+-   ✅ **Portfolio Management**: Multi-asset position sizing and risk management
 
-The system features a **fully dynamic, model-agnostic environment** that can adapt to any ML framework and trading configuration through YAML-based configuration.
+### 📊 **Comprehensive Data Pipeline**
 
-For a deeper dive into the system's design, please see the [**Architecture Philosophy**](docs/architecture.md) and the [**Implementation Plan**](docs/implementation_plan.md).
+-   ✅ **Multi-Source Data**: Support for Forex.com, Yahoo Finance, and custom data sources
+-   ✅ **Real-time Processing**: Live data ingestion with configurable timeframes
+-   ✅ **Feature Engineering**: Technical indicators, market regime detection, and custom features
+-   ✅ **Data Storage**: Efficient binary storage with Qlib integration
 
-## 🚀 Features
+### 🔬 **Experiment Tracking & Analysis**
 
--   ✅ **Dynamic Model-Agnostic Environment**: Accepts actions from any ML framework (SB3, PyTorch, LLMs, human input)
--   ✅ **Configurable Observations**: Dynamic feature selection, time-aware trading, portfolio state tracking
--   ✅ **Broker-Agnostic Architecture**: Modular design supporting multiple brokers
--   ✅ **Qlib-Powered Feature Engineering**: Leverages Qlib's alpha libraries for advanced feature creation
--   ✅ **Standardized Data Pipeline**: Consistent data processing across all sources
--   ✅ **Live Trading Integration**: Production-ready broker integrations
--   ✅ **Comprehensive Backtesting**: Rigorous performance analysis via Qlib
--   ✅ **Experiment Tracking**: Integrated with MLflow for logging runs, metrics, and models
--   ✅ **Hyperparameter Optimization**: Built-in Optuna script for automated HPO
--   ✅ **Comprehensive Test Coverage**: 134/134 tests passing with robust validation
--   ✅ **Multi-Page Dashboard**: Real-time monitoring and experiment management with Dash/Plotly
+-   ✅ **ML Tracking**: Backend-agnostic experiment tracking (Aim, W&B, TensorBoard, Mock)
+-   ✅ **Rich Metrics**: Performance analytics, risk metrics, and trading statistics
+-   ✅ **Interactive Dashboard**: Real-time monitoring and experiment visualization
+-   ✅ **Model Versioning**: Automatic model artifact management and deployment
 
-## 📚 Documentation
+### 🚀 **Production-Ready Infrastructure**
 
-| Document                                               | Description                                                                |
-| ------------------------------------------------------ | -------------------------------------------------------------------------- |
-| [**Getting Started**](docs/getting-started.md)         | A step-by-step guide to install, configure, and run the project.           |
-| [**Dynamic Environment**](docs/dynamic_environment.md) | Guide to the model-agnostic, configurable trading environment system.      |
-| [**Configuration**](docs/configuration.md)             | Detailed reference for all configuration files and environment variables.  |
-| [**Technical Overview**](docs/technical-overview.md)   | An overview of the project structure, feature engineering, and monitoring. |
-| [**Development Guide**](docs/development.md)           | Guidelines for testing, code quality, and contributing to the project.     |
-| [**Architecture Philosophy**](docs/architecture.md)    | Core principles guiding the project's design and library usage.            |
-| [**Implementation Plan**](docs/implementation_plan.md) | The phased roadmap for the project's evolution.                            |
+-   ✅ **Live Trading**: Real broker integration with Forex.com API
+-   ✅ **Risk Management**: Position limits, stop-loss, and drawdown protection
+-   ✅ **Monitoring**: System health checks, alerting, and performance tracking
+-   ✅ **Scalability**: Containerized deployment with Docker and cloud-ready architecture
 
-## 📋 Prerequisites
+## 🚀 Quick Start
 
--   Python 3.11+
--   [uv](https://github.com/astral-sh/uv) package manager
--   API keys for e.g. data providers, broker integrations (e.g. forex.com), etc.
+### Prerequisites
 
-## 🛠️ Installation
+-   **Python 3.11+**
+-   **uv** (Python package manager)
+-   **Git** for version control
 
-1. **Clone the repository**
-
-    ```bash
-    git clone https://github.com/lefamoffat/agentic-trading.git
-    cd agentic-trading
-    ```
-
-2. **Install dependencies**
-
-    ```bash
-    uv sync
-    ```
-
-3. **Initialize the project**
-
-    ```bash
-    uv run scripts/setup/init_project.py
-    ```
-
-4. **Set up environment variables**
-    ```bash
-    cp .env.example .env
-    # Edit .env with your API keys
-    ```
-
-## 🔧 Configuration
-
-The system uses YAML configuration files in the `configs/` directory:
-
--   **`agent_config.yaml`** - RL hyperparameters and training settings
--   **`data_config.yaml`** - Data sources and API configurations
--   **`trading_config.yaml`** - Trading parameters and risk management
--   **`qlib_config.yaml`** - Qlib initialization and setup
-
-## 📊 Project Structure
-
-```
-agentic-trading/
-├── configs/                 # YAML configuration files
-├── src/                     # Main source code
-│   ├── environment/         # Dynamic, model-agnostic RL environment
-│   ├── intelligence/        # LLM-based configuration intelligence
-│   ├── agents/              # RL agent implementations (Stable-Baselines3)
-│   ├── brokers/             # Broker integrations (forex.com working)
-│   ├── market_data/         # Centralized market data handling
-│   ├── data/                # Data utilities & market calendars
-│   ├── strategies/          # Trading strategy implementations
-│   ├── callbacks/           # Training callbacks
-│   ├── utils/               # Core utilities
-│   └── types/               # Centralized type definitions
-├── apps/                    # Web applications
-│   └── dashboard/           # Multi-page Dash dashboard
-├── scripts/                 # Executable scripts
-│   ├── features/            # Qlib-based feature generation
-│   ├── data/                # Data preparation scripts
-│   ├── training/            # RL agent training scripts
-│   ├── dashboard/           # Dashboard launch scripts
-│   └── setup/               # Project initialization
-├── data/                    # Data storage (raw, processed, qlib, models)
-├── integration_tests/       # Integration tests
-└── docs/                    # Documentation
-```
-
-## 🔄 Dynamic Environment System
-
-The trading environment is **fully dynamic and model-agnostic**:
-
-### Model-Agnostic Actions
-
-```python
-# Works with ANY ML framework:
-env.step(np.array([1]))          # Stable-Baselines3
-env.step(torch.tensor([0]))      # PyTorch
-env.step("buy")                  # LLM string commands
-env.step(2)                      # Human input
-```
-
-### Dynamic Observations
-
-```python
-# Configure any features via YAML:
-observation_features: ['close', 'volume', 'rsi', 'custom_indicator']
-include_time_features: true      # Market hours, day of week
-include_portfolio_state: true    # Balance, positions, PnL
-```
-
-See [**Dynamic Environment Guide**](docs/dynamic_environment.md) for complete details.
-
-## 🎮 Quick Start
-
-### 1. Launch MLflow Server (Optional, for Tracking)
-
-To track experiments, parameters, and metrics, first launch the MLflow server.
+### 1. Clone and Setup
 
 ```bash
-uv run scripts/setup/launch_mlflow.sh
+# Clone the repository
+git clone https://github.com/your-username/agentic-trading.git
+cd agentic-trading
+
+# Install dependencies
+uv sync
+
+# Activate environment (optional - uv run handles this automatically)
+source .venv/bin/activate  # Linux/Mac
+# or
+.venv\Scripts\activate  # Windows
 ```
 
-Access the UI at [http://localhost:5001](http://localhost:5001).
-
-### 2. Prepare Training Data
-
-Prepare market data using the centralized market_data module. This replaces the old multi-step process with a single command:
+### 2. Quick Environment Setup
 
 ```bash
-# Prepare data using the new market_data module
-uv run scripts/data/prepare_data.py --symbol "EUR/USD" --timeframe 1h --days 365
+# Initialize project structure
+uv run python scripts/setup/init_project.py
+
+# Copy environment configuration
+cp .env.example .env
+# Edit .env with your API keys and settings
 ```
 
-### 3. Train an RL Agent
+### 3. Initialize ML Tracking (Optional, for Rich Experiment Analysis)
 
-Now you can run the training pipeline. This will automatically prepare data using the market_data module and log the run to MLflow if the server is active.
+The system uses **Aim** for ML experiment tracking. For production usage with detailed experiment visualization, you can optionally initialize and start the Aim UI server.
 
 ```bash
-# Start a new training run (includes automatic data preparation)
-uv run scripts/training/train_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 20000 --days 365
+# Initialize Aim repository (first time only, for production tracking)
+uv run aim init
+
+# Start Aim UI server for experiment visualization (optional)
+uv run aim up
 ```
 
-### 4. Optimize Hyperparameters
+You can access the Aim UI at [http://localhost:43800](http://localhost:43800) for detailed experiment analysis and comparison.
 
-To find the best hyperparameters for an agent, use the optimization script. This will run multiple training trials and log them as nested runs in MLflow.
+**Note**: The system uses **real market data** from forex.com, Yahoo Finance, etc. Aim handles experiment tracking and visualization.
+
+### 4. Run Your First Training
+
+Now you can run the training pipeline. This will automatically prepare data using the market_data module and log the run using the generic ML tracking system.
 
 ```bash
-uv run scripts/training/optimize_agent.py --symbol "EUR/USD" --timeframe 1h --timesteps 5000 --trials 20
+# Train a PPO agent on EUR/USD data
+uv run python scripts/training/train_agent.py --agent ppo --symbol "EUR/USD" --timesteps 50000
+
+# Or use the streamlined CLI approach
+uv run agentic train --symbol "EUR/USD" --timeframe 1h --timesteps 20000
 ```
 
-**Note:** The optimization script will be updated in a future version to use the new market_data module.
+### 5. Hyperparameter Optimization
 
-### 5. Run Tests
+To find the best hyperparameters for an agent, use the optimization script. This will run multiple training trials with different hyperparameter combinations and track them using the generic ML tracking system.
 
 ```bash
-# Run unit tests (default, fast)
-uv run scripts/run_tests.py
+# Optimize PPO hyperparameters
+uv run python scripts/training/optimize_agent.py --agent ppo --symbol "EUR/USD" --n-trials 20
 
-# Run all tests (unit and integration)
-uv run scripts/run_tests.py --all
-
-# Run only integration tests (requires credentials)
-uv run scripts/run_tests.py --integration
+# Or use CLI for shorter experiments
+uv run agentic optimize --symbol "EUR/USD" --trials 10
 ```
 
 ### 6. Launch Dashboard
 
+Monitor your experiments and system performance through the interactive dashboard:
+
 ```bash
-# Launch the multi-page dashboard
+# Launch the dashboard (works with any ML tracking backend)
 uv run python scripts/dashboard/launch_dashboard.py
 
-# Or with custom settings
-uv run python scripts/dashboard/launch_dashboard.py --host 0.0.0.0 --port 8080 --debug
+# Optional: Start Aim UI for detailed experiment analysis (if using Aim backend)
+uv run aim up
+
+# Access dashboard at http://localhost:8050
+# Aim UI available at http://localhost:43800 (if started)
 ```
 
-Access the dashboard at [http://localhost:8050](http://localhost:8050).
+### 7. One-Command Quickstart
 
-### 7. Test Broker Integration
+For the fastest setup, use the comprehensive CLI command that handles everything:
 
 ```bash
-# Test forex.com broker integration (requires credentials)
-uv run scripts/run_tests.py --integration -k "test_real_get_live_price"
-
-# Test broker authentication
-uv run scripts/run_tests.py --integration -k "test_real_authentication_is_successful"
+# Complete workflow: setup → data → training → dashboard
+uv run agentic quickstart --symbol "EUR/USD" --timeframe 1h --timesteps 20000
 ```
 
-## 🧠 Technical Indicators Available
+This command will:
 
-Feature engineering is handled by **Microsoft Qlib**, which provides access to a vast library of technical indicators and alpha factors, including the renowned `Alpha158` and `Alpha360` collections. The feature generation process is configurable and extensible within the `scripts/features/build_features.py` script.
+1. Initialize the project structure
+2. Download and process historical data from real sources (forex.com, etc.)
+3. Train a PPO agent for the specified timesteps
+4. Launch the dashboard for monitoring
 
-## 🔍 Monitoring & Analysis
-
-### Logging
-
--   Structured logging with loguru
--   Separate logs for training, backtesting, and trading
--   Configurable log levels
-
-### Data Quality Metrics
-
--   Completeness scoring
--   Gap detection and analysis
--   Outlier identification
--   Consistency validation
-
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## ⚠️ Disclaimer
-
-This software is for educational and research purposes only. Trading involves substantial risk and may not be suitable for all investors. Past performance is not indicative of future results.
+## 📁 Project Structure
 
 ```
-
+agentic-trading/
+├── src/                          # Core source code
+│   ├── agents/                   # RL agents and model wrappers
+│   ├── environment/              # Dynamic trading environment simulation
+│   │   └── sources/              # Real data sources (forex.com, Yahoo, etc.)
+│   ├── tracking/                 # Generic ML tracking abstraction
+│   │   ├── protocols.py          # Backend-agnostic interfaces
+│   │   ├── models.py             # Trading-specific data models
+│   │   ├── factory.py            # Backend switching system
+│   │   └── backends/             # In-memory, Aim, and future backends
+│   ├── brokers/                  # Live trading broker integrations
+│   ├── training/                 # Training orchestration and services
+│   ├── messaging/                # Event-driven messaging system
+│   └── utils/                    # Shared utilities and helpers
+├── apps/                         # Applications and interfaces
+│   ├── dashboard/                # Multi-page web dashboard
+│   └── cli/                      # Typer-powered CLI interface
+├── scripts/                      # Automation and utility scripts
+├── configs/                      # YAML configuration files
+├── tests/                        # Unit and integration tests
+└── docs/                         # Comprehensive documentation
 ```
+
+## 🔧 Configuration
+
+The system uses YAML configuration files for flexibility:
+
+-   `configs/trading_config.yaml` - Trading environment and agent parameters
+-   `configs/data_config.yaml` - Data sources and processing settings
+-   `configs/broker_config.yaml` - Live trading broker configurations
+-   `configs/messaging.yaml` - Event-driven messaging configuration
+
+### Market Data Sources
+
+All training uses **real market data** from configured sources:
+
+```yaml
+# configs/data_config.yaml
+sources:
+    forex_com:
+        enabled: true
+        sandbox: true # Use sandbox for development
+    yahoo_finance:
+        enabled: false # Future integration
+```
+
+## 🧪 Testing
+
+Our comprehensive test suite follows strict testing patterns and would have automatically caught the backend schema issues we encountered:
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run by test type (following @testing.mdc pattern)
+uv run pytest -m unit                    # Pure logic tests, <50ms
+uv run pytest -m component               # Component tests with mocks, <1s
+uv run pytest -m integration             # Integration tests with real backends
+
+# Run by location
+uv run pytest src/*/tests                # Unit/component tests (fast)
+uv run pytest integration_tests/         # Integration tests (comprehensive)
+
+# Test ML tracking system
+uv run python scripts/demo_tracking.py
+```
+
+### Test Coverage
+
+Our test suite includes **comprehensive health monitoring and schema validation**:
+
+-   ✅ **Backend Health Monitoring**: Detects database schema issues, corruption, dual database structures
+-   ✅ **CLI Integration Testing**: Validates complete CLI workflow with health checks
+-   ✅ **Schema Validation Tests**: Would catch "no such table: run" errors automatically
+-   ✅ **Generic Interface Testing**: Uses proper testing patterns with no backend lock-in
+-   ✅ **Error Recovery Testing**: Validates graceful degradation and recovery scenarios
+
+## 📊 Monitoring & Analytics
+
+### Dashboard Features
+
+-   **Overview Page**: System status, recent experiments, performance trends, top models
+-   **Experiments Page**: Browse and filter all training runs with comparison charts
+-   **Single Experiment**: Detailed analysis with metrics, parameters, and training progress
+-   **Single Model**: Model management with live trading controls and backtesting
+-   **Data Pipeline**: Real-time monitoring of data sources and quality metrics
+
+### ML Tracking Integration
+
+-   **Automatic Logging**: All experiments tracked with metadata and metrics using Aim
+-   **Rich Metrics**: Trading-specific metrics (Sharpe ratio, portfolio value, win rate)
+-   **Artifact Management**: Model checkpoints and training artifacts
+-   **Hyperparameter Tracking**: Complete parameter history and optimization
+-   **Health Monitoring**: System health checks and performance diagnostics
+
+### Real-time Features
+
+-   Auto-refresh intervals (15-30 seconds) for live data updates
+-   Interactive Plotly charts with filtering and sorting
+-   Bootstrap-based responsive design
+-   Graceful error handling and backend fallbacks
+
+## 🔄 Development Workflow
+
+1. **Data Preparation**: Configure data sources and run ingestion (`uv run agentic prepare-data`)
+2. **Environment Setup**: Define trading rules and reward functions in YAML configs
+3. **Agent Training**: Train RL agents with hyperparameter optimization (`uv run agentic train`)
+4. **Experiment Analysis**: Monitor progress via dashboard or Aim UI
+5. **Backtesting**: Validate performance on historical data
+6. **Paper Trading**: Test with live data but simulated execution
+7. **Live Deployment**: Deploy to production with risk management
+
+## 🛠️ Advanced Usage
+
+### Custom Agents
+
+```python
+from src.agents import BaseAgent
+from stable_baselines3 import PPO
+
+class CustomAgent(BaseAgent):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.model = PPO("MlpPolicy", self.env, **kwargs)
+```
+
+### Custom Environments
+
+```python
+from src.environment import TradingEnv, TradingEnvironmentConfig
+
+config = TradingEnvironmentConfig(
+    initial_balance=100000,
+    observation_features=['close', 'volume', 'rsi', 'macd'],
+    include_time_features=True,
+    reward_system="sharpe_ratio"
+)
+
+env = TradingEnv(data=market_data, config=config)
+```
+
+### ML Tracking with Aim
+
+```python
+from src.tracking import get_ml_tracker, TrainingMetrics
+
+# Get Aim tracker instance
+tracker = await get_ml_tracker()
+run = await tracker.start_run(experiment_id, config)
+
+# Log trading-specific metrics
+metrics = TrainingMetrics(
+    reward=1250.0,
+    portfolio_value=105000.0,
+    sharpe_ratio=1.85,
+    win_rate=0.67
+)
+await tracker.log_training_metrics(run.id, metrics, step)
+```
+
+### Live Trading
+
+```python
+from src.brokers import ForexComBroker
+
+broker = ForexComBroker(
+    api_key="your_api_key",
+    account_id="your_account"
+)
+```
+
+## 📈 Performance
+
+The system is designed for high performance:
+
+-   **Vectorized Operations**: NumPy and Pandas for efficient computation
+-   **Async Processing**: Non-blocking I/O for data ingestion and API calls
+-   **Intelligent Caching**: Cached data preparation and model predictions
+-   **Parallel Training**: Multi-process training for hyperparameter optimization
+-   **Event-Driven Architecture**: Real-time messaging with <100ms latency
+
+## 🚀 Key Benefits
+
+### Clean ML Tracking with Aim
+
+-   **Rich Experiment Tracking**: Comprehensive experiment logging and visualization with Aim
+-   **Trading-Specific Metrics**: Specialized metrics for financial applications
+-   **Easy Development**: Clean interfaces for logging and querying experiments
+-   **Production Ready**: Aim backend with rich visualizations and analysis
+-   **Type Safety**: Full protocol-based typing with comprehensive error handling
+
+### Dynamic Environment System
+
+-   **Model Agnostic**: Works with any ML framework (SB3, PyTorch, LLMs, human input)
+-   **Configurable Observations**: Any combination of market features and technical indicators
+-   **Time-Aware Trading**: Respects market hours and trading sessions
+-   **Flexible Actions**: Support for discrete, continuous, and string-based actions
+
+### Real Market Data Integration
+
+-   **Live Broker APIs**: Direct integration with forex.com and other brokers
+-   **Multiple Sources**: Support for various data providers
+-   **Quality Assurance**: Data validation and completeness checks
+-   **Efficient Storage**: Qlib binary format for fast feature engineering
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes and add tests
+4. Ensure all tests pass (`

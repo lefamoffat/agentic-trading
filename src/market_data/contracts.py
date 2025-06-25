@@ -7,27 +7,31 @@ requests and responses, ensuring data integrity throughout the pipeline.
 from datetime import datetime, timezone
 from typing import Optional, List
 import pandas as pd
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, validator, Field, field_validator, ConfigDict
 
 from src.types import Timeframe, DataSource
 
 class DateRange(BaseModel):
     """Date range specification for historical data requests."""
     
+    model_config = ConfigDict(extra='forbid')
+    
     start_date: datetime
     end_date: datetime
     
-    @validator('start_date', 'end_date')
+    @field_validator('start_date', 'end_date')
+    @classmethod
     def ensure_utc(cls, v):
         """Ensure all timestamps are UTC."""
         if v.tzinfo is None:
             return v.replace(tzinfo=timezone.utc)
         return v.astimezone(timezone.utc)
     
-    @validator('end_date')
-    def end_after_start(cls, v, values):
+    @field_validator('end_date')
+    @classmethod
+    def end_after_start(cls, v, info):
         """Ensure end_date is after start_date."""
-        if 'start_date' in values and v <= values['start_date']:
+        if info.data.get('start_date') and v <= info.data['start_date']:
             raise ValueError('end_date must be after start_date')
         return v
 
@@ -84,27 +88,32 @@ class DataRequestParams(BaseModel):
 class MarketDataRequest(BaseModel):
     """Request for historical market data."""
     
+    model_config = ConfigDict(extra='forbid')  # Reject extra fields in v2
+    
     symbol: str = Field(..., description="Trading symbol (e.g., 'EUR/USD')")
     source: DataSource = Field(..., description="Data source to use")
     timeframe: Timeframe = Field(..., description="Data timeframe")
     start_date: datetime = Field(..., description="Start date (UTC)")
     end_date: datetime = Field(..., description="End date (UTC)")
     
-    @validator('symbol')
+    @field_validator('symbol')
+    @classmethod
     def validate_symbol(cls, v):
         """Validate symbol format."""
         if not v or not v.strip():
             raise ValueError("Symbol cannot be empty")
         return v.strip().upper()
     
-    @validator('end_date')
-    def validate_date_range(cls, v, values):
+    @field_validator('end_date')
+    @classmethod
+    def validate_date_range(cls, v, info):
         """Validate that end_date is after start_date."""
-        if 'start_date' in values and v <= values['start_date']:
+        if info.data.get('start_date') and v <= info.data['start_date']:
             raise ValueError("end_date must be after start_date")
         return v
     
-    @validator('start_date', 'end_date')
+    @field_validator('start_date', 'end_date')
+    @classmethod
     def validate_timezone(cls, v):
         """Ensure dates are timezone-aware (UTC)."""
         if v.tzinfo is None:

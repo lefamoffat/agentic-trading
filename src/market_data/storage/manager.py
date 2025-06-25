@@ -78,8 +78,6 @@ class StorageManager:
         """
         Convert market data to qlib binary format.
         
-        Note: This functionality is now handled by the separate dump_bin script.
-        
         Args:
             response: Market data response to convert
             
@@ -89,7 +87,13 @@ class StorageManager:
         Raises:
             StorageError: If conversion fails
         """
-        raise StorageError("Qlib conversion is handled by the separate dump_bin script. Use the CLI prepare-data command instead.")
+        try:
+            if self.qlib_converter is None:
+                raise StorageError("Qlib converter not initialized")
+            return await self.qlib_converter.convert_data(response)
+        except Exception as e:
+            logger.error(f"Error converting to qlib: {e}")
+            raise StorageError(f"Failed to convert to qlib: {e}") from e
     
     async def prepare_for_qlib(self, request: MarketDataRequest) -> str:
         """

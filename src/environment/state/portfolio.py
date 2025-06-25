@@ -8,10 +8,7 @@ from typing import List
 from src.environment.config import FeeStructure
 
 class PortfolioTracker:
-    """Tracks portfolio state including balance and transaction costs.
-    
-    This provides clean portfolio management without legacy artifacts.
-    """
+    """Tracks portfolio state including balance, fees, and trade statistics."""
     
     def __init__(self, initial_balance: float, fee_structure: FeeStructure, 
                  spread: float = 0.0001, commission_rate: float = 0.0):
@@ -95,7 +92,7 @@ class PortfolioTracker:
             Position size in base currency units
         """
         if sizing_method == "fixed":
-            # Use full balance (legacy behavior for compatibility)
+            # Use full balance for position sizing
             return self.balance / price
         else:
             # Future: implement other sizing methods

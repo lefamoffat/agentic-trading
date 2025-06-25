@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Experiment analyzer for extracting insights from trading experiments.
 
-This module analyzes historical experiment data from MLflow, Qlib, and Optuna
+This module analyzes historical experiment data from the generic ML tracking system
 to provide rich context for LLM-based decision making.
 """
 from dataclasses import dataclass
@@ -9,24 +9,18 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import mlflow
 import numpy as np
 import pandas as pd
-from mlflow.entities import Experiment, Run
 
 from src.utils.exceptions import ConfigurationError
 from src.utils.logger import get_logger
 
-# Optional imports
+# ML tracking integration
 try:
-    import mlflow
-    from mlflow.entities import Experiment, Run
-    MLFLOW_AVAILABLE = True
+    from src.tracking import get_experiment_repository, get_ml_tracker
+    TRACKING_AVAILABLE = True
 except ImportError:
-    MLFLOW_AVAILABLE = False
-    mlflow = None
-    Experiment = None
-    Run = None
+    TRACKING_AVAILABLE = False
 
 try:
     import numpy as np
@@ -41,7 +35,6 @@ try:
 except ImportError:
     PANDAS_AVAILABLE = False
     pd = None
-
 
 @dataclass
 class ExperimentSummary:
@@ -98,7 +91,6 @@ class ExperimentSummary:
             "convergence_episode": self.convergence_episode,
         }
 
-
 class ExperimentAnalyzer:
     """Analyzes trading experiments to extract insights for LLM reasoning."""
     
@@ -106,27 +98,15 @@ class ExperimentAnalyzer:
         """Initialize experiment analyzer.
         
         Args:
-            experiment_name: MLflow experiment name to analyze
+            experiment_name: Experiment name to analyze
         """
         self.logger = get_logger(self.__class__.__name__)
         self.experiment_name = experiment_name
-        self.client = mlflow.tracking.MlflowClient()
-    
-    def get_experiment_by_name(self, name: str) -> Optional[Experiment]:
-        """Get experiment by name.
-        
-        Args:
-            name: Experiment name
-            
-        Returns:
-            Experiment object or None if not found
-        """
-        try:
-            return self.client.get_experiment_by_name(name)
-        except Exception as e:
-            self.logger.warning(f"Experiment '{name}' not found: {e}")
-            return None
-    
+        self.repository = None
+        if TRACKING_AVAILABLE:
+            import asyncio
+            self.repository = asyncio.run(get_experiment_repository())
+
     def analyze_recent_experiments(
         self, 
         days: int = 30,
@@ -143,105 +123,72 @@ class ExperimentAnalyzer:
         Returns:
             List of experiment summaries
         """
-        if not self.client:
-            self.logger.warning("MLflow client not available, returning empty experiments list")
+        if not self.repository:
+            self.logger.warning("ML tracking repository not available, returning empty experiments list")
             return []
             
-        experiment = self.get_experiment_by_name(self.experiment_name)
-        if not experiment:
-            self.logger.warning(f"No experiment found with name: {self.experiment_name}")
-            return []
-        
-        # Get recent runs
-        cutoff_time = int((datetime.now() - timedelta(days=days)).timestamp() * 1000)
-        
-        runs = self.client.search_runs(
-            experiment_ids=[experiment.experiment_id],
-            filter_string=f"attribute.start_time > {cutoff_time}",
-            order_by=["attribute.start_time DESC"],
-            max_results=100
-        )
-        
-        summaries = []
-        for run in runs:
-            summary = self._create_experiment_summary(run, experiment.experiment_id)
+        try:
+            import asyncio
+            experiments = asyncio.run(self.repository.get_recent_experiments(limit=100))
             
-            # Apply filters
-            if symbol and summary.symbol != symbol:
-                continue
-            if agent_type and summary.agent_type != agent_type:
-                continue
+            # Filter by date
+            cutoff_date = datetime.now() - timedelta(days=days)
+            recent_experiments = [
+                exp for exp in experiments 
+                if exp.start_time and exp.start_time >= cutoff_date
+            ]
+            
+            summaries = []
+            for exp in recent_experiments:
+                summary = self._create_experiment_summary_from_generic(exp)
                 
-            summaries.append(summary)
-        
-        self.logger.info(f"Analyzed {len(summaries)} recent experiments")
-        return summaries
+                # Apply filters
+                if symbol and summary.symbol != symbol:
+                    continue
+                if agent_type and summary.agent_type != agent_type:
+                    continue
+                    
+                summaries.append(summary)
+            
+            self.logger.info(f"Analyzed {len(summaries)} recent experiments")
+            return summaries
+            
+        except Exception as e:
+            self.logger.error(f"Failed to analyze recent experiments: {e}")
+            return []
     
-    def _create_experiment_summary(self, run: Run, experiment_id: str) -> ExperimentSummary:
-        """Create experiment summary from MLflow run.
+    def _create_experiment_summary_from_generic(self, experiment) -> ExperimentSummary:
+        """Create experiment summary from generic experiment object.
         
         Args:
-            run: MLflow run object
-            experiment_id: Experiment ID
+            experiment: Generic experiment object
             
         Returns:
             ExperimentSummary object
         """
-        info = run.info
-        data = run.data
-        
-        # Parse timestamps
-        start_time = datetime.fromtimestamp(info.start_time / 1000) if info.start_time else None
-        end_time = datetime.fromtimestamp(info.end_time / 1000) if info.end_time else None
-        
-        duration_minutes = None
-        if start_time and end_time:
-            duration_minutes = (end_time - start_time).total_seconds() / 60
-        
-        # Extract metrics (with safe access)
-        metrics = data.metrics
-        final_sharpe_ratio = metrics.get("eval/sharpe_ratio")
-        final_profit = metrics.get("eval/total_profit")
-        max_drawdown = metrics.get("eval/max_drawdown")
-        total_trades = metrics.get("eval/total_trades")
-        win_rate = metrics.get("eval/win_rate")
-        
-        # Extract parameters
-        params = data.params
-        agent_type = params.get("agent", "unknown")
-        symbol = params.get("symbol", "unknown")
-        timeframe = params.get("timeframe", "unknown")
-        initial_balance = float(params.get("initial_balance", 0))
-        learning_rate = float(params.get("learning_rate", 0)) if params.get("learning_rate") else None
-        total_timesteps = int(params.get("timesteps", 0)) if params.get("timesteps") else None
-        
-        # Extract training details (these might be in metrics)
-        best_episode = metrics.get("best_episode")
-        convergence_episode = metrics.get("convergence_episode")
-        
         return ExperimentSummary(
-            experiment_id=experiment_id,
-            run_id=info.run_id,
-            experiment_name=self.experiment_name,
-            status=info.status,
-            start_time=start_time,
-            end_time=end_time,
-            duration_minutes=duration_minutes,
-            final_sharpe_ratio=final_sharpe_ratio,
-            final_profit=final_profit,
-            max_drawdown=max_drawdown,
-            total_trades=total_trades,
-            win_rate=win_rate,
-            agent_type=agent_type,
-            symbol=symbol,
-            timeframe=timeframe,
-            initial_balance=initial_balance,
-            learning_rate=learning_rate,
-            total_timesteps=total_timesteps,
-            best_episode=best_episode,
-            convergence_episode=convergence_episode,
+            experiment_id=experiment.experiment_id,
+            run_id=experiment.run_id or experiment.experiment_id,
+            experiment_name=experiment.name or self.experiment_name,
+            status=experiment.status.value if hasattr(experiment.status, 'value') else str(experiment.status),
+            start_time=experiment.start_time,
+            end_time=experiment.end_time,
+            duration_minutes=experiment.duration_minutes if hasattr(experiment, 'duration_minutes') else None,
+            final_sharpe_ratio=experiment.final_metrics.get('sharpe_ratio') if experiment.final_metrics else None,
+            final_profit=experiment.final_metrics.get('total_profit') if experiment.final_metrics else None,
+            max_drawdown=experiment.final_metrics.get('max_drawdown') if experiment.final_metrics else None,
+            total_trades=experiment.final_metrics.get('total_trades') if experiment.final_metrics else None,
+            win_rate=experiment.final_metrics.get('win_rate') if experiment.final_metrics else None,
+            agent_type=experiment.agent_type,
+            symbol=experiment.symbol,
+            timeframe=experiment.timeframe,
+            initial_balance=experiment.config.initial_balance if experiment.config else 0.0,
+            learning_rate=experiment.config.learning_rate if experiment.config and hasattr(experiment.config, 'learning_rate') else None,
+            total_timesteps=experiment.timesteps,
+            best_episode=None,  # Not available in generic interface
+            convergence_episode=None,  # Not available in generic interface
         )
-    
+
     def summarize_for_llm(
         self, 
         action: str,
@@ -281,21 +228,40 @@ class ExperimentAnalyzer:
             summary["historical_context"] = {"note": "No recent experiments found"}
         
         # Add current experiment analysis for continue/optimize actions
-        if current_run_id and action in ["continue", "optimize"] and self.client:
+        if current_run_id and action in ["continue", "optimize"] and self.repository:
             try:
-                current_run = self.client.get_run(current_run_id)
-                summary["current_experiment"] = {
-                    "run_id": current_run_id,
-                    "status": current_run.info.status,
-                    "metrics": current_run.data.metrics,
-                    "params": current_run.data.params,
-                }
+                import asyncio
+                # Try to find the experiment by run ID
+                experiments = asyncio.run(self.repository.get_recent_experiments(limit=100))
+                current_experiment = None
+                for exp in experiments:
+                    if exp.run_id == current_run_id or exp.experiment_id == current_run_id:
+                        current_experiment = exp
+                        break
+                
+                if current_experiment:
+                    summary["current_experiment"] = {
+                        "run_id": current_run_id,
+                        "status": current_experiment.status.value if hasattr(current_experiment.status, 'value') else str(current_experiment.status),
+                        "metrics": current_experiment.final_metrics or {},
+                        "params": {
+                            "agent_type": current_experiment.agent_type,
+                            "symbol": current_experiment.symbol,
+                            "timeframe": current_experiment.timeframe,
+                            "timesteps": current_experiment.timesteps,
+                        },
+                    }
+                else:
+                    summary["current_experiment"] = {
+                        "run_id": current_run_id,
+                        "note": "Experiment not found in recent experiments"
+                    }
             except Exception as e:
                 self.logger.error(f"Failed to get current experiment details: {e}")
-        elif current_run_id and not self.client:
+        elif current_run_id and not self.repository:
             summary["current_experiment"] = {
                 "run_id": current_run_id,
-                "note": "MLflow not available, cannot fetch experiment details"
+                "note": "ML tracking repository not available, cannot fetch experiment details"
             }
         
         return summary 

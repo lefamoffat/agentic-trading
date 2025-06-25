@@ -18,10 +18,6 @@ class DataSource(Enum):
     
     # Broker-based sources (currently only forex.com is implemented)
     FOREX_COM = BrokerType.FOREX_COM.value
-    
-    # Future sources will be added here as they're implemented
-    # YFINANCE = "yfinance"
-    # ALPACA = "alpaca"
 
 class AssetClass(Enum):
     """Asset class classifications."""

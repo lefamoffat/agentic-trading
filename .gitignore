@@ -94,6 +94,7 @@ data/models/
 # Logs
 logs/
 *.log
+sys.stdout
 
 # Results
 results/
@@ -134,9 +135,8 @@ Thumbs.db
 *.tmp
 *.temp 
 
-# MLflow
-mlflow_data/
-mlruns/
+# Generated market data with features and cache
+data/
 
-# Qlib
-data/qlib_data/
+# Air 
+.aim/

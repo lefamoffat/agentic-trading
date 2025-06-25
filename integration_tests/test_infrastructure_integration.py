@@ -2,62 +2,130 @@
 """Integration tests for infrastructure components.
 
 These tests verify that the various infrastructure components work together
-correctly, including MLflow, data processing, and system initialization.
+correctly, including ML tracking, data processing, and system initialization.
 """
 import os
+import sys
 import tempfile
 from pathlib import Path
 import pytest
 import pandas as pd
-import mlflow
+
 from unittest.mock import patch
 
-from src.utils import mlflow as mlflow_utils
+
 from src.utils.config_loader import ConfigLoader
 from src.market_data import DataProcessor
 from src.environment.config import TradingEnvironmentConfig, FeeStructure
 from src.environment import load_trading_config
 
+# Add src to path for testing
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root / "src"))
 
 @pytest.mark.integration
-class TestMLflowIntegration:
-    """Test MLflow integration and experiment tracking."""
+class TestInfrastructureIntegration:
+    """Integration tests for infrastructure components without external dependencies."""
     
-    def test_mlflow_helper_functions_available(self):
-        """Test that MLflow helper functions are accessible."""
-        # Test that the helper functions exist and are callable
-        assert hasattr(mlflow_utils, 'log_params')
-        assert hasattr(mlflow_utils, 'log_metrics')
-        assert hasattr(mlflow_utils, 'start_experiment_run')
-        assert hasattr(mlflow_utils, 'ensure_experiment')
+    def test_project_structure_integrity(self):
+        """Test that essential project structure exists."""
+        # Check critical directories exist
+        assert Path("src").exists()
+        assert Path("configs").exists()
+        assert Path("apps").exists()
         
-        assert callable(mlflow_utils.log_params)
-        assert callable(mlflow_utils.log_metrics)
-        assert callable(mlflow_utils.start_experiment_run)
+        # Check critical config files exist
+        assert Path("configs/trading_config.yaml").exists()
+        assert Path("configs/agent_config.yaml").exists()
+        
+        # Check entry points exist
+        assert Path("apps/cli").exists()
+        assert Path("apps/dashboard").exists()
+        
+    def test_configuration_loading(self):
+        """Test configuration files can be loaded without errors."""
+        from src.environment import load_trading_config
+        from pathlib import Path
+        
+        # Test loading trading config
+        config_path = Path("configs/trading_config.yaml")
+        trading_config = load_trading_config(config_path)
+        assert trading_config is not None
+        assert hasattr(trading_config, 'initial_balance')
+        
+    def test_logging_system_initialization(self):
+        """Test logging system can be initialized."""
+        from src.utils.logger import get_logger
+        
+        logger = get_logger("test_logger")
+        assert logger is not None
+        
+        # Test basic logging operations
+        logger.info("Test log message")
+        logger.debug("Test debug message")
+        logger.warning("Test warning message")
 
-    def test_experiment_creation_and_logging(self):
-        """Test creating experiments and logging basic metrics."""
-        experiment_name = "test_integration_experiment"
-        
-        # Test experiment creation (works offline)
-        exp_id = mlflow_utils.ensure_experiment(experiment_name)
-        assert exp_id is not None
-        
-        # Test logging within a run context
-        with mlflow_utils.start_experiment_run(
-            run_name="test_integration_run",
-            experiment_name=experiment_name
-        ) as run:
+@pytest.mark.integration 
+class TestMLTrackingIntegration:
+    """Integration tests for ML tracking system."""
+    
+    @pytest.mark.asyncio
+    async def test_tracking_system_initialization(self):
+        """Test that ML tracking system can be initialized."""
+        try:
+            from src.tracking import get_ml_tracker, get_experiment_repository
+            
+            # Test tracker initialization
+            tracker = await get_ml_tracker()
+            assert tracker is not None
+            
+            # Test repository initialization  
+            repository = await get_experiment_repository()
+            assert repository is not None
+            
+            # Test health check
+            health = await repository.get_system_health()
+            assert health is not None
+            assert health.backend_name == "aim"
+            
+        except ImportError:
+            pytest.skip("ML tracking not available")
+    
+    @pytest.mark.asyncio
+    async def test_basic_experiment_lifecycle(self):
+        """Test basic experiment creation and tracking."""
+        try:
+            from src.tracking import get_ml_tracker
+            from src.tracking.models import ExperimentConfig, TrainingMetrics
+            
+            tracker = await get_ml_tracker()
+            
+            # Create experiment config
+            config = ExperimentConfig(
+                experiment_id="test_integration_experiment",
+                agent_type="PPO",
+                symbol="EUR/USD",
+                timesteps=1000
+            )
+            
+            # Start run
+            run = await tracker.start_run("test_integration_experiment", config)
             assert run is not None
+            assert run.experiment_id == "test_integration_experiment"
             
-            # Test parameter logging
-            test_params = {"learning_rate": 0.001, "batch_size": 32}
-            mlflow_utils.log_params(test_params)
+            # Log some metrics
+            metrics = TrainingMetrics(
+                reward=100.5,
+                portfolio_value=10500.0,
+                win_rate=0.65
+            )
+            await tracker.log_training_metrics(run.id, metrics, step=1)
             
-            # Test metrics logging
-            test_metrics = {"accuracy": 0.95, "loss": 0.05}
-            mlflow_utils.log_metrics(test_metrics)
-
+            # Finalize run
+            await tracker.finalize_run(run.id, {"final_reward": 150.0}, "completed")
+            
+        except ImportError:
+            pytest.skip("ML tracking not available")
 
 @pytest.mark.integration
 class TestConfigurationIntegration:
@@ -106,7 +174,6 @@ class TestConfigurationIntegration:
         assert config.fee_structure == FeeStructure.SPREAD_BASED
         assert 'close' in config.observation_features
         assert config.include_time_features is True
-
 
 @pytest.mark.integration
 class TestDataProcessingIntegration:

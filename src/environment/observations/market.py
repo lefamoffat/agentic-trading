@@ -58,9 +58,14 @@ class MarketObservation:
         
         for feature in self.features:
             if feature in fit_data.columns:
-                feature_data = fit_data[feature].values.reshape(-1, 1)
-                # Remove any NaN values for fitting
-                clean_data = feature_data[~np.isnan(feature_data).any(axis=1)]
+                # Convert to numeric first, coerce errors to NaN
+                feature_series = pd.to_numeric(fit_data[feature], errors='coerce')
+                feature_data = feature_series.values.reshape(-1, 1)
+                
+                # Remove any NaN values for fitting - now safe since data is numeric
+                valid_mask = ~np.isnan(feature_data.flatten())
+                clean_data = feature_data[valid_mask].reshape(-1, 1)
+                
                 if len(clean_data) > 0:
                     self.scalers[feature].fit(clean_data)
         
@@ -95,20 +100,27 @@ class MarketObservation:
             if feature in current_row:
                 value = current_row[feature]
                 
-                # Handle missing values
+                # Convert to numeric first, handle non-numeric data
                 if pd.isna(value):
-                    value = 0.0
+                    numeric_value = 0.0
+                else:
+                    try:
+                        numeric_value = float(pd.to_numeric(value, errors='coerce'))
+                        if pd.isna(numeric_value):
+                            numeric_value = 0.0
+                    except (ValueError, TypeError):
+                        numeric_value = 0.0
                 
                 # Normalize if scaler is available and fitted
                 if feature in self.scalers and self._fitted_scalers:
                     try:
-                        normalized_value = self.scalers[feature].transform([[value]])[0, 0]
+                        normalized_value = self.scalers[feature].transform([[numeric_value]])[0, 0]
                         # Handle any extreme values
                         normalized_value = np.clip(normalized_value, -10, 10)
                     except:
                         normalized_value = 0.0
                 else:
-                    normalized_value = value
+                    normalized_value = numeric_value
                 
                 observations.append(normalized_value)
             else:

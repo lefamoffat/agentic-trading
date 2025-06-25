@@ -1,63 +1,57 @@
-# Implementation Plan
+# Implementation Roadmap 2024-06
 
-## ✅ Completed Tasks
+This document tracks the _forward-looking_ work. Completed historical tasks were removed for clarity.
 
-### Scripts Directory Refactoring (Phase 1 - COMPLETED)
+## Phase 0 Groundwork (local)
 
-**✅ Market Data Centralization**
+| Item                  | Deliverable                                                                                                                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1 Tooling baseline  | • `.pre-commit-config.yaml` with ruff-lint, ruff-format, black, mypy, pytest hooks.<br>• `pyproject.toml` already pins Python 3.11 and adds ruff/mypy in `[project.optional-dependencies.dev]`. |
+| 0.2 Debug-print purge | Remove `print()` calls from library code; replace with `logger.debug/info` as appropriate.                                                                                                      |
+| 0.3 Dead-test purge   | Delete/adjust tests that reference removed APIs (`_publish_progress`, legacy callbacks, etc.).                                                                                                  |
+| 0.4 Smoke test script | `scripts/dev/smoke_training_test.py` – 20-step training run that asserts Redis counters advance & Aim run created. Executed manually for now.                                                   |
 
--   Implemented centralized `src/market_data/` module with unified interface
--   Created `prepare_training_data()` function replacing subprocess orchestration
--   Added intelligent caching and Qlib integration
--   Updated training scripts to use new market_data module
+## Phase 1 Static safety-nets
 
-**✅ Scripts Cleanup**
+1. Enable strict ruff (`DUP`, `T201` disallow print, etc.) and mypy.
+2. Add duplicate-code / dead-code linters.
+3. Pydantic schema for `ExperimentState`; Redis broker serialises via this model.
 
--   Removed deprecated `scripts/analysis/` directory (used for deprecated simulation app)
--   Updated `scripts/data/prepare_data.py` to use new market_data module
--   Updated `scripts/training/train_agent.py` to use centralized data preparation
--   Maintained single training script approach for RL agent orchestration
+## Phase 2 Podman dev services
 
-### Scripts Directory Refactoring (Phase 2 - COMPLETED)
+Podman helper scripts to start/stop Redis & Aim locally; documented in `docs/dev_environment.md`.
 
-**✅ Training Script Optimization**
+## Phase 3 Integration tests
 
--   Updated `scripts/training/optimize_agent.py` to use new market_data module
--   Added missing `asyncio` import and async/await support for proper async function handling
--   Added `--days` parameter to match `train_agent_session()` function signature
--   Implemented proper async wrapper for Optuna optimization trials
--   All training scripts now follow consistent patterns and use centralized data preparation
+Pytest fixtures start Redis/Aim via Podman; smoke test becomes automated `@pytest.mark.integration`.
 
-### Dashboard Application (Phase 3 - COMPLETED)
+## Phase 4 CI with Podman
 
-**✅ Multi-Page Dash Dashboard**
+GitHub Actions (or other) running the full pipeline: lint → static analysis → integration tests with Podman containers.
 
--   **Overview Page** (`/`): System status cards, recent experiments table, performance trends chart, top models leaderboard
--   **All Experiments** (`/experiments`): Filterable experiments table with search, comparison charts, MLflow integration
--   **Single Experiment** (`/experiment/{id}`): Detailed experiment analysis with metrics, parameters, and training progress
--   **Single Model** (`/model/{id}`): Model management with live trading controls, backtesting interface, model deployment
--   **Data Pipeline** (`/data-pipeline`): Data source monitoring, quality metrics, cache management, real-time status
+## Phase 5 Refactors for maintainability
 
-**✅ Technical Features**
+Split `TrainingCallback`, unify event-loop handling, centralise error handling.
 
--   Bootstrap-based responsive design with FontAwesome icons
--   Real-time auto-refresh intervals (15-30 seconds)
--   MLflow integration with graceful fallback to mock data
--   Interactive Plotly charts and tables with filtering/sorting
--   Error handling and graceful degradation
--   Launch script with configurable host, port, and debug options
+## Phase 6 Observability
 
-## 📋 Future Tasks
+Structured JSON logging, health-probe script.
 
-### Feature Engineering Template
+## Phase 7 Hardening (stretch)
 
--   Define standardized pattern for describing feature requirements
--   Create feature configuration system for different strategies
--   Integrate with market_data module for dynamic feature selection
+Mutation testing, perf benchmarks, ADR docs.
 
-### Advanced Features
+---
 
--   Multi-source data integration (beyond forex.com)
--   Real-time data streaming capabilities
--   Advanced feature engineering pipeline
--   Model deployment and monitoring system
+_progress_:
+
+-   Phase 0 ✅ Groundwork complete – tooling baseline in place; debug prints & dead tests removed.
+-   Phase 1 ✅ Static safety nets – strict ruff/mypy enabled; duplicate/dead-code detection active; `ExperimentState` Pydantic model integrated into Redis broker.
+-   Phase 2 ✅ Podman dev services – helper scripts for Redis & Aim and documentation added.
+-   Phase 3 ✅ Integration tests – Podman-backed Redis fixture and smoke integration test automated.
+-   Phase 4 ✅ CI – workflow runs lint, type-check, unit & integration tests inside containers.
+-   Phase 5 🟡 Refactor – callback split (`metric_aggregator`, `progress_dispatcher`, `SB3TrainingCallback`), single event-loop handling, `async_guard` decorator live. Remaining:
+    • align unit tests with `SB3TrainingCallback` (in-progress)
+    • apply `async_guard` to other background coroutines (in-progress)
+    • polish documentation / remove stray legacy imports
+    • ensure ruff/mypy pass after cleanup

@@ -11,10 +11,7 @@ from src.environment.state.position import Position, PositionManager
 from src.environment.state.portfolio import PortfolioTracker
 
 class PortfolioObservation:
-    """Handles portfolio state observations.
-    
-    This provides clean portfolio state without legacy normalization issues.
-    """
+    """Handles portfolio state observations for balance, position, and P&L."""
     
     def __init__(self, include_balance: bool = True, include_position: bool = True,
                  normalize_balance: bool = True):

@@ -154,7 +154,7 @@ class DiscreteActionSpace(BaseActionHandler):
         Returns:
             Random integer action (0-2)
         """
-        return self._action_space.sample()
+        return int(self._action_space.sample())
     
     def contains(self, action: Any) -> bool:
         """Check if action is valid for this action space.

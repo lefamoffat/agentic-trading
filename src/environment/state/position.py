@@ -24,11 +24,7 @@ class Trade:
     exit_step: int
 
 class PositionManager:
-    """Manages trading positions with proper validation.
-    
-    This replaces the buggy position logic from legacy code that allowed
-    invalid states like position without entry price.
-    """
+    """Manages trading positions with validation to prevent invalid states."""
     
     def __init__(self):
         """Initialize position manager."""

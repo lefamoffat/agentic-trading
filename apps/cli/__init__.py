@@ -54,7 +54,6 @@ def _run(cmd: list[str] | str, *, cwd: Optional[Path] = None) -> None:  # noqa: 
         typer.secho("❌ Command failed.", err=True, fg=typer.colors.RED)
         raise typer.Exit(code=result.returncode)
 
-
 def _load_config(_path: Path | None = None):  # noqa: D401, ANN001
     """Import the *AppConfig* singleton or abort with a helpful error."""
 
@@ -65,7 +64,6 @@ def _load_config(_path: Path | None = None):  # noqa: D401, ANN001
     except Exception as exc:  # pylint: disable=broad-except
         typer.secho(f"❌ Config validation failed → {exc}", err=True, fg=typer.colors.RED)
         raise typer.Exit(code=1) from exc
-
 
 # ---------------------------------------------------------------------------
 # Register command modules (import side-effects)

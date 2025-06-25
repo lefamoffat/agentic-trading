@@ -11,14 +11,18 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-import mlflow
+# Optional ML tracking integration
+try:
+    from src.tracking import get_ml_tracker
+    TRACKING_AVAILABLE = True
+except ImportError:
+    TRACKING_AVAILABLE = False
 
 from src.utils.logger import get_logger
 from src.intelligence.experiment_analyzer import ExperimentAnalyzer
 from src.intelligence.llm_advisor import LLMAdvisor
 from src.intelligence.config_generator import ConfigGenerator
 from src.intelligence.reasoning_tracker import ReasoningTracker
-
 
 class IntelligentOrchestrator:
     """Orchestrates intelligent trading experiment optimization."""
@@ -193,7 +197,6 @@ class IntelligentOrchestrator:
         
         self.logger.info(f"Results saved to {output_path}")
 
-
 def main():
     """Main CLI entry point for intelligent orchestrator."""
     parser = argparse.ArgumentParser(description="Intelligent Trading Experiment Orchestrator")
@@ -201,10 +204,10 @@ def main():
                        help="Action to perform")
     parser.add_argument("--symbol", default="EUR/USD", help="Trading symbol")
     parser.add_argument("--timeframe", default="1h", help="Data timeframe") 
-    parser.add_argument("--run-id", help="MLflow run ID (for continue/optimize)")
+    parser.add_argument("--run-id", help="Experiment run ID (for continue/optimize)")
     parser.add_argument("--metric", default="sharpe_ratio", help="Metric to optimize")
     parser.add_argument("--output-dir", type=Path, help="Output directory for results")
-    parser.add_argument("--experiment-name", default="AgenticTrading", help="MLflow experiment name")
+    parser.add_argument("--experiment-name", default="AgenticTrading", help="Experiment name")
     parser.add_argument("--llm-model", default="gpt-4", help="LLM model to use")
     parser.add_argument("--no-reasoning", action="store_true", help="Disable reasoning tracking")
     
@@ -263,7 +266,6 @@ def main():
     except Exception as e:
         print(f"❌ Operation failed: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main() 

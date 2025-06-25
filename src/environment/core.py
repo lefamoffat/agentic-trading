@@ -10,6 +10,7 @@ import gymnasium as gym
 import numpy as np
 import pandas as pd
 from gymnasium import spaces
+import logging
 
 from src.environment.actions.base import BaseActionHandler
 from src.environment.actions.discrete import DiscreteActionSpace, TradingAction
@@ -18,6 +19,8 @@ from src.environment.observations.composite import CompositeObservation
 from src.environment.reward_system.composite import CompositeReward
 from src.environment.state.position import PositionManager
 from src.environment.state.portfolio import PortfolioTracker
+
+logger = logging.getLogger(__name__)
 
 class TradingEnv(gym.Env):
     """Clean trading environment implementation using modular components.
@@ -125,6 +128,7 @@ class TradingEnv(gym.Env):
         Returns:
             Tuple of (initial_observation, info_dict)
         """
+        logger.info("Resetting environment")
         super().reset(seed=seed)
         
         # Reset all components
@@ -138,6 +142,7 @@ class TradingEnv(gym.Env):
         observation = self._get_observation()
         info = self._get_info()
         
+        logger.info(f"Environment reset complete. Portfolio value: {self.portfolio_value}")
         return observation, info
     
     def step(self, action: Any) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
@@ -247,10 +252,12 @@ class TradingEnv(gym.Env):
         """
         # Terminate if we've run out of data
         if self.current_step >= len(self.data) - 1:
+            logger.info(f"Episode terminated: Reached end of data (step {self.current_step} >= {len(self.data)-1})")
             return True
         
         # Terminate if portfolio value is too low
         if self.portfolio_value <= 0:
+            logger.info(f"Episode terminated: Portfolio value too low ({self.portfolio_value})")
             return True
         
         return False
@@ -312,10 +319,10 @@ class TradingEnv(gym.Env):
             mode: Render mode (only "human" supported)
         """
         if mode == "human":
-            print(f"Step: {self.current_step}")
-            print(f"Portfolio Value: ${self.portfolio_value:.2f}")
-            print(f"Position: {self.position_manager.position.name}")
+            logger.info(f"Step: {self.current_step}")
+            logger.info(f"Portfolio Value: ${self.portfolio_value:.2f}")
+            logger.info(f"Position: {self.position_manager.position.name}")
             if not self.position_manager.is_flat:
-                print(f"Entry Price: {self.position_manager.entry_price}")
-            print(f"Total Trades: {len(self.position_manager.completed_trades)}")
-            print("-" * 40) 
+                logger.info(f"Entry Price: {self.position_manager.entry_price}")
+            logger.info(f"Total Trades: {len(self.position_manager.completed_trades)}")
+            logger.info("-" * 40) 

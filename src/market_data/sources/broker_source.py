@@ -105,6 +105,20 @@ class BrokerSource(MarketDataSource):
             # Sort by timestamp (oldest first)
             df = df.sort_values('timestamp').reset_index(drop=True)
             
+            # Validate we have enough data
+            actual_start = df['timestamp'].min()
+            actual_end = df['timestamp'].max()
+            actual_bars = len(df)
+            
+            if actual_bars < bars * 0.9:  # Allow 10% tolerance
+                raise DataSourceError(
+                    f"Insufficient historical data from broker. "
+                    f"Requested {bars} bars from {start_date} to {end_date}, "
+                    f"but only got {actual_bars} bars from {actual_start} to {actual_end}. "
+                    f"This is a limitation of the broker API which only provides recent data. "
+                    f"Try reducing the requested date range or timeframe."
+                )
+            
             logger.info(f"Retrieved {len(df)} bars from {df['timestamp'].min()} to {df['timestamp'].max()}")
             
             return df
@@ -164,14 +178,11 @@ class BrokerSource(MarketDataSource):
             # Get timeframe in minutes
             timeframe_minutes = timeframe.minutes
             
-            # Calculate approximate bars
+            # Calculate approximate bars (no buffer)
             bars = int(total_minutes / timeframe_minutes)
             
-            # Add some buffer for weekends/holidays
-            bars = int(bars * 1.4)  # 40% buffer
-            
-            # Ensure reasonable limits
-            bars = max(1, min(bars, 5000))  # Between 1 and 5000 bars
+            # Cap at 4000 bars (broker API limit)
+            bars = max(1, min(bars, 4000))  # Between 1 and 4000 bars
             
             logger.debug(f"Calculated {bars} bars for {start_date} to {end_date} at {timeframe.value}")
             

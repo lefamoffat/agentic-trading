@@ -8,10 +8,7 @@ from typing import Optional
 from src.environment.state.position import Trade
 
 class PnLBasedReward:
-    """Calculates rewards based on realized profit and loss.
-    
-    This replaces the legacy reward system that included arbitrary 'living_cost'.
-    """
+    """Calculates rewards for each step based on realized profit or loss."""
     
     def __init__(self, scale_factor: float = 100.0):
         """Initialize PnL-based reward calculator.

@@ -1,46 +1,242 @@
 ---
-description: Testing Patterns
+description: 
 globs: 
 alwaysApply: false
 ---
-# Testing Patterns
+# Testing Patterns & Requirements
 
-## ⚠️ CRITICAL: Testing Philosophy
-**TESTS MUST NEVER DRIVE ARCHITECTURE CHANGES**
+## 🚨 CRITICAL: REAL INTEGRATION TESTS REQUIRED
 
-- ❌ NEVER change application architecture to make tests pass
-- ❌ NEVER add config fields just because tests expect them
-- ❌ NEVER modify interfaces to satisfy test requirements
-- ✅ Tests validate that architecture works as designed
-- ✅ Fix test expectations, not the architecture
+### **MANDATORY Test Coverage**
+Every critical path MUST have both unit tests AND real integration tests:
 
-## Testing Structure
+#### **✅ UNIT TESTS (Mocked Dependencies)**
+- Fast execution (< 100ms each)
+- Isolated components
+- Mock external dependencies
+- Test edge cases and error conditions
 
-### Location & Naming
-- Unit/component tests: `src/module/tests/test_filename.py`
-- Integration tests: `integration_tests/test_feature.py`  
-- Mirror production files: `api.py` → `test_api.py`
+#### **✅ INTEGRATION TESTS (Real Components)**  
+- **NO MOCKING** of internal application components
+- Test actual data flow through real functions
+- Test actual Pydantic model validation
+- Test actual database/file operations
+- Test actual API calls with real credentials
+- Catch architectural integration bugs
 
-### Test Markers
-- `@pytest.mark.unit` - Pure logic, < 50ms
-- `@pytest.mark.component` - Uses mocks, < 1s
-- `@pytest.mark.integration` - Real dependencies, skipped in CI
+### **🚫 FORBIDDEN: Mock-Only Testing**
+- ❌ **NEVER** test critical paths with only mocked tests
+- ❌ **NEVER** mock Pydantic model creation/validation
+- ❌ **NEVER** mock data processing pipelines
+- ❌ **NEVER** mock core business logic
 
-### Configuration-First Testing
-- Use realistic configurations, not hardcoded values
-- Mock configurations should mirror real config structure
-- Component interfaces derived from config, not test needs
+### **✅ REQUIRED: Critical Path Integration Tests**
 
-### Guidelines
-- Descriptive test method names
-- Include positive, negative, and edge cases
-- All new features MUST include corresponding tests
-- One test file per module
+```python
+# ✅ REQUIRED: Real data download integration
+@pytest.mark.integration
+async def test_real_market_data_download():
+    """Test actual market data download with real broker."""
+    # NO MOCKS - Test real download flow
+    df = await download_historical_data(
+        bars=50, 
+        symbol="EUR/USD", 
+        timeframe="1h", 
+        broker="forex.com"
+    )
+    assert not df.empty
+    assert "timestamp" in df.columns
 
-## Test Failure Protocol
-1. Understand why test is failing
-2. Determine if failure indicates:
-   - Bug in implementation (fix code)
-   - Wrong test expectations (fix test)
-   - Missing setup/mocking (fix test environment)
-3. NEVER change architecture for test convenience
+# ✅ REQUIRED: Real training pipeline integration  
+@pytest.mark.integration
+async def test_real_training_data_processing():
+    """Test actual training pipeline with real data."""
+    # NO MOCKS - Test real data processing
+    features_df, features_path, qlib_dir = await process_training_data(
+        "test_exp", 
+        {"symbol": "EUR/USD", "timeframe": "1h"}, 
+        None
+    )
+    assert features_df is not None
+    assert features_path.exists()
+    assert qlib_dir.exists()
+
+# ✅ REQUIRED: Real Pydantic validation
+@pytest.mark.integration  
+def test_real_pydantic_model_validation():
+    """Test actual Pydantic models with real data."""
+    # NO MOCKS - Test real model creation
+    request = MarketDataRequest(
+        symbol="EUR/USD",
+        source=DataSource.FOREX_COM,
+        timeframe=Timeframe.H1,
+        start_date=datetime.now(),
+        end_date=datetime.now()
+        # Any invalid fields should cause validation errors
+    )
+    assert request.symbol == "EUR/USD"
+```
+
+### **Test Organization**
+
+#### **Directory Structure**
+```
+tests/
+├── unit/               # Fast, mocked unit tests
+├── integration/        # Real component integration tests  
+├── end_to_end/        # Full system tests
+└── performance/       # Load and performance tests
+```
+
+#### **Test Markers**
+- `@pytest.mark.unit` - Fast unit tests (< 100ms)
+- `@pytest.mark.integration` - Real integration tests (< 30s)
+- `@pytest.mark.end_to_end` - Full system tests (< 5min)
+- `@pytest.mark.slow` - Long-running tests
+
+### **Integration Test Requirements**
+
+#### **✅ Data Layer Integration**
+```python
+@pytest.mark.integration
+async def test_market_data_end_to_end():
+    """Test complete market data pipeline."""
+    # Real broker connection
+    # Real data download
+    # Real qlib conversion
+    # Real feature generation
+    # NO MOCKS
+```
+
+#### **✅ Training Pipeline Integration**
+```python
+@pytest.mark.integration  
+async def test_training_pipeline_end_to_end():
+    """Test complete training pipeline."""
+    # Real data processing
+    # Real environment creation
+    # Real agent initialization
+    # Small real training run (10 steps)
+    # NO MOCKS
+```
+
+#### **✅ Error Boundary Integration**
+```python
+@pytest.mark.integration
+async def test_error_propagation_real():
+    """Test real error propagation through system."""
+    # Real invalid inputs
+    # Real exception handling
+    # Real error logging
+    # NO MOCKS
+```
+
+### **Test Execution Strategy**
+
+#### **CI/CD Pipeline**
+```bash
+# Fast feedback loop
+pytest tests/unit/ -x                    # Unit tests first (< 1min)
+
+# Integration validation  
+pytest tests/integration/ -x             # Integration tests (< 5min)
+
+# Full validation
+pytest tests/end_to_end/ -x             # E2E tests (< 10min)
+```
+
+#### **Local Development**
+```bash
+# Quick validation
+pytest tests/unit/ -k "specific_feature"
+
+# Before commit
+pytest tests/unit/ tests/integration/
+
+# Before PR
+pytest --cov=src --cov-report=html
+```
+
+### **Coverage Requirements**
+
+#### **Minimum Coverage Standards**
+- **Unit Test Coverage**: ≥ 90% line coverage
+- **Integration Test Coverage**: ≥ 80% critical path coverage  
+- **E2E Test Coverage**: ≥ 70% user journey coverage
+
+#### **Critical Path Definition**
+- Data download and processing
+- Training pipeline execution
+- Model validation and Pydantic schemas
+- Error handling and propagation
+- Background task execution
+
+### **Testing Anti-Patterns to Avoid**
+
+#### **❌ FORBIDDEN Patterns**
+```python
+# ❌ Mock everything in integration tests
+@patch("src.market_data.download")
+@patch("src.market_data.processing") 
+@patch("src.training.processor")
+def test_integration():  # This is NOT integration testing!
+    
+# ❌ Test only success paths
+def test_happy_path_only():  # Missing error cases!
+
+# ❌ Ignore real data validation
+@patch("MarketDataRequest")  # This hides Pydantic bugs!
+
+# ❌ Test without real credentials/environment
+@patch("broker_authentication")  # This hides auth bugs!
+```
+
+#### **✅ REQUIRED Patterns**
+```python
+# ✅ Real component integration
+async def test_real_components_together():
+    real_broker = create_real_broker()  # No mocks
+    real_data = await real_broker.download()  # Real call
+    
+# ✅ Test both success and failure paths  
+async def test_error_handling_real():
+    with pytest.raises(SpecificError):
+        await real_function_with_invalid_input()
+
+# ✅ Test real model validation
+def test_pydantic_validation_real():
+    with pytest.raises(ValidationError):
+        MarketDataRequest(invalid_field="invalid")
+```
+
+### **Performance Testing Requirements**
+
+#### **Response Time Targets**
+- Data download: < 30 seconds for 1000 bars
+- Feature generation: < 10 seconds for 5000 bars  
+- Model training: < 2 minutes for 100 timesteps
+
+#### **Load Testing**
+- Concurrent experiment launches: ≥ 5 simultaneous
+- Memory usage: < 2GB per training session
+- File I/O: < 1GB temporary files per experiment
+
+### **Test Data Management**
+
+#### **Real Data Usage**
+- Use small real datasets (< 1000 bars) for integration tests
+- Cache real data downloads to avoid API rate limits
+- Clean up test artifacts after each test run
+
+#### **Test Environment**
+- Separate test database from production
+- Use test-specific data directories
+- Mock only external services (not internal components)
+
+---
+
+## **Key Principle: Test Like Production**
+
+> *"Integration tests should exercise the same code paths that production uses, with the same data validation, the same error handling, and the same performance characteristics."*
+
+The goal is to catch integration bugs **before** they reach production, not to achieve artificial test coverage metrics.

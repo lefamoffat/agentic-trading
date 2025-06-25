@@ -1,0 +1,111 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Error Handling Patterns
+
+## 🚨 CRITICAL: NO SILENT FAILURES
+**ZERO TOLERANCE for silent error handling**
+
+### FORBIDDEN PATTERNS
+- ❌ `return None` on error
+- ❌ `return {}` on error  
+- ❌ `return []` on error
+- ❌ `return pd.DataFrame()` on error
+- ❌ Catching exceptions without re-raising
+- ❌ Logging errors then continuing with default values
+- ❌ Swallowing exceptions in try/except blocks
+
+### REQUIRED PATTERNS
+- ✅ Raise descriptive exceptions with context
+- ✅ Include relevant parameters in error messages
+- ✅ Use custom exception types for different error categories
+- ✅ Let exceptions bubble up to proper error boundaries
+- ✅ Add error context at each layer
+
+```python
+# ❌ FORBIDDEN: Silent failure
+try:
+    data = fetch_data(symbol)
+except Exception as e:
+    logger.error(f"Error: {e}")
+    return None  # SILENT FAILURE
+
+# ✅ REQUIRED: Explicit failure  
+try:
+    data = fetch_data(symbol)
+except Exception as e:
+    logger.error(f"Failed to fetch data for {symbol}: {e}")
+    raise DataSourceError(f"Data fetch failed for {symbol}: {e}") from e
+```
+
+## Exception Hierarchy
+- Create custom exceptions in `src/utils/exceptions.py`
+- Use specific exception types for different error categories
+- Chain exceptions with `raise NewError(...) from original_error`
+
+```python
+# Module-specific exceptions
+class MarketDataError(DataError):
+    """Base exception for market data operations."""
+    pass
+
+class DataSourceError(MarketDataError):
+    """Exception for data source failures (broker, API, etc.)."""
+    pass
+
+class DataRangeError(MarketDataError):
+    """Exception for invalid date ranges or time-related errors."""
+    pass
+```
+
+## Error Context
+- Always include relevant parameters in error messages
+- Add context at each abstraction layer
+- Include timestamps, symbols, timeframes, etc.
+
+```python
+# ✅ GOOD: Rich error context
+raise DataSourceError(
+    f"Failed to download {symbol} data for timeframe {timeframe.value} "
+    f"from {start_date} to {end_date}: {original_error}"
+)
+
+# ❌ BAD: Generic error message
+raise DataSourceError("Download failed")
+```
+
+## Error Boundaries
+- Background tasks: Capture ALL exceptions and update experiment status
+- API endpoints: Convert exceptions to appropriate HTTP responses
+- Training pipelines: Let data errors bubble up, log training errors
+- Validation: Fail fast with specific validation errors
+
+## Async Error Handling
+- Always await async operations in try/catch blocks
+- Handle asyncio cancellation properly
+- Use proper exception handling in background tasks
+
+```python
+# ✅ CORRECT: Background task error handling
+async def background_task():
+    try:
+        await some_async_operation()
+    except Exception as e:
+        logger.error(f"Background task failed: {e}")
+        await update_status("failed", str(e))
+        raise  # Re-raise for proper task completion
+```
+
+## Error Recovery
+- Only catch exceptions you can meaningfully handle
+- Implement retries only for transient failures
+- Use circuit breakers for external service failures
+- Document retry policies and failure scenarios
+
+## Testing Error Conditions
+- Test both success and failure paths
+- Use specific exception assertions: `pytest.raises(SpecificError)`
+- Test error messages contain expected context
+- Verify error propagation through system layers

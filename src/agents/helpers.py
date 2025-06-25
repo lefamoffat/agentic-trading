@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MLflow integration helpers for agents."""
+"""ML tracking integration helpers for agents."""
 from __future__ import annotations
 
 import numpy as np
@@ -7,12 +7,11 @@ import pandas as pd
 
 __all__ = ["build_observation"]
 
-
 def build_observation(model_input: pd.DataFrame) -> np.ndarray:
-    """Transform MLflow PyFunc DataFrame input to SB3 observation format.
+    """Transform model serving DataFrame input to SB3 observation format.
     
-    This function is part of the MLflow model serving pipeline that converts
-    pandas DataFrame input (MLflow's standard serving format) into numpy
+    This function is part of the model serving pipeline that converts
+    pandas DataFrame input (standard serving format) into numpy
     observation arrays that Stable-Baselines3 models expect.
     
     Args:

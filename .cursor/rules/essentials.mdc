@@ -1,9 +1,49 @@
 ---
-description: Essential Coding Requirements
+description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 # Essential Coding Requirements
+
+## 🚨 CRITICAL: NO MOCK VALUES IN PRODUCTION CODE
+**ABSOLUTELY FORBIDDEN: Mock, simulated, or fake values in production code**
+
+### ZERO TOLERANCE POLICY
+- ❌ **NO** mock training metrics (`reward: 1000 + (step / total_steps) * 500`)
+- ❌ **NO** simulated portfolio values (`portfolio_value = 10000 + fake_calculation`)
+- ❌ **NO** placeholder calculations (`sharpe_ratio = min(2.0, fake_formula)`)
+- ❌ **NO** hardcoded fake data (`win_rate = 0.6 + fake_progression`)
+- ❌ **NO** "simulation" loops that generate fake training metrics
+- ❌ **NO** TODO comments with mock implementations underneath
+- ❌ **NO** "temporary" placeholder values
+
+### WHAT TO DO INSTEAD
+- ✅ **INTEGRATE REAL COMPONENTS**: Use actual agents, environments, brokers
+- ✅ **REAL DATA FLOW**: Market data → Environment → Agent → Broker → Results
+- ✅ **ACTUAL CALCULATIONS**: Compute real rewards, losses, portfolio values
+- ✅ **GENUINE METRICS**: Track actual trading performance, not simulations
+- ✅ **THROW ERRORS**: If real component not ready, throw NotImplementedError
+
+### MOCK VALUES ONLY ALLOWED IN
+- ✅ **Unit/Component Tests**: `mock_broker.return_value = fake_data`
+- ✅ **Test Fixtures**: `@pytest.fixture def mock_price_data()`
+- ❌ **NEVER in src/ production modules**
+
+**This is a REAL TRADING SYSTEM, not a simulator!**
+
+## 🚨 CRITICAL: NO DUPLICATE FUNCTIONALITY
+**ONE way to do each thing**
+
+### FORBIDDEN
+- ❌ Multiple functions doing the same thing
+- ❌ Alternative APIs for the same functionality  
+- ❌ "Legacy" and "new" versions coexisting
+- ❌ Placeholder functions that throw NotImplementedError alongside working implementations
+
+### REQUIRED
+- ✅ Single canonical function per use case
+- ✅ Clear deprecation and removal of old approaches
+- ✅ Unified APIs that handle all variations internally
 
 ## Development Process
 - **PLANNING FIRST**: Always outline implementation plan before making code changes
@@ -36,16 +76,10 @@ from src.types import SymbolType, BrokerType
 - Create project types in `src/types.py`
 
 ## Error Handling
+- **See dedicated rule**: `.cursor/rules/patterns/error_handling.mdc`
 - Create custom exceptions in `src/utils/exceptions.py`
 - Always include descriptive error messages
-- Log errors with context:
-```python
-try:
-    result = process_data(data)
-except ValidationError as e:
-    self.logger.error(f"Data validation failed: {e}")
-    raise
-```
+- **NEVER return None/empty on errors** - raise exceptions instead
 
 ## Documentation (Google Style)
 ```python
@@ -70,7 +104,13 @@ def calculate_features(self, data: pd.DataFrame, symbol: Optional[str] = None) -
 - NO temporary workarounds or "hacky" solutions
 - NO estimations where exact values can be computed
 - NO hardcoded values (use config/params/env vars)
+- **NO MOCK/SIMULATED VALUES IN PRODUCTION CODE** (see critical section above)
+- If component not ready, use `raise NotImplementedError("Real [component] integration required")`
 
 ## Comments
 - Must add long-term value and provide context-free understanding
 - NEVER use comments to indicate recent changes: `# added new import`
+- NEVER use temporary comments explaining current implementation details
+- Comments must be TIMELESS - readable years from now without context
+- BAD: `# gymnasium.spaces.Discrete.sample() returns numpy.int64, not Python int`
+- GOOD: `# Handle both Python int and numpy integer types`

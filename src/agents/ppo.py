@@ -37,7 +37,8 @@ class PPOAgent(BaseAgent):
         # Override with provided hyperparams
         if model_params:
             agent_conf.update(model_params)
-            
+        # Log at debug level to avoid cluttering stdout
+        self.logger.debug(f"Creating PPO model with env id={id(self.env)}")
         return PPO(env=self.env, tensorboard_log=None, verbose=1, **agent_conf)
 
     def _get_model_class(self) -> Type[BaseAlgorithm]:

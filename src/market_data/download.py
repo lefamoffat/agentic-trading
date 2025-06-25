@@ -12,11 +12,12 @@ from typing import Optional
 
 import pandas as pd
 
+from src.types import BrokerType, Timeframe, DataSource
 from src.brokers.factory import broker_factory
 from src.market_data.processing import DataProcessor
 from src.market_data.storage.manager import storage_manager
 from src.market_data.contracts import MarketDataRequest, MarketDataResponse
-from src.types import BrokerType, Timeframe, DataSource
+from src.market_data.exceptions import DataSourceError
 from src.utils.logger import get_logger
 from src.utils.settings import Settings
 
@@ -66,7 +67,7 @@ async def download_historical_data(
     symbol: str = "EUR/USD",
     timeframe: str = Timeframe.H1.value,
     broker: str = BrokerType.FOREX_COM.value
-) -> Optional[pd.DataFrame]:
+) -> pd.DataFrame:
     """Download historical data from specified broker with intelligent caching.
 
     Args:
@@ -76,7 +77,10 @@ async def download_historical_data(
         broker: Broker to download from (default: forex.com)
 
     Returns:
-        DataFrame with standardized historical data, or None if failed
+        DataFrame with standardized historical data
+        
+    Raises:
+        DataSourceError: If data download or processing fails
     """
     # Calculate date range (timezone-aware for MarketDataRequest)
     end_date = datetime.now(timezone.utc)
@@ -88,8 +92,7 @@ async def download_historical_data(
         source=DataSource.FOREX_COM if broker == BrokerType.FOREX_COM.value else DataSource.FOREX_COM,
         timeframe=Timeframe.from_standard(timeframe),
         start_date=start_date,
-        end_date=end_date,
-        bars_requested=bars
+        end_date=end_date
     )
     
     # Check cache first
@@ -105,12 +108,15 @@ async def download_historical_data(
     # Validate broker-specific credentials
     if broker == BrokerType.FOREX_COM.value:
         if not settings.forex_com_username or not settings.forex_com_password:
-            logger.error("Missing forex.com credentials. Please set FOREX_COM_USERNAME and FOREX_COM_PASSWORD in .env")
-            return None
+            raise DataSourceError(
+                f"Missing forex.com credentials for {symbol}. "
+                f"Please set FOREX_COM_USERNAME and FOREX_COM_PASSWORD in .env"
+            )
 
         if not settings.forex_com_app_key:
-            logger.error("Missing FOREX_COM_APP_KEY. Please set it in .env")
-            return None
+            raise DataSourceError(
+                f"Missing FOREX_COM_APP_KEY for {symbol}. Please set it in .env"
+            )
 
         # Create broker instance using factory
         broker_instance = broker_factory.create_broker(
@@ -120,8 +126,7 @@ async def download_historical_data(
             sandbox=settings.forex_com_sandbox
         )
     else:
-        logger.error(f"Broker '{broker}' credentials validation not implemented yet")
-        return None
+        raise DataSourceError(f"Broker '{broker}' credentials validation not implemented yet")
 
     # Initialize data processor
     data_processor = DataProcessor(symbol=symbol, asset_class="forex")
@@ -130,8 +135,7 @@ async def download_historical_data(
         # Authenticate
         logger.info(f"Authenticating with {broker}...")
         if not await broker_instance.authenticate():
-            logger.error(f"Failed to authenticate with {broker}")
-            return None
+            raise DataSourceError(f"Failed to authenticate with {broker} for symbol {symbol}")
 
         logger.info(f"Downloading {symbol} data from {start_date.date()} to {end_date.date()}")
         logger.info(f"Timeframe: {timeframe}, Broker: {broker}")
@@ -144,22 +148,25 @@ async def download_historical_data(
         )
 
         if raw_df.empty:
-            logger.warning("No data received")
-            return None
+            raise DataSourceError(
+                f"No data received from {broker} for {symbol} {timeframe} "
+                f"(requested {bars} bars from {start_date.date()} to {end_date.date()})"
+            )
 
         # Standardize data format
         logger.info("Standardizing data format...")
         standardized_df = data_processor.standardize_dataframe(raw_df, broker_name=broker)
 
         if standardized_df.empty:
-            logger.warning("No data after standardization")
-            return None
+            raise DataSourceError(
+                f"No data after standardization for {symbol} {timeframe} from {broker}"
+            )
 
         # Validate data quality
         quality_report = data_processor.validate_data_quality(standardized_df)
         logger.info(f"Data quality score: {quality_report['quality_score']:.2f}")
         if quality_report['issues']:
-            logger.warning(f"Data quality issues: {quality_report['issues']}")
+            logger.warning(f"Data quality issues for {symbol}: {quality_report['issues']}")
 
         # Create response object and cache the data
         response = MarketDataResponse(
@@ -177,15 +184,21 @@ async def download_historical_data(
         return standardized_df
 
     except Exception as e:
-        logger.error(f"Error downloading data: {e}")
-        return None
+        if isinstance(e, DataSourceError):
+            raise
+        else:
+            logger.error(f"Unexpected error downloading {symbol} data from {broker}: {e}")
+            raise DataSourceError(
+                f"Failed to download {symbol} data from {broker} "
+                f"for timeframe {timeframe}: {e}"
+            ) from e
 
 async def download_and_save_qlib_data(
     bars: int = 365,
     symbol: str = "EUR/USD", 
     timeframe: str = Timeframe.H1.value,
     broker: str = BrokerType.FOREX_COM.value
-) -> Optional[Path]:
+) -> Path:
     """Download historical data and save it in Qlib format.
     
     Args:
@@ -195,28 +208,39 @@ async def download_and_save_qlib_data(
         broker: Broker to download from
         
     Returns:
-        Path to saved Qlib CSV file, or None if failed
+        Path to saved Qlib CSV file
+        
+    Raises:
+        DataSourceError: If data download or Qlib preparation fails
     """
-    # Download standardized data
-    standardized_df = await download_historical_data(bars, symbol, timeframe, broker)
-    if standardized_df is None:
-        return None
-    
-    # Prepare for Qlib
-    logger.info("Preparing data for Qlib...")
-    qlib_df = prepare_for_qlib(standardized_df)
+    try:
+        # Download standardized data
+        standardized_df = await download_historical_data(bars, symbol, timeframe, broker)
+        
+        # Prepare for Qlib
+        logger.info(f"Preparing {symbol} data for Qlib...")
+        qlib_df = prepare_for_qlib(standardized_df)
 
-    # Create data directory for Qlib source files
-    sanitized_symbol = symbol.replace("/", "")
-    qlib_source_dir = Path(f"data/qlib_source/{timeframe}")
-    qlib_source_dir.mkdir(parents=True, exist_ok=True)
+        # Create data directory for Qlib source files
+        sanitized_symbol = symbol.replace("/", "")
+        qlib_source_dir = Path(f"data/qlib_source/{timeframe}")
+        qlib_source_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save data in Qlib-compatible CSV format
-    filepath = qlib_source_dir / f"{sanitized_symbol}.csv"
-    qlib_df.to_csv(filepath)
-    logger.info(f"Successfully saved Qlib-ready data to {filepath}")
-    
-    return filepath
+        # Save data in Qlib-compatible CSV format
+        filepath = qlib_source_dir / f"{sanitized_symbol}.csv"
+        qlib_df.to_csv(filepath)
+        logger.info(f"Successfully saved Qlib-ready data to {filepath}")
+        
+        return filepath
+        
+    except DataSourceError:
+        # Re-raise data source errors with context
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error preparing Qlib data for {symbol}: {e}")
+        raise DataSourceError(
+            f"Failed to prepare Qlib data for {symbol} {timeframe}: {e}"
+        ) from e
 
 def main():
     """Main function for CLI usage."""

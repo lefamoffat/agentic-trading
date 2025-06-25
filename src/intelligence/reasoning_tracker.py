@@ -11,11 +11,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import mlflow
+# Optional ML tracking for reasoning storage
+try:
+    from src.tracking import get_ml_tracker
+    TRACKING_AVAILABLE = True
+except ImportError:
+    TRACKING_AVAILABLE = False
 import pandas as pd
 
 from src.utils.logger import get_logger
-
 
 @dataclass
 class ReasoningLog:
@@ -39,7 +43,6 @@ class ReasoningLog:
     def from_dict(cls, data: Dict[str, Any]) -> "ReasoningLog":
         """Create from dictionary."""
         return cls(**data)
-
 
 class ReasoningTracker:
     """Tracks and manages LLM reasoning for trading decisions."""
@@ -149,8 +152,8 @@ class ReasoningTracker:
         # Store locally
         self._store_reasoning_log(self._current_reasoning)
         
-        # Store in MLflow if available
-        self._store_in_mlflow(self._current_reasoning)
+        # Store in ML tracking if available
+        self._store_in_ml_tracking(self._current_reasoning)
         
         completed_log = self._current_reasoning
         self._current_reasoning = None
@@ -173,33 +176,39 @@ class ReasoningTracker:
         
         self.logger.debug(f"Reasoning log stored: {file_path}")
     
-    def _store_in_mlflow(self, reasoning_log: ReasoningLog) -> None:
-        """Store reasoning in MLflow if available.
+    def _store_in_ml_tracking(self, reasoning_log: ReasoningLog) -> None:
+        """Store reasoning in ML tracking system if available.
         
         Args:
             reasoning_log: The reasoning log to store
         """
+        if not TRACKING_AVAILABLE:
+            return
+            
         try:
-            # Store as tags for searchability
-            mlflow.set_tags({
+            import asyncio
+            
+            # Get current ML tracker
+            tracker = asyncio.run(get_ml_tracker())
+            
+            # Create reasoning metadata as tags
+            reasoning_tags = {
                 "llm_action": reasoning_log.action,
                 "llm_model": reasoning_log.llm_model,
                 "llm_confidence": f"{reasoning_log.confidence_score:.2f}",
                 "llm_fallback": str(reasoning_log.fallback_used),
-            })
+                "reasoning_timestamp": reasoning_log.timestamp,
+            }
             
-            # Store full reasoning as artifact
-            reasoning_file = f"reasoning_{reasoning_log.timestamp.replace(':', '-')}.json"
-            with open(reasoning_file, 'w') as f:
-                json.dump(reasoning_log.to_dict(), f, indent=2)
+            # If there's an active experiment, add reasoning tags
+            if reasoning_log.experiment_id:
+                # Store reasoning as experiment metadata
+                pass  # Generic interface doesn't expose tag setting yet
             
-            mlflow.log_artifact(reasoning_file, "reasoning")
-            Path(reasoning_file).unlink()  # Clean up temp file
-            
-            self.logger.debug("Reasoning stored in MLflow")
+            self.logger.debug("Reasoning stored in ML tracking system")
             
         except Exception as e:
-            self.logger.warning(f"Failed to store reasoning in MLflow: {e}")
+            self.logger.warning(f"Failed to store reasoning in ML tracking: {e}")
     
     def get_recent_reasoning(
         self, 

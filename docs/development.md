@@ -2,25 +2,101 @@
 
 This document provides guidelines for developers working on the Agentic Trading project, including instructions for running tests, maintaining code quality, and contributing.
 
+## Experiment Data Systems
+
+The platform uses two complementary systems for experiment data management:
+
+### Messaging System (`@/messaging`)
+
+-   **Purpose**: Real-time communication and live updates
+-   **Storage**: Redis (production) or Memory (development)
+-   **Data Lifespan**: Session-based, temporary
+-   **Use Cases**: Live progress monitoring, dashboard updates, CLI notifications
+
+### Tracking System (`@/tracking`)
+
+-   **Purpose**: Persistent experiment logging and analysis
+-   **Storage**: Aim backend (persistent files)
+-   **Data Lifespan**: Permanent, for historical analysis
+-   **Use Cases**: Experiment comparison, model management, performance analysis
+
+**Architecture Guidelines:**
+
+**✅ ALLOWED:**
+
+-   Backend-specific imports within `src/tracking/` module
+-   Backend-specific imports within `src/messaging/` module
+-   Integration tests in `integration_tests/` for cross-module testing
+
+**❌ NOT ALLOWED:**
+
+-   Backend-specific imports in application code outside these modules
+-   Aim/Redis imports outside their respective modules
+-   Backend-specific tests in `src/*/tests/` (use `integration_tests/` instead)
+
+**📚 Detailed Documentation:**
+
+-   [Messaging System README](../src/messaging/README.md) - Complete messaging guide
+-   [Tracking System README](../src/tracking/README.md) - Complete tracking guide
+-   [Experiment Data Management](experiment_data_management.md) - How systems work together
+
+### Correct Usage Patterns
+
+```python
+# ✅ CORRECT: Generic usage (anywhere in codebase)
+from src.tracking import get_ml_tracker, get_experiment_repository
+tracker = await get_ml_tracker()  # Currently returns Aim backend
+
+# ❌ WRONG: Backend-specific usage outside tracking module
+from src.tracking.factory import configure_aim_backend  # DON'T DO THIS
+```
+
+### Test Guidelines by Location
+
+-   `src/tracking/tests/`: Unit/component tests (module-only, no external deps)
+-   `integration_tests/`: Cross-module tests (Aim backend, environment, CLI)
+
 ## Running Tests
 
-Tests are organised by **module-local `tests/` folders** inside `src/` and a root-level `integration_tests/` directory for heavier checks.
+Tests follow strict patterns defined in `@testing.mdc` with comprehensive health monitoring and schema validation.
 
-Typical commands:
+### Test Structure
+
+```
+src/*/tests/              # Unit/component tests (module-only, no external deps)
+integration_tests/        # Integration tests (cross-module, external deps)
+```
+
+### Test Commands
 
 ```bash
-# 1️⃣ Fast unit + component tests (CI default)
-uv run pytest -m "not integration"
+# Run by test type (following @testing.mdc markers)
+uv run pytest -m unit                    # Pure logic tests, <50ms
+uv run pytest -m component               # Component tests with mocks, <1s
+uv run pytest -m integration             # Integration tests with real backends
 
-# 2️⃣ Full suite including integration (nightly / manual)
-uv run pytest -m integration
+# Run by location
+uv run pytest src/*/tests                # Unit/component tests (fast)
+uv run pytest integration_tests/         # Integration tests (comprehensive)
 
-# 3️⃣ Coverage report for fast suite
+# Coverage report
 uv run pytest -m "not integration" --cov=src
 
-# 4️⃣ Run a specific integration test (requires creds / services)
-uv run pytest -m integration -k "test_real_get_live_price"
+# Health monitoring validation (catches schema issues)
+uv run pytest integration_tests/test_backend_schema_validation.py
+
+# CLI integration testing
+uv run pytest integration_tests/test_cli_health_monitoring.py
 ```
+
+### Key Test Features
+
+Our test suite would **automatically catch** the SQLite schema issues we encountered:
+
+-   ✅ **Schema Validation**: `test_detect_empty_database_schema_issue()` catches "no such table: run"
+-   ✅ **Health Monitoring**: Comprehensive backend health validation
+-   ✅ **CLI Integration**: Complete workflow testing with error detection
+-   ✅ **Generic Testing**: Uses proper interfaces, no backend lock-in
 
 ## Code Quality
 

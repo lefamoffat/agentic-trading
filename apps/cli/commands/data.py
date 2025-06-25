@@ -15,7 +15,6 @@ from src.types import Timeframe  # imported late here previously, acceptable
 # Download raw data
 # ---------------------------------------------------------------------------
 
-
 @app.command("download-data")
 def download_data(
     symbol: str = typer.Option("EUR/USD", help="Trading symbol e.g. EUR/USD"),
@@ -24,11 +23,11 @@ def download_data(
 ) -> None:
     """Download raw historical data for a symbol & timeframe."""
 
-    script = SCRIPTS_DIR / "data" / "download_historical.py"
     _run(
         [
             sys.executable,
-            str(script),
+            "-m",
+            "src.market_data.download",
             "--symbol",
             symbol,
             "--timeframe",
@@ -38,11 +37,9 @@ def download_data(
         ]
     )
 
-
 # ---------------------------------------------------------------------------
 # Build engineered features
 # ---------------------------------------------------------------------------
-
 
 @app.command("build-features")
 def build_features(
@@ -51,14 +48,11 @@ def build_features(
 ) -> None:
     """Generate Qlib feature CSVs."""
 
-    script = SCRIPTS_DIR / "features" / "build_features.py"
-    _run([sys.executable, str(script), "--symbol", symbol, "--timeframe", timeframe])
-
+    _run([sys.executable, "-m", "src.market_data.features", "--symbol", symbol, "--timeframe", timeframe])
 
 # ---------------------------------------------------------------------------
 # End-to-end preparation pipeline
 # ---------------------------------------------------------------------------
-
 
 @app.command("prepare-data")
 def prepare_data(
@@ -85,24 +79,15 @@ def prepare_data(
         raise typer.Exit(code=1) from exc
 
     csv_path = f"data/qlib_source/{timeframe}"
-    dump_script = SCRIPTS_DIR / "data" / "dump_bin.py"
-    _run(
-        [
-            sys.executable,
-            str(dump_script),
-            "dump_all",
-            "--csv-path",
-            csv_path,
-            "--qlib-dir",
-            "data/qlib_data",
-            "--freq",
-            freq,
-            "--include_fields",
-            "open,high,low,close,volume,factor",
-            "--date_field_name",
-            "date",
-        ]
-    )
+    # Use python -c to bypass Fire help system issues
+    dump_command = f"""
+import sys
+sys.argv = ['dump_bin.py', 'dump_all', '--csv-path', '{csv_path}', '--qlib-dir', 'data/qlib_data', '--freq', '{freq}', '--include_fields', 'open,high,low,close,volume,factor', '--date_field_name', 'date']
+from src.market_data.qlib.dump_bin import DumpDataAll
+import fire
+fire.Fire({{'dump_all': DumpDataAll}})
+"""
+    _run([sys.executable, "-c", dump_command])
 
     # 3) feature engineering
     build_features(symbol=symbol, timeframe=timeframe) 

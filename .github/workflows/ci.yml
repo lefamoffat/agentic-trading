@@ -1,0 +1,60 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        env:
+            PYTHON_VERSION: "3.11"
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: ${{ env.PYTHON_VERSION }}
+
+            - name: Install uv (fast installer)
+              run: |
+                  pip install uv==0.1.39
+
+            - name: Install project (dev extras)
+              run: |
+                  uv pip install -e '.[dev]'
+
+            - name: Install Podman
+              run: |
+                  sudo apt-get update
+                  sudo apt-get -y install podman
+                  podman --version
+
+            - name: Start Redis (Podman)
+              run: |
+                  scripts/podman/start_redis.sh
+
+            - name: Start Aim (Podman)
+              run: |
+                  scripts/podman/start_aim.sh
+
+            - name: Run pre-commit (ruff, black, mypy, unit tests)
+              run: |
+                  uv run pre-commit run --all-files
+
+            - name: Run unit tests (fast)
+              run: |
+                  uv run pytest -m "not integration" --cov=src --cov-report=term-missing
+
+            - name: Run integration tests
+              run: |
+                  uv run pytest -m integration -q
+
+            - name: Stop services
+              if: always()
+              run: |
+                  scripts/podman/stop_redis.sh || true
+                  scripts/podman/stop_aim.sh || true

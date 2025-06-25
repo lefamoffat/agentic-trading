@@ -13,11 +13,10 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from apps.dashboard import create_app
-from src.utils.logger import get_logger
-
-logger = get_logger(__name__)
-
+from apps.dashboard.app import create_app
+# Use lightweight logging instead of heavy config-dependent logger
+import logging
+logger = logging.getLogger(__name__)
 
 def main():
     """Main entry point for launching the dashboard."""
@@ -39,33 +38,19 @@ def main():
         app = create_app()
         
         logger.info(f"Dashboard starting on http://{args.host}:{args.port}")
-        print(f"📖 Open your browser and go to: http://localhost:{args.port}")
         
-        # Run the server with correct method
-        try:
-            app.run(
-                debug=args.debug,
-                host=args.host,
-                port=args.port
-            )
-        except AttributeError:
-            # Fallback for different Dash versions
-            if hasattr(app, 'run_server'):
-                app.run_server(
-                    debug=args.debug,
-                    host=args.host,
-                    port=args.port
-                )
-            else:
-                print("❌ Unable to start server - Dash version compatibility issue")
-                sys.exit(1)
+        # Run the server
+        app.run(
+            debug=args.debug,
+            host=args.host,
+            port=args.port
+        )
         
     except KeyboardInterrupt:
         logger.info("Dashboard shutdown requested by user")
     except Exception as e:
         logger.error(f"Failed to start dashboard: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main() 

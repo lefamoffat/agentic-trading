@@ -12,7 +12,7 @@ export type ExperimentStatus =
 	| "failed"
 	| "starting"
 	| "stopping"
-	| "unknown"ddd;
+	| "unknown";
 
 export const STATUS_PALETTE: Record<ExperimentStatus, StatusInfo> = {
 	running: {

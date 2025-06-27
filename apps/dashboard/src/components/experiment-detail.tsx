@@ -8,6 +8,7 @@ import {
 	getEquity,
 	getLogs,
 	subscribeBroker,
+	experimentsById,
 } from "../lib/store";
 import { getStatusInfo, getStatusBadgeClasses } from "../lib/status-palette";
 import { toChartData, downsampleSeries } from "../lib/timeseries";
@@ -26,9 +27,11 @@ export default function ExperimentDetail({ id }: Props) {
 		subscribeBroker();
 
 		// Fetch initial experiment data
-		get<any>(`/experiments/${id}`).then((data) => {
-			// The store will be updated via broker events
-			// Initial data could be merged if needed
+		get<Record<string, unknown>>(`/experiments/${id}`).then((data) => {
+			experimentsById.value = {
+				...experimentsById.value,
+				[id]: data,
+			};
 		});
 	}, [id]);
 

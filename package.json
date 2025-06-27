@@ -1,0 +1,14 @@
+{
+	"name": "agentic-trading-monorepo",
+	"private": true,
+	"packageManager": "pnpm@9.15.4",
+	"workspaces": [
+		"apps/*"
+	],
+	"scripts": {
+		"dev": "hivemind Procfile.dev"
+	},
+	"devDependencies": {
+		"@types/node": "^20.12.15"
+	}
+}

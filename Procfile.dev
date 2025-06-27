@@ -1,0 +1,4 @@
+redis: bash -c 'command -v lsof >/dev/null && lsof -i :6379 && echo "Redis already running on 6379" && tail -f /dev/null || redis-server'
+aim: aim up --host 0.0.0.0 --port 43800
+api: uv run -m uvicorn apps.api:create_app --factory --reload --port 8000
+dashboard: PUBLIC_API_URL=http://localhost:8000 pnpm --filter ./apps/dashboard run dev -- --port 4321 

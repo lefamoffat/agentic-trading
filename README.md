@@ -34,6 +34,21 @@ A sophisticated reinforcement learning-based trading system that combines market
 
 ## 🚀 Quick Start
 
+### 🏁 Start All Services (Dev)
+
+```bash
+# 1. Install Hivemind (once)
+# macOS
+brew install hivemind
+
+# 2. Fire up every dependency in one terminal
+pnpm dev
+```
+
+This single command starts Redis, Aim UI, FastAPI backend and the Astro dashboard on their default ports (6379, 43800, 8000, 4321).
+
+If you already have Redis running on port 6379 the script will detect it and reuse the existing instance instead of starting another one.
+
 ### Prerequisites
 
 -   **Python 3.11+**

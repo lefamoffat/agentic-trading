@@ -1,0 +1,9 @@
+---
+const { id } = Astro.params;
+import ExperimentDetail from '../../components/ExperimentDetail.tsx';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title={`Experiment ${id}`}>
+  <h1 class="text-2xl font-bold mb-4">Experiment {id}</h1>
+  <ExperimentDetail id={id} client:load />
+</BaseLayout> 

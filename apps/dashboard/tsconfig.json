@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"module": "ESNext",
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact",
+		"allowJs": true,
+		"moduleResolution": "Node",
+		"strict": true,
+		"esModuleInterop": true,
+		"types": ["astro/client", "preact"],
+		"skipLibCheck": true
+	},
+	"include": ["src/**/*", "astro.config.mjs"],
+	"exclude": ["node_modules"]
+}

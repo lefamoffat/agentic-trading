@@ -3,6 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, AsyncIterator, Dict, Optional, List
 from dataclasses import dataclass
+from src.types.experiments import Experiment
 
 @dataclass
 class Message:
@@ -58,18 +59,17 @@ class MessageBroker(ABC):
     # === DATA STORAGE METHODS ===
     
     @abstractmethod
-    async def store_experiment(self, experiment_id: str, experiment_data: Dict[str, Any]) -> None:
+    async def store_experiment(self, exp: Experiment) -> None:
         """
         Store experiment data.
         
         Args:
-            experiment_id: Unique experiment identifier
-            experiment_data: Complete experiment data
+            exp: Experiment object
         """
         pass
     
     @abstractmethod
-    async def get_experiment(self, experiment_id: str) -> Optional[Dict[str, Any]]:
+    async def get_experiment(self, experiment_id: str) -> Optional[Experiment]:
         """
         Get experiment data.
         
@@ -93,7 +93,7 @@ class MessageBroker(ABC):
         pass
     
     @abstractmethod
-    async def list_experiments(self, status_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    async def list_experiments(self, status_filter: Optional[Any] = None) -> List[Experiment]:
         """
         List all experiments, optionally filtered by status.
         

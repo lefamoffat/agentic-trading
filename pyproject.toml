@@ -29,6 +29,8 @@ dependencies = [
     # HTTP and Async
     "aiohttp>=3.8.0",
     "httpx>=0.24.0",
+    # WebSocket client/server
+    "websockets>=11.0",
     # Messaging
     "redis>=6.2.0",
     # ML & RL (moved from optional group 'ml' to main deps to satisfy tests)

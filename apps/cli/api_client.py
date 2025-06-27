@@ -3,7 +3,7 @@ from __future__ import annotations
 """Tiny async client for talking to the Agentic Trading API.
 
 All CLI commands import this module to perform HTTP and WebSocket operations
-against the REST service. The base URL is discovered via the ``AGENTIC_API_URL``
+against the REST service. The base URL is discovered via the ``PUBLIC_API_URL``
 environment variable.
 
 If the variable is missing or the API is unreachable, commands will exit with
@@ -20,11 +20,11 @@ import websockets
 from websockets.exceptions import ConnectionClosed
 
 
-API_URL = os.getenv("AGENTIC_API_URL")
+API_URL = os.getenv("PUBLIC_API_URL")
 if not API_URL:
     raise RuntimeError(
-        "Environment variable AGENTIC_API_URL is not set. Start the API "
-        "service and export AGENTIC_API_URL=http://127.0.0.1:8000 (or your host).",
+        "Environment variable PUBLIC_API_URL is not set. Start the API "
+        "service and export PUBLIC_API_URL=http://127.0.0.1:8000 (or your host).",
     )
 
 # Ensure no trailing slash for clean path joins
@@ -39,6 +39,15 @@ async def get_client() -> httpx.AsyncClient:  # noqa: WPS231
     global _client
     if _client is None:
         _client = httpx.AsyncClient(base_url=API_URL, timeout=30.0, follow_redirects=True)
+
+        # Verify the API is using a production-ready broker
+        health_resp = await _client.get("/health")
+        health_resp.raise_for_status()
+        backend = health_resp.json().get("messaging_backend", {})
+        if backend.get("broker_type") == "memory":
+            raise RuntimeError(
+                "iAPI is running with the in-memory message broker, which is NOT supported!"
+            )
     return _client
 
 

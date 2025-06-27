@@ -14,6 +14,7 @@ from typing import Dict, Any, List, Optional
 from src.tracking import get_experiment_repository
 from src.messaging.factory import get_message_broker
 from src.utils.logger import get_logger
+from src.types.experiments import Experiment
 
 logger = get_logger(__name__)
 
@@ -105,11 +106,11 @@ class UnifiedExperimentService:  # noqa: WPS230 (large class kept as-is)
         # Messaging backend – active runs
         if self.messaging_connected and self.message_broker:
             try:
-                active_experiments = await self.message_broker.list_experiments(status_filter="running")
+                active_experiments: List[Experiment] = await self.message_broker.list_experiments(status_filter="running")
                 summary["active_runs"] = len(active_experiments)
 
-                agents = {exp.get("config", {}).get("agent_type") for exp in active_experiments if exp.get("config")}
-                symbols = {exp.get("config", {}).get("symbol") for exp in active_experiments if exp.get("config")}
+                agents = {exp.config.agent_type for exp in active_experiments}
+                symbols = {exp.config.symbol for exp in active_experiments}
 
                 summary["unique_agents"].extend([a for a in agents if a])
                 summary["unique_symbols"].extend([s for s in symbols if s])
@@ -136,30 +137,30 @@ class UnifiedExperimentService:  # noqa: WPS230 (large class kept as-is)
                 tracking_experiments = await self.tracking_repository.get_recent_experiments(limit=limit)
 
                 for exp in tracking_experiments:
-                    experiments.append({
-                        "experiment_id": exp.experiment_id,
-                        "name": exp.name or exp.experiment_id,
-                        "status": exp.status.value,
-                        "start_time": exp.start_time.timestamp() * 1000 if exp.start_time else None,
-                        "end_time": exp.end_time.timestamp() * 1000 if exp.end_time else None,
-                        "duration_seconds": exp.duration_seconds,
-                        "agent_type": exp.agent_type,
-                        "symbol": exp.symbol,
-                        "timeframe": exp.timeframe,
-                        "progress": exp.progress,
-                        "current_step": exp.current_step,
-                        "total_steps": exp.total_steps,
-                        "metrics": exp.final_metrics or {},
-                        "config": exp.config.to_dict() if exp.config else None,
-                        "backend_name": exp.backend_name,
-                        "source": "tracking",
-                        "latest_run": {
-                            "run_id": exp.run_id,
-                            "status": exp.status.value,
-                            "start_time": exp.start_time.timestamp() * 1000 if exp.start_time else None,
-                            "end_time": exp.end_time.timestamp() * 1000 if exp.end_time else None,
-                        } if exp.run_id else None,
-                    })
+                    doc = exp.to_dict()
+                    # Ensure nested config exists (older runs might lack it)
+                    if "config" not in doc or not doc["config"]:
+                        doc["config"] = {
+                            "symbol": doc.get("symbol", ""),
+                            "agent_type": doc.get("agent_type", ""),
+                        }
+
+                    doc.update(
+                        {
+                            "name": getattr(exp, "name", None) or exp.experiment_id,
+                            "duration_seconds": getattr(exp, "duration_seconds", None),
+                            "backend_name": getattr(exp, "backend_name", "tracking"),
+                            "source": "tracking",
+                            "latest_run": {
+                                "run_id": getattr(exp, "run_id", None),
+                                "status": exp.status.value,
+                                "start_time": exp.start_time.timestamp() * 1000 if exp.start_time else None,
+                                "end_time": exp.end_time.timestamp() * 1000 if exp.end_time else None,
+                            } if getattr(exp, "run_id", None) else None,
+                        }
+                    )
+
+                    experiments.append(doc)
 
             except Exception as exc:  # noqa: BLE001
                 logger.error("Failed to get tracking experiments: %s", exc)
@@ -167,39 +168,10 @@ class UnifiedExperimentService:  # noqa: WPS230 (large class kept as-is)
         # Active experiments from messaging backend
         if self.messaging_connected and self.message_broker:
             try:
-                messaging_experiments = await self.message_broker.list_experiments()
+                messaging_experiments: List[Experiment] = await self.message_broker.list_experiments()
 
                 for exp in messaging_experiments:
-                    existing = next((e for e in experiments if e["experiment_id"] == exp["experiment_id"]), None)
-
-                    if existing:
-                        existing["current_step"] = exp.get("current_step", 0)
-                        if exp.get("total_steps"):
-                            existing["progress"] = exp.get("current_step", 0) / exp.get("total_steps")
-                        existing["status"] = exp.get("status", existing["status"])
-                        if exp.get("metrics"):
-                            existing["metrics"].update(exp["metrics"])
-                    else:
-                        config = exp.get("config", {})
-                        experiments.append({
-                            "experiment_id": exp["experiment_id"],
-                            "name": config.get("experiment_name", exp["experiment_id"]),
-                            "status": exp.get("status", "unknown"),
-                            "start_time": exp.get("start_time", 0) * 1000 if exp.get("start_time") else None,
-                            "end_time": exp.get("end_time", 0) * 1000 if exp.get("end_time") else None,
-                            "duration_seconds": None,
-                            "agent_type": config.get("agent_type", "unknown"),
-                            "symbol": config.get("symbol", "unknown"),
-                            "timeframe": config.get("timeframe", "unknown"),
-                            "progress": (exp.get("current_step", 0) / exp.get("total_steps", 1)) if exp.get("total_steps") else 0,
-                            "current_step": exp.get("current_step", 0),
-                            "total_steps": exp.get("total_steps", 0),
-                            "metrics": exp.get("metrics", {}),
-                            "config": config,
-                            "backend_name": "messaging",
-                            "source": "messaging",
-                            "latest_run": None,
-                        })
+                    experiments.append(exp.to_dict() | {"backend_name": "messaging", "source": "messaging"})
 
             except Exception as exc:  # noqa: BLE001
                 logger.error("Failed to get messaging experiments: %s", exc)
@@ -229,7 +201,14 @@ class UnifiedExperimentService:  # noqa: WPS230 (large class kept as-is)
                         "current_step": tracking_data.current_step,
                         "total_steps": tracking_data.total_steps,
                         "metrics": tracking_data.final_metrics or {},
-                        "config": tracking_data.config.to_dict() if tracking_data.config else {},
+                        "config": (
+                            tracking_data.config.to_dict()
+                            if tracking_data.config
+                            else {
+                                "symbol": tracking_data.symbol,
+                                "agent_type": tracking_data.agent_type,
+                            }
+                        ),
                         "source": "tracking",
                     }
             except Exception as exc:  # noqa: BLE001
@@ -238,34 +217,19 @@ class UnifiedExperimentService:  # noqa: WPS230 (large class kept as-is)
         # Real-time additions
         if self.messaging_connected and self.message_broker:
             try:
-                messaging_data = await self.message_broker.get_experiment(experiment_id)
-                if messaging_data:
+                messaging_experiment = await self.message_broker.get_experiment(experiment_id)
+                if messaging_experiment:
                     if experiment_data:
-                        experiment_data["current_step"] = messaging_data.get("current_step", experiment_data["current_step"])
-                        experiment_data["status"] = messaging_data.get("status", experiment_data["status"])
-                        if messaging_data.get("total_steps"):
-                            experiment_data["progress"] = messaging_data.get("current_step", 0) / messaging_data.get("total_steps", 1)
-                        if messaging_data.get("metrics"):
-                            experiment_data["metrics"].update(messaging_data["metrics"])
+                        experiment_data["current_step"] = messaging_experiment.state.current_step
+                        experiment_data["status"] = messaging_experiment.state.status.value
+                        if messaging_experiment.state.total_steps:
+                            experiment_data["progress"] = (
+                                messaging_experiment.state.current_step / messaging_experiment.state.total_steps
+                            )
+                        if messaging_experiment.state.metrics:
+                            experiment_data["metrics"].update(messaging_experiment.state.metrics)
                     else:
-                        config = messaging_data.get("config", {})
-                        experiment_data = {
-                            "experiment_id": messaging_data["experiment_id"],
-                            "name": config.get("experiment_name", messaging_data["experiment_id"]),
-                            "status": messaging_data.get("status", "unknown"),
-                            "start_time": messaging_data.get("start_time", 0) * 1000 if messaging_data.get("start_time") else None,
-                            "end_time": messaging_data.get("end_time", 0) * 1000 if messaging_data.get("end_time") else None,
-                            "duration_seconds": None,
-                            "agent_type": config.get("agent_type", "unknown"),
-                            "symbol": config.get("symbol", "unknown"),
-                            "timeframe": config.get("timeframe", "unknown"),
-                            "progress": (messaging_data.get("current_step", 0) / messaging_data.get("total_steps", 1)) if messaging_data.get("total_steps") else 0,
-                            "current_step": messaging_data.get("current_step", 0),
-                            "total_steps": messaging_data.get("total_steps", 0),
-                            "metrics": messaging_data.get("metrics", {}),
-                            "config": config,
-                            "source": "messaging",
-                        }
+                        experiment_data = messaging_experiment.to_dict() | {"source": "messaging"}
             except Exception as exc:  # noqa: BLE001
                 logger.error("Failed to get experiment from messaging: %s", exc)
 

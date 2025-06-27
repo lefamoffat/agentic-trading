@@ -1,0 +1,28 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Strict Data Validation – **NO LEGACY FALLBACKS**
+
+## Core Principle
+The codebase must _fail fast_ when encountering invalid or unexpected data.  **Do not** silently coerce, default, or "construct" partially-valid objects to keep execution going.
+
+### ABSOLUTELY FORBIDDEN
+- ❌ Catching `ValidationError` (or any exception) and then
+  • continuing with `model_construct`, `dict(...)`, or any manual instantiation
+  • substituting default / placeholder values (0, "", `None`, etc.)
+- ❌ Writing defensive `try/except` blocks around code that _must_ succeed under normal operation just to hide legacy data issues.
+- ❌ Commenting out validation or type checks for backward-compatibility.
+
+### REQUIRED
+- ✅ Allow exceptions raised by strict validation to propagate to the **appropriate error boundary** where they are either:
+  1. Logged and surfaced to the user, _or_
+  2. Used to mark the current job/experiment as **failed**.
+- ✅ Remove or migrate legacy data rather than injecting compatibility shims.
+- ✅ Keep data models (`src/types/**`) as the **single source of truth** – no shadow copies.
+
+## Acceptable Error Handling Boundary
+It is permissible to guard _external_ I/O boundaries (e.g. reading Redis hashes, parsing API responses) with `try/except` **only** to _skip_ or _flag_ corrupt items, never to auto-repair them.  Internal logic should assume validated, well-formed data.
+
+> "When data is wrong, fail loud and early – then fix the data."  – Engineering Guideline

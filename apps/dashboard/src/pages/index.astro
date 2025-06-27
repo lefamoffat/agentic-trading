@@ -1,0 +1,8 @@
+---
+import SummaryDashboard from '../components/SummaryDashboard.tsx';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="System Overview">
+  <h1 class="text-3xl font-bold mb-6">System Overview</h1>
+  <SummaryDashboard client:load />
+</BaseLayout> 

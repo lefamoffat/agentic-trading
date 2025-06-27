@@ -166,3 +166,9 @@ class RiskLevel(Enum):
     MEDIUM = "medium"
     HIGH = "high"
     VERY_HIGH = "very_high"
+
+class MessageBrokerType(Enum):
+    """Message broker types."""
+
+    REDIS = "redis"
+    MEMORY = "memory"

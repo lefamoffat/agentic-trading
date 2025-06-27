@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from apps.api.core.dependencies import get_experiments_service, get_stream_manager  # noqa: F401
-from apps.api.routers import experiments_http, experiments_ws
+from apps.api.routers import experiments_http, experiments_ws, system
 
 
 def create_app() -> FastAPI:
@@ -21,6 +21,7 @@ def create_app() -> FastAPI:
 
     app.include_router(experiments_http.router, prefix="/experiments", tags=["experiments"])
     app.include_router(experiments_ws.router, tags=["experiments-ws"])
+    app.include_router(system.router, tags=["system"])
 
     @app.on_event("shutdown")
     async def _shutdown() -> None:  # noqa: WPS430

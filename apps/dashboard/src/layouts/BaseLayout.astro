@@ -1,0 +1,26 @@
+---
+const { title = 'Dashboard' } = Astro.props;
+import ToastHost from '../components/Toast.tsx';
+---
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-background min-h-screen font-sans antialiased text-slate-100 flex">
+    <aside class="w-56 bg-slate-900 border-r border-slate-700 p-4 flex flex-col gap-4">
+      <h1 class="text-xl font-bold mb-4">Agentic</h1>
+      <nav class="flex flex-col gap-2">
+        <a href="/" class={`block px-3 py-2 rounded hover:bg-slate-800 ${Astro.url.pathname === '/' ? 'bg-slate-800 text-primary' : ''}`}>Overview</a>
+        <a href="/experiments" class={`block px-3 py-2 rounded hover:bg-slate-800 ${Astro.url.pathname.startsWith('/experiments') && !Astro.url.pathname.includes('/new') ? 'bg-slate-800 text-primary' : ''}`}>Experiments</a>
+        <a href="/experiments/new" class={`block px-3 py-2 rounded hover:bg-slate-800 ${Astro.url.pathname === '/experiments/new' ? 'bg-slate-800 text-primary' : ''}`}>New Experiment</a>
+      </nav>
+    </aside>
+    <div class="flex-1 overflow-y-auto p-6">
+      <slot />
+    </div>
+    <ToastHost client:load />
+  </body>
+</html> 

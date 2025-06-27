@@ -91,3 +91,12 @@ __all__ = [
     'utility_function',
 ]
 ```
+
+## Variable Naming
+- Use descriptive identifiers; avoid cryptic abbreviations.
+- Prefer `experiment_queue` over `q`, `messaging_experiment` over `msg_exp`.
+- Loop indices (`i`, `j`) are acceptable in tight mathematical contexts only.
+
+## Comment Guidelines
+- Comments must be concise and context-free. Explain *why*, not *what*.
+- Avoid temporal phrases ("recent change"). Ensure comment remains valid in future.

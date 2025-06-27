@@ -4,8 +4,8 @@ import asyncio
 
 from src.messaging.base import MessageBroker
 from src.messaging.config import get_messaging_config
-from src.messaging.redis_broker import RedisBroker
-from src.messaging.memory_broker import MemoryBroker
+from src.messaging.brokers import get_broker_cls
+from src.types import MessageBrokerType
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -39,17 +39,16 @@ def get_message_broker() -> MessageBroker:
         config = get_messaging_config()
         logger.info(f"[BROKER] !!!! Got config: broker_type={config.broker_type} !!!!")
         
-        if config.broker_type == "redis":
-            logger.info("[BROKER] !!!! Initializing Redis message broker !!!!")
-            _broker_instance = RedisBroker(config.redis)
-            logger.info("[BROKER] !!!! Redis message broker initialized !!!!")
-        elif config.broker_type == "memory":
-            logger.info("[BROKER] !!!! Initializing in-memory message broker !!!!")
-            _broker_instance = MemoryBroker(config.memory)
-            logger.info("[BROKER] !!!! In-memory message broker initialized !!!!")
-        else:
-            logger.error(f"[BROKER] !!!! Unknown broker type: {config.broker_type} !!!!")
-            raise ValueError(f"Unknown broker type: {config.broker_type}")
+        try:
+            broker_cls = get_broker_cls(config.broker_type)
+            broker_cfg = (
+                config.redis if config.broker_type == MessageBrokerType.REDIS.value else config.memory
+            )
+            logger.info("[BROKER] Initialising %s message broker", config.broker_type)
+            _broker_instance = broker_cls(broker_cfg)
+        except ValueError as exc:
+            logger.error("[BROKER] Unknown broker type: %s", config.broker_type)
+            raise exc
     
     # Remember loop the broker was created under
     _broker_loop = current_loop

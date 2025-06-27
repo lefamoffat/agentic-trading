@@ -9,7 +9,7 @@ from typing import Optional
 import typer
 
 from apps.cli import app, _run, SCRIPTS_DIR
-from src.types import Timeframe  # imported late here previously, acceptable
+from src.types import Timeframe
 
 # ---------------------------------------------------------------------------
 # Download raw data

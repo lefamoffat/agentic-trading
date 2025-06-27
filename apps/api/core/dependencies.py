@@ -1,7 +1,8 @@
 import asyncio
 from typing import AsyncGenerator, Optional
 
-from apps.api.core.redis_stream import StreamManager
+from src.messaging.factory import get_message_broker
+from src.messaging.relay import BrokerRelay
 from apps.api.core.experiments_service import UnifiedExperimentService
 
 
@@ -9,16 +10,17 @@ from apps.api.core.experiments_service import UnifiedExperimentService
 # Lazy singletons – async-friendly (cannot rely on lru_cache with coroutines)
 # ---------------------------------------------------------------------------
 
-_stream_manager: Optional[StreamManager] = None
+_stream_manager: Optional[BrokerRelay] = None
 _experiments_service: Optional[UnifiedExperimentService] = None
 
 
-async def get_stream_manager() -> StreamManager:  # noqa: WPS231
+async def get_stream_manager() -> BrokerRelay:  # noqa: WPS231
     """Return a singleton StreamManager instance (initialized on first call)."""
     global _stream_manager
 
     if _stream_manager is None:
-        _stream_manager = StreamManager()
+        broker = get_message_broker()
+        _stream_manager = BrokerRelay(broker)
         await _stream_manager.start()
 
     return _stream_manager
@@ -38,5 +40,5 @@ async def get_experiments_service() -> UnifiedExperimentService:  # noqa: WPS231
 async def experiments_service_dep() -> AsyncGenerator[UnifiedExperimentService, None]:
     yield await get_experiments_service()
 
-async def stream_manager_dep() -> AsyncGenerator[StreamManager, None]:
+async def stream_manager_dep() -> AsyncGenerator[BrokerRelay, None]:
     yield await get_stream_manager() 

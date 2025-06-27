@@ -107,6 +107,23 @@ def calculate_features(self, data: pd.DataFrame, symbol: Optional[str] = None) -
 - **NO MOCK/SIMULATED VALUES IN PRODUCTION CODE** (see critical section above)
 - If component not ready, use `raise NotImplementedError("Real [component] integration required")`
 
+## 🚨 CRITICAL: NO QUICK STOP-GAP PATCHES
+Temporary or compatibility "shims" that mask underlying issues are forbidden in
+production modules. Always implement the **canonical**, long-term solution
+instead of short-term work-arounds.
+
+### REQUIRED
+1. Remove deprecated or unmaintained dependencies rather than patching around
+   them.
+2. Align the codebase on a single, maintained library for each concern
+   (e.g. `redis.asyncio` for asynchronous Redis access).
+3. Keep implementation minimal and explicit – no fallback import chains that
+   silently switch behaviour.
+
+### EXCEPTION
+Unit-test fixtures may still use lightweight stubs or shims, provided they are
+scoped to `tests/` directories and clearly marked as such.
+
 ## Comments
 - Must add long-term value and provide context-free understanding
 - NEVER use comments to indicate recent changes: `# added new import`

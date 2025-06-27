@@ -447,6 +447,13 @@ class TrainingExecutor:
             except Exception as e:
                 logger.warning(f"Failed to finalize ML tracking run: {e}")
         
+        # Ensure experiment progress reflects completion before status update
+        await self.training_channel.publish_progress(
+            experiment_id,
+            current_step=total_timesteps,
+            total_steps=total_timesteps,
+        )
+        
         # Mark as completed
         await self.training_channel.publish_status(
             experiment_id, TrainingStatus.COMPLETED,

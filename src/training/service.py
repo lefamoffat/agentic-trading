@@ -291,11 +291,11 @@ class TrainingService:
         try:
             # Get all experiments in starting/running state
             stale_experiments = await self.training_channel.list_experiments(
-                status_filter=["starting", "running"]
+                status_filter=[TrainingStatus.STARTING.value, TrainingStatus.RUNNING.value]
             )
             
             for exp in stale_experiments:
-                exp_id = exp["id"]
+                exp_id = exp.id
                 # Mark as failed with explanation
                 await self.training_channel.publish_status(
                     exp_id,
@@ -340,37 +340,41 @@ class TrainingService:
             Dict with experiment status
         """
         experiment = await self.training_channel.get_experiment(experiment_id)
-        if not experiment:
+        if experiment is None:
             return {
                 "experiment_id": experiment_id,
                 "status": "not_found",
-                "message": "Experiment not found"
+                "message": "Experiment not found",
             }
-        
-        # Calculate duration and progress
-        start_time = experiment.get("start_time")
-        end_time = experiment.get("end_time")
-        current_step = experiment.get("current_step", 0)
-        total_steps = experiment.get("total_steps", 0)
-        
-        duration = 0.0
-        if start_time:
-            if end_time:
-                duration = end_time - start_time
-            else:
+
+        # Duration & progress -----------------------------------------
+        start_time = experiment.state.start_time
+        end_time = experiment.state.end_time
+
+        duration: float | None
+        if start_time is None:
+            duration = None
+        else:
+            if end_time is None:
                 duration = time.time() - start_time
-        
-        progress = current_step / total_steps if total_steps > 0 else 0.0
-        
+            else:
+                duration = end_time - start_time
+
+        progress: float = (
+            experiment.state.current_step / experiment.state.total_steps
+            if experiment.state.total_steps > 0
+            else 0.0
+        )
+
         return {
-            "experiment_id": experiment_id,
-            "status": experiment.get("status", "unknown"),
-            "current_step": current_step,
-            "total_steps": total_steps,
+            "experiment_id": experiment.id,
+            "status": experiment.state.status.value,
+            "current_step": experiment.state.current_step,
+            "total_steps": experiment.state.total_steps,
             "progress": progress,
             "duration": duration,
-            "metrics": experiment.get("metrics", {}),
-            "config": experiment.get("config", {})
+            "metrics": experiment.state.metrics,
+            "config": experiment.config.model_dump(mode="python"),
         }
         
     async def list_experiments(self) -> List[Dict[str, Any]]:

@@ -15,7 +15,7 @@ from src.messaging.events import (
     create_error_event
 )
 from src.utils.logger import get_logger
-from src.messaging.schema import ExperimentState
+from src.types.experiments import Experiment, ExperimentState, ExperimentConfig
 
 logger = get_logger(__name__)
 
@@ -37,18 +37,16 @@ class TrainingChannel(BaseChannel):
             experiment_id: Unique experiment identifier
             config: Experiment configuration
         """
-        state = ExperimentState(
-            id=experiment_id,
-            status=TrainingStatus.STARTING.value,
-            config=config,
+        cfg_model = ExperimentConfig(**config)
+        state_model = ExperimentState(
+            status=TrainingStatus.STARTING,
             start_time=time.time(),
-            current_step=0,
-            total_steps=config.get("timesteps", 0),
-            metrics={},
-            last_updated=time.time(),
+            total_steps=cfg_model.timesteps,
         )
-        
-        await self.broker.store_experiment(experiment_id, state)
+
+        exp = Experiment(id=experiment_id, config=cfg_model, state=state_model)
+
+        await self.broker.store_experiment(exp)
         
         # Publish creation event
         await self.publish("experiment.created", {
@@ -59,11 +57,11 @@ class TrainingChannel(BaseChannel):
         
         logger.info(f"Created experiment {experiment_id}")
     
-    async def get_experiment(self, experiment_id: str) -> Optional[Dict[str, Any]]:
+    async def get_experiment(self, experiment_id: str) -> Optional[Experiment]:
         """Get experiment data."""
         return await self.broker.get_experiment(experiment_id)
     
-    async def list_experiments(self, status_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    async def list_experiments(self, status_filter: Optional[Any] = None) -> List[Experiment]:
         """List experiments, optionally filtered by status."""
         return await self.broker.list_experiments(status_filter)
     
@@ -109,8 +107,8 @@ class TrainingChannel(BaseChannel):
             updates["end_time"] = time.time()
             # Calculate duration if we have start_time
             experiment = await self.get_experiment(experiment_id)
-            if experiment and experiment.get("start_time"):
-                updates["duration"] = updates["end_time"] - experiment["start_time"]
+            if experiment and experiment.state.start_time:
+                updates["duration"] = updates["end_time"] - experiment.state.start_time
                 logger.info(f"[STATUS] Updated duration: {updates['duration']} seconds")
         
         try:
@@ -143,13 +141,24 @@ class TrainingChannel(BaseChannel):
             total_steps: Total training steps
             step: Optional current step
         """
-        logger.debug(f"[CHANNEL] publish_progress called with current_step={current_step}")
+        # Guarantee invariant current_step ≤ total_steps -------------------
+        if current_step > total_steps:
+            total_steps = current_step  # training overshot original target
+
+        logger.debug(
+            "[CHANNEL] publish_progress: %s / %s (exp %s)", current_step, total_steps, experiment_id
+        )
+
         await self.broker.update_experiment(
             experiment_id,
-            {"current_step": current_step, "total_steps": total_steps, "last_updated": time.time()}
+            {
+                "current_step": current_step,
+                "total_steps": total_steps,
+                "last_updated": time.time(),
+            },
         )
         
-        # Create and publish event
+        # Create and publish event with potentially bumped total_steps
         event = create_progress_event(experiment_id, current_step, total_steps, step)
         message_obj = event.to_message()
         await self.publish("progress", message_obj.data)
@@ -167,7 +176,7 @@ class TrainingChannel(BaseChannel):
         # Get current experiment to merge metrics
         experiment = await self.get_experiment(experiment_id)
         if experiment:
-            current_metrics = experiment.get("metrics", {})
+            current_metrics = experiment.state.metrics.copy()
             current_metrics.update(metrics)
             
             await self.broker.update_experiment(experiment_id, {

@@ -354,3 +354,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes and add tests
 4. Ensure all tests pass (`
+
+## Dashboard (Astro)
+
+Real-time web UI powered by Astro/Preact/Tailwind. See `apps/dashboard/README.md` for setup and usage.

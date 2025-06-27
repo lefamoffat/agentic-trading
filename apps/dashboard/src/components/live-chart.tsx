@@ -2,9 +2,9 @@
 import { useEffect, useRef } from "preact/hooks";
 import {
 	createChart,
-	ISeriesApi,
 	IChartApi,
 	LineData,
+	LineSeries,
 } from "lightweight-charts";
 
 type LiveChartProps = {
@@ -16,7 +16,7 @@ type LiveChartProps = {
 export default function LiveChart({ data, dark = true }: LiveChartProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const chartRef = useRef<IChartApi | null>(null);
-	const seriesRef = useRef<ISeriesApi<"Line"> | null>(null);
+	const seriesRef = useRef<ReturnType<IChartApi["addSeries"]> | null>(null);
 
 	useEffect(() => {
 		if (!containerRef.current) return;
@@ -38,7 +38,10 @@ export default function LiveChart({ data, dark = true }: LiveChartProps) {
 			},
 		});
 
-		const series = chart.addLineSeries({ color: "#14b8a6", lineWidth: 2 });
+		const series = chart.addSeries(LineSeries, {
+			color: "#14b8a6",
+			lineWidth: 2,
+		});
 		series.setData(data);
 
 		chartRef.current = chart;

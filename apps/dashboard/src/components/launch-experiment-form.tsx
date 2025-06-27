@@ -1,7 +1,7 @@
 /* @jsxImportSource preact */
 import { useState } from "preact/hooks";
 import { post } from "../lib/api";
-import { showToast } from "./Toast";
+import { showToast } from "./toast";
 
 export default function LaunchExperimentForm() {
 	const [loading, setLoading] = useState(false);

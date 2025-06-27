@@ -1,0 +1,149 @@
+---
+description: TypeScript Standards & Requirements
+globs: 
+alwaysApply: false
+---
+# TypeScript Standards & Requirements
+
+## 🚨 CRITICAL: NO `any` TYPE ALLOWED
+**ZERO TOLERANCE for `any` type usage in TypeScript code**
+
+### ABSOLUTELY FORBIDDEN
+- ❌ **NO** `any` type annotations: `const data: any = ...`
+- ❌ **NO** `any` in function parameters: `function process(data: any)`
+- ❌ **NO** `any` in return types: `function getData(): any`
+- ❌ **NO** `any` in interface/type definitions: `{ field: any }`
+- ❌ **NO** `any` in generic constraints: `<T extends any>`
+- ❌ **NO** `any[]` arrays: `const items: any[] = ...`
+- ❌ **NO** `Record<string, any>`: Use specific types instead
+
+### WHAT TO DO INSTEAD
+- ✅ **SPECIFIC TYPES**: Define exact interfaces and types
+- ✅ **UNION TYPES**: `string | number` instead of `any`
+- ✅ **GENERIC TYPES**: `<T>` with proper constraints
+- ✅ **UNKNOWN TYPE**: Use `unknown` for truly unknown data, then type guard
+- ✅ **TYPE ASSERTIONS**: `data as SpecificType` after validation
+- ✅ **DISCRIMINATED UNIONS**: For complex type scenarios
+
+### CORRECT PATTERNS
+```typescript
+// ✅ CORRECT: Specific interface
+interface ExperimentData {
+  id: string;
+  status: "running" | "completed" | "failed";
+  metrics: {
+    profit: number;
+    drawdown: number;
+  };
+}
+
+// ✅ CORRECT: Generic with constraints
+function processData<T extends { id: string }>(data: T): T {
+  return data;
+}
+
+// ✅ CORRECT: Union types for flexibility
+type ApiResponse = SuccessResponse | ErrorResponse;
+
+// ✅ CORRECT: Unknown for external data + type guards
+function parseExternalData(data: unknown): ExperimentData {
+  if (isValidExperimentData(data)) {
+    return data;
+  }
+  throw new Error("Invalid experiment data format");
+}
+```
+
+### FORBIDDEN PATTERNS
+```typescript
+// ❌ FORBIDDEN: any usage
+const experiment: any = await fetchData();
+function process(data: any): any { return data; }
+interface Config { settings: any; }
+
+// ❌ FORBIDDEN: any array
+const results: any[] = [];
+
+// ❌ FORBIDDEN: Record with any
+const cache: Record<string, any> = {};
+```
+
+## Type Safety Requirements
+
+### STRICT TYPE CHECKING
+- Enable `strict: true` in tsconfig.json
+- Enable `noImplicitAny: true`
+- Enable `strictNullChecks: true`
+- Enable `strictFunctionTypes: true`
+
+### TYPE DEFINITIONS
+- Create specific interfaces for all data structures
+- Use discriminated unions for variant types
+- Define proper return types for all functions
+- Use type guards for runtime type checking
+
+### EXTERNAL DATA HANDLING
+```typescript
+// ✅ CORRECT: Type-safe external data handling
+interface ApiExperiment {
+  experiment_id: string;
+  status: "running" | "completed" | "failed";
+  start_time: number;
+}
+
+function parseApiExperiment(data: unknown): ApiExperiment {
+  // Runtime validation
+  if (!isValidApiExperiment(data)) {
+    throw new ValidationError("Invalid API experiment data");
+  }
+  return data;
+}
+
+// Type guard function
+function isValidApiExperiment(data: unknown): data is ApiExperiment {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    typeof (data as any).experiment_id === 'string' &&
+    ['running', 'completed', 'failed'].includes((data as any).status)
+  );
+}
+```
+
+### SIGNAL TYPES
+```typescript
+// ✅ CORRECT: Properly typed signals
+import { signal, computed, Signal } from "@preact/signals";
+
+interface Experiment {
+  id: string;
+  status: "running" | "completed" | "failed";
+  config: ExperimentConfig;
+}
+
+const experimentsById = signal<Record<string, Experiment>>({});
+const experiments = computed(() => Object.values(experimentsById.value));
+
+// ✅ CORRECT: Typed helper functions
+export const getExperiment = (id: string): Signal<Experiment | undefined> => 
+  computed(() => experimentsById.value[id]);
+```
+
+## Import/Export Standards
+```typescript
+// ✅ CORRECT: Explicit type exports
+export type { Experiment, ExperimentConfig };
+export { experimentsById, experiments, getExperiment };
+
+// ✅ CORRECT: Type-only imports when needed
+import type { Component } from "preact";
+import type { Signal } from "@preact/signals";
+```
+
+## Error Prevention
+- Use TypeScript's strict mode to catch type errors at compile time
+- Implement runtime type validation for external data
+- Use type guards instead of type assertions when possible
+- Never use `@ts-ignore` - fix the underlying type issue instead
+
+**Remember: If you need `any`, your type definitions are incomplete. Take the time to define proper types - it's what makes TypeScript valuable!**

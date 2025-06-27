@@ -6,9 +6,9 @@ alwaysApply: true
 # Essential Coding Requirements
 
 ## 🚨 CRITICAL: NO MOCK VALUES IN PRODUCTION CODE
-**ABSOLUTELY FORBIDDEN: Mock, simulated, or fake values in production code**
+**ABSOLUTELY FORBIDDEN: Mock, simulated, fake, or placeholder values in production code**
 
-### ZERO TOLERANCE POLICY
+### ZERO TOLERANCE POLICY - EXAMPLES OF FORBIDDEN CODE
 - ❌ **NO** mock training metrics (`reward: 1000 + (step / total_steps) * 500`)
 - ❌ **NO** simulated portfolio values (`portfolio_value = 10000 + fake_calculation`)
 - ❌ **NO** placeholder calculations (`sharpe_ratio = min(2.0, fake_formula)`)
@@ -16,20 +16,59 @@ alwaysApply: true
 - ❌ **NO** "simulation" loops that generate fake training metrics
 - ❌ **NO** TODO comments with mock implementations underneath
 - ❌ **NO** "temporary" placeholder values
+- ❌ **NO** hardcoded sample data (`const sampleData = [...]`)
+- ❌ **NO** mock API responses in production components
+- ❌ **NO** fake timestamps (`Date.now() + Math.random() * 1000`)
+- ❌ **NO** placeholder user data (`{ name: "John Doe", email: "test@example.com" }`)
+- ❌ **NO** dummy calculations (`profit = Math.random() * 1000`)
+- ❌ **NO** static fallback values that bypass real data sources
+- ❌ **NO** fake loading states with setTimeout delays
+- ❌ **NO** placeholder error messages in production flows
+
+### PRODUCTION CODE MUST BE REAL
+Every piece of data, calculation, and logic in production modules must be:
+- ✅ **CONNECTED TO REAL SOURCES**: Actual market data, real APIs, genuine calculations
+- ✅ **COMPUTED FROM ACTUAL INPUTS**: Real trading results, actual broker responses
+- ✅ **DERIVED FROM REAL OPERATIONS**: Authentic portfolio values, genuine performance metrics
+- ✅ **SOURCED FROM REAL COMPONENTS**: Actual agents, real environments, live brokers
 
 ### WHAT TO DO INSTEAD
 - ✅ **INTEGRATE REAL COMPONENTS**: Use actual agents, environments, brokers
 - ✅ **REAL DATA FLOW**: Market data → Environment → Agent → Broker → Results
 - ✅ **ACTUAL CALCULATIONS**: Compute real rewards, losses, portfolio values
 - ✅ **GENUINE METRICS**: Track actual trading performance, not simulations
-- ✅ **THROW ERRORS**: If real component not ready, throw NotImplementedError
+- ✅ **THROW ERRORS**: If real component not ready, throw NotImplementedError with specific message
+- ✅ **CALL REAL APIS**: Connect to actual data sources and services
+- ✅ **VALIDATE REAL DATA**: Process and validate authentic data from real sources
+
+### IMPLEMENTATION PLAN FIRST
+- ❌ **NEVER** add placeholder code "to get something working"
+- ❌ **NEVER** implement mock data as a "temporary solution"
+- ❌ **NEVER** add TODO comments with mock implementations
+- ✅ **ALWAYS** address uncertainties in the implementation plan FIRST
+- ✅ **ALWAYS** clarify requirements before writing code
+- ✅ **ALWAYS** identify real data sources before implementation
 
 ### MOCK VALUES ONLY ALLOWED IN
 - ✅ **Unit/Component Tests**: `mock_broker.return_value = fake_data`
 - ✅ **Test Fixtures**: `@pytest.fixture def mock_price_data()`
+- ✅ **Test Files**: Any file in `tests/` or `__tests__/` directories
+- ✅ **Storybook Stories**: For UI component documentation
 - ❌ **NEVER in src/ production modules**
+- ❌ **NEVER in apps/ production code**
+- ❌ **NEVER in production components**
 
-**This is a REAL TRADING SYSTEM, not a simulator!**
+### DETECTION AND PREVENTION
+Common indicators of mock/placeholder code that MUST be eliminated:
+- Comments containing "mock", "fake", "placeholder", "temporary", "TODO", "FIXME"
+- Hardcoded arrays of sample data
+- Math.random() calls for business logic
+- Static timestamps or dates
+- Hardcoded user/account information
+- setTimeout() for fake loading delays
+- Conditional logic that returns mock data
+
+**This is a REAL TRADING SYSTEM, not a simulator or demo!**
 
 ## 🚨 CRITICAL: NO DUPLICATE FUNCTIONALITY
 **ONE way to do each thing**
@@ -49,6 +88,9 @@ alwaysApply: true
 - **PLANNING FIRST**: Always outline implementation plan before making code changes
 - **EXPLICIT CONFIRMATION**: Wait for user's explicit "go ahead" before creating/modifying files
 - **NO ASSUMPTIONS**: Never proceed with implementation based on implied approval
+- **ADDRESS UNCERTAINTIES FIRST**: Any open questions or unclear requirements MUST be resolved in the implementation plan BEFORE starting code changes
+- **NO PLACEHOLDER CODE**: Never add mock/placeholder code as a "temporary solution" - address the real implementation requirement instead
+- **REAL DATA SOURCES**: Identify and connect to actual data sources before implementation
 - **NON-PRODUCTION SYSTEM**: This is a development system, not production. No "legacy migration" or "deprecation" phases needed
 - **EXISTING PATTERNS**: Always reference actual config files in @/configs before making claims about configuration structure
 - **CONVERSATION CONTEXT**: Read entire conversation history before making implementation plans

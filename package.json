@@ -6,7 +6,9 @@
 		"apps/*"
 	],
 	"scripts": {
-		"dev": "hivemind Procfile.dev"
+		"dev": "hivemind Procfile.dev",
+		"gen:types": "pnpm --filter ./apps/dashboard run gen:types",
+		"gen:schemas": "pnpm --filter ./apps/dashboard run gen:schemas"
 	},
 	"devDependencies": {
 		"@types/node": "^20.12.15"

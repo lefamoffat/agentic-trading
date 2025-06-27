@@ -7,17 +7,24 @@
 		"dev": "astro dev --port 4321",
 		"build": "astro build",
 		"preview": "astro preview --port 4321",
-		"check": "tsc --noEmit"
+		"check": "tsc --noEmit",
+		"gen:types": "cross-env-shell \"openapi-typescript ${PUBLIC_API_URL:-http://localhost:8000}/openapi.json -o src/lib/api.types.ts\"",
+		"gen:schemas": "cross-env-shell \"openapi-zod-client ${PUBLIC_API_URL:-http://localhost:8000}/openapi.json --export-schemas -o src/lib/api.zod.ts\""
 	},
 	"dependencies": {
-		"astro": "^5.10.1",
-		"@astrojs/tailwind": "^6.0.2",
 		"@astrojs/preact": "^4.1.0",
+		"@astrojs/tailwind": "^6.0.2",
+		"@preact/signals": "^2.2.0",
+		"astro": "^5.10.1",
+		"lightweight-charts": "^5.0.7",
 		"preact": "^10.26.9",
-		"lightweight-charts": "^5.0.7"
+		"zod": "^3.22.4"
 	},
 	"packageManager": "pnpm@9.15.4",
 	"devDependencies": {
-		"typescript": "^5.4.5"
+		"cross-env": "^7.0.0",
+		"openapi-typescript": "^7.8.0",
+		"openapi-zod-client": "^1.18.3",
+		"typescript": "^5.8.3"
 	}
 }

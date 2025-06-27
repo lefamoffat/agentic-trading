@@ -1,5 +1,21 @@
 ---
-description:
-globs:
+description: Naming & Access Conventions
+globs: 
 alwaysApply: false
 ---
+# Naming & Access Conventions
+
+## Descriptive Identifiers
+- Use full, descriptive variable names – **never** cryptic shortenings (`experiment`, not `exp`; `config`, not `cfg` in public APIs).
+- Abbreviations allowed only for loop indices (`i`, `j`) or well-known library aliases (`np`, `pd`).
+
+## Data Access Rules
+1. Pydantic & dataclass models **always** accessed via attributes:
+   ```python
+   experiment.experiment_id
+   experiment.config.symbol
+   ```
+2. Dictionary look-ups (`dict[...]` / `dict.get(...)`) **only** for real dictionaries coming from external I/O (e.g. JSON payloads), never for model instances.
+3. Convert external dicts to models ASAP, then follow Rule 1.
+
+Any deviation must raise code-review blockers.

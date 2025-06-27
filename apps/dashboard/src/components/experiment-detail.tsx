@@ -101,7 +101,8 @@ export default function ExperimentDetail({ id }: Props) {
 							</label>
 							<p class="mt-1 text-sm">
 								{new Date(
-									experiment.value.start_time as number
+									(experiment.value.start_time as number) *
+										1000
 								).toLocaleString()}
 							</p>
 						</div>

@@ -119,7 +119,9 @@ export default function ExperimentsTable() {
 							</td>
 							<td class="px-4 py-2">
 								{row.start_time
-									? new Date(row.start_time).toLocaleString()
+									? new Date(
+											row.start_time * 1000
+									  ).toLocaleString()
 									: ""}
 							</td>
 							<td class="px-4 py-2">
